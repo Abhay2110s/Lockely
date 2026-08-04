@@ -1,13 +1,19 @@
-import express from 'express';
+import express from "express";
+import * as authController from "../controllers/auth.controller.js";
+import verifyToken from "../middleware/auth.middleware.js";
+
 const router = express.Router();
 
+router.post("/register", authController.register);
 
-router.post('/login' , authController.login);
+router.post("/verify-email-otp", authController.verifyEmailOTP);
 
-router.post('/register' , authController.register);
+router.post("/login", authController.login);
 
-router.post('/logout' , authController.logout);
+router.post("/verify-login-otp", authController.verifyLoginOTP);
 
-router.get('/profile' , authController.profile);
+router.post("/logout", verifyToken, authController.logout);
 
-module.exports = router;
+router.get("/profile", verifyToken, authController.profile);
+
+export default router;

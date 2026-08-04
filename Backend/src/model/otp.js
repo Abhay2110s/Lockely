@@ -5,12 +5,20 @@ const otpSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      lowercase: true,
-      trim: true,
     },
 
     otp: {
       type: String,
+      required: true,
+    },
+
+    type: {
+      type: String,
+      enum: [
+        "EMAIL_VERIFICATION",
+        "LOGIN",
+        "FORGOT_PASSWORD",
+      ],
       required: true,
     },
 
@@ -24,9 +32,5 @@ const otpSchema = new mongoose.Schema(
   }
 );
 
-// Automatically delete document after expiresAt
-otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 300 });
 
-const OTP = mongoose.model("OTP", otpSchema);
-
-export default OTP;
+export default mongoose.model("OTP", otpSchema);
