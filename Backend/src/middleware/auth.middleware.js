@@ -1,27 +1,31 @@
+// Authentication middleware — verifies the JWT sent either as an
+// httpOnly cookie ("token") or as a Bearer token in the Authorization
+// header, and attaches the decoded payload to req.user.
 import jwt from "jsonwebtoken";
+import env from "../config/env.js";
+import ApiError from "../utils/ApiError.js";
+import asyncHandler from "../utils/asyncHandler.js";
 
-const verifyToken = async (req, res, next) => {
+const verifyToken = asyncHandler(async (req, res, next) => {
+  // Extract token from the Authorization header if it starts with "Bearer ".
+  const bearer = req.headers.authorization?.startsWith("Bearer ")
+    ? req.headers.authorization.split(" ")[1]
+    : null;
+
+  // Prefer the httpOnly cookie; fall back to the Bearer token.
+  const token = req.cookies?.token || bearer;
+
+  if (!token) {
+    throw ApiError.unauthorized("Unauthorized. Please login.");
+  }
+
   try {
-    const token = req.cookies?.token;
-
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized. Please login.",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+    const decoded = jwt.verify(token, env.JWT_SECRET);
     req.user = decoded;
-
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: "Invalid or expired token.",
-    });
+    throw ApiError.unauthorized("Invalid or expired token.");
   }
-};
+});
 
 export default verifyToken;

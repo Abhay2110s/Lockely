@@ -1,25 +1,26 @@
-import path from "path";
-import dotenv from "dotenv";
+// Load & validate environment variables FIRST, before anything else in the
+// import graph reads process.env at module-evaluation time. (Previously
+// dotenv.config() ran after app.js had already read process.env.CLIENT_URL
+// for the CORS setup, which silently broke local `npm run dev`.)
+import "./config/env.js";
 
-dotenv.config({
-  path: path.resolve(".env"),
-});
-
+import env from "./config/env.js";
 import app from "./app.js";
 import connectDB from "./config/db.js";
+import logger from "./utils/logger.js";
 
-const PORT = process.env.PORT || 3000;
-
+// Asynchronously start the server: connect to MongoDB, then listen on the
+// configured port. Exit with a non-zero code if anything fails at startup.
 const startServer = async () => {
-    
   try {
     await connectDB();
 
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+    app.listen(env.PORT, () => {
+      logger.info(`Server running on port ${env.PORT}`);
     });
   } catch (error) {
-    console.error(error.message);
+    logger.error(`Failed to start server: ${error.message}`);
+    process.exit(1);
   }
 };
 

@@ -1,13 +1,15 @@
+// Password strength checker — evaluates a password's resilience
+// by scoring length, character diversity, repeated/sequential
+// patterns, entropy, and estimated crack time.
 import { calculateEntropy } from "./entropy.js";
 import { estimateCrackTime } from "./crackTime.js";
 import { getPasswordSuggestions } from "./passwordSuggestion.js";
 
-export const checkPasswordStrength = (password) => {
-
+export const checkPasswordStrength = (password, { includeSuggestions = true } = {}) => {
   let score = 0;
   const feedback = [];
 
-  // Store detailed analysis
+  // Stores detailed analysis results for the frontend to display.
   const analysis = {
     length: password.length,
     hasUppercase: false,
@@ -123,10 +125,8 @@ export const checkPasswordStrength = (password) => {
     }
   }
 
-  // Prevent negative score
+  // Clamp score to the 0-100 range.
   score = Math.max(score, 0);
-
-  // Maximum score should not exceed 100
   score = Math.min(score, 100);
 
   // ===========================
@@ -159,18 +159,22 @@ export const checkPasswordStrength = (password) => {
     strength = "Very Strong";
   }
 
-return {
-  score,
-  strength,
-  entropy,
-  crackTime,
-  analysis,
-  feedback,
+  return {
+    score,
+    strength,
+    entropy,
+    crackTime,
+    analysis,
+    feedback,
 
-  // Suggest stronger passwords only if the current password is weak
-  suggestions:
-    score < 80
-      ? getPasswordSuggestions()
-      : [],
-};
+    // Suggest stronger passwords only if the current password is weak.
+    // `includeSuggestions` breaks the checkPasswordStrength -> getPasswordSuggestions
+    // -> generatePasswords -> checkPasswordStrength recursion: the generator
+    // calls this function internally to score candidates and must not ask
+    // for suggestions of its own suggestions.
+    suggestions:
+      includeSuggestions && score < 80
+        ? getPasswordSuggestions()
+        : [],
+  };
 };

@@ -1,3 +1,5 @@
+// Email utility — configures a Nodemailer transporter using Gmail
+// SMTP and exports a sendEmail helper used by auth and vault flows.
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
@@ -12,6 +14,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Send an email to the given address with the specified subject and body text.
 const sendEmail = async (to, subject, text) => {
   try {
     const mailOptions = {

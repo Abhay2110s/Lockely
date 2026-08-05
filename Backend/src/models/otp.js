@@ -1,3 +1,5 @@
+// Mongoose schema and model for one-time passwords (OTPs)
+// used in email verification, login, and password-reset flows.
 import mongoose from "mongoose";
 
 const otpSchema = new mongoose.Schema(
@@ -12,6 +14,7 @@ const otpSchema = new mongoose.Schema(
       required: true,
     },
 
+    // Categorises the OTP so the same table can serve multiple flows.
     type: {
       type: String,
       enum: [
