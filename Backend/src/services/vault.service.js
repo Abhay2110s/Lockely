@@ -347,6 +347,7 @@ export const getDashboardStats = async (userId) => {
   const total = entries.length;
   const weak = entries.filter((e) => WEAK_STRENGTH_LEVELS.includes(e.strength.label)).length;
   const strong = entries.filter((e) => STRONG_STRENGTH_LEVELS.includes(e.strength.label)).length;
+  const favorite = entries.filter((e) => e.favorite).length;
   const expired = entries.filter((e) => e.isExpired).length;
 
   const avgEntropy =
@@ -368,6 +369,7 @@ export const getDashboardStats = async (userId) => {
     totalPasswords: total,
     weakPasswords: weak,
     strongPasswords: strong,
+    favoritePasswords: favorite,
     averageEntropy: avgEntropy,
     reusedPasswords: reusedCount,
     reusedGroups: reuseGroups.length,

@@ -107,6 +107,12 @@ passwordSchema.virtual("daysRemaining").get(function () {
   return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 });
 
+// Compound indexes for the query patterns vault.service.js actually runs:
+// listing/filtering a user's active entries, and per-category lookups.
+passwordSchema.index({ user: 1, isDeleted: 1 });
+passwordSchema.index({ user: 1, category: 1 });
+passwordSchema.index({ user: 1, favorite: 1 });
+
 passwordSchema.set("toJSON", { virtuals: true });
 passwordSchema.set("toObject", { virtuals: true });
 

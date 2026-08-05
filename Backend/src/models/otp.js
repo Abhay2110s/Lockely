@@ -36,4 +36,11 @@ const otpSchema = new mongoose.Schema(
 );
 
 
+// Speeds up the lookup used on every OTP verification (email + type).
+otpSchema.index({ email: 1, type: 1 });
+
+// TTL index — MongoDB automatically deletes the document once expiresAt
+// is in the past, so stale/used OTPs never accumulate in the collection.
+otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
 export default mongoose.model("OTP", otpSchema);

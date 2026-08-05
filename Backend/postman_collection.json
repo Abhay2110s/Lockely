@@ -1,0 +1,323 @@
+{
+  "info": {
+    "name": "PassGuardian API",
+    "description": "Encrypted password vault API — auth (OTP + forgot/reset password), password strength/generation utilities, and vault CRUD with search/filter/dashboard.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "email", "value": "test@example.com" },
+    { "key": "entryId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"{{email}}\",\n  \"password\": \"SuperSecret123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Resend Verification OTP",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/auth/resend-verification-otp",
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{email}}\"\n}" }
+          }
+        },
+        {
+          "name": "Verify Email OTP",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/auth/verify-email-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"otp\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"SuperSecret123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify Login OTP",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.token) { pm.collectionVariables.set('token', body.data.token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/auth/verify-login-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"otp\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/auth/forgot-password",
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{email}}\"\n}" }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/auth/reset-password",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"token\": \"raw-token-from-email-link\",\n  \"newPassword\": \"NewSuperSecret123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/auth/profile"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Password Utilities",
+      "item": [
+        {
+          "name": "Check Password Strength",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/password/check",
+            "body": { "mode": "raw", "raw": "{\n  \"password\": \"Tr0ub4dor&3\"\n}" }
+          }
+        },
+        {
+          "name": "Generate Passwords",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/password/generate",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"length\": 20,\n  \"count\": 3,\n  \"uppercase\": true,\n  \"lowercase\": true,\n  \"numbers\": true,\n  \"symbols\": true,\n  \"excludeSimilar\": true\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vault",
+      "item": [
+        {
+          "name": "Create Entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) { pm.collectionVariables.set('entryId', body.data.id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/v1/vault",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"GitHub\",\n  \"website\": \"github.com\",\n  \"username\": \"testuser\",\n  \"password\": \"Tr0ub4dor&3\",\n  \"category\": \"Work\",\n  \"favorite\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "List / Search / Filter Entries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/vault?search=github&category=Work&favorite=true&weak=false&expired=false&sortBy=latest&page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "vault"],
+              "query": [
+                { "key": "search", "value": "github" },
+                { "key": "category", "value": "Work" },
+                { "key": "favorite", "value": "true" },
+                { "key": "weak", "value": "false" },
+                { "key": "expired", "value": "false" },
+                { "key": "sortBy", "value": "latest" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Entry By Id (reveal)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/{{entryId}}?reveal=true"
+          }
+        },
+        {
+          "name": "Update Entry",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/v1/vault/{{entryId}}",
+            "body": { "mode": "raw", "raw": "{\n  \"notes\": \"Updated via Postman\"\n}" }
+          }
+        },
+        {
+          "name": "Toggle Favorite",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/v1/vault/{{entryId}}/favorite",
+            "body": { "mode": "raw", "raw": "{\n  \"favorite\": false\n}" }
+          }
+        },
+        {
+          "name": "Soft Delete Entry",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/{{entryId}}/soft-delete"
+          }
+        },
+        {
+          "name": "Restore Entry",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/{{entryId}}/restore"
+          }
+        },
+        {
+          "name": "Delete Entry Permanently",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/{{entryId}}"
+          }
+        },
+        {
+          "name": "Favorites",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/favorites"
+          }
+        },
+        {
+          "name": "Categories",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/categories"
+          }
+        },
+        {
+          "name": "Reused Passwords",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/reused"
+          }
+        },
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/dashboard"
+          }
+        },
+        {
+          "name": "Export (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/export?format=json"
+          }
+        },
+        {
+          "name": "Export (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/v1/vault/export?format=csv"
+          }
+        },
+        {
+          "name": "Import",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/v1/vault/import",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"format\": \"json\",\n  \"data\": \"[{\\\"title\\\":\\\"Imported Entry\\\",\\\"password\\\":\\\"Tr0ub4dor&3\\\",\\\"category\\\":\\\"General\\\"}]\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

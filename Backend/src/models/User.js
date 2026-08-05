@@ -50,6 +50,9 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// Speeds up the reset-password lookup (email + token hash + expiry check).
+userSchema.index({ email: 1, resetPasswordTokenHash: 1 });
+
 const User = mongoose.model("User", userSchema);
 
 export default User;

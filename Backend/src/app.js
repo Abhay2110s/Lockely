@@ -14,6 +14,7 @@ import passwordRoutes from "./routes/password.routes.js";
 import vaultRoutes from "./routes/vault.routes.js";
 import { notFound, errorHandler } from "./middleware/error.middleware.js";
 import { apiLimiter } from "./middleware/rateLimiter.middleware.js";
+import sanitizeRequest from "./middleware/sanitize.middleware.js";
 import logger from "./utils/logger.js";
 import swaggerSpec from "./config/swagger.js";
 
@@ -50,6 +51,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Parse cookies attached to incoming requests.
 app.use(cookieParser());
+
+// Strip NoSQL-injection operator keys and raw HTML from parsed input.
+app.use(sanitizeRequest);
 
 // Compress response bodies for all requests to reduce bandwidth usage.
 app.use(compression());
