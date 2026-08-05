@@ -26,7 +26,6 @@ if (process.env.NODE_ENV === "production") {
   app.use(morgan("dev"));
 }
 
-
 // Body Parser
 app.use(
   express.json()
@@ -38,19 +37,11 @@ app.use(
   })
 );
 
-
 // Cookie Parser
-app.use(
-  cookieParser()
-);
-
+app.use(cookieParser());
 
 // Compression
-app.use(
-  compression()
-);
-
-
+app.use(compression());
 
 // Health Check Route
 app.get("/", (req, res) => {
@@ -63,12 +54,7 @@ app.get("/", (req, res) => {
 
 
 // API Routes
-app.use(
-  "/api/v1/auth",
-  authRoutes
-);
-
-
+app.use("/api/v1/auth",authRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

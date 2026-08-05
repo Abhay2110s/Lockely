@@ -7,20 +7,30 @@ const connectDB = async () => {
     console.log("✅ Using existing MongoDB connection");
     return;
   }
-
   try {
-    const db = await mongoose.connect(process.env.MONGODB_URI);
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI is missing in environment variables");
+    }
+    const db = await mongoose.connect(
+      process.env.MONGODB_URI
+    );
 
-    isConnected = db.connections[0].readyState === 1;
+    isConnected = db.connection.readyState === 1;
 
     console.log("=================================");
     console.log("✅ MongoDB Connected");
     console.log(`📦 Database: ${db.connection.name}`);
     console.log("=================================");
+
+
   } catch (error) {
+
     console.error("❌ MongoDB Connection Failed");
+    console.error(error.message);
+
     throw error;
   }
 };
+
 
 export default connectDB;
