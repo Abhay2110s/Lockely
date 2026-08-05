@@ -6,6 +6,7 @@ import compression from "compression";
 import morgan from "morgan";
 
 import authRoutes from "./routes/auth.routes.js";
+import passwordRoutes from "./routes/password.routes.js";
 
 const app = express();
 // Security Middleware
@@ -55,6 +56,7 @@ app.get("/", (req, res) => {
 
 // API Routes
 app.use("/api/v1/auth",authRoutes);
+app.use("/api/password", passwordRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
