@@ -1,71 +1,111 @@
 import {
+  ShieldCheck,
   LockKeyhole,
-  Zap,
-  GraduationCap,
+  EyeOff,
+  Database,
+  CheckCircle,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
-
-const securityBenefits = [
+const securityPoints = [
+{
+  icon: EyeOff,
+  title: "Secure Password Handling",
+  desc: "Password analysis is designed with security-focused practices to protect your information.",
+},
+  {
+    icon: Database,
+    title: "Minimal Data Collection",
+    desc: "Only required information is processed for better security.",
+  },
   {
     icon: LockKeyhole,
-    title: "Zero Password Storage",
-    desc: "Your passwords stay private. We never store or save your sensitive credentials.",
-  },
-  {
-    icon: Zap,
-    title: "Real-time Analysis",
-    desc: "Get instant feedback about password strength and possible improvements.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Security Education",
-    desc: "Learn how attackers work and build better security habits.",
+    title: "Secure Processing",
+    desc: "Security-focused practices protect your information.",
   },
 ];
 
 
-export default function SecuritySection() {
+export default function Security() {
+
+
   return (
-    <section className="px-6 py-24">
-      <div className="max-w-6xl mx-auto">
+
+    <section
+      id="security"
+      className="
+      px-6
+      py-28
+      "
+    >
+
+      <div
+        className="
+        max-w-6xl
+        mx-auto
+        "
+      >
+
+
+
+        {/* Heading */}
 
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-14"
+
+          initial={{
+            opacity:0,
+            y:40,
+          }}
+
+          whileInView={{
+            opacity:1,
+            y:0,
+          }}
+
+          viewport={{
+            once:false,
+            amount:0.3,
+          }}
+
+          transition={{
+            duration:0.7,
+          }}
+
+          className="
+          text-center
+          max-w-2xl
+          mx-auto
+          "
         >
+
           <div
             className="
             inline-flex
             items-center
             gap-2
-            rounded-full
-            bg-rose-100
-            text-rose-600
             px-4
             py-2
+            rounded-full
+            bg-rose-100
+            text-[#ff2056]
             text-sm
             font-medium
             "
           >
-            <LockKeyhole className="size-4" />
-            Security First
+
+            <ShieldCheck className="size-4"/>
+
+            Security Architecture
+
           </div>
+
+
 
           <h2
             className="
-            mt-5
+            mt-6
             text-4xl
             md:text-5xl
             font-semibold
@@ -73,8 +113,12 @@ export default function SecuritySection() {
             text-zinc-950
             "
           >
-            Built around your privacy
+
+            Built for privacy and protection
+
           </h2>
+
+
 
           <p
             className="
@@ -84,108 +128,430 @@ export default function SecuritySection() {
             text-zinc-500
             "
           >
-            PassGuidance helps you create stronger passwords while
-            keeping your security and privacy as the priority.
+
+            PassGuidance focuses on improving
+            password security while keeping your
+            sensitive information private.
+
           </p>
+
+
         </motion.div>
+
+
+
+
+
+
+
+        {/* Main Security Dashboard */}
 
 
         <div
           className="
+          mt-20
           grid
-          grid-cols-1
-          md:grid-cols-3
-          gap-6
+          md:grid-cols-2
+          gap-12
+          items-center
           "
         >
-          {securityBenefits.map(
-            ({ icon: Icon, title, desc }, index) => (
+
+
+
+
+
+          {/* Security Scanner */}
+
+
+          <motion.div
+
+            initial={{
+              opacity:0,
+              scale:0.9,
+            }}
+
+            whileInView={{
+              opacity:1,
+              scale:1,
+            }}
+
+            viewport={{
+              once:false,
+              amount:0.3,
+            }}
+
+            transition={{
+              duration:0.7,
+            }}
+
+            className="
+            relative
+            overflow-hidden
+            rounded-[40px]
+            bg-white/80
+            backdrop-blur-xl
+            border
+            border-zinc-200
+            shadow-[0_20px_60px_rgba(244,114,182,0.12)]
+            p-10
+            "
+          >
+
+
+
+            {/* Scanner Animation */}
+
+            <motion.div
+
+              animate={{
+                y:[
+                  -120,
+                  260,
+                ],
+              }}
+
+              transition={{
+                duration:3,
+                repeat:Infinity,
+                ease:"linear",
+              }}
+
+              className="
+              absolute
+              left-0
+              right-0
+              h-1
+              bg-gradient-to-r
+              from-transparent
+              via-pink-500
+              to-transparent
+              opacity-60
+              "
+
+            />
+
+
+
+
+
+
+            <div
+              className="
+              flex
+              justify-center
+              "
+            >
+
+
               <motion.div
-                key={title}
-                initial={{
-                  opacity: 0,
-                  y: 80,
-                  scale: 0.85,
+
+                animate={{
+                  scale:[
+                    1,
+                    1.08,
+                    1,
+                  ],
                 }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                }}
-                viewport={{
-                  once: false,
-                  amount: 0.25,
-                }}
+
                 transition={{
-                  delay: index * 0.15,
-                  duration: 0.6,
-                  type: "spring",
-                  stiffness: 90,
+                  duration:3,
+                  repeat:Infinity,
                 }}
-                whileHover={{
-                  y: -8,
-                  scale: 1.03,
-                }}
+
+                className="
+                size-32
+                rounded-full
+                bg-gradient-to-br
+                from-orange-400
+                to-pink-500
+                flex
+                items-center
+                justify-center
+                shadow-[0_0_80px_rgba(244,114,182,0.5)]
+                "
               >
-                <Card
+
+                <ShieldCheck
                   className="
-                  h-full
-                  rounded-[28px]
-                  bg-white/80
-                  backdrop-blur-xl
-                  border-white
-                  shadow-[0_20px_50px_rgba(244,114,182,0.12)]
-                  p-6
+                  size-16
+                  text-white
                   "
-                >
-                  <CardHeader className="p-0 gap-4">
+                />
 
-                    <div
-                      className="
-                      size-12
-                      rounded-2xl
-                      bg-gradient-to-br
-                      from-orange-200
-                      to-pink-200
-                      text-rose-600
-                      flex
-                      items-center
-                      justify-center
-                      "
-                    >
-                      <Icon className="size-6" />
-                    </div>
-
-                    <CardTitle
-                      className="
-                      text-xl
-                      font-semibold
-                      text-zinc-950
-                      "
-                    >
-                      {title}
-                    </CardTitle>
-
-                  </CardHeader>
-
-                  <CardContent className="p-0 mt-3">
-                    <p
-                      className="
-                      text-zinc-500
-                      leading-7
-                      "
-                    >
-                      {desc}
-                    </p>
-                  </CardContent>
-
-                </Card>
               </motion.div>
-            )
-          )}
+
+
+            </div>
+
+
+
+
+
+
+
+            <div
+              className="
+              text-center
+              mt-8
+              "
+            >
+
+              <h3
+                className="
+                text-5xl
+                font-bold
+                text-zinc-950
+                "
+              >
+
+                98%
+
+              </h3>
+
+
+              <p
+                className="
+                mt-2
+                text-zinc-500
+                "
+              >
+
+                Security Confidence Score
+
+              </p>
+
+
+            </div>
+
+
+
+
+
+
+            {/* Progress */}
+
+            <div
+              className="
+              mt-8
+              h-3
+              rounded-full
+              bg-rose-100
+              overflow-hidden
+              "
+            >
+
+              <motion.div
+
+                initial={{
+                  width:0,
+                }}
+
+                whileInView={{
+                  width:"98%",
+                }}
+
+                viewport={{
+                  once:false,
+                }}
+
+                transition={{
+                  duration:1.5,
+                }}
+
+                className="
+                h-full
+                rounded-full
+                bg-gradient-to-r
+                from-orange-400
+                to-pink-500
+                "
+
+              />
+
+
+            </div>
+
+
+
+
+            <div
+              className="
+              mt-8
+              space-y-4
+              "
+            >
+
+              {
+                [
+                  "Privacy Protected",
+                  "Threat Analysis",
+                  "Secure Processing",
+                ].map(item=>(
+
+                  <div
+                    key={item}
+                    className="
+                    flex
+                    items-center
+                    gap-3
+                    text-sm
+                    text-zinc-600
+                    "
+                  >
+
+                    <CheckCircle
+                      className="
+                      size-5
+                      text-[#ff2056]
+                      "
+                    />
+
+                    {item}
+
+                  </div>
+
+                ))
+              }
+
+
+            </div>
+
+
+          </motion.div>
+
+
+
+
+
+
+
+
+
+          {/* Security Principles */}
+
+
+          <div
+            className="
+            space-y-6
+            "
+          >
+
+            {
+              securityPoints.map(
+                (item,index)=>{
+
+                  const Icon=item.icon;
+
+
+                  return (
+
+                    <motion.div
+
+                      key={item.title}
+
+                      initial={{
+                        opacity:0,
+                        x:50,
+                      }}
+
+                      whileInView={{
+                        opacity:1,
+                        x:0,
+                      }}
+
+                      viewport={{
+                        once:false,
+                        amount:0.3,
+                      }}
+
+                      transition={{
+                        duration:0.6,
+                        delay:index*0.15,
+                      }}
+
+                      whileHover={{
+                        x:10,
+                      }}
+
+                      className="
+                      rounded-3xl
+                      bg-white
+                      border
+                      border-zinc-200
+                      p-6
+                      shadow-[0_15px_40px_rgba(244,114,182,0.08)]
+                      "
+                    >
+
+                      <div
+                        className="
+                        size-12
+                        rounded-2xl
+                        bg-rose-100
+                        text-[#ff2056]
+                        flex
+                        items-center
+                        justify-center
+                        "
+                      >
+
+                        <Icon className="size-6"/>
+
+                      </div>
+
+
+
+                      <h3
+                        className="
+                        mt-4
+                        text-xl
+                        font-semibold
+                        text-zinc-950
+                        "
+                      >
+
+                        {item.title}
+
+                      </h3>
+
+
+
+                      <p
+                        className="
+                        mt-2
+                        text-sm
+                        leading-6
+                        text-zinc-500
+                        "
+                      >
+
+                        {item.desc}
+
+                      </p>
+
+
+                    </motion.div>
+
+                  );
+
+                }
+              )
+            }
+
+
+          </div>
+
+
+
         </div>
 
+
       </div>
+
+
     </section>
+
   );
+
 }
