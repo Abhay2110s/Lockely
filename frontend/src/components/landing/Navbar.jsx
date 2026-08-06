@@ -1,6 +1,7 @@
 import { ArrowRight, LogIn, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+
 const navItems = [
   { label: "Login", icon: LogIn },
 ];
