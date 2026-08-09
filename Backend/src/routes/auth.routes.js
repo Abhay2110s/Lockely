@@ -11,7 +11,6 @@ import {
   verifyEmailOtpSchema,
   resendOtpSchema,
   loginSchema,
-  verifyLoginOtpSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
 } from "../validators/auth.validator.js";
@@ -101,12 +100,12 @@ router.post(
   authController.verifyEmailOTP
 );
 
-// POST /api/v1/auth/login — authenticate with email+password and receive a login OTP.
+// POST /api/v1/auth/login — authenticate with email+password and receive a JWT.
 /**
  * @openapi
  * /api/v1/auth/login:
  *   post:
- *     summary: Log in with email + password (sends login OTP)
+ *     summary: Log in with email + password (returns a JWT, also set as an httpOnly cookie)
  *     tags: [Auth]
  *     security: []
  *     requestBody:
@@ -120,40 +119,11 @@ router.post(
  *               email: { type: string, format: email }
  *               password: { type: string }
  *     responses:
- *       200: { description: Login OTP sent to email }
+ *       200: { description: Login successful — returns JWT + user profile }
  *       401: { description: Invalid password, or email not verified yet }
  *       404: { description: User not found }
  */
 router.post("/login", authLimiter, validate(loginSchema), authController.login);
-
-// POST /api/v1/auth/verify-login-otp — confirm the login OTP and receive a JWT.
-/**
- * @openapi
- * /api/v1/auth/verify-login-otp:
- *   post:
- *     summary: Verify the login OTP and receive a JWT (also set as an httpOnly cookie)
- *     tags: [Auth]
- *     security: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [email, otp]
- *             properties:
- *               email: { type: string, format: email }
- *               otp: { type: string, minLength: 6, maxLength: 6 }
- *     responses:
- *       200: { description: Login successful — returns JWT + user profile }
- *       400: { description: Invalid or expired OTP }
- */
-router.post(
-  "/verify-login-otp",
-  authLimiter,
-  validate(verifyLoginOtpSchema),
-  authController.verifyLoginOTP
-);
 
 // POST /api/v1/auth/forgot-password — send a password-reset link to the user's email.
 /**

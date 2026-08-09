@@ -6,3 +6,14 @@
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-08-05T05:57:33.425Z"}
 {"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-05T05:58:54.623Z"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-08-05T05:58:54.630Z"}
+{"level":"info","message":"127.0.0.1 - - [09/Aug/2026:18:19:20 +0000] \"GET / HTTP/1.1\" 200 61 \"-\" \"curl/8.5.0\"","timestamp":"2026-08-09T18:19:20.672Z"}
+{"level":"info","message":"127.0.0.1 - - [09/Aug/2026:18:19:20 +0000] \"GET / HTTP/1.1\" 200 61 \"-\" \"curl/8.5.0\"","timestamp":"2026-08-09T18:19:20.693Z"}
+{"level":"warn","message":"Route not found: GET /api/v1/auth/verify-login-otp","timestamp":"2026-08-09T18:19:20.718Z"}
+{"level":"info","message":"127.0.0.1 - - [09/Aug/2026:18:19:20 +0000] \"GET /api/v1/auth/verify-login-otp HTTP/1.1\" 404 1157 \"-\" \"curl/8.5.0\"","timestamp":"2026-08-09T18:19:20.725Z"}
+{"level":"warn","message":"Validation failed.","timestamp":"2026-08-09T18:19:20.743Z"}
+{"level":"info","message":"127.0.0.1 - - [09/Aug/2026:18:19:20 +0000] \"POST /api/v1/auth/login HTTP/1.1\" 400 1004 \"-\" \"curl/8.5.0\"","timestamp":"2026-08-09T18:19:20.744Z"}
+{"level":"warn","message":"Validation failed.","timestamp":"2026-08-09T18:19:20.756Z"}
+{"level":"info","message":"127.0.0.1 - - [09/Aug/2026:18:19:20 +0000] \"POST /api/v1/auth/login HTTP/1.1\" 400 891 \"-\" \"curl/8.5.0\"","timestamp":"2026-08-09T18:19:20.757Z"}
+{"level":"info","message":"127.0.0.1 - - [09/Aug/2026:18:19:42 +0000] \"POST /api/v1/auth/login HTTP/1.1\" - - \"-\" \"curl/8.5.0\"","timestamp":"2026-08-09T18:19:42.640Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-09T18:57:06.136Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-09T18:57:06.143Z"}

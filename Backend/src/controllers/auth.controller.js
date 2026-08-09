@@ -113,7 +113,9 @@ export const verifyEmailOTP = asyncHandler(async (req, res) => {
   return new ApiResponse(200, "Email verified successfully.").send(res);
 });
 
-// Initiate login: verify credentials, then send a login OTP to the user's email.
+// Log in: verify credentials and issue a JWT immediately — set as an
+// httpOnly cookie and returned in the response body for clients that
+// cannot use cookies. No OTP step is required for login.
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -130,36 +132,12 @@ export const login = asyncHandler(async (req, res) => {
     throw ApiError.unauthorized("Invalid password.");
   }
 
-  const otp = await upsertOtp(email, OTP_TYPES.LOGIN);
-
-  await sendEmail(email, "Login OTP", `Your login OTP is ${otp}`);
-
-  return new ApiResponse(200, "Login OTP sent to email.").send(res);
-});
-
-// Verify the login OTP and issue a JWT — set as an httpOnly cookie and
-// returned in the response body for clients that cannot use cookies.
-export const verifyLoginOTP = asyncHandler(async (req, res) => {
-  const { email, otp } = req.body;
-
-  const otpData = await OTP.findOne({ email, otp, type: OTP_TYPES.LOGIN });
-
-  if (!otpData) {
-    throw ApiError.badRequest("Invalid OTP.");
-  }
-  if (otpData.expiresAt < new Date()) {
-    throw ApiError.badRequest("OTP expired.");
-  }
-
-  const user = await User.findOne({ email });
   const token = generateToken(user._id);
 
   // Set an httpOnly cookie for browser clients, AND return the token in
   // the body so clients that can't rely on cross-site cookies (e.g. a
   // frontend on a different domain) can store it as a Bearer token.
   res.cookie("token", token, cookieOptions());
-
-  await OTP.deleteOne({ _id: otpData._id });
 
   return new ApiResponse(200, "Login successful.", {
     token,
