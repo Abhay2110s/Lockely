@@ -1,557 +1,145 @@
+import { motion } from "framer-motion";
 import {
-  ShieldCheck,
-  LockKeyhole,
-  EyeOff,
-  Database,
   CheckCircle,
+  Database,
+  EyeOff,
+  LockKeyhole,
+  ShieldCheck,
 } from "lucide-react";
 
-import { motion } from "framer-motion";
+import SealMedallion from "./SealMedallion";
 
-
-const securityPoints = [
-{
-  icon: EyeOff,
-  title: "Secure Password Handling",
-  desc: "Password analysis is designed with security-focused practices to protect your information.",
-},
+const principles = [
+  {
+    icon: EyeOff,
+    title: "Secure password handling",
+    desc: "Analysis happens without your plaintext password ever being written to disk or sent onward.",
+  },
   {
     icon: Database,
-    title: "Minimal Data Collection",
-    desc: "Only required information is processed for better security.",
+    title: "Minimal data collection",
+    desc: "We process only what's needed to keep your vault working — nothing is gathered for its own sake.",
   },
   {
     icon: LockKeyhole,
-    title: "Secure Processing",
-    desc: "Security-focused practices protect your information.",
+    title: "AES-256-GCM at rest",
+    desc: "Every vault entry is encrypted with authenticated, industry-standard encryption before it's stored.",
   },
 ];
 
+const clauses = [
+  "Privacy protected",
+  "Threat analysis on request",
+  "Encrypted at rest and in transit",
+];
 
 export default function Security() {
-
-
   return (
-
-    <section
-      id="security"
-      className="
-      px-6
-      py-28
-      "
-    >
-
-      <div
-        className="
-        max-w-6xl
-        mx-auto
-        "
-      >
-
-
-
-        {/* Heading */}
-
+    <section id="security" className="relative px-6 py-28 bg-[var(--pg-paper-deep)]">
+      <div className="max-w-6xl mx-auto">
         <motion.div
-
-          initial={{
-            opacity:0,
-            y:40,
-          }}
-
-          whileInView={{
-            opacity:1,
-            y:0,
-          }}
-
-          viewport={{
-            once:false,
-            amount:0.3,
-          }}
-
-          transition={{
-            duration:0.7,
-          }}
-
-          className="
-          text-center
-          max-w-2xl
-          mx-auto
-          "
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto"
         >
-
-          <div
-            className="
-            inline-flex
-            items-center
-            gap-2
-            px-4
-            py-2
-            rounded-full
-            bg-rose-100
-            text-[#ff2056]
-            text-sm
-            font-medium
-            "
-          >
-
-            <ShieldCheck className="size-4"/>
-
-            Security Architecture
-
-          </div>
-
-
-
-          <h2
-            className="
-            mt-6
-            text-4xl
-            md:text-5xl
-            font-semibold
-            tracking-tight
-            text-zinc-950
-            "
-          >
-
-            Built for privacy and protection
-
+          <div className="pg-tab mx-auto">Certificate of security</div>
+          <h2 className="pg-serif mt-6 text-4xl md:text-5xl tracking-tight text-[var(--pg-ink)]">
+            Built for privacy, on the record
           </h2>
-
-
-
-          <p
-            className="
-            mt-4
-            text-lg
-            leading-8
-            text-zinc-500
-            "
-          >
-
-            PassGuidance focuses on improving
-            password security while keeping your
-            sensitive information private.
-
+          <p className="mt-4 text-lg leading-8 text-[var(--pg-ink-soft)]">
+            Not a promise — an architecture. Here's exactly what protects
+            your vault, stated plainly.
           </p>
-
-
         </motion.div>
 
-
-
-
-
-
-
-        {/* Main Security Dashboard */}
-
-
-        <div
-          className="
-          mt-20
-          grid
-          md:grid-cols-2
-          gap-12
-          items-center
-          "
-        >
-
-
-
-
-
-          {/* Security Scanner */}
-
-
+        <div className="mt-20 grid md:grid-cols-[0.9fr_1.1fr] gap-14 items-start">
+          {/* Certificate card */}
           <motion.div
-
-            initial={{
-              opacity:0,
-              scale:0.9,
-            }}
-
-            whileInView={{
-              opacity:1,
-              scale:1,
-            }}
-
-            viewport={{
-              once:false,
-              amount:0.3,
-            }}
-
-            transition={{
-              duration:0.7,
-            }}
-
-            className="
-            relative
-            overflow-hidden
-            rounded-[40px]
-            bg-white/80
-            backdrop-blur-xl
-            border
-            border-zinc-200
-            shadow-[0_20px_60px_rgba(244,114,182,0.12)]
-            p-10
-            "
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+            className="pg-stack relative bg-[var(--pg-paper)] p-2"
           >
+            <div className="pg-corner-fold relative border border-[var(--pg-ink)] p-8">
+              <div className="absolute inset-[6px] border border-[var(--pg-ink)]/40 pointer-events-none" />
 
+              <div className="pg-stamp-mark absolute top-4 right-4 size-16 rotate-[10deg]">
+                <div className="text-center leading-tight">
+                  <span className="block text-[0.45rem] tracking-[0.1em]">Sealed</span>
+                  <span className="block text-[0.7rem] font-semibold">✓</span>
+                </div>
+              </div>
 
+              <div className="flex items-center justify-between pg-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--pg-ink-faint)]">
+                <span>Certificate No. AG-256</span>
+                <span>Verified</span>
+              </div>
 
-            {/* Scanner Animation */}
+              <div className="flex justify-center py-4">
+                <SealMedallion size={168} />
+              </div>
 
-            <motion.div
-
-              animate={{
-                y:[
-                  -120,
-                  260,
-                ],
-              }}
-
-              transition={{
-                duration:3,
-                repeat:Infinity,
-                ease:"linear",
-              }}
-
-              className="
-              absolute
-              left-0
-              right-0
-              h-1
-              bg-gradient-to-r
-              from-transparent
-              via-pink-500
-              to-transparent
-              opacity-60
-              "
-
-            />
-
-
-
-
-
-
-            <div
-              className="
-              flex
-              justify-center
-              "
-            >
-
-
-              <motion.div
-
-                animate={{
-                  scale:[
-                    1,
-                    1.08,
-                    1,
-                  ],
-                }}
-
-                transition={{
-                  duration:3,
-                  repeat:Infinity,
-                }}
-
-                className="
-                size-32
-                rounded-full
-                bg-gradient-to-br
-                from-orange-400
-                to-pink-500
-                flex
-                items-center
-                justify-center
-                shadow-[0_0_80px_rgba(244,114,182,0.5)]
-                "
-              >
-
-                <ShieldCheck
-                  className="
-                  size-16
-                  text-white
-                  "
-                />
-
-              </motion.div>
-
-
-            </div>
-
-
-
-
-
-
-
-            <div
-              className="
-              text-center
-              mt-8
-              "
-            >
-
-              <h3
-                className="
-                text-5xl
-                font-bold
-                text-zinc-950
-                "
-              >
-
-                98%
-
-              </h3>
-
-
-              <p
-                className="
-                mt-2
-                text-zinc-500
-                "
-              >
-
-                Security Confidence Score
-
+              <p className="text-center pg-serif text-xl text-[var(--pg-ink)]">
+                This vault is sealed under
+                <br />
+                <span className="italic">authenticated encryption.</span>
               </p>
 
-
-            </div>
-
-
-
-
-
-
-            {/* Progress */}
-
-            <div
-              className="
-              mt-8
-              h-3
-              rounded-full
-              bg-rose-100
-              overflow-hidden
-              "
-            >
-
-              <motion.div
-
-                initial={{
-                  width:0,
-                }}
-
-                whileInView={{
-                  width:"98%",
-                }}
-
-                viewport={{
-                  once:false,
-                }}
-
-                transition={{
-                  duration:1.5,
-                }}
-
-                className="
-                h-full
-                rounded-full
-                bg-gradient-to-r
-                from-orange-400
-                to-pink-500
-                "
-
-              />
-
-
-            </div>
-
-
-
-
-            <div
-              className="
-              mt-8
-              space-y-4
-              "
-            >
-
-              {
-                [
-                  "Privacy Protected",
-                  "Threat Analysis",
-                  "Secure Processing",
-                ].map(item=>(
-
-                  <div
-                    key={item}
-                    className="
-                    flex
-                    items-center
-                    gap-3
-                    text-sm
-                    text-zinc-600
-                    "
-                  >
-
-                    <CheckCircle
-                      className="
-                      size-5
-                      text-[#ff2056]
-                      "
-                    />
-
+              <div className="mt-8 space-y-3 pg-rule-double pt-5">
+                {clauses.map((item) => (
+                  <div key={item} className="flex items-center gap-3 text-sm text-[var(--pg-ink-soft)]">
+                    <CheckCircle className="size-4 text-[var(--pg-green)] shrink-0" />
                     {item}
-
                   </div>
-
-                ))
-              }
-
-
+                ))}
+              </div>
             </div>
-
-
           </motion.div>
 
+          {/* Principles */}
+          <div className="space-y-5">
+            {principles.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, x: 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.55, delay: index * 0.12 }}
+                  className="flex items-start gap-5 bg-[var(--pg-paper)] border border-[var(--pg-paper-line)] shadow-[4px_4px_0_var(--pg-paper-line)] p-6"
+                >
+                  <span className="flex items-center justify-center size-11 rounded-full border border-[var(--pg-ink)] text-[var(--pg-green)] shrink-0">
+                    <Icon className="size-5" strokeWidth={1.75} />
+                  </span>
+                  <div>
+                    <h3 className="pg-serif text-xl text-[var(--pg-ink)]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-[var(--pg-ink-soft)]">
+                      {item.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
 
-
-
-
-
-
-
-
-          {/* Security Principles */}
-
-
-          <div
-            className="
-            space-y-6
-            "
-          >
-
-            {
-              securityPoints.map(
-                (item,index)=>{
-
-                  const Icon=item.icon;
-
-
-                  return (
-
-                    <motion.div
-
-                      key={item.title}
-
-                      initial={{
-                        opacity:0,
-                        x:50,
-                      }}
-
-                      whileInView={{
-                        opacity:1,
-                        x:0,
-                      }}
-
-                      viewport={{
-                        once:false,
-                        amount:0.3,
-                      }}
-
-                      transition={{
-                        duration:0.6,
-                        delay:index*0.15,
-                      }}
-
-                      whileHover={{
-                        x:10,
-                      }}
-
-                      className="
-                      rounded-3xl
-                      bg-white
-                      border
-                      border-zinc-200
-                      p-6
-                      shadow-[0_15px_40px_rgba(244,114,182,0.08)]
-                      "
-                    >
-
-                      <div
-                        className="
-                        size-12
-                        rounded-2xl
-                        bg-rose-100
-                        text-[#ff2056]
-                        flex
-                        items-center
-                        justify-center
-                        "
-                      >
-
-                        <Icon className="size-6"/>
-
-                      </div>
-
-
-
-                      <h3
-                        className="
-                        mt-4
-                        text-xl
-                        font-semibold
-                        text-zinc-950
-                        "
-                      >
-
-                        {item.title}
-
-                      </h3>
-
-
-
-                      <p
-                        className="
-                        mt-2
-                        text-sm
-                        leading-6
-                        text-zinc-500
-                        "
-                      >
-
-                        {item.desc}
-
-                      </p>
-
-
-                    </motion.div>
-
-                  );
-
-                }
-              )
-            }
-
-
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.55, delay: 0.36 }}
+              className="flex items-center gap-3 pg-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--pg-ink-faint)] pt-2"
+            >
+              <ShieldCheck className="size-4 text-[var(--pg-green)]" />
+              No plaintext password is ever stored or transmitted.
+            </motion.div>
           </div>
-
-
-
         </div>
-
-
       </div>
-
-
     </section>
-
   );
-
 }

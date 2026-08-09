@@ -1,4 +1,3 @@
-import { ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 
 import {
@@ -8,193 +7,82 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-
 const faqItems = [
   {
     question: "Do you store my password?",
     answer:
-      "No. PassGuidance does not store your passwords. Password analysis is performed securely without saving sensitive information.",
+      "No. PassGuardian never stores your master password. Analysis and unlocking happen without it leaving your device unencrypted.",
   },
   {
     question: "How is password strength calculated?",
     answer:
-      "Password strength is evaluated using length, complexity, character variety, and resistance against common password attacks.",
+      "We score length, character variety, and predictability against known attack patterns — not just a character-count minimum.",
   },
   {
     question: "Is my data secure?",
     answer:
-      "Yes. We follow security-focused practices and minimize unnecessary data collection to protect your privacy.",
+      "Vault entries are encrypted with AES-256-GCM before they're stored, and we collect only what's required to run the service.",
   },
   {
     question: "Can I generate passwords?",
     answer:
-      "Yes. You can generate strong random passwords designed to improve account security.",
+      "Yes. The generator produces strong, unique passwords on demand, tunable by length, symbols, and readability.",
   },
 ];
 
-
 export default function FAQ() {
   return (
-    <section className="px-6 py-24">
-      <div
-        className="
-        max-w-6xl
-        mx-auto
-        grid
-        grid-cols-1
-        md:grid-cols-2
-        gap-12
-        items-center
-        "
-      >
-
-        {/* Left Content */}
-
+    <section id="faq" className="px-6 py-28">
+      <div className="max-w-4xl mx-auto">
         <motion.div
-          initial={{
-            opacity: 0,
-            x: -80,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          viewport={{
-            once: false,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6 }}
+          className="text-center"
         >
-
-          <motion.div
-            animate={{
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="
-            size-16
-            rounded-3xl
-            bg-gradient-to-br
-            from-orange-200
-            to-pink-200
-            text-rose-600
-            flex
-            items-center
-            justify-center
-            mb-6
-            shadow-[0_15px_35px_rgba(244,114,182,0.2)]
-            "
-          >
-            <ShieldCheck className="size-8" />
-          </motion.div>
-
-
-          <h2
-            className="
-            text-4xl
-            md:text-5xl
-            font-semibold
-            tracking-tight
-            text-zinc-950
-            "
-          >
-            Frequently Asked Questions
+          <div className="pg-tab mx-auto">Standing questions</div>
+          <h2 className="pg-serif mt-6 text-4xl md:text-5xl tracking-tight text-[var(--pg-ink)]">
+            Questions on file
           </h2>
-
-
-          <p
-            className="
-            mt-5
-            text-lg
-            leading-8
-            text-zinc-500
-            max-w-md
-            "
-          >
-            Everything you need to know about password security,
-            privacy, and PassGuidance.
-          </p>
-
         </motion.div>
-
-
-        {/* Accordion */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            x: 80,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          viewport={{
-            once: false,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
-          className="
-          rounded-[32px]
-          bg-white/80
-          backdrop-blur-xl
-          border
-          border-white
-          shadow-[0_20px_50px_rgba(244,114,182,0.12)]
-          p-6
-          "
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="pg-stack mt-14"
         >
-
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full"
-          >
-
-            {faqItems.map((item, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="border-zinc-200"
-              >
-
-                <AccordionTrigger
-                  className="
-                  text-zinc-950
-                  font-medium
-                  text-base
-                  hover:no-underline
-                  transition-all
-                  "
+          <div className="pg-corner-fold bg-[var(--pg-paper)] border border-[var(--pg-paper-line)] px-8 pt-2 pb-2 md:px-10">
+            <Accordion type="single" collapsible className="w-full">
+              {faqItems.map((item, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className="pg-accordion-item"
                 >
-                  {item.question}
-                </AccordionTrigger>
+                  <AccordionTrigger className="!py-6 hover:!no-underline group">
+                    <span className="flex items-baseline gap-4 text-left">
+                      <span className="pg-mono text-xs text-[var(--pg-ink-faint)] pt-1">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className="pg-serif text-xl text-[var(--pg-ink)] group-hover:text-[var(--pg-green)] transition-colors">
+                        {item.question}
+                      </span>
+                    </span>
+                  </AccordionTrigger>
 
-
-                <AccordionContent
-                  className="
-                  text-zinc-500
-                  leading-7
-                  "
-                >
-                  {item.answer}
-                </AccordionContent>
-
-              </AccordionItem>
-            ))}
-
-          </Accordion>
-
+                  <AccordionContent className="!pb-6">
+                    <p className="pl-9 text-[0.95rem] leading-7 text-[var(--pg-ink-soft)] max-w-xl">
+                      {item.answer}
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </motion.div>
-
       </div>
     </section>
   );

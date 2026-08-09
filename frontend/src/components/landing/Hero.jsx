@@ -1,298 +1,119 @@
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import SealMedallion from "./SealMedallion";
 
-import {
-  ArrowRight,
-  Lock,
-} from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-
+const fields = [
+  { label: "Cipher", value: "AES-256-GCM" },
+  { label: "Knowledge", value: "Zero-knowledge" },
+  { label: "Status", value: "Unbreached" },
+];
 
 export default function Hero() {
-
-  const heroRef = useRef(null);
-
-
-  // Track scrolling inside hero section
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: [
-      "start start",
-      "end start",
-    ],
-  });
-
-
-  // Move hero upward during scroll
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0px", "-120px"]
-  );
-
-
-  // Slight zoom-out effect
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [1, 0.95]
-  );
-
-
-  // Fade hero while leaving section
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [1, 0.35]
-  );
-
-
   return (
-
-    <section
-      ref={heroRef}
-      className="
-      min-h-screen
-      flex
-      items-center
-      justify-center
-      px-6
-      pt-40
-      md:pt-44
-      "
-    >
-
-      <motion.div
-
-        style={{
-          y,
-          scale,
-          opacity,
-        }}
-
-        initial={{
-          opacity:0,
-          y:80,
-        }}
-
-        animate={{
-          opacity:1,
-          y:0,
-        }}
-
-        transition={{
-          duration:1,
-          ease:"easeOut",
-        }}
-
-        className="
-        max-w-6xl
-        w-full
-        text-center
-        "
-      >
-
-
-        {/* Security Badge */}
-
-        <motion.div
-
-          initial={{
-            opacity:0,
-            y:20,
-          }}
-
-          animate={{
-            opacity:1,
-            y:0,
-          }}
-
-          transition={{
-            delay:0.2,
-            duration:0.5,
-          }}
-
-          className="
-          inline-flex
-          items-center
-          gap-2
-          px-5
-          py-2
-          rounded-full
-          bg-rose-100
-          text-rose-600
-          text-sm
-          font-medium
-          border
-          border-rose-200
-          "
-        >
-
-          <Lock className="size-4"/>
-
-          Secure Identity Protection
-
-        </motion.div>
-
-
-
-
-
-        {/* Main Heading */}
-
-        <motion.h1
-
-          initial={{
-            opacity:0,
-            y:40,
-          }}
-
-          animate={{
-            opacity:1,
-            y:0,
-          }}
-
-          transition={{
-            delay:0.35,
-            duration:0.7,
-          }}
-
-          className="
-          mt-8
-          text-5xl
-          md:text-7xl
-          font-semibold
-          tracking-tight
-          leading-[1.05]
-          text-zinc-950
-          "
-        >
-
-          Protect Your Digital Identity
-
-          <br />
-
-          With Smarter Password Security
-
-        </motion.h1>
-
-
-
-
-
-        {/* Description */}
-
-        <motion.p
-
-          initial={{
-            opacity:0,
-            y:30,
-          }}
-
-          animate={{
-            opacity:1,
-            y:0,
-          }}
-
-          transition={{
-            delay:0.5,
-            duration:0.7,
-          }}
-
-          className="
-          mt-8
-          max-w-3xl
-          mx-auto
-          text-lg
-          md:text-xl
-          leading-8
-          text-zinc-500
-          "
-        >
-
-          Generate powerful passwords,
-          analyze security strength,
-          and build safer online habits
-          with intelligent security guidance.
-
-        </motion.p>
-
-
-
-
-
-
-
-        {/* Call To Action */}
-
-        <motion.div
-
-          initial={{
-            opacity:0,
-            scale:0.8,
-          }}
-
-          animate={{
-            opacity:1,
-            scale:1,
-          }}
-
-          transition={{
-            delay:0.75,
-            duration:0.5,
-            type:"spring",
-          }}
-
-          className="
-          mt-10
-          flex
-          justify-center
-          "
-        >
-
-          <Button
-
-            className="
-            h-12
-            px-10
-            rounded-full
-            bg-gradient-to-r
-            from-orange-400
-            to-pink-500
-            text-white
-            font-semibold
-            shadow-[0_15px_35px_rgba(236,72,153,0.3)]
-            hover:scale-105
-            transition-transform
-            "
+    <section id="top" className="relative px-6 pt-36 pb-24 md:pt-44 md:pb-32">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-[1.15fr_0.85fr] gap-16 items-center">
+        {/* Left — headline */}
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="pg-tab"
           >
+            <span className="size-1.5 rounded-full bg-[var(--pg-green)]" />
+            File opened for new registrants
+          </motion.div>
 
-            Get Started
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            className="pg-serif mt-8 text-5xl md:text-[4.2rem] leading-[1.04] tracking-tight text-[var(--pg-ink)]"
+          >
+            Every password
+            <br />
+            <span className="italic font-normal text-[var(--pg-green)]">
+              notarized,
+            </span>{" "}
+            never exposed.
+          </motion.h1>
 
-            <ArrowRight
-              className="
-              size-4
-              ml-2
-              "
-            />
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22, duration: 0.6 }}
+            className="mt-7 max-w-lg text-[1.05rem] leading-8 text-[var(--pg-ink-soft)]"
+          >
+            PassGuardian keeps a sealed ledger of your credentials —
+            generated, encrypted, and audited the way a bank keeps a vault:
+            nothing readable ever leaves your hands.
+          </motion.p>
 
-          </Button>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.34, duration: 0.6 }}
+            className="mt-9 flex flex-wrap items-center gap-5"
+          >
+            <a href="/register" className="pg-stamp-btn">
+              Open a vault
+              <ArrowRight className="size-4" />
+            </a>
+            <a
+              href="#security"
+              className="pg-mono text-[0.75rem] uppercase tracking-[0.12em] text-[var(--pg-ink)] border-b border-[var(--pg-ink)] pb-0.5 hover:text-[var(--pg-green)] hover:border-[var(--pg-green)] transition-colors"
+            >
+              Read the certificate
+            </a>
+          </motion.div>
 
+          {/* Ledger meta strip */}
+          <motion.dl
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="mt-14 grid grid-cols-3 max-w-md pg-rule-double pt-4"
+          >
+            {fields.map((f) => (
+              <div key={f.label} className="pr-4">
+                <dt className="pg-mono text-[0.6rem] uppercase tracking-[0.16em] text-[var(--pg-ink-faint)]">
+                  {f.label}
+                </dt>
+                <dd className="pg-mono text-[0.82rem] mt-1 text-[var(--pg-ink)]">
+                  {f.value}
+                </dd>
+              </div>
+            ))}
+          </motion.dl>
+        </div>
 
+        {/* Right — signature seal */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+          className="relative flex items-center justify-center"
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="size-[300px] rounded-full bg-[var(--pg-green)]/5 blur-2xl" />
+          </div>
+          <SealMedallion size={320} className="relative max-w-full h-auto" />
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6, rotate: -24 }}
+            animate={{ opacity: 0.85, scale: 1, rotate: -12 }}
+            transition={{ delay: 0.9, duration: 0.5, type: "spring" }}
+            className="pg-stamp-mark absolute -bottom-2 -left-2 size-20 md:size-24"
+          >
+            <div className="text-center leading-tight">
+              <span className="block text-[0.55rem] tracking-[0.12em]">Verified</span>
+              <span className="block text-[0.9rem] font-semibold my-0.5">✓</span>
+              <span className="block text-[0.5rem] tracking-[0.1em]">AG · 256</span>
+            </div>
+          </motion.div>
         </motion.div>
-
-
-
-      </motion.div>
-
-
+      </div>
     </section>
-
   );
 }

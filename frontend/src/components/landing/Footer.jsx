@@ -1,12 +1,7 @@
-import {
-  ShieldCheck,
-  Mail,
-  ArrowUpRight,
-} from "lucide-react";
 
+import { ArrowUpRight, Mail, ShieldCheck, Heart } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
-
 
 const productLinks = [
   {
@@ -23,7 +18,6 @@ const productLinks = [
   },
 ];
 
-
 const connectLinks = [
   {
     name: "LinkedIn",
@@ -37,237 +31,131 @@ const connectLinks = [
   },
 ];
 
-
 export default function Footer() {
   return (
-    <footer className="px-6 pb-8 pt-12">
+    <footer className="border-t border-[var(--pg-paper-line)] bg-[var(--pg-paper)]">
+      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
 
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 60,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        viewport={{
-          once: false,
-          amount: 0.2,
-        }}
-        transition={{
-          duration: 0.7,
-        }}
-        className="
-        max-w-6xl
-        mx-auto
-        rounded-[36px]
-        bg-white/70
-        backdrop-blur-xl
-        border
-        border-white
-        shadow-[0_20px_60px_rgba(244,114,182,0.15)]
-        p-10
-        "
-      >
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-
+        {/* Main Footer */}
+        <div className="grid gap-12 md:grid-cols-3">
 
           {/* Brand */}
-
           <div>
-
             <div className="flex items-center gap-3">
-
-              <div
-                className="
-                size-12
-                rounded-2xl
-                bg-gradient-to-br
-                from-orange-400
-                to-pink-500
-                text-white
-                flex
-                items-center
-                justify-center
-                shadow-lg
-                "
-              >
-                <ShieldCheck className="size-6" />
+              <div className="flex h-9 w-9 items-center justify-center border border-[var(--pg-green)]">
+                <ShieldCheck
+                  className="h-5 w-5 text-[var(--pg-green)]"
+                  strokeWidth={1.8}
+                />
               </div>
 
-
-              <h2 className="text-xl font-bold text-zinc-950">
-                PassGuidance
-              </h2>
-
+              <span className="text-lg font-semibold text-[var(--pg-ink)]">
+                PassGuardian
+              </span>
             </div>
 
-
-            <p
-              className="
-              mt-5
-              max-w-sm
-              text-sm
-              leading-6
-              text-zinc-500
-              "
-            >
-              Smart password security tools designed to
-              protect your digital identity and improve
-              online safety.
+            <p className="mt-5 max-w-sm text-sm leading-6 text-[var(--pg-ink-soft)]">
+              A sealed ledger for your credentials — generated, encrypted,
+              and audited so your identity stays yours.
             </p>
-
           </div>
 
-
-
           {/* Product */}
-
           <div>
-
-            <h3 className="font-semibold text-zinc-950 mb-5">
-              Product
+            <h3 className="pg-mono mb-5 text-[0.68rem] uppercase tracking-[0.16em] text-[var(--pg-ink-faint)]">
+              Contents
             </h3>
 
-
             <ul className="space-y-3">
-
               {productLinks.map((item) => (
-
                 <li key={item.name}>
-
                   <a
                     href={item.link}
-                    className="
-                    text-sm
-                    text-zinc-500
-                    hover:text-pink-500
-                    transition
-                    "
+                    className="text-sm text-[var(--pg-ink-soft)] transition-colors hover:text-[var(--pg-green)]"
                   >
                     {item.name}
                   </a>
-
                 </li>
-
               ))}
-
             </ul>
-
           </div>
-
-
 
           {/* Connect */}
-
           <div>
-
-            <h3 className="font-semibold text-zinc-950 mb-5">
-              Connect
+            <h3 className="pg-mono mb-5 text-[0.68rem] uppercase tracking-[0.16em] text-[var(--pg-ink-faint)]">
+              Correspondence
             </h3>
 
-
             <div className="space-y-3">
+              {connectLinks.map((item) => {
+                const Icon = item.icon;
 
-              {connectLinks.map(
-                ({
-                  name,
-                  link,
-                  icon: Icon,
-                }) => (
+                return (
+                  <a
+                    key={item.name}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between border border-[var(--pg-paper-line)] px-4 py-2.5 text-sm text-[var(--pg-ink)] transition-colors hover:border-[var(--pg-green)]"
+                  >
+                    <span className="flex items-center gap-3">
+                      <Icon
+                        className="h-4 w-4 text-[var(--pg-green)]"
+                      />
 
-                <a
-                  key={name}
-                  href={link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="
-                  group
-                  flex
-                  items-center
-                  justify-between
-                  rounded-2xl
-                  bg-rose-50
-                  px-4
-                  py-3
-                  text-sm
-                  text-zinc-600
-                  hover:bg-rose-100
-                  transition
-                  "
-                >
+                      {item.name}
+                    </span>
 
-                  <div className="flex items-center gap-3">
-
-                    <Icon
-                      className="
-                      size-5
-                      text-[#ff2056]
-                      "
+                    <ArrowUpRight
+                      className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100"
                     />
-
-                    {name}
-
-                  </div>
-
-
-                  <ArrowUpRight
-                    className="
-                    size-4
-                    opacity-0
-                    group-hover:opacity-100
-                    transition
-                    "
-                  />
-
-                </a>
-
-              ))}
-
+                  </a>
+                );
+              })}
             </div>
-
           </div>
-
-
         </div>
 
+        {/* Bottom Divider */}
+        <div className="pg-rule-double mt-14 pt-5">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
+            {/* Copyright */}
+            <span className="pg-mono text-[0.68rem] uppercase tracking-[0.1em] text-[var(--pg-ink-faint)]">
+              © {new Date().getFullYear()} PassGuardian — File remains open
+            </span>
 
-        {/* Bottom */}
+            {/* Built With */}
+            <span className="pg-mono flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.1em] text-[var(--pg-ink-faint)]">
+              Built with
 
-        <div
-          className="
-          mt-10
-          pt-6
-          border-t
-          border-zinc-200
-          flex
-          flex-col
-          md:flex-row
-          justify-between
-          gap-3
-          text-sm
-          text-zinc-500
-          "
-        >
+              <motion.span
+                animate={{
+                  scale: [1, 1.18, 1],
+                }}
+                transition={{
+                  duration: 1.8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="inline-flex"
+              >
+                <Heart
+                  className="h-4 w-4 fill-[#F43F5E] text-[#F43F5E]"
+                  strokeWidth={2.5}
+                />
+              </motion.span>
 
-          <span>
-            © {new Date().getFullYear()} PassGuidance. All rights reserved.
-          </span>
+              Secured by design
+            </span>
 
-
-          <span>
-            Built with security in mind 🔒
-          </span>
-
-
+            {/* Encryption */}
+            <span className="pg-mono text-[0.68rem] uppercase tracking-[0.1em] text-[var(--pg-ink-faint)]">
+              Sealed with AES-256-GCM
+            </span>
+          </div>
         </div>
-
-
-      </motion.div>
-
+      </div>
     </footer>
   );
 }

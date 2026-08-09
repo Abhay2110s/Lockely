@@ -1,49 +1,80 @@
-import { ArrowRight, LogIn, ShieldCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
+import { useEffect, useState } from "react";
+import { LogIn, ShieldCheck } from "lucide-react";
 
 const navItems = [
-  { label: "Login", icon: LogIn },
+  { label: "Features", href: "#features" },
+  { label: "Security", href: "#security" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export default function Navbar() {
-  return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50">
-      <div className="backdrop-blur-xl backdrop-saturate-150 shadow-[0_8px_32px_rgba(219,112,147,0.18)] rounded-[28px] bg-gradient-to-r from-orange-100/50 via-pink-100/50 to-rose-100/50 border border-white/60 px-6 py-4">
-        <div className="flex justify-between items-center">
-          {/* Logo Section */}
-          <div className="flex items-center gap-3">
-            <div className="size-11 shadow-sm ring-1 ring-white/30 rounded-2xl bg-gradient-to-br from-orange-400 to-pink-500 text-white flex justify-center items-center shrink-0">
-              <ShieldCheck className="size-5" />
-            </div>
+  const [scrolled, setScrolled] = useState(false);
 
-            <div className="leading-none flex flex-col">
-              <span className="font-bold text-rose-950 text-xl tracking-tight">
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div
+      className={`
+      fixed top-0 left-0 right-0 z-50
+      transition-colors duration-300
+      ${scrolled ? "bg-[var(--pg-paper)]/95 backdrop-blur-sm" : "bg-transparent"}
+      `}
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <div
+          className={`
+          flex items-center justify-between
+          py-5
+          border-b
+          transition-colors duration-300
+          ${scrolled ? "border-[var(--pg-paper-line)]" : "border-transparent"}
+          `}
+        >
+          {/* Wordmark */}
+          <a href="#top" className="flex items-center gap-3 group">
+            <span className="relative flex items-center justify-center size-9 rounded-full border border-[var(--pg-ink)] bg-[var(--pg-green)]">
+              <ShieldCheck className="size-4" color="var(--pg-paper)" strokeWidth={2} />
+            </span>
+            <span className="flex flex-col leading-none">
+              <span className="pg-serif text-lg text-[var(--pg-ink)] tracking-tight">
                 PassGuardian
               </span>
-              <span className="text-rose-800/60 text-xs leading-4">
-                Secure access, beautifully managed
+              <span className="pg-mono text-[0.62rem] text-[var(--pg-ink-faint)] tracking-[0.18em] uppercase mt-0.5">
+                Est. File No. 0142
               </span>
-            </div>
-          </div>
+            </span>
+          </a>
 
-          {/* Navigation Actions */}
-          <div className="flex items-center gap-2">
-            {navItems.map(({ label, icon: Icon }) => (
-              <Button
-                key={label}
-                variant="ghost"
-                className="font-medium rounded-full text-rose-950 text-sm px-4 gap-2 hover:bg-white/40"
+          {/* Nav links */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="pg-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--pg-ink-soft)] hover:text-[var(--pg-green)] transition-colors"
               >
-                <Icon className="size-4" />
-                {label}
-              </Button>
+                {item.label}
+              </a>
             ))}
+          </nav>
 
-            <Button className="font-semibold shadow-[0_10px_24px_rgba(219,39,119,0.25)] rounded-full bg-gradient-to-r from-orange-400 to-pink-500 text-white text-sm px-5 gap-2 hover:from-orange-500 hover:to-pink-600 border-0">
-              Get Started
-              <ArrowRight className="size-4" />
-            </Button>
+          {/* Actions */}
+          <div className="flex items-center gap-3">
+            <a
+              href="/login"
+              className="hidden sm:flex items-center gap-2 pg-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--pg-ink)] hover:text-[var(--pg-green)] transition-colors"
+            >
+              <LogIn className="size-3.5" />
+              Sign in
+            </a>
+            <a href="/register" className="pg-stamp-btn !py-2.5 !px-4 text-[0.7rem]">
+              Open a vault
+            </a>
           </div>
         </div>
       </div>
