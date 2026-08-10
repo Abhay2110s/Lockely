@@ -63,19 +63,18 @@ export default function Security() {
             transition={{ duration: 0.6 }}
             className="pg-stack relative bg-[var(--pg-paper)] p-2"
           >
-            <div className="pg-corner-fold relative border border-[var(--pg-ink)] p-8">
+            <div className="relative border border-[var(--pg-ink)] p-8">
               <div className="absolute inset-[6px] border border-[var(--pg-ink)]/40 pointer-events-none" />
 
-              <div className="pg-stamp-mark absolute top-4 right-4 size-16 rotate-[10deg]">
+              <div className="pg-stamp-mark absolute top-3 right-3 size-16 rotate-[10deg]">
                 <div className="text-center leading-tight">
                   <span className="block text-[0.45rem] tracking-[0.1em]">Sealed</span>
                   <span className="block text-[0.7rem] font-semibold">✓</span>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pg-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--pg-ink-faint)]">
+              <div className="pg-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--pg-ink-faint)]">
                 <span>Certificate No. AG-256</span>
-                <span>Verified</span>
               </div>
 
               <div className="flex justify-center py-4">

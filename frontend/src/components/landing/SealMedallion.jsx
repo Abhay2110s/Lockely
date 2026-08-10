@@ -22,13 +22,8 @@ export default function SealMedallion({ size = 320, className = "" }) {
     >
       <defs>
         <path
-          id={`${id}-top`}
-          d="M 160 44 A 116 116 0 0 1 276 160"
-          fill="none"
-        />
-        <path
-          id={`${id}-bottom`}
-          d="M 44 160 A 116 116 0 0 1 160 44"
+          id={`${id}-motto`}
+          d="M 59.5 218 A 116 116 0 1 1 260.5 218"
           fill="none"
         />
       </defs>
@@ -85,27 +80,16 @@ export default function SealMedallion({ size = 320, className = "" }) {
       <circle cx="160" cy="160" r="128" fill="none" stroke="var(--pg-ink)" strokeWidth="0.5" opacity="0.4" />
       <circle cx="160" cy="160" r="96" fill="none" stroke="var(--pg-ink)" strokeWidth="0.5" opacity="0.5" />
 
-      {/* engraved motto ring */}
+      {/* engraved motto ring — single continuous arc, no overlap */}
       <text
         fontFamily="IBM Plex Mono, monospace"
         fontSize="10.5"
-        letterSpacing="3.5"
+        letterSpacing="3.2"
         fill="var(--pg-ink)"
         opacity="0.75"
       >
-        <textPath href={`#${id}-top`} startOffset="2%">
-          PASSGUARDIAN · SECURED FILE
-        </textPath>
-      </text>
-      <text
-        fontFamily="IBM Plex Mono, monospace"
-        fontSize="10.5"
-        letterSpacing="3.5"
-        fill="var(--pg-ink)"
-        opacity="0.75"
-      >
-        <textPath href={`#${id}-bottom`} startOffset="2%">
-          AES-256-GCM · ZERO-KNOWLEDGE
+        <textPath href={`#${id}-motto`} startOffset="4%">
+          PASSGUARDIAN · AES-256-GCM · ZERO-KNOWLEDGE ·
         </textPath>
       </text>
 

@@ -232,25 +232,6 @@
   background-position: center;
 }
 
-/* ---- corner fold (dog-eared card) ------------------------------------------ */
-
-.pg-corner-fold {
-  position: relative;
-  clip-path: polygon(
-    0 0, 100% 0, 100% 100%, 22px 100%, 0 calc(100% - 22px)
-  );
-}
-.pg-corner-fold::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 22px;
-  height: 22px;
-  background: linear-gradient(135deg, transparent 50%, var(--pg-paper-line) 50.5%);
-  opacity: 0.9;
-}
-
 /* ---- stacked-paper shadow (depth behind cards) ------------------------------ */
 
 .pg-stack {
@@ -294,36 +275,6 @@
   border-radius: 50%;
   border: 1px solid var(--pg-red);
   opacity: 0.5;
-}
-
-/* ---- index rail (ledger book side tabs) --------------------------------- */
-
-.pg-index-rail a {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  padding: 0.55rem 0.9rem 0.55rem 1.1rem;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--pg-ink-faint);
-  background: var(--pg-paper-deep);
-  border: 1px solid var(--pg-paper-line);
-  border-right: none;
-  transform: translateX(0);
-  transition: transform 0.25s ease, color 0.25s ease, background 0.25s ease;
-}
-.pg-index-rail a:hover,
-.pg-index-rail a[data-active="true"] {
-  color: var(--pg-paper);
-  background: var(--pg-green);
-  border-color: var(--pg-green);
-  transform: translateX(-8px);
-}
-.pg-index-rail a[data-active="true"] {
-  transform: translateX(-14px);
 }
 
 /* ---- reduced motion ---------------------------------------------------- */

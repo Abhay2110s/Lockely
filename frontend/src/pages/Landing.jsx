@@ -6,12 +6,10 @@ import FAQ from "@/components/landing/FAQ";
 import CTA from "@/components/landing/CTA";
 import Footer from "@/components/landing/Footer";
 
-
 export default function Landing() {
   return (
     <main className="pg-ledger pg-security-texture pg-grain relative min-h-screen overflow-hidden">
       <Navbar />
-     
       <Hero />
       <div className="max-w-6xl mx-auto px-6">
         <div className="pg-perforation" />

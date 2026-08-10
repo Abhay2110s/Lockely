@@ -54,7 +54,7 @@ export default function FAQ() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="pg-stack mt-14"
         >
-          <div className="pg-corner-fold bg-[var(--pg-paper)] border border-[var(--pg-paper-line)] px-8 pt-2 pb-2 md:px-10">
+            <div className="bg-[var(--pg-paper)] border border-[var(--pg-paper-line)] px-8 pt-2 pb-2 md:px-10">
             <Accordion type="single" collapsible className="w-full">
               {faqItems.map((item, index) => (
                 <AccordionItem
