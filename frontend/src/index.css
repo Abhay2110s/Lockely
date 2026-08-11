@@ -3,6 +3,7 @@
 @import "@fontsource-variable/geist";
 @import "shadcn/tailwind.css";
 @import "./styles/ledger.css";
+@import "./styles/soft-modern.css";
 
 @custom-variant dark (&:is(.dark *));
 

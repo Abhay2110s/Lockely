@@ -1,57 +1,46 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-
-import SealMedallion from "./SealMedallion";
+import { ArrowRight, Lock, Sparkles } from "lucide-react";
+import ScrollReveal from "@/components/animations/ScrollReveal";
+import MagneticButton from "@/components/animations/MagneticButton";
 
 export default function CTA() {
-  const [pressed, setPressed] = useState(false);
-
   return (
     <section className="px-6 py-24">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
-          style={{
-            "--pg-paper": "var(--pg-green-deep)",
-            "--pg-ink": "#f4efe1",
-            "--pg-ink-soft": "#cfd9d1",
-            "--pg-green": "#e9e0c6",
-          }}
-          className="pg-stack relative overflow-hidden bg-[var(--pg-green-deep)] border border-dashed border-[#e9e0c6]/30 px-10 py-16 md:px-16 md:py-20 grid md:grid-cols-[1fr_auto] items-center gap-12"
-        >
-          {/* faint watermark seal */}
-          <div className="pointer-events-none absolute -right-16 -bottom-24 opacity-[0.14]">
-            <SealMedallion size={340} />
-          </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-700 p-10 md:p-16 shadow-xl shadow-indigo-500/20 text-white">
+            {/* Subtle Ambient White Blobs */}
+            <div className="absolute -right-20 -bottom-20 size-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+            <div className="absolute -left-20 -top-20 size-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
 
-          <div className="relative">
-            <span className="pg-mono text-[0.68rem] uppercase tracking-[0.18em] text-[#e9e0c6]">
-              Sign the ledger
-            </span>
-            <h2 className="pg-serif mt-4 text-4xl md:text-5xl tracking-tight text-[#f4efe1] max-w-lg">
-              Ready to close the file on weak passwords?
-            </h2>
-            <p className="mt-5 max-w-md text-[1.02rem] leading-8 text-[#cfd9d1]">
-              Open a vault in under two minutes. Your first entry is
-              encrypted before it ever touches our servers.
-            </p>
-          </div>
+            <div className="relative z-10 grid md:grid-cols-[1fr_auto] items-center gap-10">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-semibold text-white mb-4 border border-white/20">
+                  <Lock className="size-3.5" />
+                  Zero-Knowledge Encryption
+                </div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white max-w-xl">
+                  Ready to close the file on weak passwords?
+                </h2>
+                <p className="mt-4 max-w-md text-base leading-relaxed text-indigo-100">
+                  Open your encrypted vault in under two minutes. Free forever for personal credentials.
+                </p>
+              </div>
 
-          <motion.button
-            type="button"
-            onMouseDown={() => setPressed(true)}
-            onMouseUp={() => setPressed(false)}
-            onMouseLeave={() => setPressed(false)}
-            className={`relative pg-stamp-btn !bg-[#f4efe1] !text-[var(--pg-green-deep)] !border-[#f4efe1] !shadow-[3px_3px_0_#c9a15b] shrink-0 ${pressed ? "pg-pressed" : ""}`}
-          >
-            Create account
-            <ArrowRight className="size-4" />
-          </motion.button>
-        </motion.div>
+              <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <MagneticButton>
+                  <a
+                    href="/register"
+                    className="btn-soft-secondary flex items-center justify-center gap-2 text-sm font-bold shadow-lg hover:scale-105 transition-transform !text-indigo-950"
+                  >
+                    <Sparkles className="size-4 text-indigo-600" />
+                    Create Free Vault
+                    <ArrowRight className="size-4" />
+                  </a>
+                </MagneticButton>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

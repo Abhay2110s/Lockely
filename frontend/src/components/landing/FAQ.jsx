@@ -1,80 +1,75 @@
-import { motion } from "framer-motion";
-
+import { HelpCircle } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import ShinyText from "@/components/animations/ShinyText";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const faqItems = [
   {
-    question: "Do you store my password?",
+    question: "Do you store my master password?",
     answer:
-      "No. PassGuardian never stores your master password. Analysis and unlocking happen without it leaving your device unencrypted.",
+      "No. PassGuardian operates under a strict Zero-Knowledge protocol. Your master password never leaves your browser unencrypted.",
   },
   {
     question: "How is password strength calculated?",
     answer:
-      "We score length, character variety, and predictability against known attack patterns — not just a character-count minimum.",
+      "We calculate entropy across length, character variety, dictionary frequency, and pattern predictability against real-world attack vectors.",
   },
   {
-    question: "Is my data secure?",
+    question: "Is my data secure against server breaches?",
     answer:
-      "Vault entries are encrypted with AES-256-GCM before they're stored, and we collect only what's required to run the service.",
+      "Yes. All vault items are encrypted client-side using AES-256-GCM before transmission. Even if our database were leaked, your data remains unreadable.",
   },
   {
-    question: "Can I generate passwords?",
+    question: "Can I generate custom passwords?",
     answer:
-      "Yes. The generator produces strong, unique passwords on demand, tunable by length, symbols, and readability.",
+      "Absolutely. The built-in generator allows full customization over length, character sets, and readable formatting on demand.",
   },
 ];
 
 export default function FAQ() {
   return (
-    <section id="faq" className="px-6 py-28">
+    <section id="faq" className="relative px-6 py-28">
       <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <div className="pg-tab mx-auto">Standing questions</div>
-          <h2 className="pg-serif mt-6 text-4xl md:text-5xl tracking-tight text-[var(--pg-ink)]">
-            Questions on file
-          </h2>
-        </motion.div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center max-w-2xl mx-auto">
+            <div className="pastel-badge mx-auto mb-4">
+              <HelpCircle className="size-3.5 text-indigo-600" />
+              Frequently Asked Questions
+            </div>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+              Everything you need to know,{" "}
+              <ShinyText text="answered plainly." className="font-extrabold" />
+            </h2>
+          </div>
+        </ScrollReveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="pg-stack mt-14"
-        >
-            <div className="bg-[var(--pg-paper)] border border-[var(--pg-paper-line)] px-8 pt-2 pb-2 md:px-10">
-            <Accordion type="single" collapsible className="w-full">
+        <ScrollReveal direction="up" delay={0.2}>
+          <div className="mt-14 soft-card p-6 md:p-8 bg-white border border-slate-200/80 shadow-soft-xl">
+            <Accordion type="single" collapsible className="w-full space-y-3">
               {faqItems.map((item, index) => (
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="pg-accordion-item"
+                  className="border border-slate-200/80 rounded-2xl px-5 transition-colors bg-slate-50/50 hover:bg-white data-[state=open]:bg-white data-[state=open]:border-indigo-300 shadow-xs"
                 >
-                  <AccordionTrigger className="!py-6 hover:!no-underline group">
-                    <span className="flex items-baseline gap-4 text-left">
-                      <span className="pg-mono text-xs text-[var(--pg-ink-faint)] pt-1">
-                        {String(index + 1).padStart(2, "0")}
+                  <AccordionTrigger className="!py-5 hover:!no-underline group">
+                    <span className="flex items-center gap-4 text-left">
+                      <span className="size-8 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-mono font-bold">
+                        0{index + 1}
                       </span>
-                      <span className="pg-serif text-xl text-[var(--pg-ink)] group-hover:text-[var(--pg-green)] transition-colors">
+                      <span className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
                         {item.question}
                       </span>
                     </span>
                   </AccordionTrigger>
 
-                  <AccordionContent className="!pb-6">
-                    <p className="pl-9 text-[0.95rem] leading-7 text-[var(--pg-ink-soft)] max-w-xl">
+                  <AccordionContent className="!pb-5 pt-1">
+                    <p className="pl-12 text-sm leading-relaxed text-slate-600 max-w-2xl">
                       {item.answer}
                     </p>
                   </AccordionContent>
@@ -82,7 +77,7 @@ export default function FAQ() {
               ))}
             </Accordion>
           </div>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );

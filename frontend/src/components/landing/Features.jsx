@@ -1,87 +1,101 @@
-import { motion } from "framer-motion";
-import {
-  AlertTriangle,
-  KeyRound,
-  Lightbulb,
-  ShieldCheck,
-} from "lucide-react";
+import { AlertTriangle, KeyRound, Lightbulb, ShieldCheck, Sparkles } from "lucide-react";
+import ShinyText from "@/components/animations/ShinyText";
+import ScrollReveal from "@/components/animations/ScrollReveal";
+import TiltCard from "@/components/animations/TiltCard";
 
 const entries = [
   {
     no: "01",
     icon: KeyRound,
-    title: "Password generator",
+    title: "Password Generator",
     desc: "Draft cryptographically strong, unique passwords on demand — tuned by length, symbols, and readability.",
+    badgeClass: "bg-indigo-50 border-indigo-100 text-indigo-600",
+    topAccent: "bg-indigo-500",
   },
   {
     no: "02",
     icon: ShieldCheck,
-    title: "Strength analyzer",
-    desc: "Every entry is scored against real attack patterns, not just a character-count rule of thumb.",
+    title: "Strength Analyzer",
+    desc: "Every entry is scored against real attack patterns and entropy benchmarks, not just a character-count rule.",
+    badgeClass: "bg-purple-50 border-purple-100 text-purple-600",
+    topAccent: "bg-purple-500",
   },
   {
     no: "03",
     icon: Lightbulb,
-    title: "Security guidance",
-    desc: "Plain-language notes on what to fix first, written for people, not compliance checklists.",
+    title: "Security Guidance",
+    desc: "Plain-language insights on what to fix first, tailored to keep your vault hardened without confusion.",
+    badgeClass: "bg-pink-50 border-pink-100 text-pink-600",
+    topAccent: "bg-pink-500",
   },
   {
     no: "04",
     icon: AlertTriangle,
-    title: "Breach awareness",
+    title: "Breach Awareness",
     desc: "Flags reused or exposed credentials before they become the weak link in your accounts.",
+    badgeClass: "bg-emerald-50 border-emerald-100 text-emerald-600",
+    topAccent: "bg-emerald-500",
   },
 ];
 
 export default function Features() {
   return (
     <section id="features" className="relative px-6 py-28">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-xl"
-        >
-          <div className="pg-tab">Register of contents</div>
-          <h2 className="pg-serif mt-6 text-4xl md:text-5xl tracking-tight text-[var(--pg-ink)]">
-            What's kept in the ledger
-          </h2>
-          <p className="mt-4 text-lg leading-8 text-[var(--pg-ink-soft)]">
-            Four instruments, each doing one job well, entered here in the
-            order you'll actually reach for them.
-          </p>
-        </motion.div>
+      <div className="max-w-6xl mx-auto">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center max-w-2xl mx-auto">
+            <div className="pastel-badge mx-auto mb-4">
+              <Sparkles className="size-3.5" />
+              Core Instruments
+            </div>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+              Four specialized tools,{" "}
+              <ShinyText text="seamlessly integrated." className="font-extrabold" />
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-slate-600">
+              Designed to generate, analyze, protect, and audit your credentials with maximum ease.
+            </p>
+          </div>
+        </ScrollReveal>
 
-        <div className="pg-stack mt-16 bg-[var(--pg-paper)] border border-[var(--pg-paper-line)] px-6 md:px-10">
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {entries.map((item, index) => {
             const Icon = item.icon;
             return (
-              <motion.div
+              <ScrollReveal
                 key={item.no}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                className={`group grid grid-cols-[3.5rem_2.75rem_1fr] md:grid-cols-[4.5rem_3rem_1fr_1.5fr] items-start gap-x-4 md:gap-x-8 gap-y-3 py-7 ${index !== entries.length - 1 ? "border-b border-[var(--pg-paper-line)]" : ""}`}
+                direction="up"
+                delay={0.1 + index * 0.1}
               >
-                <span className="pg-mono text-sm text-[var(--pg-ink-faint)] pt-1">
-                  {item.no}
-                </span>
+                <TiltCard className="p-7 h-full flex flex-col justify-between group relative bg-white">
+                  {/* Top accent line */}
+                  <div className={`absolute top-0 left-0 right-0 h-1 ${item.topAccent} opacity-80`} />
 
-                <span className="flex items-center justify-center size-11 rounded-full border border-[var(--pg-ink)] text-[var(--pg-green)] group-hover:bg-[var(--pg-green)] group-hover:text-[var(--pg-paper)] transition-colors">
-                  <Icon className="size-5" strokeWidth={1.75} />
-                </span>
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <span className={`size-12 rounded-2xl flex items-center justify-center border ${item.badgeClass}`}>
+                        <Icon className="size-6" />
+                      </span>
+                      <span className="text-xs font-mono font-bold text-slate-400">
+                        {item.no}
+                      </span>
+                    </div>
 
-                <h3 className="pg-serif text-xl md:text-2xl text-[var(--pg-ink)] pt-1">
-                  {item.title}
-                </h3>
+                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-3">
+                      {item.title}
+                    </h3>
 
-                <p className="col-span-3 md:col-span-1 pl-[calc(3.5rem+2.75rem)] md:pl-0 text-[0.95rem] leading-7 text-[var(--pg-ink-soft)] md:pt-1.5">
-                  {item.desc}
-                </p>
-              </motion.div>
+                    <p className="text-sm leading-relaxed text-slate-600">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  <div className="mt-8 pt-4 border-t border-slate-100 flex items-center text-xs font-bold text-indigo-600">
+                    <span>Explore Feature</span>
+                    <span className="ml-auto group-hover:translate-x-1.5 transition-transform">→</span>
+                  </div>
+                </TiltCard>
+              </ScrollReveal>
             );
           })}
         </div>
