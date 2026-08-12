@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Check, Copy, KeyRound, RefreshCw, Shield, Sparkles, Zap } from "lucide-react";
 import ShinyText from "@/components/animations/ShinyText";
 import DecryptedText from "@/components/animations/DecryptedText";
@@ -78,10 +79,10 @@ export default function Hero() {
           <ScrollReveal direction="up" delay={0.4}>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <MagneticButton>
-                <a href="/register" className="btn-soft-primary flex items-center gap-2 text-sm">
+                <Link to="/sign-up" className="btn-soft-primary flex items-center gap-2 text-sm">
                   Open Free Vault
                   <ArrowRight className="size-4" />
-                </a>
+                </Link>
               </MagneticButton>
               <MagneticButton>
                 <a href="#security" className="btn-soft-secondary text-sm flex items-center gap-2">

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, Lock, Sparkles } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import MagneticButton from "@/components/animations/MagneticButton";
@@ -28,14 +29,14 @@ export default function CTA() {
 
               <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <MagneticButton>
-                  <a
-                    href="/register"
+                  <Link
+                    to="/sign-up"
                     className="btn-soft-secondary flex items-center justify-center gap-2 text-sm font-bold shadow-lg hover:scale-105 transition-transform !text-indigo-950"
                   >
                     <Sparkles className="size-4 text-indigo-600" />
                     Create Free Vault
                     <ArrowRight className="size-4" />
-                  </a>
+                  </Link>
                 </MagneticButton>
               </div>
             </div>

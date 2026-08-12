@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { LogIn, ShieldCheck, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth, UserButton } from "@clerk/react";
+import { LogIn, ShieldCheck, Sparkles, LayoutDashboard } from "lucide-react";
 
 const navItems = [
   { label: "Features", href: "#features" },
@@ -9,6 +11,7 @@ const navItems = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -30,7 +33,7 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
-        <a href="#top" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-3 group">
           <div className="relative flex items-center justify-center size-10 rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
             <ShieldCheck className="size-5.5" />
           </div>
@@ -43,7 +46,7 @@ export default function Navbar() {
               Zero-Knowledge Vault
             </span>
           </div>
-        </a>
+        </Link>
 
         {/* Navigation links */}
         <nav className="hidden md:flex items-center gap-8 bg-white/70 backdrop-blur-md px-6 py-2 rounded-full border border-slate-200/80 shadow-xs">
@@ -60,20 +63,42 @@ export default function Navbar() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
-          <a
-            href="/login"
-            className="hidden sm:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 hover:text-indigo-600 transition-colors px-3 py-2"
-          >
-            <LogIn className="size-4 text-indigo-500" />
-            Sign in
-          </a>
-          <a
-            href="/register"
-            className="btn-soft-primary text-xs tracking-wider flex items-center gap-2"
-          >
-            <Sparkles className="size-3.5" />
-            Open Vault
-          </a>
+          {isSignedIn ? (
+            <>
+              <Link
+                to="/dashboard"
+                className="btn-soft-primary text-xs tracking-wider flex items-center gap-2"
+              >
+                <LayoutDashboard className="size-3.5" />
+                Go to Dashboard
+              </Link>
+              <UserButton
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: "size-9 border-2 border-indigo-500/20 hover:scale-105 transition-transform",
+                  },
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <Link
+                to="/sign-in"
+                className="hidden sm:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 hover:text-indigo-600 transition-colors px-3 py-2"
+              >
+                <LogIn className="size-4 text-indigo-500" />
+                Sign in
+              </Link>
+              <Link
+                to="/sign-up"
+                className="btn-soft-primary text-xs tracking-wider flex items-center gap-2"
+              >
+                <Sparkles className="size-3.5" />
+                Open Vault
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
