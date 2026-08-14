@@ -6,6 +6,7 @@ import { LogIn, ShieldCheck, Sparkles, LayoutDashboard } from "lucide-react";
 const navItems = [
   { label: "Features", href: "#features" },
   { label: "Security", href: "#security" },
+  { label: "Sandbox", href: "#interactive-demo" },
   { label: "FAQ", href: "#faq" },
 ];
 

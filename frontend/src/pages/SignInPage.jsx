@@ -1,42 +1,6 @@
-import { SignIn, useAuth } from "@clerk/react";
-import { Link } from "react-router-dom";
-import { ShieldCheck, KeyRound, AlertTriangle } from "lucide-react";
+import { SignIn } from "@clerk/react";
 
 export default function SignInPage() {
-  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-  const isMissingKey =
-    !PUBLISHABLE_KEY || PUBLISHABLE_KEY.includes("YOUR_CLERK_PUBLISHABLE_KEY");
-
-  if (isMissingKey) {
-    return (
-      <div className="w-full max-w-md bg-white p-8 rounded-3xl border border-amber-200 shadow-xl text-slate-900 space-y-6">
-        <div className="size-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
-          <AlertTriangle className="size-6" />
-        </div>
-        <div>
-          <h2 className="text-xl font-bold text-slate-900">Clerk Auth Setup Needed</h2>
-          <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-            Please add your Clerk Publishable Key in <code className="bg-slate-100 px-1.5 py-0.5 rounded text-amber-700 font-mono text-[0.75rem]">frontend/.env</code>:
-          </p>
-          <div className="mt-3 p-3 bg-slate-900 text-slate-200 rounded-xl text-xs font-mono overflow-x-auto">
-            VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
-          </div>
-        </div>
-        <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-          <span className="text-slate-500">Need a key?</span>
-          <a
-            href="https://dashboard.clerk.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-indigo-600 font-semibold hover:underline"
-          >
-            Open Clerk Dashboard &rarr;
-          </a>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full max-w-md flex flex-col items-center">
       <SignIn

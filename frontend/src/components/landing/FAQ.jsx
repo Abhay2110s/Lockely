@@ -1,4 +1,4 @@
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, Sparkles } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -7,76 +7,82 @@ import {
 } from "@/components/ui/accordion";
 import ShinyText from "@/components/animations/ShinyText";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import SpotlightCard from "@/components/animations/SpotlightCard";
 
 const faqItems = [
   {
-    question: "Do you store my master password?",
+    question: "Do you store or have access to my master password?",
     answer:
-      "No. PassGuardian operates under a strict Zero-Knowledge protocol. Your master password never leaves your browser unencrypted.",
+      "Never. PassGuardian uses strict Zero-Knowledge Architecture. Your master key is used locally in your browser to derive your AES-256 vault key. It never touches our servers or network logs."
   },
   {
-    question: "How is password strength calculated?",
+    question: "What happens if PassGuardian servers are compromised?",
     answer:
-      "We calculate entropy across length, character variety, dictionary frequency, and pattern predictability against real-world attack vectors.",
+      "Your vault data is stored exclusively as AES-256-GCM encrypted ciphertext with PBKDF2/Argon2id key stretching. Even in a catastrophic server data leak, your payload is unreadable without your local master password."
   },
   {
-    question: "Is my data secure against server breaches?",
+    question: "How does the Breach Sentinel check my credentials safely?",
     answer:
-      "Yes. All vault items are encrypted client-side using AES-256-GCM before transmission. Even if our database were leaked, your data remains unreadable.",
+      "We implement k-Anonymity hash checking. We only send the first 5 characters of your SHA-1 password hash to verify against leaked databases. Your full password or hash is never transmitted."
   },
   {
-    question: "Can I generate custom passwords?",
+    question: "Can I export my vault credentials at any time?",
     answer:
-      "Absolutely. The built-in generator allows full customization over length, character sets, and readable formatting on demand.",
+      "Yes. You retain 100% data portability. You can export your vault into encrypted JSON or CSV format whenever you choose."
   },
+  {
+    question: "Is PassGuardian free for personal credentials?",
+    answer:
+      "Yes! PassGuardian is completely free for individual users to store, generate, and autofill unlimited credentials across devices."
+  }
 ];
 
 export default function FAQ() {
   return (
-    <section id="faq" className="relative px-6 py-28">
-      <div className="max-w-4xl mx-auto">
+    <section id="faq" className="relative px-6 py-28 bg-white">
+      <div className="max-w-4xl mx-auto space-y-12">
         <ScrollReveal direction="up" delay={0.1}>
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="pastel-badge mx-auto mb-4">
+          <div className="text-center max-w-2xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/60 text-xs font-semibold text-indigo-700">
               <HelpCircle className="size-3.5 text-indigo-600" />
-              Frequently Asked Questions
+              Got Questions?
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
-              Everything you need to know,{" "}
-              <ShinyText text="answered plainly." className="font-extrabold" />
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+              Frequently asked questions,{" "}
+              <ShinyText text="answered clearly." className="font-extrabold" />
             </h2>
           </div>
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.2}>
-          <div className="mt-14 soft-card p-6 md:p-8 bg-white border border-slate-200/80 shadow-soft-xl">
-            <Accordion type="single" collapsible className="w-full space-y-3">
+          <SpotlightCard className="p-6 sm:p-10 bg-slate-50/60 border border-slate-200 shadow-lg rounded-3xl">
+            <Accordion type="single" collapsible className="w-full space-y-4">
               {faqItems.map((item, index) => (
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="border border-slate-200/80 rounded-2xl px-5 transition-colors bg-slate-50/50 hover:bg-white data-[state=open]:bg-white data-[state=open]:border-indigo-300 shadow-xs"
+                  className="border border-slate-200/80 rounded-2xl px-6 transition-all bg-white data-[state=open]:border-indigo-300 data-[state=open]:shadow-md shadow-xs"
                 >
-                  <AccordionTrigger className="!py-5 hover:!no-underline group">
+                  <AccordionTrigger className="py-5 hover:no-underline group">
                     <span className="flex items-center gap-4 text-left">
-                      <span className="size-8 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-mono font-bold">
+                      <span className="size-8 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-mono font-bold shrink-0">
                         0{index + 1}
                       </span>
-                      <span className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                      <span className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
                         {item.question}
                       </span>
                     </span>
                   </AccordionTrigger>
 
-                  <AccordionContent className="!pb-5 pt-1">
-                    <p className="pl-12 text-sm leading-relaxed text-slate-600 max-w-2xl">
+                  <AccordionContent className="pb-5 pt-1">
+                    <p className="pl-12 text-sm sm:text-base leading-relaxed text-slate-600 max-w-2xl">
                       {item.answer}
                     </p>
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
-          </div>
+          </SpotlightCard>
         </ScrollReveal>
       </div>
     </section>

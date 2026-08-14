@@ -6,9 +6,11 @@ import ScrollToTop from "@/components/animations/ScrollToTop";
 
 export default function LandingLayout() {
   return (
-    <div className="relative min-h-screen bg-[#faf8f5] text-slate-900 overflow-hidden">
+    <div className="relative min-h-screen bg-[#f8fafc] text-slate-900 overflow-hidden font-sans">
+      {/* Soft Warm Aurora Ambient Layer */}
       <AnimatedBackground />
       <ScrollToTop />
+
       <div className="relative z-10">
         <Navbar />
         <main>

@@ -14,25 +14,25 @@ export default function AnimatedBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Dynamic Cursor Light Spotlight */}
+      {/* Dynamic Soft Cursor Light Spotlight */}
       <div
-        className="absolute size-[650px] rounded-full opacity-35 transition-transform duration-300 ease-out"
+        className="absolute size-[700px] rounded-full opacity-40 transition-transform duration-300 ease-out"
         style={{
-          left: `${mousePos.x - 325}px`,
-          top: `${mousePos.y - 325}px`,
-          background: "radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, rgba(99, 102, 241, 0) 70%)",
+          left: `${mousePos.x - 350}px`,
+          top: `${mousePos.y - 350}px`,
+          background: "radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.05) 45%, transparent 70%)",
         }}
       />
 
       {/* SVG Animated Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-grid-light opacity-50" />
-      <div className="absolute inset-0 bg-hex-grid opacity-30" />
+      <div className="absolute inset-0 bg-grid-light opacity-60" />
+      <div className="absolute inset-0 bg-hex-grid opacity-35" />
 
-      {/* Background Graphic 1: Rotating SVG Outer Cipher Wheel (Top Right) */}
+      {/* Rotating SVG Cipher Wheel (Top Right) */}
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[-50px] right-[-120px] size-[540px] opacity-25 text-indigo-500"
+        transition={{ duration: 95, repeat: Infinity, ease: "linear" }}
+        className="absolute top-[-60px] right-[-140px] size-[580px] opacity-20 text-indigo-500"
       >
         <svg viewBox="0 0 200 200" className="w-full h-full">
           <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="4 6" />
@@ -47,11 +47,11 @@ export default function AnimatedBackground() {
         </svg>
       </motion.div>
 
-      {/* Background Graphic 2: Counter-Rotating Inner Cipher Ring (Top Right) */}
+      {/* Counter-Rotating Inner Cipher Ring (Top Right) */}
       <motion.div
         animate={{ rotate: -360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[20px] right-[-50px] size-[400px] opacity-20 text-purple-600"
+        transition={{ duration: 65, repeat: Infinity, ease: "linear" }}
+        className="absolute top-[30px] right-[-40px] size-[420px] opacity-15 text-purple-600"
       >
         <svg viewBox="0 0 200 200" className="w-full h-full">
           <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="6 6" />
@@ -60,75 +60,57 @@ export default function AnimatedBackground() {
         </svg>
       </motion.div>
 
-      {/* Background Graphic 3: Geometric Concentric Circles & Radar Pulse (Middle Left) */}
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 110, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[40%] left-[-180px] size-[560px] opacity-20 text-purple-500"
-      >
-        <svg viewBox="0 0 200 200" className="w-full h-full">
-          <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" strokeWidth="0.5" />
-          <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="8 8" />
-          <circle cx="100" cy="100" r="65" fill="none" stroke="currentColor" strokeWidth="0.75" />
-          <rect x="50" y="50" width="100" height="100" fill="none" stroke="currentColor" strokeWidth="0.5" transform="rotate(45 100 100)" />
-        </svg>
-      </motion.div>
-
-      {/* Background Graphic 4: Floating Binary Data Streams (Left & Right) */}
-      <div className="absolute top-[28%] left-[4%] font-mono text-[0.65rem] tracking-widest text-indigo-400/25 opacity-70 select-none space-y-1 hidden xl:block">
+      {/* Floating Binary Streams (Left & Right) */}
+      <div className="absolute top-[28%] left-[4%] font-mono text-[0.65rem] tracking-widest text-indigo-500/25 opacity-70 select-none space-y-1 hidden xl:block">
         <div>01010011 01000101 01000011 01010101</div>
         <div>01010010 01001001 01010100 01011001</div>
         <div>11001010 00110101 10101100 01100101</div>
       </div>
 
-      <div className="absolute bottom-[30%] right-[3%] font-mono text-[0.65rem] tracking-widest text-purple-400/25 opacity-70 select-none space-y-1 hidden xl:block">
+      <div className="absolute bottom-[30%] right-[3%] font-mono text-[0.65rem] tracking-widest text-purple-500/25 opacity-70 select-none space-y-1 hidden xl:block">
         <div>01000001 01000101 01010011 00101101</div>
         <div>00110010 00110101 00110110 00101101</div>
         <div>01000111 01000011 01001101 01011111</div>
       </div>
 
-      {/* Background Graphic 5: Shield Watermark Outline (Bottom Right) */}
-      <motion.div
-        animate={{ y: [0, -15, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-[-40px] right-[4%] size-[380px] opacity-15 text-emerald-600"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5" className="w-full h-full">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          <path d="M12 8v4" strokeWidth="1" />
-          <path d="M12 16h.01" strokeWidth="2" />
-        </svg>
-      </motion.div>
-
-      {/* Ambient Floating Pastel Orbs */}
+      {/* Ambient Floating Warm Aurora Glow Orbs */}
       <motion.div
         animate={{
-          x: [0, 40, -30, 0],
-          y: [0, -50, 30, 0],
+          x: [0, 50, -35, 0],
+          y: [0, -60, 40, 0],
         }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[-100px] left-[-100px] size-[480px] rounded-full bg-indigo-200/50 blur-[95px]"
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-120px] left-[-120px] size-[520px] rounded-full bg-indigo-300/40 blur-[110px]"
       />
 
       <motion.div
         animate={{
-          x: [0, -50, 40, 0],
-          y: [0, 40, -50, 0],
+          x: [0, -60, 45, 0],
+          y: [0, 45, -60, 0],
+        }}
+        transition={{ duration: 19, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[25%] right-[-120px] size-[560px] rounded-full bg-purple-300/35 blur-[120px]"
+      />
+
+      <motion.div
+        animate={{
+          x: [0, 40, -45, 0],
+          y: [0, -35, 45, 0],
+        }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[60%] left-[-120px] size-[520px] rounded-full bg-pink-300/35 blur-[110px]"
+      />
+
+      <motion.div
+        animate={{
+          x: [0, -30, 30, 0],
+          y: [0, 30, -30, 0],
         }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[30%] right-[-100px] size-[520px] rounded-full bg-purple-200/40 blur-[105px]"
+        className="absolute bottom-[-100px] right-[10%] size-[480px] rounded-full bg-teal-200/40 blur-[100px]"
       />
 
-      <motion.div
-        animate={{
-          x: [0, 30, -40, 0],
-          y: [0, -30, 40, 0],
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[65%] left-[-100px] size-[480px] rounded-full bg-pink-200/45 blur-[95px]"
-      />
-
-      {/* Floating Geometric Particle Specs */}
+      {/* Floating Micro Particles */}
       <div className="absolute inset-0">
         {[...Array(16)].map((_, i) => (
           <motion.div

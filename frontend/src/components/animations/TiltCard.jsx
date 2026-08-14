@@ -1,10 +1,12 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 export default function TiltCard({
   children,
   className = "",
   maxTilt = 12,
+  shineColor = ["#A07CFE", "#FE8FB5", "#FFBE7B"],
 }) {
   const cardRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50 });
@@ -39,30 +41,33 @@ export default function TiltCard({
   };
 
   return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      animate={{
-        rotateX: isHovered ? tilt.x : 0,
-        rotateY: isHovered ? tilt.y : 0,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      style={{ transformStyle: "preserve-3d", perspective: 1000 }}
-      className={`relative overflow-hidden soft-card ${className}`}
-    >
-      {/* Specular Glass Glare Overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-10"
-        style={{
-          opacity: isHovered ? 0.35 : 0,
-          background: `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, rgba(255, 255, 255, 0.8) 0%, transparent 60%)`,
+    <div className="relative rounded-[1.6rem] overflow-visible shadow-lg bg-white h-full p-[3px]">
+      <ShineBorder shineColor={shineColor} />
+      <motion.div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={handleMouseLeave}
+        animate={{
+          rotateX: isHovered ? tilt.x : 0,
+          rotateY: isHovered ? tilt.y : 0,
         }}
-      />
-      <div className="relative z-20" style={{ transform: "translateZ(10px)" }}>
-        {children}
-      </div>
-    </motion.div>
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        style={{ transformStyle: "preserve-3d", perspective: 1000 }}
+        className={`relative overflow-hidden rounded-[1.4rem] bg-white h-full ${className}`}
+      >
+        {/* Specular Glass Glare Overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-10"
+          style={{
+            opacity: isHovered ? 0.35 : 0,
+            background: `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, rgba(255, 255, 255, 0.8) 0%, transparent 60%)`,
+          }}
+        />
+        <div className="relative z-20" style={{ transform: "translateZ(10px)" }}>
+          {children}
+        </div>
+      </motion.div>
+    </div>
   );
 }
