@@ -9,10 +9,8 @@ dotenv.config({ path: path.resolve(".env") });
 // if any are missing so misconfiguration is caught early.
 const required = [
   "MONGODB_URI",
-  "JWT_SECRET",
   "ENCRYPTION_KEY",
-  "EMAIL_USER",
-  "EMAIL_PASS",
+  "CLERK_SECRET_KEY",
 ];
 
 const missing = required.filter((key) => !process.env[key]);
@@ -40,14 +38,9 @@ const env = {
   NODE_ENV: process.env.NODE_ENV || "production",
   CLIENT_URL: process.env.CLIENT_URL,
   MONGODB_URI: process.env.MONGODB_URI,
-  JWT_SECRET: process.env.JWT_SECRET,
-  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "7d",
   ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
-  EMAIL_USER: process.env.EMAIL_USER,
-  EMAIL_PASS: process.env.EMAIL_PASS,
-  OTP_EXPIRE_MINUTES: Number(process.env.OTP_EXPIRE_MINUTES) || 10,
-  RESET_TOKEN_EXPIRE_MINUTES:
-    Number(process.env.RESET_TOKEN_EXPIRE_MINUTES) || 30,
+  // Clerk verifies session tokens sent as `Authorization: Bearer <token>`.
+  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   PASSWORD_EXPIRY_DAYS: Number(process.env.PASSWORD_EXPIRY_DAYS) || 90,
 };
 

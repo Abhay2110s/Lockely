@@ -8,6 +8,11 @@ import { checkPasswordStrength } from "../utils/passwordChecker.js";
 import { toCSV, fromCSV } from "../utils/csv.js";
 import { WEAK_STRENGTH_LEVELS, STRONG_STRENGTH_LEVELS } from "../constants/index.js";
 
+// Escapes regex metacharacters in user-supplied search text so it's safe
+// to embed in `new RegExp(...)` — otherwise input like "(" throws a
+// SyntaxError (500), and unescaped patterns are a ReDoS risk.
+const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 // Columns used for CSV export (excluding url which is handled separately).
 const EXPORT_COLUMNS = [
   "title",
@@ -142,7 +147,7 @@ const buildFilterQuery = (userId, { search, category, favorite, weak, expired, i
   }
 
   if (category) {
-    query.category = new RegExp(`^${category}$`, "i");
+    query.category = new RegExp(`^${escapeRegExp(category)}$`, "i");
   }
 
   if (favorite === "true" || favorite === true) {
@@ -154,7 +159,7 @@ const buildFilterQuery = (userId, { search, category, favorite, weak, expired, i
   }
 
   if (search) {
-    const regex = new RegExp(search.trim(), "i");
+    const regex = new RegExp(escapeRegExp(search.trim()), "i");
     query.$or = [{ website: regex }, { username: regex }, { title: regex }, { category: regex }];
   }
 

@@ -1,57 +1,37 @@
-// Mongoose schema and model for application users.
-// Stores credentials, verification status, and password-reset tokens.
+// Mongoose schema and model for local user profiles.
+// Auth/credentials are owned entirely by Clerk — this collection just
+// mirrors a small amount of profile data (keyed by Clerk's user id) so
+// the rest of the app has something local to query/extend later without
+// re-fetching from Clerk on every request.
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
+    // Clerk's stable user id (the JWT `sub` claim).
+    clerkId: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+
     name: {
       type: String,
-      required: [true, "Name is required"],
       trim: true,
-      minlength: 3,
-      maxlength: 50,
+      default: "",
     },
 
     email: {
       type: String,
-      required: [true, "Email is required"],
-      unique: true,
-      lowercase: true,
       trim: true,
-    },
-
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-    },
-
-    // Whether the user has completed email verification.
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-
-    // SHA-256 hash of a one-time reset token; never stored in plaintext.
-    resetPasswordTokenHash: {
-      type: String,
-      default: null,
-      select: false,
-    },
-
-    // Expiry timestamp for the reset token.
-    resetPasswordExpires: {
-      type: Date,
-      default: null,
-      select: false,
+      lowercase: true,
+      default: "",
     },
   },
   {
     timestamps: true,
   }
 );
-
-// Speeds up the reset-password lookup (email + token hash + expiry check).
-userSchema.index({ email: 1, resetPasswordTokenHash: 1 });
 
 const User = mongoose.model("User", userSchema);
 

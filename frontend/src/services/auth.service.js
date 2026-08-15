@@ -24,14 +24,6 @@ export const getSession = async () => {
 };
 
 /**
- * Revoke all sessions / force logout on backend side.
- */
-export const revokeAllSessions = async () => {
-  const { data } = await api.post("/auth/revoke-sessions");
-  return data;
-};
-
-/**
  * Check if a password has been compromised via k-anonymity API.
  * @param {string} password - The raw password to check
  * @returns {{ compromised: boolean, count: number }}

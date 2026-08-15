@@ -9,4 +9,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Fixed navbar is ~64-80px tall depending on scroll state — this keeps
+     anchor-link targets (#features, #security, #faq, ...) from landing
+     with their heading cropped underneath it. */
+  scroll-padding-top: 96px;
 }

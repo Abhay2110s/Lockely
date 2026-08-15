@@ -1,31 +1,37 @@
-// Authentication middleware — verifies the JWT sent either as an
-// httpOnly cookie ("token") or as a Bearer token in the Authorization
-// header, and attaches the decoded payload to req.user.
-import jwt from "jsonwebtoken";
+// Authentication middleware — verifies the Clerk session token sent as
+// `Authorization: Bearer <token>` from the frontend (Clerk's getToken()).
+// On success, attaches { id, sessionId, claims } to req.user, where `id`
+// is Clerk's stable user id (the JWT `sub` claim) — used everywhere in
+// the app as the owning-user key for vault entries.
+import { verifyToken } from "@clerk/backend";
 import env from "../config/env.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-const verifyToken = asyncHandler(async (req, res, next) => {
-  // Extract token from the Authorization header if it starts with "Bearer ".
+const verifyAuth = asyncHandler(async (req, res, next) => {
   const bearer = req.headers.authorization?.startsWith("Bearer ")
     ? req.headers.authorization.split(" ")[1]
     : null;
 
-  // Prefer the httpOnly cookie; fall back to the Bearer token.
-  const token = req.cookies?.token || bearer;
-
-  if (!token) {
-    throw ApiError.unauthorized("Unauthorized. Please login.");
+  if (!bearer) {
+    throw ApiError.unauthorized("Unauthorized. Please sign in.");
   }
 
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET);
-    req.user = decoded;
+    const claims = await verifyToken(bearer, {
+      secretKey: env.CLERK_SECRET_KEY,
+    });
+
+    req.user = {
+      id: claims.sub,
+      sessionId: claims.sid,
+      claims,
+    };
+
     next();
   } catch (error) {
-    throw ApiError.unauthorized("Invalid or expired token.");
+    throw ApiError.unauthorized("Invalid or expired session.");
   }
 });
 
-export default verifyToken;
+export default verifyAuth;

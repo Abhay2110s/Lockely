@@ -10,11 +10,6 @@ export const DEFAULT_CATEGORIES = [
   "General",
 ];
 
-export const OTP_TYPES = {
-  EMAIL_VERIFICATION: "EMAIL_VERIFICATION",
-  FORGOT_PASSWORD: "FORGOT_PASSWORD",
-};
-
 export const SORT_OPTIONS = {
   LATEST: "latest",
   OLDEST: "oldest",

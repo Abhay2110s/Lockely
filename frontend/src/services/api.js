@@ -14,7 +14,18 @@ export const api = axios.create({
  * Setup authorization header using Clerk JWT token
  * @param {Function} getToken - Clerk's getToken function from useAuth()
  */
+let authInterceptorAttached = false;
+
+/**
+ * Setup authorization header using Clerk JWT token.
+ * Safe to call more than once (e.g. React StrictMode double-invoking
+ * effects in dev) — only attaches the interceptor once.
+ * @param {Function} getToken - Clerk's getToken function from useAuth()
+ */
 export const setupApiAuth = (getToken) => {
+  if (authInterceptorAttached) return;
+  authInterceptorAttached = true;
+
   api.interceptors.request.use(
     async (config) => {
       try {

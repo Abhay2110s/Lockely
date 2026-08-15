@@ -15,24 +15,18 @@ const options = {
     servers: [{ url: "/", description: "Current server" }],
     components: {
       securitySchemes: {
-        // JWT Bearer token passed in the Authorization header.
+        // Clerk session token passed in the Authorization header.
         bearerAuth: {
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
         },
-        // httpOnly cookie named "token" set after login.
-        cookieAuth: {
-          type: "apiKey",
-          in: "cookie",
-          name: "token",
-        },
       },
     },
-    // Default security requirements applied to all endpoints unless overridden.
-    security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+    // Default security requirement applied to all endpoints unless overridden.
+    security: [{ bearerAuth: [] }],
     tags: [
-      { name: "Auth", description: "Registration, login, verification, password reset" },
+      { name: "Auth", description: "Local profile sync/session (Clerk owns sign-up/sign-in)" },
       { name: "Password", description: "Password strength check & generation utilities" },
       { name: "Vault", description: "Encrypted password vault CRUD and analytics" },
     ],
