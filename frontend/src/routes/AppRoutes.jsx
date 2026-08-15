@@ -13,12 +13,18 @@ import PublicRoute from "./PublicRoute";
 import Landing from "@/pages/Landing";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+import VerifyOTP from "@/pages/VerifyOTP";
 import Dashboard from "@/pages/Dashboard";
 import Vault from "@/pages/Vault";
 import PasswordGenerator from "@/pages/PasswordGenerator";
 import Profile from "@/pages/Profile";
 import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
+import Unauthorized from "@/pages/Unauthorized";
 
 export default function AppRoutes() {
   return (
@@ -38,8 +44,11 @@ export default function AppRoutes() {
       >
         <Route path="/sign-in/*" element={<SignInPage />} />
         <Route path="/sign-up/*" element={<SignUpPage />} />
-        <Route path="/login" element={<SignInPage />} />
-        <Route path="/register" element={<SignUpPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
       </Route>
 
       {/* Protected Dashboard & Vault Application Pages */}
@@ -57,7 +66,8 @@ export default function AppRoutes() {
         <Route path="/settings" element={<Settings />} />
       </Route>
 
-      {/* 404 Fallback Route */}
+      {/* Error Pages */}
+      <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
