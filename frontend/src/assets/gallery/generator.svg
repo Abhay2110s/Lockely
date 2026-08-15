@@ -1,0 +1,28 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3b0764"/>
+      <stop offset="55%" stop-color="#7e22ce"/>
+      <stop offset="100%" stop-color="#1a0533"/>
+    </linearGradient>
+    <radialGradient id="glow2" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#e9d5ff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#e9d5ff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots2" width="34" height="34" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.4" fill="#ffffff" opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg2)"/>
+  <rect width="900" height="1200" fill="url(#dots2)"/>
+  <rect width="900" height="1200" fill="url(#glow2)"/>
+  <g transform="translate(450 520)" stroke="#faf5ff" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="-40" cy="0" r="60"/>
+    <circle cx="-40" cy="0" r="16" fill="#faf5ff" stroke="none"/>
+    <path d="M 20 0 h 130"/>
+    <path d="M 105 0 v 45"/>
+    <path d="M 150 0 v 30"/>
+  </g>
+  <circle cx="450" cy="500" r="260" fill="none" stroke="#e9d5ff" stroke-opacity="0.25" stroke-width="2" stroke-dasharray="3 10"/>
+  <circle cx="450" cy="500" r="320" fill="none" stroke="#e9d5ff" stroke-opacity="0.15" stroke-width="1.5" stroke-dasharray="1 8"/>
+</svg>

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 export function ShineBorder({
   borderWidth = 3,
   duration = 6,
-  shineColor = ["#A07CFE", "#FE8FB5", "#FFBE7B"],
+  shineColor = ["#FF0055", "#FF5000", "#FFCC00", "#00E676", "#00B0FF", "#7C4DFF", "#FF0055"],
   className = "",
 }) {
   const colors = Array.isArray(shineColor)
@@ -26,7 +26,8 @@ export function ShineBorder({
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
           padding: `${borderWidth}px`,
-          animationDuration: `${duration}s`,
+          // CSS custom property -- overrides the duration in the .animate-shine-spin animation shorthand
+          "--shine-duration": `${duration}s`,
         }}
       />
     </div>

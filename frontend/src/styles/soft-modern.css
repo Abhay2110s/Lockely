@@ -37,11 +37,13 @@ body {
 }
 
 .animate-shine-border {
-  animation: shine-spin var(--duration, 7s) linear infinite;
+  /* Use --shine-duration so inline style on the element can control speed */
+  animation: shine-spin var(--shine-duration, 7s) linear infinite;
 }
 
 .animate-shine-spin {
-  animation: shine-spin var(--duration, 6s) linear infinite;
+  /* Use --shine-duration so inline style on the element can control speed */
+  animation: shine-spin var(--shine-duration, 6s) linear infinite;
 }
 
 /* ---- Rainbow Card Ring & Gradient Border Keyframes ----------------------- */

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import LightRays from "@/components/animations/LightRays";
 
 export default function AnimatedBackground() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -27,6 +28,21 @@ export default function AnimatedBackground() {
       {/* SVG Animated Grid Pattern Overlay */}
       <div className="absolute inset-0 bg-grid-light opacity-60" />
       <div className="absolute inset-0 bg-hex-grid opacity-35" />
+
+      {/* Subtle Light Rays sweeping down from the top of the page */}
+      <LightRays
+        raysOrigin="top-center"
+        raysColor="#818cf8"
+        raysSpeed={0.6}
+        lightSpread={1.15}
+        rayLength={1.5}
+        fadeDistance={0.85}
+        followMouse
+        mouseInfluence={0.08}
+        opacity={0.1}
+        raysCount={9}
+        className="mix-blend-multiply"
+      />
 
       {/* Rotating SVG Cipher Wheel (Top Right) */}
       <motion.div
