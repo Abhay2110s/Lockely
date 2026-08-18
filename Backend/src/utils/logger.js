@@ -1,11 +1,20 @@
 // Winston logger — structured logging with file and console transports.
 // HTTP access logs are piped through morgan into winston's stream.
+import fs from "fs";
 import path from "path";
 import winston from "winston";
 
 const { combine, timestamp, printf, colorize, errors, json } = winston.format;
 
-const logDir = path.resolve("logs");
+// Serverless platforms (Vercel, AWS Lambda, etc.) ship a read-only
+// filesystem — the only writable path is /tmp, and even that doesn't
+// persist across invocations, so file logging there is pointless and
+// unsafe. Detect that environment and skip file transports entirely;
+// rely on console/stdout logging instead, which Vercel already captures
+// and shows in the function logs.
+const isServerless = Boolean(
+  process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+);
 
 // Pretty console format used outside production.
 const consoleFormat = combine(
@@ -17,21 +26,48 @@ const consoleFormat = combine(
   })
 );
 
+const fileTransports = [];
+
+if (!isServerless) {
+  const logDir = path.resolve("logs");
+
+  // Only attempt file logging locally, and only after making sure the
+  // directory actually exists — winston's File transport does not
+  // create parent directories for you.
+  try {
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+
+    fileTransports.push(
+      // Persistent error log for post-mortem analysis.
+      new winston.transports.File({
+        filename: path.join(logDir, "error.log"),
+        level: "error",
+      }),
+      // Combined log capturing all levels.
+      new winston.transports.File({
+        filename: path.join(logDir, "combined.log"),
+      })
+    );
+  } catch {
+    // If we can't create the logs directory for any reason, fall back
+    // to console-only logging rather than crashing the process.
+  }
+}
+
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || "info",
   format: combine(timestamp(), errors({ stack: true }), json()),
-  transports: [
-    // Persistent error log for post-mortem analysis.
-    new winston.transports.File({
-      filename: path.join(logDir, "error.log"),
-      level: "error",
-    }),
-    // Combined log capturing all levels.
-    new winston.transports.File({
-      filename: path.join(logDir, "combined.log"),
-    }),
-  ],
+  transports: fileTransports,
   exitOnError: false,
+});
+
+// Guard against any transport-level stream errors (e.g. disk issues)
+// crashing the whole process — log to stderr instead of throwing.
+logger.on("error", (error) => {
+  // eslint-disable-next-line no-console
+  console.error("Logger transport error:", error);
 });
 
 // Pretty console output outside production; JSON in production.
