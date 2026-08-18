@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { UserButton, useUser } from "@clerk/react";
+import { useAppAuth } from "@/context/AuthContext";
 import {
   ShieldCheck,
   LayoutDashboard,
@@ -13,6 +13,7 @@ import {
   Lock,
   Search,
   CheckCircle2,
+  LogOut,
 } from "lucide-react";
 
 const navItems = [
@@ -25,7 +26,7 @@ const navItems = [
 
 export default function DashboardLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user } = useUser();
+  const { displayName, initials, logout } = useAppAuth();
   const location = useLocation();
 
   return (
@@ -73,11 +74,11 @@ export default function DashboardLayout() {
           {/* User Quick Info */}
           <div className="p-4 mx-3 my-4 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center gap-3">
             <div className="size-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
-              {user?.firstName ? user.firstName[0].toUpperCase() : "U"}
+              {initials}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-slate-800 truncate">
-                {user?.fullName || user?.primaryEmailAddress?.emailAddress || "Guardian User"}
+                {displayName}
               </p>
               <p className="text-[0.65rem] text-indigo-600 font-medium flex items-center gap-1">
                 <CheckCircle2 className="size-3" /> Encrypted Session
@@ -146,22 +147,36 @@ export default function DashboardLayout() {
             </div>
           </div>
 
-          {/* Right Header Actions & Clerk UserButton */}
+          {/* Right Header Actions */}
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[0.7rem] font-semibold">
               <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Vault Locked & Syncing
+              Vault Locked &amp; Syncing
             </div>
 
-            {/* Clerk User Profile & Sign Out Dropdown */}
-            <UserButton
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: "size-9 border-2 border-indigo-500/20 shadow-xs hover:scale-105 transition-transform",
-                },
-              }}
-            />
+            {/* User Avatar + Sign Out */}
+            <div className="relative group">
+              <button className="size-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm border-2 border-indigo-500/20 shadow-xs hover:scale-105 transition-transform">
+                {initials}
+              </button>
+              {/* Dropdown */}
+              <div className="absolute right-0 top-11 w-44 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                >
+                  <User className="size-3.5 text-slate-400" />
+                  Profile
+                </Link>
+                <button
+                  onClick={logout}
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                >
+                  <LogOut className="size-3.5" />
+                  Sign Out
+                </button>
+              </div>
+            </div>
           </div>
         </header>
 

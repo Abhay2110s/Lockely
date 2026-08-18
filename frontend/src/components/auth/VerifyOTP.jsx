@@ -1,15 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import { useSignUp } from "@clerk/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, ShieldCheck, Loader2, CheckCircle2, RefreshCw } from "lucide-react";
+import * as authService from "@/services/auth.service";
+import { useAppAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast";
 
 /**
  * VerifyOTP Component — email verification code input (6 boxes).
- * Used after registration to verify email address via Clerk.
+ * Used after registration to verify email address via the backend OTP service.
  */
-export default function VerifyOTP({ email, onSuccess }) {
-  const { signUp, isLoaded } = useSignUp();
+export default function VerifyOTP({ email: emailProp, onSuccess }) {
+  const { saveSession } = useAppAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Allow email to be passed as a prop or via router state (from login redirect)
+  const email = emailProp || location.state?.email || "";
+
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
@@ -52,34 +59,35 @@ export default function VerifyOTP({ email, onSuccess }) {
       setError("Please enter all 6 digits.");
       return;
     }
-    if (!isLoaded) return;
     setError("");
     setLoading(true);
 
     try {
-      const result = await signUp.attemptEmailAddressVerification({ code });
-      if (result.status === "complete") {
-        onSuccess?.(result);
+      const res = await authService.verifyOTP({ email, otp: code });
+      if (res.data?.token) {
+        saveSession(res.data.token, res.data.user);
+        onSuccess?.(res.data);
+        toast.success("Email verified! Welcome to PassGuardian.");
         navigate("/dashboard");
       }
     } catch (err) {
-      setError(err.errors?.[0]?.message || "Invalid code. Please try again.");
+      setError(err.response?.data?.message || "Invalid code. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleResend = async () => {
-    if (!isLoaded || resending) return;
+    if (resending) return;
     setResending(true);
     setError("");
     try {
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      await authService.resendOTP({ email, type: "EMAIL_VERIFICATION" });
       setResent(true);
       setDigits(["", "", "", "", "", ""]);
       inputRefs.current[0]?.focus();
       setTimeout(() => setResent(false), 3000);
-    } catch (err) {
+    } catch {
       setError("Failed to resend code. Please try again.");
     } finally {
       setResending(false);
@@ -142,7 +150,7 @@ export default function VerifyOTP({ email, onSuccess }) {
         {loading ? (
           <Loader2 className="size-4 animate-spin" />
         ) : (
-          <><ShieldCheck className="size-4" /> Verify & Continue</>
+          <><ShieldCheck className="size-4" /> Verify &amp; Continue</>
         )}
       </button>
 

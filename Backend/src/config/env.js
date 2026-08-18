@@ -10,7 +10,7 @@ dotenv.config({ path: path.resolve(".env") });
 const required = [
   "MONGODB_URI",
   "ENCRYPTION_KEY",
-  "CLERK_SECRET_KEY",
+  "JWT_SECRET",
 ];
 
 const missing = required.filter((key) => !process.env[key]);
@@ -39,9 +39,16 @@ const env = {
   CLIENT_URL: process.env.CLIENT_URL,
   MONGODB_URI: process.env.MONGODB_URI,
   ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
-  // Clerk verifies session tokens sent as `Authorization: Bearer <token>`.
-  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+  // JWT auth — signs and verifies access tokens issued at login.
+  JWT_SECRET: process.env.JWT_SECRET,
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "7d",
   PASSWORD_EXPIRY_DAYS: Number(process.env.PASSWORD_EXPIRY_DAYS) || 90,
+  // SMTP for sending OTP and password-reset emails.
+  SMTP_HOST: process.env.SMTP_HOST || "smtp.gmail.com",
+  SMTP_PORT: Number(process.env.SMTP_PORT) || 587,
+  SMTP_USER: process.env.SMTP_USER || "",
+  SMTP_PASS: process.env.SMTP_PASS || "",
+  EMAIL_FROM: process.env.EMAIL_FROM || "PassGuardian <noreply@passguardian.app>",
 };
 
 export default env;

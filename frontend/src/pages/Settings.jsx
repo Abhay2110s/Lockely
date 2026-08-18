@@ -89,7 +89,7 @@ export default function Settings() {
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-900">Security Preferences</h2>
-              <p className="text-[0.75rem] text-slate-500">Clerk multi-factor and session rules</p>
+              <p className="text-[0.75rem] text-slate-500">Multi-factor authentication and session rules</p>
             </div>
           </div>
 
@@ -97,7 +97,7 @@ export default function Settings() {
             <label className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 cursor-pointer">
               <div className="space-y-0.5">
                 <p className="text-xs font-bold text-slate-800">Two-Factor Authentication (2FA)</p>
-                <p className="text-[0.7rem] text-slate-500">Require TOTP or SMS verification via Clerk</p>
+                <p className="text-[0.7rem] text-slate-500">Require TOTP or SMS verification on sign in</p>
               </div>
               <input
                 type="checkbox"

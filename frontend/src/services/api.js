@@ -10,36 +10,16 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-/**
- * Setup authorization header using Clerk JWT token
- * @param {Function} getToken - Clerk's getToken function from useAuth()
- */
-let authInterceptorAttached = false;
-
-/**
- * Setup authorization header using Clerk JWT token.
- * Safe to call more than once (e.g. React StrictMode double-invoking
- * effects in dev) — only attaches the interceptor once.
- * @param {Function} getToken - Clerk's getToken function from useAuth()
- */
-export const setupApiAuth = (getToken) => {
-  if (authInterceptorAttached) return;
-  authInterceptorAttached = true;
-
-  api.interceptors.request.use(
-    async (config) => {
-      try {
-        const token = await getToken();
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-      } catch (error) {
-        console.error("Failed to attach Clerk token to API request:", error);
-      }
-      return config;
-    },
-    (error) => Promise.reject(error)
-  );
-};
+// Attach the JWT from localStorage to every outgoing request.
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("pg_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default api;

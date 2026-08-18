@@ -1,9 +1,9 @@
-import { useAuth } from "@clerk/react";
+import { useAppAuth } from "@/context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import { ShieldCheck, Loader2 } from "lucide-react";
 
 export default function ProtectedRoute({ children }) {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isAuthenticated } = useAppAuth();
 
   if (!isLoaded) {
     return (
@@ -19,8 +19,8 @@ export default function ProtectedRoute({ children }) {
     );
   }
 
-  if (!isSignedIn) {
-    return <Navigate to="/sign-in" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
 
   return children ? children : <Outlet />;

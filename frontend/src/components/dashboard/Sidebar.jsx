@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useUser } from "@clerk/react";
+import { useAppAuth } from "@/context/AuthContext";
 import {
   ShieldCheck,
   LayoutDashboard,
@@ -26,7 +26,7 @@ const navItems = [
  * @param {Function} onClose - close handler for mobile
  */
 export default function Sidebar({ mobileOpen, onClose }) {
-  const { user } = useUser();
+  const { displayName, initials } = useAppAuth();
   const location = useLocation();
 
   return (
@@ -65,11 +65,11 @@ export default function Sidebar({ mobileOpen, onClose }) {
         {/* User Quick Info */}
         <div className="p-4 mx-3 my-4 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center gap-3">
           <div className="size-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0">
-            {user?.firstName?.[0]?.toUpperCase() || "G"}
+            {initials}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-slate-800 truncate">
-              {user?.fullName || user?.primaryEmailAddress?.emailAddress || "Guardian User"}
+              {displayName}
             </p>
             <p className="text-[0.65rem] text-indigo-600 font-medium flex items-center gap-1">
               <CheckCircle2 className="size-3" /> Encrypted Session

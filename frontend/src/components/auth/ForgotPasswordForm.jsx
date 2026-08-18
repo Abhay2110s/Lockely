@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSignIn } from "@clerk/react";
 import { Mail, ShieldCheck, ArrowRight, Loader2, CheckCircle2, ArrowLeft } from "lucide-react";
+import * as authService from "@/services/auth.service";
+import toast from "react-hot-toast";
 
 export default function ForgotPasswordForm() {
-  const { signIn, isLoaded } = useSignIn();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -12,18 +12,15 @@ export default function ForgotPasswordForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isLoaded) return;
     setError("");
     setLoading(true);
 
     try {
-      await signIn.create({
-        strategy: "reset_password_email_code",
-        identifier: email,
-      });
+      await authService.forgotPassword({ email });
       setSent(true);
+      toast.success("Reset code sent to your email!");
     } catch (err) {
-      setError(err.errors?.[0]?.message || "Could not find an account with that email.");
+      setError(err.response?.data?.message || "Could not find an account with that email.");
     } finally {
       setLoading(false);
     }
@@ -38,7 +35,7 @@ export default function ForgotPasswordForm() {
         <div>
           <h2 className="text-xl font-bold text-slate-900">Check your inbox</h2>
           <p className="text-xs text-slate-500 mt-2">
-            We sent a password reset link to <strong>{email}</strong>. It expires in 10 minutes.
+            We sent a password reset code to <strong>{email}</strong>. It expires in 10 minutes.
           </p>
         </div>
         <div className="space-y-2">
@@ -52,7 +49,13 @@ export default function ForgotPasswordForm() {
             </button>.
           </p>
           <Link
-            to="/sign-in"
+            to="/reset-password"
+            className="inline-flex items-center justify-center gap-2 w-full btn-soft-primary py-3 text-xs font-bold shadow-md shadow-indigo-500/15 mt-2"
+          >
+            <ArrowRight className="size-4" /> Enter Reset Code
+          </Link>
+          <Link
+            to="/login"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-indigo-600 mt-2"
           >
             <ArrowLeft className="size-3.5" /> Back to Sign In
@@ -71,7 +74,7 @@ export default function ForgotPasswordForm() {
         </div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Reset your password</h1>
         <p className="text-xs text-slate-500">
-          Enter your email and we'll send you a secure reset link.
+          Enter your email and we'll send you a secure reset code.
         </p>
       </div>
 
@@ -99,16 +102,16 @@ export default function ForgotPasswordForm() {
 
         <button
           type="submit"
-          disabled={loading || !isLoaded}
+          disabled={loading}
           className="w-full btn-soft-primary py-3 text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-indigo-500/15 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {loading ? <Loader2 className="size-4 animate-spin" /> : <><ArrowRight className="size-4" /> Send Reset Link</>}
+          {loading ? <Loader2 className="size-4 animate-spin" /> : <><ArrowRight className="size-4" /> Send Reset Code</>}
         </button>
       </form>
 
       <div className="text-center">
         <Link
-          to="/sign-in"
+          to="/login"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-indigo-600 transition-colors"
         >
           <ArrowLeft className="size-3.5" /> Back to Sign In

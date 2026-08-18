@@ -1,11 +1,14 @@
-import { UserButton } from "@clerk/react";
-import { Menu, Search, Bell } from "lucide-react";
+import { useAppAuth } from "@/context/AuthContext";
+import { Menu, Search, Bell, LogOut, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 /**
  * Topbar — dashboard header bar with search, notifications, and user menu.
  * @param {Function} onMenuClick - mobile menu open handler
  */
 export default function Topbar({ onMenuClick }) {
+  const { initials, logout } = useAppAuth();
+
   return (
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
       {/* Left: Hamburger + Search */}
@@ -38,20 +41,31 @@ export default function Topbar({ onMenuClick }) {
         {/* Notification Bell */}
         <button className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100 border border-slate-200 transition-colors">
           <Bell className="size-4" />
-          {/* Notification dot */}
           <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-indigo-600" />
         </button>
 
-        {/* Clerk User Button */}
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox:
-                "size-9 border-2 border-indigo-500/20 shadow-xs hover:scale-105 transition-transform",
-            },
-          }}
-        />
+        {/* User Avatar + Dropdown */}
+        <div className="relative group">
+          <button className="size-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm border-2 border-indigo-500/20 shadow-xs hover:scale-105 transition-transform">
+            {initials}
+          </button>
+          <div className="absolute right-0 top-11 w-44 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+            <Link
+              to="/profile"
+              className="flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            >
+              <User className="size-3.5 text-slate-400" />
+              Profile
+            </Link>
+            <button
+              onClick={logout}
+              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+            >
+              <LogOut className="size-3.5" />
+              Sign Out
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   );

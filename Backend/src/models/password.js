@@ -19,8 +19,7 @@ const historyEntrySchema = new mongoose.Schema(
 
 const passwordSchema = new mongoose.Schema(
   {
-    // Clerk's stable user id (the JWT `sub` claim) — not a Mongo ObjectId,
-    // since user identity/auth is now owned entirely by Clerk.
+    // The owner's user id (MongoDB ObjectId string from the User model).
     user: {
       type: String,
       required: true,

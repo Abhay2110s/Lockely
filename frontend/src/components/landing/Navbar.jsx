@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth, UserButton } from "@clerk/react";
+import { useAppAuth } from "@/context/AuthContext";
 import { LogIn, ShieldCheck, Sparkles, LayoutDashboard } from "lucide-react";
 
 const navItems = [
@@ -12,7 +12,7 @@ const navItems = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const { isSignedIn } = useAuth();
+  const { isAuthenticated, initials, logout } = useAppAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -64,7 +64,7 @@ export default function Navbar() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
-          {isSignedIn ? (
+          {isAuthenticated ? (
             <>
               <Link
                 to="/dashboard"
@@ -73,26 +73,37 @@ export default function Navbar() {
                 <LayoutDashboard className="size-3.5" />
                 Go to Dashboard
               </Link>
-              <UserButton
-                afterSignOutUrl="/"
-                appearance={{
-                  elements: {
-                    avatarBox: "size-9 border-2 border-indigo-500/20 hover:scale-105 transition-transform",
-                  },
-                }}
-              />
+              <div className="relative group">
+                <button className="size-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm border-2 border-indigo-500/20 hover:scale-105 transition-transform">
+                  {initials}
+                </button>
+                <div className="absolute right-0 top-11 w-36 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <Link
+                    to="/profile"
+                    className="block px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="w-full text-left px-3.5 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-50"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </div>
             </>
           ) : (
             <>
               <Link
-                to="/sign-in"
+                to="/login"
                 className="hidden sm:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 hover:text-indigo-600 transition-colors px-3 py-2"
               >
                 <LogIn className="size-4 text-indigo-500" />
                 Sign in
               </Link>
               <Link
-                to="/sign-up"
+                to="/register"
                 className="btn-soft-primary text-xs tracking-wider flex items-center gap-2"
               >
                 <Sparkles className="size-3.5" />

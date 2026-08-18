@@ -1,25 +1,15 @@
-import { useSignIn } from "@clerk/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
 
 /**
- * SocialLogin — reusable Google + GitHub OAuth buttons using Clerk.
+ * SocialLogin — placeholder OAuth buttons (OAuth not yet wired to backend).
  * @param {string} mode - "signIn" | "signUp"
  */
 export default function SocialLogin({ mode = "signIn" }) {
-  const { signIn } = useSignIn();
-
-  const handleOAuth = async (strategy) => {
-    try {
-      await signIn?.authenticateWithRedirect({
-        strategy,
-        redirectUrl: "/sso-callback",
-        redirectUrlComplete: "/dashboard",
-      });
-    } catch (err) {
-      console.error("OAuth error:", err);
-    }
+  const handleOAuth = (provider) => {
+    // TODO: Wire up server-side OAuth (Google / GitHub) when backend supports it.
+    console.warn(`OAuth with ${provider} is not yet configured.`);
   };
 
   return (
@@ -27,18 +17,20 @@ export default function SocialLogin({ mode = "signIn" }) {
       <div className="grid grid-cols-2 gap-3">
         <button
           type="button"
-          onClick={() => handleOAuth("oauth_google")}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all shadow-xs hover:shadow-sm"
+          onClick={() => handleOAuth("google")}
+          disabled
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 text-xs font-semibold cursor-not-allowed opacity-50"
         >
           <FcGoogle className="size-4" />
           Google
         </button>
         <button
           type="button"
-          onClick={() => handleOAuth("oauth_github")}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all shadow-xs hover:shadow-sm"
+          onClick={() => handleOAuth("github")}
+          disabled
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 text-xs font-semibold cursor-not-allowed opacity-50"
         >
-          <FaGithub className="size-4 text-slate-800" />
+          <FaGithub className="size-4 text-slate-400" />
           GitHub
         </button>
       </div>

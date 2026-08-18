@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSignIn } from "@clerk/react";
-import { Eye, EyeOff, Lock, ShieldCheck, CheckCircle2, Loader2, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, Lock, ShieldCheck, CheckCircle2, Loader2, ArrowLeft, Mail } from "lucide-react";
+import * as authService from "@/services/auth.service";
+import toast from "react-hot-toast";
 
 export default function ResetPasswordForm() {
-  const { signIn, setActive, isLoaded } = useSignIn();
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -16,7 +17,6 @@ export default function ResetPasswordForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isLoaded) return;
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -31,18 +31,11 @@ export default function ResetPasswordForm() {
     setLoading(true);
 
     try {
-      const result = await signIn.attemptFirstFactor({
-        strategy: "reset_password_email_code",
-        code,
-        password,
-      });
-
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        navigate("/dashboard");
-      }
+      await authService.resetPassword({ email, otp: code, password });
+      toast.success("Password reset successfully! Please sign in.");
+      navigate("/login");
     } catch (err) {
-      setError(err.errors?.[0]?.message || "Invalid code or the reset link has expired.");
+      setError(err.response?.data?.message || "Invalid code or the reset link has expired.");
     } finally {
       setLoading(false);
     }
@@ -57,7 +50,7 @@ export default function ResetPasswordForm() {
         </div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Set new password</h1>
         <p className="text-xs text-slate-500">
-          Enter the code from your email and choose a strong new password.
+          Enter your email, the code from your email, and a strong new password.
         </p>
       </div>
 
@@ -67,6 +60,22 @@ export default function ResetPasswordForm() {
             {error}
           </div>
         )}
+
+        {/* Email */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-slate-700">Email address</label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+            />
+          </div>
+        </div>
 
         {/* Verification Code */}
         <div className="space-y-1.5">
@@ -131,7 +140,7 @@ export default function ResetPasswordForm() {
 
         <button
           type="submit"
-          disabled={loading || !isLoaded}
+          disabled={loading}
           className="w-full btn-soft-primary py-3 text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-indigo-500/15 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? <Loader2 className="size-4 animate-spin" /> : <><CheckCircle2 className="size-4" /> Reset Password</>}
@@ -140,7 +149,7 @@ export default function ResetPasswordForm() {
 
       <div className="text-center">
         <Link
-          to="/sign-in"
+          to="/login"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-indigo-600"
         >
           <ArrowLeft className="size-3.5" /> Back to Sign In

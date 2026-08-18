@@ -1,9 +1,8 @@
-// Authentication middleware — verifies the Clerk session token sent as
-// `Authorization: Bearer <token>` from the frontend (Clerk's getToken()).
-// On success, attaches { id, sessionId, claims } to req.user, where `id`
-// is Clerk's stable user id (the JWT `sub` claim) — used everywhere in
-// the app as the owning-user key for vault entries.
-import { verifyToken } from "@clerk/backend";
+// Authentication middleware — verifies a JWT sent as
+// `Authorization: Bearer <token>` from the frontend.
+// On success, attaches { id } to req.user where `id` is the
+// MongoDB User._id string — used everywhere as the owning-user key.
+import jwt from "jsonwebtoken";
 import env from "../config/env.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -17,21 +16,19 @@ const verifyAuth = asyncHandler(async (req, res, next) => {
     throw ApiError.unauthorized("Unauthorized. Please sign in.");
   }
 
+  let payload;
   try {
-    const claims = await verifyToken(bearer, {
-      secretKey: env.CLERK_SECRET_KEY,
-    });
-
-    req.user = {
-      id: claims.sub,
-      sessionId: claims.sid,
-      claims,
-    };
-
-    next();
-  } catch (error) {
-    throw ApiError.unauthorized("Invalid or expired session.");
+    payload = jwt.verify(bearer, env.JWT_SECRET);
+  } catch (err) {
+    throw ApiError.unauthorized("Invalid or expired session. Please sign in again.");
   }
+
+  if (!payload?.userId) {
+    throw ApiError.unauthorized("Invalid token payload.");
+  }
+
+  req.user = { id: payload.userId };
+  next();
 });
 
 export default verifyAuth;

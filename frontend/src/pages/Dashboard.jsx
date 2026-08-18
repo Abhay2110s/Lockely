@@ -1,4 +1,4 @@
-import { useUser } from "@clerk/react";
+import { useAppAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
 import {
   ShieldCheck,
@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 
 export default function Dashboard() {
-  const { user } = useUser();
+  const { user } = useAppAuth();
   const [copiedId, setCopiedId] = useState(null);
 
   const stats = [
@@ -26,7 +26,7 @@ export default function Dashboard() {
   ];
 
   const recentEntries = [
-    { id: 1, title: "GitHub Master Account", username: user?.primaryEmailAddress?.emailAddress || "user@passguardian.dev", category: "Developer", date: "2 mins ago" },
+    { id: 1, title: "GitHub Master Account", username: user?.email || "user@passguardian.dev", category: "Developer", date: "2 mins ago" },
     { id: 2, title: "Google Workspace Admin", username: "admin@company.com", category: "Work", date: "1 hour ago" },
     { id: 3, title: "Stripe Billing Dashboard", username: "finance@startup.io", category: "Finance", date: "Yesterday" },
     { id: 4, title: "AWS Cloud Infrastructure", username: "root-dev", category: "Infrastructure", date: "3 days ago" },
@@ -47,7 +47,7 @@ export default function Dashboard() {
             Zero-Knowledge Session Active
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-            Welcome back, {user?.firstName || "Guardian"} 👋
+            Welcome back, {user?.name?.split(" ")[0] || "Guardian"} 👋
           </h1>
           <p className="text-xs sm:text-sm text-indigo-100/80 leading-relaxed">
             Your secrets are encrypted client-side with military-grade AES-256 bit encryption. No unencrypted data ever leaves your device.

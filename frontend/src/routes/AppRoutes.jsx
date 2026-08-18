@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Layouts
 import LandingLayout from "@/layouts/LandingLayout";
@@ -11,8 +11,6 @@ import PublicRoute from "./PublicRoute";
 
 // Pages
 import Landing from "@/pages/Landing";
-import SignInPage from "@/pages/SignInPage";
-import SignUpPage from "@/pages/SignUpPage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
@@ -42,14 +40,18 @@ export default function AppRoutes() {
           </PublicRoute>
         }
       >
-        <Route path="/sign-in/*" element={<SignInPage />} />
-        <Route path="/sign-up/*" element={<SignUpPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
       </Route>
+
+      {/* Legacy /sign-in and /sign-up routes — redirect to new paths */}
+      <Route path="/sign-in" element={<Navigate to="/login" replace />} />
+      <Route path="/sign-in/*" element={<Navigate to="/login" replace />} />
+      <Route path="/sign-up" element={<Navigate to="/register" replace />} />
+      <Route path="/sign-up/*" element={<Navigate to="/register" replace />} />
 
       {/* Protected Dashboard & Vault Application Pages */}
       <Route
@@ -62,7 +64,7 @@ export default function AppRoutes() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/vault" element={<Vault />} />
         <Route path="/generator" element={<PasswordGenerator />} />
-        <Route path="/profile/*" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
       </Route>
 

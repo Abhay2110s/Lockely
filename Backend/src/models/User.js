@@ -1,20 +1,10 @@
-// Mongoose schema and model for local user profiles.
-// Auth/credentials are owned entirely by Clerk — this collection just
-// mirrors a small amount of profile data (keyed by Clerk's user id) so
-// the rest of the app has something local to query/extend later without
-// re-fetching from Clerk on every request.
+// User model — stores account credentials and profile data.
+// Auth is handled in-house with bcrypt + JWT.
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
-    // Clerk's stable user id (the JWT `sub` claim).
-    clerkId: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-    },
-
     name: {
       type: String,
       trim: true,
@@ -23,15 +13,42 @@ const userSchema = new mongoose.Schema(
 
     email: {
       type: String,
-      trim: true,
+      required: [true, "Email is required"],
+      unique: true,
       lowercase: true,
-      default: "",
+      trim: true,
+      index: true,
+    },
+
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: 8,
+      select: false, // never returned in queries by default
+    },
+
+    // Email must be verified via OTP before the account can be used.
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   {
     timestamps: true,
   }
 );
+
+// Hash password before saving if it was modified.
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+// Instance method to compare a candidate password against the stored hash.
+userSchema.methods.comparePassword = async function (candidate) {
+  return bcrypt.compare(candidate, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 

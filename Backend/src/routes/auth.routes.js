@@ -1,46 +1,31 @@
-// Auth routes — Clerk owns sign-up, sign-in, email verification, and
-// password reset entirely on the frontend. These two endpoints just
-// keep a local profile mirror in sync and expose the current session.
+// Auth routes — manual email/password authentication with JWT.
+// All sign-up, login, OTP verification, and password-reset flows
+// are handled here. Protected routes use verifyAuth middleware.
 import express from "express";
 import * as authController from "../controllers/auth.controller.js";
 import verifyAuth from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// POST /api/v1/auth/sync — upsert the local profile mirror after a
-// Clerk sign-in/sign-up on the frontend.
-/**
- * @openapi
- * /api/v1/auth/sync:
- *   post:
- *     summary: Sync the local user profile after Clerk sign-in/sign-up
- *     tags: [Auth]
- *     security: [{ bearerAuth: [] }]
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name: { type: string }
- *               email: { type: string, format: email }
- *     responses:
- *       200: { description: User synced }
- */
-router.post("/sync", verifyAuth, authController.sync);
+// POST /api/v1/auth/register — create account, send verification OTP
+router.post("/register", authController.register);
 
-// GET /api/v1/auth/session — the current Clerk identity + local profile.
-/**
- * @openapi
- * /api/v1/auth/session:
- *   get:
- *     summary: Get the current authenticated session + local profile
- *     tags: [Auth]
- *     security: [{ bearerAuth: [] }]
- *     responses:
- *       200: { description: Session fetched }
- *       401: { description: Unauthorized }
- */
-router.get("/session", verifyAuth, authController.session);
+// POST /api/v1/auth/verify-otp — verify email OTP, activate account, return JWT
+router.post("/verify-otp", authController.verifyOTP);
+
+// POST /api/v1/auth/login — email + password login, return JWT
+router.post("/login", authController.login);
+
+// POST /api/v1/auth/forgot-password — send password-reset OTP
+router.post("/forgot-password", authController.forgotPassword);
+
+// POST /api/v1/auth/reset-password — verify reset OTP + set new password
+router.post("/reset-password", authController.resetPassword);
+
+// POST /api/v1/auth/resend-otp — resend verification or reset OTP
+router.post("/resend-otp", authController.resendOTP);
+
+// GET /api/v1/auth/me — return the authenticated user's profile
+router.get("/me", verifyAuth, authController.getMe);
 
 export default router;

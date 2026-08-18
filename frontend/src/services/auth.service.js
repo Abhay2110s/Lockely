@@ -1,25 +1,48 @@
 import api from "./api";
 
 /**
- * Auth Service — handles auth-related API calls to the backend.
- * Note: Sign-in / sign-up is handled by Clerk on the frontend.
- * These calls are for backend-side user sync after Clerk auth.
+ * Auth Service — manual JWT auth calls to the backend.
  */
 
-/**
- * Sync the authenticated Clerk user with the backend database.
- * Call this after successful Clerk sign-in.
- */
-export const syncUser = async (userData) => {
-  const { data } = await api.post("/auth/sync", userData);
+/** Create a new account. Backend sends a verification OTP to the email. */
+export const register = async ({ name, email, password }) => {
+  const { data } = await api.post("/auth/register", { name, email, password });
   return data;
 };
 
-/**
- * Get current session info from the backend.
- */
-export const getSession = async () => {
-  const { data } = await api.get("/auth/session");
+/** Verify the email OTP. Returns { token, user } on success. */
+export const verifyOTP = async ({ email, otp }) => {
+  const { data } = await api.post("/auth/verify-otp", { email, otp });
+  return data;
+};
+
+/** Login with email + password. Returns { token, user } on success. */
+export const login = async ({ email, password }) => {
+  const { data } = await api.post("/auth/login", { email, password });
+  return data;
+};
+
+/** Request a password-reset OTP sent to the given email. */
+export const forgotPassword = async ({ email }) => {
+  const { data } = await api.post("/auth/forgot-password", { email });
+  return data;
+};
+
+/** Reset the password using the OTP code. */
+export const resetPassword = async ({ email, otp, password }) => {
+  const { data } = await api.post("/auth/reset-password", { email, otp, password });
+  return data;
+};
+
+/** Resend an OTP (type: "EMAIL_VERIFICATION" | "FORGOT_PASSWORD"). */
+export const resendOTP = async ({ email, type }) => {
+  const { data } = await api.post("/auth/resend-otp", { email, type });
+  return data;
+};
+
+/** Get the currently authenticated user's profile. */
+export const getMe = async () => {
+  const { data } = await api.get("/auth/me");
   return data;
 };
 
@@ -29,10 +52,9 @@ export const getSession = async () => {
  * @returns {{ compromised: boolean, count: number }}
  */
 export const checkPasswordBreach = async (password) => {
-  // SHA-1 hash the password, send first 5 chars to HIBP k-anonymity endpoint
   const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hashBuffer = await crypto.subtle.digest("SHA-1", data);
+  const buf = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-1", buf);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").toUpperCase();
 

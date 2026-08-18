@@ -1,9 +1,9 @@
-import { useAuth } from "@clerk/react";
+import { useAppAuth } from "@/context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import { Loader2, ShieldCheck } from "lucide-react";
 
 export default function PublicRoute({ children, redirectIfAuthenticated = false }) {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isAuthenticated } = useAppAuth();
 
   if (!isLoaded) {
     return (
@@ -19,7 +19,7 @@ export default function PublicRoute({ children, redirectIfAuthenticated = false 
     );
   }
 
-  if (isSignedIn && redirectIfAuthenticated) {
+  if (isAuthenticated && redirectIfAuthenticated) {
     return <Navigate to="/dashboard" replace />;
   }
 

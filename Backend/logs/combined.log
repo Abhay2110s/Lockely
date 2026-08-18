@@ -17,3 +17,51 @@
 {"level":"info","message":"127.0.0.1 - - [09/Aug/2026:18:19:42 +0000] \"POST /api/v1/auth/login HTTP/1.1\" - - \"-\" \"curl/8.5.0\"","timestamp":"2026-08-09T18:19:42.640Z"}
 {"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-09T18:57:06.136Z"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-08-09T18:57:06.143Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-15T18:04:11.168Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-15T18:04:11.174Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-15T18:04:24.146Z"}
+{"level":"info","message":"::1 - - [15/Aug/2026:18:04:24 +0000] \"GET /api/v1/vault?limit=100&sortBy=latest HTTP/1.1\" 401 315 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-15T18:04:24.153Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-15T18:04:24.154Z"}
+{"level":"info","message":"::1 - - [15/Aug/2026:18:04:24 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 315 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-15T18:04:24.156Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-15T18:04:24.161Z"}
+{"level":"info","message":"::1 - - [15/Aug/2026:18:04:24 +0000] \"GET /api/v1/vault?limit=100&sortBy=latest HTTP/1.1\" 401 315 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-15T18:04:24.164Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-15T18:07:38.719Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-15T18:07:38.725Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-16T08:21:35.361Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-16T08:21:35.383Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:31:58.859Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:31:58 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 315 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:31:58.878Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-16T08:34:17.869Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-16T08:34:17.880Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:34:29.492Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:34:29 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 315 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:34:29.507Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:38:46.360Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:38:46 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 315 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:38:46.363Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:39:32.746Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:39:32 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 315 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:39:32.749Z"}
+{"level":"error","message":"MongoDB connection failed: querySrv ECONNREFUSED _mongodb._tcp.cluster0.mwdcwua.mongodb.net","timestamp":"2026-08-16T08:41:22.832Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-16T08:42:41.804Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-16T08:42:41.814Z"}
+{"level":"warn","message":"Clerk token verification failed: unknown reason","timestamp":"2026-08-16T08:42:52.202Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:42:52.204Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:42:52 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 57 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:42:52.221Z"}
+{"level":"warn","message":"Clerk token verification failed: unknown reason","timestamp":"2026-08-16T08:45:55.471Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:45:55.472Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:45:55 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 57 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:45:55.475Z"}
+{"level":"warn","message":"Clerk token verification failed: unknown reason","timestamp":"2026-08-16T08:45:58.329Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:45:58.329Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:45:58 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 57 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:45:58.332Z"}
+{"level":"warn","message":"Clerk token verification failed: unknown reason","timestamp":"2026-08-16T08:47:19.232Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:47:19.234Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:47:19 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 57 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:47:19.237Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-16T08:48:53.154Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-16T08:48:53.165Z"}
+{"level":"warn","message":"Clerk token verification failed: unknown reason","timestamp":"2026-08-16T08:49:02.425Z"}
+{"level":"warn","message":"Invalid or expired session.","timestamp":"2026-08-16T08:49:02.427Z"}
+{"level":"info","message":"::1 - - [16/Aug/2026:08:49:02 +0000] \"POST /api/v1/auth/sync HTTP/1.1\" 401 57 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-16T08:49:02.441Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-18T12:57:42.057Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-18T12:57:42.083Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-18T13:05:18.245Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-18T13:05:18.252Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-18T13:05:26.740Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-18T13:05:26.753Z"}

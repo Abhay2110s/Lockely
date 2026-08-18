@@ -15,7 +15,7 @@ const options = {
     servers: [{ url: "/", description: "Current server" }],
     components: {
       securitySchemes: {
-        // Clerk session token passed in the Authorization header.
+        // JWT Bearer token passed in the Authorization header.
         bearerAuth: {
           type: "http",
           scheme: "bearer",
@@ -26,7 +26,7 @@ const options = {
     // Default security requirement applied to all endpoints unless overridden.
     security: [{ bearerAuth: [] }],
     tags: [
-      { name: "Auth", description: "Local profile sync/session (Clerk owns sign-up/sign-in)" },
+      { name: "Auth", description: "Registration, login, OTP verification, and password reset" },
       { name: "Password", description: "Password strength check & generation utilities" },
       { name: "Vault", description: "Encrypted password vault CRUD and analytics" },
     ],
