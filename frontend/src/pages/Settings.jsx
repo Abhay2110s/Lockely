@@ -1,4 +1,6 @@
 import { useState } from "react";
+import * as userService from "@/services/user.service";
+import toast from "react-hot-toast";
 import {
   Settings as SettingsIcon,
   Lock,
@@ -14,6 +16,20 @@ export default function Settings() {
   const [clipboardClearSeconds, setClipboardClearSeconds] = useState("30");
   const [enable2FA, setEnable2FA] = useState(true);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      await userService.exportVault();
+      toast.success("Encrypted vault backup downloaded.");
+    } catch (error) {
+      console.error("Vault export failed:", error);
+      toast.error(error?.response?.data?.message || "Failed to export encrypted vault.");
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -123,10 +139,12 @@ export default function Settings() {
 
           <button
             type="button"
-            className="px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 flex items-center gap-2"
+            onClick={handleExport}
+            disabled={exporting}
+            className="px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-60 disabled:cursor-not-allowed text-xs font-semibold text-slate-700 flex items-center gap-2"
           >
-            <Download className="size-4 text-indigo-600" />
-            Export Vault Data (.json)
+            <Download className={`size-4 text-indigo-600 ${exporting ? "animate-pulse" : ""}`} />
+            {exporting ? "Exporting…" : "Export Vault Data (.json)"}
           </button>
         </div>
 

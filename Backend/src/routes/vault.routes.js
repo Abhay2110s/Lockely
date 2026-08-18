@@ -104,6 +104,9 @@ router.get("/categories", vaultController.getCategories);
  */
 router.get("/export", vaultController.exportPasswords);
 
+// GET /api/v1/vault/export-encrypted — export encrypted vault backup.
+router.get("/export-encrypted", vaultController.exportEncryptedPasswords);
+
 // POST /api/v1/vault/import — bulk-import entries from JSON or CSV.
 /**
  * @openapi

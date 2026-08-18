@@ -406,6 +406,47 @@ export const getReusedPasswords = async (userId) => {
   );
 };
 
+export const exportEncryptedEntries = async (userId) => {
+  const entries = await Password.find({ user: userId, isDeleted: false }).lean();
+
+  return JSON.stringify(
+    {
+      format: "passguardian-encrypted-vault",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      encryption: {
+        algorithm: "AES-256-GCM",
+        note: "Secrets remain encrypted with the server vault encryption key."
+      },
+      entries: entries.map((entry) => ({
+        id: String(entry._id),
+        title: entry.title,
+        website: entry.website || "",
+        url: entry.url || "",
+        icon: entry.icon || "",
+        username: entry.username || "",
+        email: entry.email || "",
+        cipherText: entry.cipherText,
+        iv: entry.iv,
+        authTag: entry.authTag,
+        passwordHash: entry.passwordHash,
+        strength: entry.strength,
+        notes: entry.notes || "",
+        recoveryEmail: entry.recoveryEmail || "",
+        backupCodes: entry.backupCodes || { cipherText: null, iv: null, authTag: null },
+        category: entry.category || "General",
+        favorite: Boolean(entry.favorite),
+        lastPasswordChangeAt: entry.lastPasswordChangeAt,
+        expiryDays: entry.expiryDays,
+        createdAt: entry.createdAt,
+        updatedAt: entry.updatedAt,
+      })),
+    },
+    null,
+    2
+  );
+};
+
 export const exportEntries = async (userId, format) => {
   const entries = await Password.find({ user: userId, isDeleted: false });
   const rows = entries.map((entry) => {

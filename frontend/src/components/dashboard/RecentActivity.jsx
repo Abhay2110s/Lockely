@@ -10,22 +10,15 @@ const ACTIVITY_ICONS = {
   security: { icon: Shield, color: "bg-rose-50 text-rose-500" },
 };
 
-const DEMO_ACTIVITIES = [
-  { id: 1, type: "copy", description: "Copied password for GitHub Account", time: "2 min ago" },
-  { id: 2, type: "login", description: "Signed in from Windows · Chrome", time: "15 min ago" },
-  { id: 3, type: "add", description: "Added new vault entry: Stripe Dashboard", time: "1 hour ago" },
-  { id: 4, type: "generate", description: "Generated a 32-character password", time: "3 hours ago" },
-  { id: 5, type: "view", description: "Viewed password for Google Workspace", time: "Yesterday" },
-  { id: 6, type: "security", description: "Security health scan completed — all clear", time: "2 days ago" },
-];
+
 
 /**
  * RecentActivity — activity feed showing recent vault events.
- * @param {Array} activities - list of activity objects (falls back to demo data)
+ * @param {Array} activities - list of activity objects
  * @param {number} limit - max items to show
  */
 export default function RecentActivity({ activities, limit = 6 }) {
-  const items = (activities || DEMO_ACTIVITIES).slice(0, limit);
+  const items = (activities || []).slice(0, limit);
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">

@@ -84,6 +84,17 @@ export const getReusedPasswords = asyncHandler(async (req, res) => {
 });
 
 // Export all vault entries in JSON or CSV format.
+export const exportEncryptedPasswords = asyncHandler(async (req, res) => {
+  const output = await vaultService.exportEncryptedEntries(req.user.id);
+  const filename = `passguardian-encrypted-vault-${Date.now()}.json`;
+
+  res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
+
+  return res.status(200).send(output);
+});
+
 export const exportPasswords = asyncHandler(async (req, res) => {
   const format = req.query.format === "csv" ? "csv" : "json";
   const output = await vaultService.exportEntries(req.user.id, format);

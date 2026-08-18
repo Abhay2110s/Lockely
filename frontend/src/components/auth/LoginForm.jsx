@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Eye, EyeOff, Mail, Lock, ShieldCheck, ArrowRight, Loader2, Sparkles,
+  Eye, EyeOff, Mail, Lock, ShieldCheck, ArrowRight, Loader2,
 } from "lucide-react";
 import { useAppAuth } from "@/context/AuthContext";
 import * as authService from "@/services/auth.service";
@@ -158,7 +158,7 @@ export default function LoginForm() {
             {/* Animated shimmer sweep */}
             {!loading && (
               <motion.span
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -skew-x-12"
+                className="absolute inset-0 bg-linear-to-r from-transparent via-white/15 to-transparent -skew-x-12"
                 initial={{ x: "-100%" }}
                 animate={{ x: "200%" }}
                 transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}

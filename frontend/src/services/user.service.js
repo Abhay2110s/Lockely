@@ -30,14 +30,20 @@ export const getSecurityPreferences = async () => {
   return data;
 };
 
-/** Export vault data as encrypted JSON */
+/** Export vault data as an encrypted JSON backup. */
 export const exportVault = async () => {
-  const response = await api.get("/users/me/export", { responseType: "blob" });
-  const url = URL.createObjectURL(response.data);
+  const response = await api.get("/vault/export-encrypted", { responseType: "blob" });
+  const blob = response.data instanceof Blob
+    ? response.data
+    : new Blob([response.data], { type: "application/json" });
+
+  const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `passguardian-vault-${Date.now()}.json`;
+  a.download = `passguardian-encrypted-vault-${Date.now()}.json`;
+  document.body.appendChild(a);
   a.click();
+  a.remove();
   URL.revokeObjectURL(url);
 };
 
