@@ -17,19 +17,17 @@ const missing = required.filter((key) => !process.env[key]);
 
 if (missing.length > 0) {
   // eslint-disable-next-line no-console
-  console.error(
-    `❌ Missing required environment variables: ${missing.join(", ")}`
+  throw new Error(
+    `Missing required environment variables: ${missing.join(", ")}`
   );
-  process.exit(1);
 }
 
 // ENCRYPTION_KEY must be exactly 32 bytes for AES-256.
 if (process.env.ENCRYPTION_KEY.length !== 32) {
   // eslint-disable-next-line no-console
-  console.error(
-    "❌ ENCRYPTION_KEY must be exactly 32 characters long (AES-256 key)."
+  throw new Error(
+    "ENCRYPTION_KEY must be exactly 32 characters long (AES-256 key)."
   );
-  process.exit(1);
 }
 
 // Normalize and provide sensible defaults for every configuration value.

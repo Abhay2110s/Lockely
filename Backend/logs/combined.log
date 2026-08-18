@@ -88,3 +88,7 @@
 {"level":"info","message":"::1 - - [18/Aug/2026:14:05:35 +0000] \"GET /api/v1/vault?limit=5&sortBy=latest HTTP/1.1\" 304 - \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-18T14:05:35.801Z"}
 {"level":"info","message":"::1 - - [18/Aug/2026:14:05:35 +0000] \"GET /api/v1/vault/dashboard HTTP/1.1\" 304 - \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-18T14:05:35.839Z"}
 {"level":"info","message":"::1 - - [18/Aug/2026:14:05:35 +0000] \"GET /api/v1/vault?limit=5&sortBy=latest HTTP/1.1\" 304 - \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36\"","timestamp":"2026-08-18T14:05:35.847Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-18T14:36:20.023Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-18T14:36:20.030Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-18T14:39:27.021Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-18T14:39:27.031Z"}
