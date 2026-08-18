@@ -1,7 +1,7 @@
 // Vault service — business logic for encrypted password entries,
 // including creation, retrieval, update, soft/hard delete,
 // export/import, reuse detection, and dashboard statistics.
-import Password from "../models/Password.js";
+import Password from "../models/password.js";
 import ApiError from "../utils/ApiError.js";
 import { encrypt, decrypt, hashForComparison } from "./encryption.service.js";
 import { checkPasswordStrength } from "../utils/passwordChecker.js";
