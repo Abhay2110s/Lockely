@@ -25,15 +25,21 @@ app.use(helmet());
 
 // CORS — supports a comma-separated CLIENT_URL list, and allows
 // same-origin/no-origin requests (curl, mobile apps, server-to-server).
-const allowedOrigins = (env.CLIENT_URL || "")
-  .split(",")
-  .map((o) => o.trim())
-  .filter(Boolean);
+const allowedOrigins = [
+  ...(env.CLIENT_URL || "")
+    .split(",")
+    .map((o) => o.trim())
+    .filter(Boolean),
+  "https://pass-gaurdian-12.vercel.app",
+];
+
+// Remove duplicates while preserving the configured origins.
+const uniqueAllowedOrigins = [...new Set(allowedOrigins)];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      if (!origin || uniqueAllowedOrigins.length === 0 || uniqueAllowedOrigins.includes(origin)) {
         return callback(null, true);
       }
       return callback(new Error("Not allowed by CORS"));
