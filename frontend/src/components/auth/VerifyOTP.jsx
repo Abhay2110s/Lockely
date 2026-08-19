@@ -31,7 +31,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
   const handleDigitChange = (index, rawValue) => {
     // Some mobile keyboards / autofill hand back more than one character
     // (or a non-digit) in a single onChange — keep only the last digit typed
-    // so a full match against /^\d?$/ never silently blocks the update.
+    // so this never silently gets rejected the way a strict /^\d?$/ test could.
     const value = rawValue.replace(/\D/g, "").slice(-1);
 
     const newDigits = [...digits];
@@ -39,14 +39,11 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
     setDigits(newDigits);
 
     if (value && index < 5) {
-      // Defer the focus() call to the next paint. Calling it synchronously
-      // inside onChange can lose the race with React's re-render on some
-      // browsers, which is what made the caret look "stuck" until you
-      // clicked the next box yourself.
-      requestAnimationFrame(() => {
-        inputRefs.current[index + 1]?.focus();
-        inputRefs.current[index + 1]?.select();
-      });
+      // Focus the next box immediately, synchronously. Deferring this
+      // (e.g. via requestAnimationFrame) introduces a one-frame lag that
+      // compounds when typing quickly — by the 2nd or 3rd digit the
+      // shift visibly falls behind and looks "stuck".
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
