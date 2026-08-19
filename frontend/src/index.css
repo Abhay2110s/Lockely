@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
-@import "shadcn/tailwind.css";
 @import "./styles/ledger.css";
 @import "./styles/soft-modern.css";
 
