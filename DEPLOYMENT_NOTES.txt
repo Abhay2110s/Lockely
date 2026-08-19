@@ -1,0 +1,20 @@
+PassGuardian deployment notes
+
+1. Set Vercel backend environment variables:
+   NODE_ENV=production
+   CLIENT_URL=https://pass-gaurdian-12.vercel.app,http://localhost:5173
+   MONGODB_URI=<your rotated MongoDB URI>
+   JWT_SECRET=<your rotated JWT secret>
+   ENCRYPTION_KEY=<your encryption key>
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_USER=<your email>
+   SMTP_PASS=<your rotated Gmail app password>
+   EMAIL_FROM=PassGuardian <your email>
+
+2. Frontend:
+   VITE_API_BASE_URL=https://pass-gaurdian.vercel.app/api/v1
+
+3. Redeploy after changing Vercel environment variables.
+
+Do not commit real credentials to source control.
