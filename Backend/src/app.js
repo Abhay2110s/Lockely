@@ -25,43 +25,20 @@ app.use(helmet());
 
 // CORS — supports a comma-separated CLIENT_URL list, and allows
 // same-origin/no-origin requests (curl, mobile apps, server-to-server).
-const normalizeOrigin = (origin) => origin.trim().replace(/\\/$/, "");
-
-const configuredOrigins = (env.CLIENT_URL || "")
+const allowedOrigins = (env.CLIENT_URL || "")
   .split(",")
-  .map(normalizeOrigin)
+  .map((o) => o.trim())
   .filter(Boolean);
-
-// Keep local development working even if CLIENT_URL is missing/misconfigured.
-// Add your production frontend here, not the backend URL.
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
-  "https://pass-gaurdian-12.vercel.app",
-  ...configuredOrigins,
-].filter((origin, index, origins) => origins.indexOf(origin) === index);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Requests without an Origin header (curl, health checks, server-to-server)
-      // are allowed. Browser requests must match an allowed frontend origin.
-      if (!origin) {
+      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-
-      const normalizedOrigin = normalizeOrigin(origin);
-
-      if (allowedOrigins.includes(normalizedOrigin)) {
-        return callback(null, true);
-      }
-
-      logger.warn(`CORS blocked origin: ${origin}`);
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
