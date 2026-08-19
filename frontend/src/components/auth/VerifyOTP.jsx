@@ -28,19 +28,35 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
     inputRefs.current[0]?.focus();
   }, []);
 
-  const handleDigitChange = (index, value) => {
-    if (!/^\d?$/.test(value)) return;
+  const handleDigitChange = (index, rawValue) => {
+    // Some mobile keyboards / autofill hand back more than one character
+    // (or a non-digit) in a single onChange — keep only the last digit typed
+    // so a full match against /^\d?$/ never silently blocks the update.
+    const value = rawValue.replace(/\D/g, "").slice(-1);
+
     const newDigits = [...digits];
     newDigits[index] = value;
     setDigits(newDigits);
+
     if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus();
+      // Defer the focus() call to the next paint. Calling it synchronously
+      // inside onChange can lose the race with React's re-render on some
+      // browsers, which is what made the caret look "stuck" until you
+      // clicked the next box yourself.
+      requestAnimationFrame(() => {
+        inputRefs.current[index + 1]?.focus();
+        inputRefs.current[index + 1]?.select();
+      });
     }
   };
 
   const handleKeyDown = (index, e) => {
     if (e.key === "Backspace" && !digits[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    } else if (e.key === "ArrowRight" && index < 5) {
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
@@ -136,6 +152,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
             value={digit}
             onChange={(e) => handleDigitChange(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
+            onFocus={(e) => e.target.select()}
             className="size-12 text-center text-lg font-bold font-mono rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
           />
         ))}
