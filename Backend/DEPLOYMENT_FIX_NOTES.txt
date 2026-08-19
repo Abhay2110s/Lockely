@@ -1,0 +1,10 @@
+Root cause fixed:
+The previous api/index.js added the MongoDB middleware AFTER importing app.js.
+app.js had already mounted /api/v1 routes, so Express reached User.findOne()
+before the database middleware ran. Mongoose then buffered the query for 10s.
+
+The fix moves the database middleware into src/app.js BEFORE the /api/v1
+route mounts, and db.js now reuses mongoose.connection.readyState and a shared
+connection promise to avoid duplicate concurrent connections in Vercel.
+
+Set Vercel environment variables and redeploy.

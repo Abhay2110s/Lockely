@@ -17,6 +17,8 @@ import { apiLimiter } from "./middleware/rateLimiter.middleware.js";
 import sanitizeRequest from "./middleware/sanitize.middleware.js";
 import logger from "./utils/logger.js";
 import swaggerSpec from "./config/swagger.js";
+import connectDB from "./config/db.js";
+
 
 const app = express();
 
@@ -81,6 +83,19 @@ app.get("/", (req, res) => {
     success: true,
     message: "PassGuardian API is running 🚀",
   });
+});
+
+// Ensure MongoDB is connected before any database-backed API route runs.
+// This middleware is intentionally registered BEFORE the route groups so that
+// Vercel serverless requests cannot reach User.findOne()/create() while
+// Mongoose is still connecting.
+app.use("/api/v1", async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Mount versioned route groups under /api/v1.

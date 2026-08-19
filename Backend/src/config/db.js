@@ -1,32 +1,33 @@
-// Mongoose database connection module — exports a singleton connectDB
-// function that avoids creating duplicate connections.
 import mongoose from "mongoose";
 import env from "./env.js";
 import logger from "../utils/logger.js";
 
-// Track connection state so we can reuse an existing connection on
-// repeated calls (e.g. during serverless cold starts or module re-evaluation).
-let isConnected = false;
+let connectionPromise = null;
 
 const connectDB = async () => {
-  // Return early if already connected to MongoDB.
-  if (isConnected) {
-    logger.info("Using existing MongoDB connection");
-    return;
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
   }
-  try {
-    const db = await mongoose.connect(env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 10000,
+
+  if (connectionPromise) {
+    return connectionPromise;
+  }
+
+  connectionPromise = mongoose.connect(env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 10000,
+    maxPoolSize: 10,
+  })
+    .then((connection) => {
+      logger.info(`MongoDB connected — database: ${connection.connection.name}`);
+      return connection.connection;
+    })
+    .catch((error) => {
+      connectionPromise = null;
+      logger.error(`MongoDB connection failed: ${error.message}`);
+      throw error;
     });
 
-    isConnected = db.connection.readyState === 1;
-
-    logger.info(`MongoDB connected — database: ${db.connection.name}`);
-  } catch (error) {
-    logger.error(`MongoDB connection failed: ${error.message}`);
-    throw error;
-  }
+  return connectionPromise;
 };
-
 
 export default connectDB;
