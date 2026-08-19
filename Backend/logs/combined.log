@@ -114,3 +114,7 @@
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-08-19T11:33:28.197Z"}
 {"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-19T11:42:13.450Z"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-08-19T11:42:13.458Z"}
+{"level":"info","message":"MongoDB connected — database: PassGaurdian","timestamp":"2026-08-19T11:58:56.164Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-19T11:58:56.170Z"}
+{"level":"info","message":"MongoDB connected — database: test","timestamp":"2026-08-19T13:02:40.082Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-08-19T13:02:40.098Z"}
