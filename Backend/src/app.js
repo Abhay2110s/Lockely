@@ -25,13 +25,18 @@ app.use(helmet());
 
 // CORS — supports a comma-separated CLIENT_URL list, and allows
 // same-origin/no-origin requests (curl, mobile apps, server-to-server).
-const allowedOrigins = [
-  ...(env.CLIENT_URL || "")
-    .split(",")
-    .map((o) => o.trim())
-    .filter(Boolean),
-  "https://pass-gaurdian-12.vercel.app",
-];
+// Set CLIENT_URL in your deployment's environment variables (e.g.
+// "https://your-frontend.vercel.app") to allow it. If CLIENT_URL is not
+// set at all, we fall back to localhost so local development still works.
+const configuredOrigins = (env.CLIENT_URL || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+const allowedOrigins =
+  configuredOrigins.length > 0
+    ? configuredOrigins
+    : ["http://localhost:5173", "http://localhost:3000"];
 
 // Remove duplicates while preserving the configured origins.
 const uniqueAllowedOrigins = [...new Set(allowedOrigins)];
