@@ -31,7 +31,7 @@ export default function LoginForm() {
 
     try {
       const res = await authService.login({ email, password });
-      const { user, vaultKeySalt, requires2FA, pendingUserId } = res.data;
+      const { user, vaultKeySalt, requires2FA, pendingUserId, token } = res.data;
 
       if (requires2FA) {
         // 2FA is enabled — redirect to the TOTP challenge step.
@@ -43,7 +43,7 @@ export default function LoginForm() {
         return;
       }
 
-      await saveSession(user, vaultKeySalt, password);
+      await saveSession(user, vaultKeySalt, password, token);
       toast.success("Welcome back!");
       navigate("/dashboard");
     } catch (err) {

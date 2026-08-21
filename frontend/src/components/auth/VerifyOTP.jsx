@@ -79,11 +79,11 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
 
     try {
       const res = await authService.verifyOTP({ email, otp: code });
-      const { user, vaultKeySalt } = res.data || {};
+      const { user, vaultKeySalt, token } = res.data || {};
       if (user) {
         // Use the password from router state for vault key derivation.
         // It is never stored — only held in router state for this one step.
-        await saveSession(user, vaultKeySalt, passwordFromState);
+        await saveSession(user, vaultKeySalt, passwordFromState, token);
         onSuccess?.(res.data);
         toast.success("Email verified! Welcome to PassGuardian.");
         navigate("/dashboard");

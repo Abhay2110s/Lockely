@@ -150,6 +150,7 @@ export const verifyCode = asyncHandler(async (req, res) => {
   });
 
   return new ApiResponse(200, "2FA verified. Logged in successfully.", {
+    token: authToken,
     user: { id: user._id, name: user.name, email: user.email },
     vaultKeySalt: user.vaultKeySalt,
   }).send(res);

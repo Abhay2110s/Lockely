@@ -45,12 +45,14 @@ export function AuthProvider({ children }) {
           localStorage.setItem(USER_KEY, JSON.stringify(userData));
         } else {
           localStorage.removeItem(USER_KEY);
+          localStorage.removeItem("pg_token");
           setUser(null);
           setVaultKey(null);
         }
       })
       .catch(() => {
         localStorage.removeItem(USER_KEY);
+        localStorage.removeItem("pg_token");
         setUser(null);
         setVaultKey(null);
       })
@@ -64,9 +66,13 @@ export function AuthProvider({ children }) {
    * @param {object} newUser       — { id, name, email }
    * @param {string} vaultKeySalt  — hex-encoded per-user salt from server
    * @param {string} masterPassword — the user's plaintext password (never stored)
+   * @param {string} [token]       — JWT token fallback for cross-domain requests
    */
-  const saveSession = useCallback(async (newUser, vaultKeySalt, masterPassword) => {
+  const saveSession = useCallback(async (newUser, vaultKeySalt, masterPassword, token) => {
     localStorage.setItem(USER_KEY, JSON.stringify(newUser));
+    if (token) {
+      localStorage.setItem("pg_token", token);
+    }
     setUser(newUser);
 
     // Derive the vault key in the background.
@@ -109,6 +115,7 @@ export function AuthProvider({ children }) {
       // Ignore server errors — the cookie will expire naturally.
     } finally {
       localStorage.removeItem(USER_KEY);
+      localStorage.removeItem("pg_token");
       setUser(null);
       setVaultKey(null); // drop the key from memory
     }

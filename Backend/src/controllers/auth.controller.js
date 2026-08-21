@@ -134,9 +134,11 @@ export const verifyOTP = asyncHandler(async (req, res) => {
 
   await OTP.deleteMany({ email: email.toLowerCase(), type: "EMAIL_VERIFICATION" });
 
-  setAuthCookie(res, user._id);
+  const token = signToken(user._id);
+  res.cookie("pg_auth", token, cookieOptions);
 
   return new ApiResponse(200, "Email verified successfully.", {
+    token,
     user: { id: user._id, name: user.name, email: user.email },
     vaultKeySalt: user.vaultKeySalt,
   }).send(res);
@@ -189,9 +191,11 @@ export const login = asyncHandler(async (req, res) => {
     }).send(res);
   }
 
-  setAuthCookie(res, user._id);
+  const token = signToken(user._id);
+  res.cookie("pg_auth", token, cookieOptions);
 
   return new ApiResponse(200, "Logged in successfully.", {
+    token,
     user: { id: user._id, name: user.name, email: user.email },
     vaultKeySalt: user.vaultKeySalt,
   }).send(res);

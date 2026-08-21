@@ -73,9 +73,9 @@ function OTPVerify({ email, password: masterPassword }) {
     setError(""); setLoading(true);
     try {
       const res = await authService.verifyOTP({ email, otp: code });
-      const { user, vaultKeySalt } = res.data || {};
+      const { user, vaultKeySalt, token } = res.data || {};
       if (user) {
-        await saveSession(user, vaultKeySalt, masterPassword);
+        await saveSession(user, vaultKeySalt, masterPassword, token);
         toast.success("Email verified! Welcome to PassGuardian.");
         navigate("/dashboard");
       }

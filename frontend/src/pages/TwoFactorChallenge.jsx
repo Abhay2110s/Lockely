@@ -76,9 +76,9 @@ export default function TwoFactorChallenge() {
 
     try {
       const res = await verify2FA({ pendingUserId, token, backupCode: backup });
-      const { user, vaultKeySalt: returnedSalt } = res.data;
+      const { user, vaultKeySalt: returnedSalt, token: authToken } = res.data;
 
-      await saveSession(user, returnedSalt ?? vaultKeySalt, password);
+      await saveSession(user, returnedSalt ?? vaultKeySalt, password, authToken);
       toast.success("Welcome back!");
       navigate("/dashboard", { replace: true });
     } catch (err) {
