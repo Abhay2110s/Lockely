@@ -112,7 +112,7 @@ export default function Hero() {
       {/* ========================================================================= */}
       {isInsideHero && (
         <div
-          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-white bg-white mix-blend-difference shadow-2xl"
+          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl"
           style={{
             left: `${cursorPos.x}px`,
             top: `${cursorPos.y}px`,
@@ -123,7 +123,7 @@ export default function Hero() {
           }}
         >
           {/* Exact Center Point Marker */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-2 rounded-full bg-white" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-2 rounded-full bg-[#faf6ea]" />
         </div>
       )}
 
