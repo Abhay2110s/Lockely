@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { ShieldCheck, Lock, Cpu, Database, Key, CheckCircle } from "lucide-react";
 
 const steps = [
@@ -45,7 +46,13 @@ export default function Security() {
       <div className="max-w-6xl mx-auto space-y-16">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
-          <div className="flex flex-col items-center text-[#191510]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col items-center text-[#191510]"
+          >
             <p className="ca-hand text-2xl sm:text-3xl">cryptographic mathematics!</p>
             <svg
               viewBox="0 0 64 12"
@@ -59,27 +66,44 @@ export default function Security() {
               <path d="M3 4c18-3 40-3 58 0" />
               <path d="M9 9c14-2.5 32-2.5 46 0" />
             </svg>
-          </div>
+          </motion.div>
 
-          <h2 className="ca-display text-4xl sm:text-6xl text-[#191510] tracking-tight">
+          <motion.h2
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="ca-display text-4xl sm:text-6xl text-[#191510] tracking-tight"
+          >
             PROVABLE SECURITY
-          </h2>
+          </motion.h2>
 
-          <div className="inline-block -rotate-1">
+          <motion.div
+            initial={{ opacity: 0, y: 15, rotate: -4 }}
+            whileInView={{ opacity: 1, y: 0, rotate: -1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-block"
+          >
             <span className="ca-tape inline-block px-5 py-1.5 text-sm font-bold text-[#191510] bg-[#a7f3d0] border border-[#191510]/30 shadow-sm [clip-path:polygon(1.5%_0,100%_8%,98.5%_100%,0_92%)]">
               Not a marketing promise — mathematical end-to-end zero-knowledge.
             </span>
-          </div>
+          </motion.div>
         </div>
 
-        {/* 4 Steps Grid */}
+        {/* 4 Steps Grid with Staggered Entrance & Hover Physics */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((step) => {
+          {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
-              <div
+              <motion.div
                 key={step.no}
-                className={`${step.bg} p-6 border-3 border-[#191510] shadow-[5px_5px_0_#191510] flex flex-col justify-between space-y-5 hover:-translate-y-1 transition-transform`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: idx * 0.1 }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className={`${step.bg} p-6 border-3 border-[#191510] shadow-[5px_5px_0_#191510] hover:shadow-[8px_8px_0_#191510] flex flex-col justify-between space-y-5 transition-shadow`}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -104,13 +128,19 @@ export default function Security() {
                 <p className="text-xs text-[#191510] font-medium pt-3 border-t-2 border-[#191510]/40 leading-relaxed">
                   {step.desc}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Deep Dive Security Guarantee */}
-        <div className="relative p-8 sm:p-12 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative p-8 sm:p-12 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl"
+        >
           <span aria-hidden="true" className="absolute -left-5 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
           <span aria-hidden="true" className="absolute -right-5 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-[#ff5e89]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
 
@@ -141,7 +171,7 @@ export default function Security() {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
