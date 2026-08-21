@@ -141,10 +141,11 @@ export const verifyCode = asyncHandler(async (req, res) => {
     expiresIn: env.JWT_EXPIRES_IN,
   });
 
+  const isProduction = env.NODE_ENV === "production";
   res.cookie("pg_auth", authToken, {
     httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 

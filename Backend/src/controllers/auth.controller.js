@@ -36,10 +36,11 @@ const signToken = (userId) =>
  * - sameSite: "strict" blocks cross-site request forgery
  * - maxAge: 7 days in milliseconds
  */
+const isProduction = env.NODE_ENV === "production";
 const cookieOptions = {
   httpOnly: true,
-  secure: env.NODE_ENV === "production",
-  sameSite: "strict",
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
@@ -313,8 +314,8 @@ export const resendOTP = asyncHandler(async (req, res) => {
 export const logout = asyncHandler(async (req, res) => {
   res.clearCookie("pg_auth", {
     httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
   });
   return new ApiResponse(200, "Logged out successfully.").send(res);
 });
