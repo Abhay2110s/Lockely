@@ -50,6 +50,30 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
+    // ─── Profile Fields ──────────────────────────────────────────────────
+    displayName: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    bio: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    preferredLanguage: {
+      type: String,
+      default: "en",
+    },
+
+    securityPreferences: {
+      autoLockMinutes: { type: Number, default: 15 },
+      clipboardClearSeconds: { type: Number, default: 30 },
+      enable2FA: { type: Boolean, default: false },
+    },
+
     // ─── Two-Factor Authentication (TOTP) ──────────────────────────────────
     twoFactorEnabled: {
       type: Boolean,

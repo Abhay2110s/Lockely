@@ -268,6 +268,11 @@ export const getMe = asyncHandler(async (req, res) => {
     id: user._id,
     name: user.name,
     email: user.email,
+    displayName: user.displayName,
+    bio: user.bio,
+    preferredLanguage: user.preferredLanguage,
+    twoFactorEnabled: user.twoFactorEnabled,
+    vaultKeySalt: user.vaultKeySalt,
   }).send(res);
 });
 

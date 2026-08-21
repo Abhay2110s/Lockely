@@ -17,7 +17,10 @@ import {
   Star,
   Clock3,
 } from "lucide-react";
-import { getDashboardStats, getPasswordById, getPasswords } from "@/services/password.service";
+import { getDashboardStats, getPasswords } from "@/services/password.service";
+import { decryptSecret } from "@/services/crypto.service";
+import useClipboard from "@/hooks/useClipboard";
+import toast from "react-hot-toast";
 
 const formatRelativeTime = (dateValue) => {
   if (!dateValue) return "Recently";
@@ -137,13 +140,13 @@ function PasswordStrengthPie({ stats, loading }) {
 }
 
 export default function Dashboard() {
-  const { user } = useAppAuth();
+  const { user, vaultKey, isVaultUnlocked } = useAppAuth();
   const [stats, setStats] = useState(emptyStats);
   const [recentEntries, setRecentEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
-  const [copiedId, setCopiedId] = useState(null);
+  const { copied, copiedId, copy } = useClipboard(2000);
 
   const loadDashboard = useCallback(async ({ silent = false } = {}) => {
     if (silent) setRefreshing(true);
@@ -222,17 +225,27 @@ export default function Dashboard() {
     [stats]
   );
 
-  const handleCopy = async (id) => {
+  const handleCopy = async (entry) => {
     try {
-      const response = await getPasswordById(id, true);
-      const password = response?.data?.password;
+      if (!vaultKey) {
+        toast.error("Vault is locked. Visit the Vault page to unlock.");
+        return;
+      }
+      if (!entry.cipherText || !entry.iv || !entry.authTag) {
+        toast.error("Password not available.");
+        return;
+      }
+      const password = await decryptSecret(
+        { cipherText: entry.cipherText, iv: entry.iv, authTag: entry.authTag },
+        vaultKey
+      );
       if (!password) return;
 
-      await navigator.clipboard.writeText(password);
-      setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000);
+      copy(password, entry.id);
+      toast.success("Password copied!");
     } catch (err) {
-      setError(err?.response?.data?.message || "Couldn't copy the password.");
+      console.error("Failed to copy/decrypt:", err);
+      toast.error("Couldn't decrypt this password.");
     }
   };
 
@@ -390,11 +403,11 @@ export default function Dashboard() {
                     </span>
                     <button
                       type="button"
-                      onClick={() => handleCopy(entry.id)}
+                      onClick={() => handleCopy(entry)}
                       className="p-2 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
                       title="Copy password"
                     >
-                      {copiedId === entry.id ? (
+                      {copied && copiedId === entry.id ? (
                         <Check className="size-4 text-emerald-600" />
                       ) : (
                         <Copy className="size-4" />

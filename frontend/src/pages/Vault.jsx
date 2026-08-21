@@ -8,32 +8,74 @@ import {
   Eye,
   EyeOff,
   Lock,
+  Unlock,
   Trash2,
   X,
   Loader2,
   ShieldAlert,
+  ShieldCheck,
+  ExternalLink,
 } from "lucide-react";
 import {
   getPasswords,
-  getPasswordById,
   createPassword,
   softDeletePassword,
 } from "@/services/password.service";
+import {
+  encryptSecret,
+  decryptSecret,
+  computePasswordHash,
+} from "@/services/crypto.service";
+import { useAppAuth } from "@/context/AuthContext";
+import useDebounce from "@/hooks/useDebounce";
+import useClipboard from "@/hooks/useClipboard";
+import toast from "react-hot-toast";
 
 const DEFAULT_CATEGORIES = ["Work", "Banking", "Social", "Shopping", "Gaming", "General"];
 
+/** Simple client-side strength assessment for vault entry metadata */
+function evaluateStrength(pwd) {
+  let score = 0;
+  if (pwd.length >= 16) score += 35;
+  else if (pwd.length >= 12) score += 25;
+  else if (pwd.length >= 8) score += 15;
+
+  if (/[A-Z]/.test(pwd)) score += 15;
+  if (/[a-z]/.test(pwd)) score += 15;
+  if (/\d/.test(pwd)) score += 15;
+  if (/[^A-Za-z0-9]/.test(pwd)) score += 20;
+
+  score = Math.min(100, Math.max(0, score));
+
+  let label = "Weak";
+  if (score >= 80) label = "Very Strong";
+  else if (score >= 65) label = "Strong";
+  else if (score >= 45) label = "Medium";
+  else if (score < 25) label = "Very Weak";
+
+  const poolSize = (/[a-z]/.test(pwd) ? 26 : 0) +
+    (/[A-Z]/.test(pwd) ? 26 : 0) +
+    (/\d/.test(pwd) ? 10 : 0) +
+    (/[^A-Za-z0-9]/.test(pwd) ? 32 : 0);
+
+  const entropy = poolSize > 0 ? Number((pwd.length * Math.log2(poolSize)).toFixed(2)) : 0;
+
+  return { score, label, entropy };
+}
+
 export default function Vault() {
+  const { vaultKey, isVaultUnlocked, unlockVault } = useAppAuth();
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const debouncedSearch = useDebounce(search.trim(), 350);
   const [activeCategory, setActiveCategory] = useState("All");
 
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [copiedField, setCopiedField] = useState(null);
+  const { copied, copiedId, copy } = useClipboard(2000);
   const [visibleId, setVisibleId] = useState(null);
-  const [revealCache, setRevealCache] = useState({}); // { [id]: decrypted password }
+  const [revealCache, setRevealCache] = useState({}); // { [id]: decrypted plaintext }
   const [revealingId, setRevealingId] = useState(null);
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -47,11 +89,11 @@ export default function Vault() {
     category: "General",
   });
 
-  // Debounce the search box so we're not firing a request per keystroke.
-  useEffect(() => {
-    const t = setTimeout(() => setDebouncedSearch(search.trim()), 350);
-    return () => clearTimeout(t);
-  }, [search]);
+  // Master password unlock dialog state
+  const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
+  const [unlockPassword, setUnlockPassword] = useState("");
+  const [unlockError, setUnlockError] = useState("");
+  const [unlocking, setUnlocking] = useState(false);
 
   const fetchEntries = useCallback(async () => {
     setIsLoading(true);
@@ -72,52 +114,80 @@ export default function Vault() {
     }
   }, [debouncedSearch, activeCategory]);
 
-  // Fetches on mount and whenever the debounced search / category change.
-  /* eslint-disable react-hooks/set-state-in-effect -- intentional data fetch on mount/deps change */
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   const categories = [
     { label: "All Items" },
     ...DEFAULT_CATEGORIES.map((c) => ({ label: c })),
   ];
 
-  const handleCopy = async (id, text, fieldName) => {
-    if (!text) return;
-    await navigator.clipboard.writeText(text);
-    setCopiedField(`${id}-${fieldName}`);
-    setTimeout(() => setCopiedField(null), 2000);
+  const handleUnlock = async (e) => {
+    e.preventDefault();
+    if (!unlockPassword) return;
+    setUnlockError("");
+    setUnlocking(true);
+    try {
+      await unlockVault(unlockPassword);
+      toast.success("Vault unlocked!");
+      setIsUnlockModalOpen(false);
+      setUnlockPassword("");
+    } catch (err) {
+      setUnlockError(err?.message || "Failed to unlock vault. Check your master password.");
+    } finally {
+      setUnlocking(false);
+    }
   };
 
-  const revealPassword = async (id) => {
-    if (revealCache[id]) return revealCache[id];
-    setRevealingId(id);
+  const revealPassword = async (item) => {
+    if (revealCache[item.id]) return revealCache[item.id];
+    if (!vaultKey) {
+      setIsUnlockModalOpen(true);
+      return "";
+    }
+
+    setRevealingId(item.id);
     try {
-      const res = await getPasswordById(id, true);
-      const plain = res?.data?.password || "";
-      setRevealCache((prev) => ({ ...prev, [id]: plain }));
+      if (!item.cipherText || !item.iv || !item.authTag) {
+        toast.error("Invalid encrypted entry.");
+        return "";
+      }
+      const plain = await decryptSecret(
+        {
+          cipherText: item.cipherText,
+          iv: item.iv,
+          authTag: item.authTag,
+        },
+        vaultKey
+      );
+      setRevealCache((prev) => ({ ...prev, [item.id]: plain }));
       return plain;
-    } catch {
+    } catch (err) {
+      console.error("Decryption failed:", err);
+      toast.error("Failed to decrypt password. The entry may be corrupted or encrypted with a different key.");
       return "";
     } finally {
       setRevealingId(null);
     }
   };
 
-  const handleToggleVisible = async (id) => {
-    if (visibleId === id) {
+  const handleToggleVisible = async (item) => {
+    if (visibleId === item.id) {
       setVisibleId(null);
       return;
     }
-    await revealPassword(id);
-    setVisibleId(id);
+    const plain = await revealPassword(item);
+    if (plain) {
+      setVisibleId(item.id);
+    }
   };
 
-  const handleCopyPassword = async (id) => {
-    const plain = revealCache[id] || (await revealPassword(id));
-    handleCopy(id, plain, "pass");
+  const handleCopyPassword = async (item) => {
+    const plain = revealCache[item.id] || (await revealPassword(item));
+    if (plain) {
+      copy(plain, `${item.id}-pass`);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -125,6 +195,7 @@ export default function Vault() {
     setEntries(entries.filter((e) => e.id !== id));
     try {
       await softDeletePassword(id);
+      toast.success("Item moved to trash.");
     } catch {
       setEntries(prev);
       setError("Couldn't delete that entry. Please try again.");
@@ -136,20 +207,41 @@ export default function Vault() {
     setFormError("");
     if (!newForm.title || !newForm.password) return;
 
+    if (!vaultKey) {
+      setIsUnlockModalOpen(true);
+      return;
+    }
+
     setIsSaving(true);
     try {
+      // 1. Encrypt secret client-side
+      const encryptedBlob = await encryptSecret(newForm.password, vaultKey);
+
+      // 2. Compute SHA-256 reuse hash
+      const passwordHash = await computePasswordHash(newForm.password);
+
+      // 3. Compute strength assessment
+      const strength = evaluateStrength(newForm.password);
+
+      // 4. Send encrypted payload to server
       const res = await createPassword({
-        title: newForm.title,
-        username: newForm.username,
-        website: newForm.url,
-        url: newForm.url,
-        password: newForm.password,
-        category: newForm.category,
+        title: newForm.title.trim(),
+        username: newForm.username.trim(),
+        website: newForm.url.trim(),
+        url: newForm.url.trim(),
+        cipherText: encryptedBlob.cipherText,
+        iv: encryptedBlob.iv,
+        authTag: encryptedBlob.authTag,
+        passwordHash,
+        strength,
+        category: newForm.category || "General",
       });
+
       const created = res?.data;
       if (created) {
         setEntries((prev) => [created, ...prev]);
         setRevealCache((prev) => ({ ...prev, [created.id]: newForm.password }));
+        toast.success("Vault item saved!");
       }
       setNewForm({ title: "", username: "", password: "", url: "", category: "General" });
       setIsAddModalOpen(false);
@@ -172,18 +264,59 @@ export default function Vault() {
             Encrypted Password Vault
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Store, search, and manage your encrypted login credentials safely.
+            Zero-knowledge encrypted login credentials protected with AES-256-GCM.
           </p>
         </div>
 
-        <button
-          onClick={() => setIsAddModalOpen(true)}
-          className="btn-soft-primary inline-flex items-center justify-center gap-2 text-xs py-2.5 px-4 shadow-sm"
-        >
-          <Plus className="size-4" />
-          Add New Vault Item
-        </button>
+        <div className="flex items-center gap-2">
+          {!isVaultUnlocked && (
+            <button
+              onClick={() => setIsUnlockModalOpen(true)}
+              className="inline-flex items-center justify-center gap-1.5 text-xs py-2 px-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 font-semibold hover:bg-amber-100 transition-colors shadow-xs"
+            >
+              <Lock className="size-3.5 text-amber-600" />
+              Unlock Vault
+            </button>
+          )}
+
+          <button
+            onClick={() => {
+              if (!isVaultUnlocked) {
+                setIsUnlockModalOpen(true);
+              } else {
+                setIsAddModalOpen(true);
+              }
+            }}
+            className="btn-soft-primary inline-flex items-center justify-center gap-2 text-xs py-2.5 px-4 shadow-sm"
+          >
+            <Plus className="size-4" />
+            Add New Vault Item
+          </button>
+        </div>
       </div>
+
+      {/* Lock Notice Banner if Vault is locked */}
+      {!isVaultUnlocked && (
+        <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-3">
+            <div className="size-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+              <Lock className="size-4" />
+            </div>
+            <div>
+              <p className="font-bold text-amber-900">Vault is locked</p>
+              <p className="text-amber-700 text-[0.7rem]">
+                Enter your master password to decrypt passwords and add new entries.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsUnlockModalOpen(true)}
+            className="px-3.5 py-1.5 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-colors text-xs shrink-0"
+          >
+            Unlock Now
+          </button>
+        </div>
+      )}
 
       {/* Filter and Search Control Bar */}
       <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
@@ -253,7 +386,20 @@ export default function Vault() {
                     </div>
                     <div className="min-w-0">
                       <h3 className="text-sm font-bold text-slate-900 truncate">{item.title}</h3>
-                      <p className="text-[0.7rem] text-slate-400 truncate">{item.website || item.url || "—"}</p>
+                      <p className="text-[0.7rem] text-slate-400 truncate flex items-center gap-1">
+                        {item.website || item.url ? (
+                          <a
+                            href={item.url?.startsWith("http") ? item.url : `https://${item.url || item.website}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline hover:text-indigo-600 inline-flex items-center gap-0.5"
+                          >
+                            {item.website || item.url} <ExternalLink className="size-2.5 inline" />
+                          </a>
+                        ) : (
+                          "—"
+                        )}
+                      </p>
                     </div>
                   </div>
 
@@ -276,11 +422,16 @@ export default function Vault() {
                   <span className="text-slate-400 text-[0.7rem] uppercase font-semibold">User:</span>
                   <span className="font-mono text-slate-700 truncate">{item.username || "—"}</span>
                   <button
-                    onClick={() => handleCopy(item.id, item.username, "user")}
-                    className="p-1 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50"
+                    onClick={() => copy(item.username, `${item.id}-user`)}
+                    disabled={!item.username}
+                    className="p-1 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 disabled:opacity-30"
                     title="Copy Username"
                   >
-                    {copiedField === `${item.id}-user` ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}
+                    {copied && copiedId === `${item.id}-user` ? (
+                      <Check className="size-3.5 text-emerald-600" />
+                    ) : (
+                      <Copy className="size-3.5" />
+                    )}
                   </button>
                 </div>
 
@@ -295,7 +446,7 @@ export default function Vault() {
 
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => handleToggleVisible(item.id)}
+                      onClick={() => handleToggleVisible(item)}
                       disabled={isRevealing}
                       className="p-1 rounded-lg text-slate-400 hover:text-indigo-600 disabled:opacity-50"
                       title="Toggle Password Visibility"
@@ -309,11 +460,15 @@ export default function Vault() {
                       )}
                     </button>
                     <button
-                      onClick={() => handleCopyPassword(item.id)}
+                      onClick={() => handleCopyPassword(item)}
                       className="p-1 rounded-lg text-slate-400 hover:text-indigo-600"
                       title="Copy Password"
                     >
-                      {copiedField === `${item.id}-pass` ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}
+                      {copied && copiedId === `${item.id}-pass` ? (
+                        <Check className="size-3.5 text-emerald-600" />
+                      ) : (
+                        <Copy className="size-3.5" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -336,6 +491,71 @@ export default function Vault() {
           </div>
         )}
       </div>
+
+      {/* Unlock Vault Modal */}
+      {isUnlockModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-sm bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-8 space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="size-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+                  <Unlock className="size-5" />
+                </div>
+                <h2 className="text-base font-bold text-slate-900">Unlock Your Vault</h2>
+              </div>
+              <button
+                onClick={() => setIsUnlockModalOpen(false)}
+                className="p-1.5 rounded-xl text-slate-400 hover:bg-slate-100"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-500">
+              Enter your master password to decrypt your vault secrets in memory. Your password never leaves your browser.
+            </p>
+
+            {unlockError && (
+              <div className="bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl">
+                {unlockError}
+              </div>
+            )}
+
+            <form onSubmit={handleUnlock} className="space-y-4">
+              <div>
+                <label className="text-xs font-semibold text-slate-700 block mb-1">Master Password</label>
+                <input
+                  type="password"
+                  required
+                  autoFocus
+                  value={unlockPassword}
+                  onChange={(e) => setUnlockPassword(e.target.value)}
+                  placeholder="Enter your master password"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsUnlockModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={unlocking || !unlockPassword}
+                  className="btn-soft-primary px-5 py-2 text-xs font-semibold shadow-sm inline-flex items-center gap-2 disabled:opacity-60"
+                >
+                  {unlocking ? <Loader2 className="size-3.5 animate-spin" /> : <ShieldCheck className="size-3.5" />}
+                  Unlock
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Add Item Modal */}
       {isAddModalOpen && (

@@ -75,6 +75,26 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  /** Unlock vault in memory using the master password and stored salt */
+  const unlockVault = useCallback(async (masterPassword) => {
+    const salt = user?.vaultKeySalt;
+    if (!salt) {
+      throw new Error("Missing vault key salt. Please sign in again.");
+    }
+    const key = await deriveVaultKey(masterPassword, salt);
+    setVaultKey(key);
+    return key;
+  }, [user?.vaultKeySalt]);
+
+  /** Update local user profile state */
+  const updateUser = useCallback((updatedFields) => {
+    setUser((prev) => {
+      const next = { ...prev, ...updatedFields };
+      localStorage.setItem(USER_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   /** Clear the session: tell the backend to clear the cookie, wipe local state. */
   const logout = useCallback(async () => {
     try {
@@ -95,9 +115,11 @@ export function AuthProvider({ children }) {
     isAuthenticated: !!user,
     isVaultUnlocked: !!vaultKey,
     saveSession,
+    unlockVault,
+    updateUser,
     logout,
     // Convenience shorthands used by components.
-    displayName: user?.name || user?.email || "Guardian",
+    displayName: user?.displayName || user?.name || user?.email || "Guardian",
     initials:
       user?.name?.[0]?.toUpperCase() ||
       user?.email?.[0]?.toUpperCase() ||

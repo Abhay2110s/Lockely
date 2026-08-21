@@ -12,6 +12,8 @@ import env from "./config/env.js";
 import authRoutes from "./routes/auth.routes.js";
 import passwordRoutes from "./routes/password.routes.js";
 import vaultRoutes from "./routes/vault.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import folderRoutes from "./routes/folder.routes.js";
 import { notFound, errorHandler } from "./middleware/error.middleware.js";
 import { apiLimiter } from "./middleware/rateLimiter.middleware.js";
 import sanitizeRequest from "./middleware/sanitize.middleware.js";
@@ -102,6 +104,8 @@ app.use("/api/v1", async (req, res, next) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/password", passwordRoutes);
 app.use("/api/v1/vault", vaultRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/folders", folderRoutes);
 
 // Catch unmatched routes and forward to the centralized error handler.
 app.use(notFound);
