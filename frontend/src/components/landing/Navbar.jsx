@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppAuth } from "@/context/AuthContext";
-import { LogIn, ShieldCheck, Sparkles, LayoutDashboard } from "lucide-react";
+import { LogIn, ShieldCheck, Sparkles, LayoutDashboard, Zap } from "lucide-react";
 
 const navItems = [
   { label: "Features", href: "#features" },
@@ -24,38 +24,38 @@ export default function Navbar() {
   return (
     <header
       className={`
-      fixed top-0 left-0 right-0 z-50 transition-all duration-300
+      fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-comic
       ${
         scrolled
-          ? "bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-sm py-3.5"
-          : "bg-transparent py-5"
+          ? "bg-[#fffef7]/95 backdrop-blur-md border-b-3 border-[#18181b] shadow-[0_4px_0_#18181b] py-3"
+          : "bg-transparent py-4 sm:py-5"
       }
       `}
     >
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="relative flex items-center justify-center size-10 rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-            <ShieldCheck className="size-5.5" />
+          <div className="size-11 rounded-2xl bg-[#6366f1] border-2.5 border-[#18181b] text-white flex items-center justify-center shadow-[2.5px_2.5px_0px_#18181b] group-hover:rotate-6 transition-transform">
+            <ShieldCheck className="size-6 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-xl tracking-tight text-slate-900 flex items-center gap-1.5">
+            <span className="font-heading-comic font-black text-xl tracking-tight text-slate-950 flex items-center gap-1.5 leading-tight">
               PassGuardian
-              <span className="flex size-2 rounded-full bg-indigo-500 animate-pulse" />
+              <span className="size-2 rounded-full bg-emerald-500 animate-pulse border border-[#18181b]" />
             </span>
-            <span className="text-[0.65rem] font-semibold tracking-wider text-slate-400 uppercase">
-              Zero-Knowledge Vault
+            <span className="text-[0.65rem] font-heading-comic font-bold tracking-wider text-slate-800 bg-[#fef08a] px-1.5 rounded border border-[#18181b] w-fit">
+              COMIC EDITION 💥
             </span>
           </div>
         </Link>
 
         {/* Navigation links */}
-        <nav className="hidden md:flex items-center gap-8 bg-white/70 backdrop-blur-md px-6 py-2 rounded-full border border-slate-200/80 shadow-xs">
+        <nav className="hidden md:flex items-center gap-6 bg-[#fffef7] px-6 py-2 rounded-full border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b]">
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className="text-xs font-semibold uppercase tracking-wider text-slate-600 hover:text-indigo-600 transition-colors"
+              className="text-xs font-heading-comic font-bold tracking-wider text-slate-800 hover:text-indigo-700 transition-colors hover:-translate-y-0.5"
             >
               {item.label}
             </a>
@@ -68,25 +68,25 @@ export default function Navbar() {
             <>
               <Link
                 to="/dashboard"
-                className="btn-soft-primary text-xs tracking-wider flex items-center gap-2"
+                className="btn-comic btn-comic-yellow text-xs px-4 py-2 gap-1.5"
               >
-                <LayoutDashboard className="size-3.5" />
-                Go to Dashboard
+                <LayoutDashboard className="size-4" />
+                Dashboard ➔
               </Link>
               <div className="relative group">
-                <button className="size-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm border-2 border-indigo-500/20 hover:scale-105 transition-transform">
+                <button className="size-10 rounded-2xl bg-[#6366f1] text-white flex items-center justify-center font-heading-comic font-black text-sm border-2.5 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b] hover:-translate-y-0.5 transition-transform">
                   {initials}
                 </button>
-                <div className="absolute right-0 top-11 w-36 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                <div className="absolute right-0 top-12 w-40 bg-white border-2.5 border-[#18181b] rounded-2xl shadow-[4px_4px_0px_#18181b] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                   <Link
                     to="/profile"
-                    className="block px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    className="block px-3 py-2 text-xs font-heading-comic font-bold text-slate-800 hover:bg-[#bae6fd] rounded-xl"
                   >
                     Profile
                   </Link>
                   <button
                     onClick={logout}
-                    className="w-full text-left px-3.5 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-50"
+                    className="w-full text-left px-3 py-2 text-xs font-heading-comic font-bold text-rose-700 hover:bg-[#fda4af] rounded-xl"
                   >
                     Sign Out
                   </button>
@@ -97,17 +97,17 @@ export default function Navbar() {
             <>
               <Link
                 to="/login"
-                className="hidden sm:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 hover:text-indigo-600 transition-colors px-3 py-2"
+                className="hidden sm:flex items-center gap-1.5 text-xs font-heading-comic font-bold text-slate-900 bg-white hover:bg-[#bae6fd] px-3.5 py-2 rounded-xl border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] hover:-translate-y-0.5 transition-all"
               >
-                <LogIn className="size-4 text-indigo-500" />
-                Sign in
+                <LogIn className="size-3.5" />
+                Sign In
               </Link>
               <Link
                 to="/register"
-                className="btn-soft-primary text-xs tracking-wider flex items-center gap-2"
+                className="btn-comic btn-comic-primary text-xs px-4 py-2 gap-1.5"
               >
                 <Sparkles className="size-3.5" />
-                Open Vault
+                Open Free Vault
               </Link>
             </>
           )}
