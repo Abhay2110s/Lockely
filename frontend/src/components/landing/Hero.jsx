@@ -1,6 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, useMotionValue, useSpring } from "framer-motion";
 import {
   ArrowRight,
   Check,
@@ -24,45 +23,33 @@ export default function Hero() {
   const [seed, setSeed] = useState(0);
   const [showEncryptedMock, setShowEncryptedMock] = useState(false);
 
-  // Framer Motion zero-rerender Spring Cursor Engine
+  // Square Cursor effect states (Only active inside Hero section)
   const heroRef = useRef(null);
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [isInsideHero, setIsInsideHero] = useState(false);
   const [isHoverInteractive, setIsHoverInteractive] = useState(false);
-
-  const rawMouseX = useMotionValue(-200);
-  const rawMouseY = useMotionValue(-200);
-
-  const smoothX = useSpring(rawMouseX, { stiffness: 350, damping: 28, mass: 0.4 });
-  const smoothY = useSpring(rawMouseY, { stiffness: 350, damping: 28, mass: 0.4 });
 
   useEffect(() => {
     const heroEl = heroRef.current;
     if (!heroEl) return;
 
     const handleMouseMove = (e) => {
-      rawMouseX.set(e.clientX);
-      rawMouseY.set(e.clientY);
-
+      setCursorPos({ x: e.clientX, y: e.clientY });
       const target = e.target;
-      if (target && target.closest("a, button, input, [role='button'], .group, .ca-doodle-box")) {
+      if (target && target.closest("a, button, input, [role='button']")) {
         setIsHoverInteractive(true);
       } else {
         setIsHoverInteractive(false);
       }
     };
 
-    const handleMouseEnter = (e) => {
-      setIsInsideHero(true);
-      rawMouseX.set(e.clientX);
-      rawMouseY.set(e.clientY);
-    };
-
+    const handleMouseEnter = () => setIsInsideHero(true);
     const handleMouseLeave = () => {
       setIsInsideHero(false);
       setIsHoverInteractive(false);
     };
 
-    heroEl.addEventListener("mousemove", handleMouseMove, { passive: true });
+    heroEl.addEventListener("mousemove", handleMouseMove);
     heroEl.addEventListener("mouseenter", handleMouseEnter);
     heroEl.addEventListener("mouseleave", handleMouseLeave);
 
@@ -71,7 +58,7 @@ export default function Hero() {
       heroEl.removeEventListener("mouseenter", handleMouseEnter);
       heroEl.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [rawMouseX, rawMouseY]);
+  }, []);
 
   // Generate password dynamically
   const password = useMemo(() => {
@@ -119,30 +106,22 @@ export default function Hero() {
       className="ca-grid relative flex flex-col justify-center overflow-hidden px-4 min-h-[90vh] pb-16 pt-8 sm:pt-14 sm:pb-24 select-none"
     >
       {/* ========================================================================= */}
-      {/* ZERO-RERENDER HARDWARE-ACCELERATED SPRING INVERTING CURSOR LENS           */}
+      {/* SQUARE INVERTING CURSOR LENS (Only active inside Hero section)            */}
       {/* ========================================================================= */}
       {isInsideHero && (
-        <motion.div
-          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl will-change-transform"
+        <div
+          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl"
           style={{
-            x: smoothX,
-            y: smoothY,
-            translateX: "-50%",
-            translateY: "-50%",
-          }}
-          animate={{
-            width: isHoverInteractive ? 140 : 110,
-            height: isHoverInteractive ? 140 : 110,
-            rotate: isHoverInteractive ? 4 : 0,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 24,
+            left: `${cursorPos.x}px`,
+            top: `${cursorPos.y}px`,
+            width: isHoverInteractive ? "140px" : "110px",
+            height: isHoverInteractive ? "140px" : "110px",
+            transform: "translate(-50%, -50%)",
+            transition: "width 0.15s ease, height 0.15s ease",
           }}
         >
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-2 rounded-full bg-[#faf6ea]" />
-        </motion.div>
+        </div>
       )}
 
       {/* Hero Content Container */}

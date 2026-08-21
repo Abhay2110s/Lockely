@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Lock, Sparkles, ShieldCheck, CheckCircle2 } from "lucide-react";
 
@@ -6,13 +5,7 @@ export default function CTA() {
   return (
     <section className="ca-grid px-4 py-20 bg-[#faf6ea] border-t border-[#191510]/15">
       <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 30 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative p-8 sm:p-14 bg-[#ffe066] border-3 border-[#191510] shadow-[10px_10px_0_#191510] rounded-3xl space-y-6 text-[#191510]"
-        >
+        <div className="relative p-8 sm:p-14 bg-[#ffe066] border-3 border-[#191510] shadow-[10px_10px_0_#191510] rounded-3xl space-y-6 text-[#191510]">
           {/* Washi Tape Corners */}
           <span aria-hidden="true" className="absolute -left-6 -top-3 z-10 h-6 w-28 -rotate-[10deg] bg-[#ff5e89]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
           <span aria-hidden="true" className="absolute -right-6 -top-3 z-10 h-6 w-28 rotate-[10deg] bg-[#7dd3fc]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
@@ -62,7 +55,7 @@ export default function CTA() {
               Sign In
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
