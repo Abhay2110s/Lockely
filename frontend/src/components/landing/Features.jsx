@@ -1,98 +1,204 @@
 import { useState } from "react";
 import {
+  Lock,
   KeyRound,
   AlertTriangle,
   Zap,
-  Sparkles,
-  Lock,
   CheckCircle2,
+  ArrowRight,
+  ShieldCheck,
 } from "lucide-react";
 
-const featureCards = [
+const featureProjects = [
   {
-    icon: Lock,
-    bg: "bg-[#fef08a]",
-    badge: "AES-256-GCM",
-    title: "Zero-Knowledge Crypto",
-    desc: "Your master password derives a client-side AES-256 key via PBKDF2. Passwords are encrypted before touching the internet.",
+    id: "01",
+    tabColor: "bg-[#3b82f6]",
+    badge: "AES-256-GCM CIPHER",
+    date: "Client-Side Core",
+    title: "Zero-Knowledge Vault",
+    desc: "Your master password is never sent across any network. Cryptographic keys are derived in browser RAM using PBKDF2 with 600,000 rounds before anything is stored.",
+    tags: ["PBKDF2 Derivation", "256-Bit Key", "Hardware WebCrypto", "Zero Plaintext"],
+    polaroidCaption: "AES-256-GCM Galois Authenticated",
+    polaroidColor: "bg-[#7dd3fc]",
+    illustrationText: "ENCRYPTED_BLOB",
+    metaTitle: "100% Isolated Keys",
   },
   {
-    icon: KeyRound,
-    bg: "bg-[#bae6fd]",
-    badge: "CSPRNG ENGINE",
-    title: "Super Key Generator",
-    desc: "Generate uncrackable passwords with tailored character sets, custom length sliders, and hardware entropy.",
+    id: "02",
+    tabColor: "bg-[#ff5e89]",
+    badge: "HARDWARE CSPRNG",
+    date: "Sub-Millisecond",
+    title: "Smart Key Generator",
+    desc: "Generate uncrackable passwords tailored to custom length sliders, symbol exclusions, and pronounceable rules with real-time entropy calculation.",
+    tags: ["Entropy Analyzer", "Auto-Clipboard Clear", "Custom Charsets", "Zero GPU Cracking"],
+    polaroidCaption: "Cryptographic Entropy Engine",
+    polaroidColor: "bg-[#ffe066]",
+    illustrationText: "CSPRNG_ACTIVE",
+    metaTitle: "128+ Bits Entropy",
   },
   {
-    icon: AlertTriangle,
-    bg: "bg-[#fda4af]",
-    badge: "PASSWORD HEALTH",
-    title: "Reused & Weak Sentinel",
-    desc: "Instantly detect weak, duplicate, or expired credentials without exposing your secrets to anyone.",
+    id: "03",
+    tabColor: "bg-[#86efac]",
+    badge: "k-ANONYMITY WATCH",
+    date: "Proactive Monitor",
+    title: "Breach Sentinel",
+    desc: "Checks anonymized SHA-1 hash prefixes against billions of exposed passwords in real-time. Detect duplicate and weak credentials instantly.",
+    tags: ["k-Anonymity Hashes", "Duplicate Detection", "Strength Meter", "No Hash Exposure"],
+    polaroidCaption: "Zero-Exposure Hash Watcher",
+    polaroidColor: "bg-[#c4b5fd]",
+    illustrationText: "BREACH_SHIELD",
+    metaTitle: "Instant Alerting",
   },
   {
-    icon: Zap,
-    bg: "bg-[#bbf7d0]",
-    badge: "SUB-MILLISECOND",
-    title: "Instant 2FA Security",
-    desc: "TOTP 2-Factor Authentication with backup recovery codes for ironclad access control.",
+    id: "04",
+    tabColor: "bg-[#fb923c]",
+    badge: "RFC-6238 TOTP",
+    date: "Two-Factor Auth",
+    title: "Authenticator 2FA",
+    desc: "Integrated Time-Based One-Time Password engine compatible with Google Authenticator, Authy, and hardware tokens with backup recovery codes.",
+    tags: ["TOTP Generator", "QR Provisioning", "Backup Codes", "Rate-Limited"],
+    polaroidCaption: "Two-Factor Authentication",
+    polaroidColor: "bg-[#a7f3d0]",
+    illustrationText: "TOTP_AUTHENTICATED",
+    metaTitle: "Ironclad Protection",
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="relative px-6 py-24 bg-[#fffef7] border-y-3 border-[#18181b] font-comic">
-      <div className="max-w-6xl mx-auto space-y-16">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fef08a] border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] text-xs font-heading-comic font-bold text-slate-950">
-            <Sparkles className="size-3.5 fill-amber-400 text-slate-950" />
-            Core Vault Arsenal
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-heading-comic font-black tracking-tight text-slate-950">
-            Supercharged Privacy &amp; Speed 🚀
-          </h2>
-          <p className="text-base text-slate-700 font-comic font-bold leading-relaxed">
-            Everything you need to secure your passwords, accounts, and private notes.
-          </p>
+    <section id="features" className="ca-grid scroll-mt-24 pb-24 pt-8">
+      {/* Hand-drawn Curved Wave Divider */}
+      <svg
+        viewBox="0 0 1440 130"
+        fill="none"
+        preserveAspectRatio="none"
+        className="h-16 w-full sm:h-24 -mx-4 w-[calc(100%+2rem)] text-[#191510]/20"
+        aria-hidden="true"
+      >
+        <path
+          d="M-10 120C420 10 1030 4 1450 80"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeDasharray="6 6"
+        />
+      </svg>
+
+      {/* Header & Handwritten Subheading */}
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-4 pb-14 text-center sm:pb-20">
+        <div className="flex flex-col items-center text-[#191510]">
+          <p className="ca-hand text-2xl sm:text-3xl">explore core features!</p>
+          <svg
+            viewBox="0 0 64 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            className="mt-1 h-3 w-24 text-[#191510]"
+            aria-hidden="true"
+          >
+            <path d="M3 4c18-3 40-3 58 0" />
+            <path d="M9 9c14-2.5 32-2.5 46 0" />
+          </svg>
         </div>
 
-        {/* Comic Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {featureCards.map((feat, idx) => {
-            const Icon = feat.icon;
-            return (
-              <div
-                key={idx}
-                className={`${feat.bg} p-6 sm:p-8 rounded-3xl border-3 border-[#18181b] shadow-[6px_6px_0px_#18181b] hover:-translate-y-1 transition-all space-y-4 flex flex-col justify-between`}
+        <span className="mt-4 block text-center">
+          <span className="ca-display text-5xl sm:text-7xl lg:text-8xl leading-[0.92] tracking-tight text-[#191510]">
+            VAULT ARSENAL
+          </span>
+        </span>
+
+        {/* Washi Tape Description */}
+        <div className="mt-6 max-w-md -rotate-2">
+          <span className="ca-tape inline-block px-6 py-2 text-sm sm:text-base font-bold text-[#191510] shadow-sm [clip-path:polygon(1.5%_0,100%_8%,98.5%_100%,0_92%)] bg-[#ffe066] border border-[#191510]/20">
+            Four powerful instruments engineered for absolute privacy and speed.
+          </span>
+        </div>
+      </div>
+
+      {/* Stacked Project-Style Feature Cards */}
+      <div className="flex flex-col gap-12 px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto">
+        {featureProjects.map((feat, idx) => (
+          <article key={feat.id} className="relative">
+            {/* Top Diagonal Tab Header */}
+            <div className="flex">
+              <span
+                className={`ca-mono inline-flex items-center gap-2 py-2.5 pr-10 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white pl-5 [clip-path:polygon(0_0,calc(100%-36px)_0,100%_100%,0_100%)] sm:pl-8 sm:[clip-path:polygon(0_0,calc(100%-60px)_0,100%_100%,0_100%)] ${feat.tabColor}`}
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="size-12 rounded-2xl bg-white border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] flex items-center justify-center">
-                      <Icon className="size-6 text-slate-950" />
-                    </div>
-                    <span className="text-xs font-heading-comic font-bold bg-white px-2.5 py-0.5 rounded-md border border-[#18181b]">
-                      {feat.badge}
-                    </span>
-                  </div>
+                <ShieldCheck className="size-3.5 sm:size-4" />
+                Feature {feat.id}
+              </span>
+            </div>
 
-                  <h3 className="text-2xl font-heading-comic font-black text-slate-950">
+            {/* Main Feature Card Body */}
+            <div
+              className={`grid grid-cols-1 gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-12 border-3 border-[#191510] shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
+            >
+              {/* Left Column: Details */}
+              <div className="flex flex-col justify-between space-y-6">
+                <div>
+                  <span className="ca-mono inline-flex items-center gap-2.5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white">
+                    <span className="size-2.5 rounded-full bg-white animate-pulse" />
+                    {feat.badge}
+                  </span>
+
+                  <h2 className="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight text-white ca-display">
                     {feat.title}
-                  </h3>
+                  </h2>
 
-                  <p className="text-sm font-comic font-bold text-slate-800 leading-relaxed">
+                  <p className="mt-4 text-base sm:text-lg leading-relaxed text-white/95 font-medium">
                     {feat.desc}
                   </p>
                 </div>
 
-                <div className="pt-2 flex items-center gap-2 text-xs font-heading-comic font-bold text-slate-900">
-                  <CheckCircle2 className="size-4 text-emerald-800" />
-                  100% Client-Side Verified
+                {/* Monospace Polygon Cutout Tags */}
+                <div className="flex flex-wrap gap-2 pt-4">
+                  {feat.tags.map((tag, tIdx) => (
+                    <span
+                      key={tIdx}
+                      className="ca-mono px-3 py-1.5 text-xs font-bold uppercase tracking-wide bg-white text-[#191510] border border-[#191510] shadow-[1.5px_1.5px_0_#191510]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Right Column: Artsy Polaroid Graphic Frame */}
+              <div className="self-center">
+                <div className="relative">
+                  {/* Translucent Corner Washi Tapes */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-5 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute -right-5 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
+                  />
+
+                  {/* Polaroid Frame */}
+                  <figure className="relative bg-white p-4 pb-3 shadow-[0_8px_24px_rgba(17,18,18,0.25)] border-2 border-[#191510]">
+                    <div className="p-6 bg-[#faf6ea] border-2 border-[#191510] flex flex-col items-center justify-center text-center space-y-3 min-h-[160px]">
+                      <span className="ca-mono text-xs font-black bg-[#ffe066] px-3 py-1 border border-[#191510]">
+                        {feat.illustrationText}
+                      </span>
+                      <p className="ca-display text-2xl text-[#191510] tracking-tight">
+                        {feat.metaTitle}
+                      </p>
+                      <span className="ca-mono text-[0.7rem] text-[#191510]/80">
+                        100% CLIENT-SIDE ENCRYPTION
+                      </span>
+                    </div>
+
+                    <figcaption className="ca-hand mt-2 text-center text-base text-[#191510] font-bold">
+                      {feat.polaroidCaption}
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

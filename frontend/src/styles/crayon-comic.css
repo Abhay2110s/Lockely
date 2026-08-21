@@ -39,6 +39,40 @@ body {
   font-family: 'Architects Daughter', cursive, sans-serif;
 }
 
+/* Creative-Artsy Specific Utilities (portfoliofy creative-artsy reference) */
+.ca-mono {
+  font-family: 'Space Mono', 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.ca-hand {
+  font-family: 'Architects Daughter', 'Comic Neue', cursive;
+}
+
+.ca-display {
+  font-family: 'Anton', 'Bangers', 'Fredoka', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.ca-spin-slow {
+  animation: spin 12s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.ca-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(25, 21, 16, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(25, 21, 16, 0.06) 1px, transparent 1px);
+}
+
 /* Comic Borders */
 .border-ink {
   border: 2.5px solid var(--comic-ink);
