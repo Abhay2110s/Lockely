@@ -5,7 +5,7 @@
 //   3. verifyCode()   — called during login after email+password to issue cookie
 //   4. disable()      — turn off 2FA (requires valid code or backup code)
 import crypto from "crypto";
-import { authenticator } from "otplib";
+import { generateSecret, generateURI, verify } from "otplib";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -29,13 +29,15 @@ const hashBackupCodes = async (codes) =>
 // Verify a TOTP token or a backup code. Returns true on match.
 const verifyTokenOrBackupCode = async (user, { token, backupCode }) => {
   // Try TOTP first.
-  if (token) {
-    return authenticator.verify({ token, secret: user.twoFactorSecret });
+  if (token && user.twoFactorSecret) {
+    const res = await verify({ token: String(token).trim(), secret: user.twoFactorSecret });
+    if (res?.valid) return true;
   }
   // Try backup codes.
   if (backupCode && user.twoFactorBackupCodes?.length > 0) {
+    const cleanBackup = String(backupCode).trim().toUpperCase();
     for (let i = 0; i < user.twoFactorBackupCodes.length; i++) {
-      const match = await bcrypt.compare(backupCode, user.twoFactorBackupCodes[i]);
+      const match = await bcrypt.compare(cleanBackup, user.twoFactorBackupCodes[i]);
       if (match) {
         // Consume (remove) the used backup code.
         user.twoFactorBackupCodes.splice(i, 1);
@@ -60,8 +62,8 @@ export const setup = asyncHandler(async (req, res) => {
     throw ApiError.badRequest("2FA is already enabled. Disable it first to re-enroll.");
   }
 
-  const secret = authenticator.generateSecret();
-  const otpAuthUrl = authenticator.keyuri(user.email, APP_NAME, secret);
+  const secret = generateSecret();
+  const otpAuthUrl = generateURI({ issuer: APP_NAME, label: user.email, secret });
 
   // Temporarily store the secret until verifySetup confirms the first code.
   user.twoFactorSecret = secret;
@@ -89,8 +91,8 @@ export const verifySetup = asyncHandler(async (req, res) => {
     throw ApiError.badRequest("2FA setup not started. Call /2fa/setup first.");
   }
 
-  const valid = authenticator.verify({ token, secret: user.twoFactorSecret });
-  if (!valid) {
+  const resVerify = await verify({ token: String(token).trim(), secret: user.twoFactorSecret });
+  if (!resVerify?.valid) {
     throw ApiError.badRequest("Invalid TOTP code. Please try again.");
   }
 
