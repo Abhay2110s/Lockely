@@ -1,6 +1,12 @@
 // Auth controller — full manual auth: register, OTP verify, login,
-// forgot-password, reset-password, and get-me.
+// forgot-password, reset-password, get-me, and logout.
 // No third-party auth provider is used; credentials are stored locally.
+//
+// Security note — CSRF protection strategy:
+// The JWT is stored in an httpOnly cookie with SameSite=Strict. Since this
+// is a same-site SPA with no cross-site embedded form flows, SameSite=Strict
+// alone is sufficient to block CSRF: cross-origin requests cannot carry
+// SameSite=Strict cookies, so no double-submit token is needed.
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
@@ -22,6 +28,26 @@ const signToken = (userId) =>
   jwt.sign({ userId: userId.toString() }, env.JWT_SECRET, {
     expiresIn: env.JWT_EXPIRES_IN,
   });
+
+/**
+ * Cookie options for the auth token.
+ * - httpOnly: prevents JS access (XSS protection)
+ * - secure: only sent over HTTPS in production
+ * - sameSite: "strict" blocks cross-site request forgery
+ * - maxAge: 7 days in milliseconds
+ */
+const cookieOptions = {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: "strict",
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
+
+/** Set the auth cookie on the response. */
+const setAuthCookie = (res, userId) => {
+  const token = signToken(userId);
+  res.cookie("pg_auth", token, cookieOptions);
+};
 
 // ─── Register ───────────────────────────────────────────────────────────────
 
@@ -48,11 +74,16 @@ export const register = asyncHandler(async (req, res) => {
     await OTP.deleteMany({ email: email.toLowerCase(), type: "EMAIL_VERIFICATION" });
   }
 
+  // Generate a random 32-byte salt for client-side vault key derivation (PBKDF2).
+  // This is not secret — it prevents pre-computation attacks if the DB leaks.
+  const vaultKeySalt = crypto.randomBytes(32).toString("hex");
+
   const user = await User.create({
     name: name.trim(),
     email: email.toLowerCase(),
     password,
     isVerified: false,
+    vaultKeySalt,
   });
 
   const otp = generateOTP();
@@ -102,11 +133,11 @@ export const verifyOTP = asyncHandler(async (req, res) => {
 
   await OTP.deleteMany({ email: email.toLowerCase(), type: "EMAIL_VERIFICATION" });
 
-  const token = signToken(user._id);
+  setAuthCookie(res, user._id);
 
   return new ApiResponse(200, "Email verified successfully.", {
-    token,
     user: { id: user._id, name: user.name, email: user.email },
+    vaultKeySalt: user.vaultKeySalt,
   }).send(res);
 });
 
@@ -144,11 +175,24 @@ export const login = asyncHandler(async (req, res) => {
     );
   }
 
-  const token = signToken(user._id);
+  // If 2FA is enabled, do NOT issue the auth cookie yet.
+  // Return a short-lived pendingUserId so the browser can complete the
+  // TOTP step via POST /auth/2fa/verify. The auth cookie is only issued
+  // after the TOTP code is confirmed.
+  if (user.twoFactorEnabled) {
+    return new ApiResponse(200, "2FA required.", {
+      requires2FA: true,
+      pendingUserId: user._id.toString(),
+      // Also return the salt so the browser can start key derivation in parallel.
+      vaultKeySalt: user.vaultKeySalt,
+    }).send(res);
+  }
+
+  setAuthCookie(res, user._id);
 
   return new ApiResponse(200, "Logged in successfully.", {
-    token,
     user: { id: user._id, name: user.name, email: user.email },
+    vaultKeySalt: user.vaultKeySalt,
   }).send(res);
 });
 
@@ -254,4 +298,18 @@ export const resendOTP = asyncHandler(async (req, res) => {
   await sendOTPEmail(email, otp, type === "FORGOT_PASSWORD" ? "reset" : "verify");
 
   return new ApiResponse(200, "OTP resent.").send(res);
+});
+
+// ─── Logout ──────────────────────────────────────────────────────────────────
+
+// POST /api/v1/auth/logout
+// Clears the auth cookie, effectively ending the session.
+// Works even if the cookie is already gone (idempotent).
+export const logout = asyncHandler(async (req, res) => {
+  res.clearCookie("pg_auth", {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+  return new ApiResponse(200, "Logged out successfully.").send(res);
 });

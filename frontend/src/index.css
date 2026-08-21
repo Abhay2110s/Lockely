@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
+@import "./styles/globals.css";
+@import "./styles/animations.css";
+@import "./styles/scrollbar.css";
 @import "./styles/ledger.css";
 @import "./styles/soft-modern.css";
 

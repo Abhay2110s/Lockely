@@ -1,0 +1,57 @@
+/* scrollbar.css — slim, elegant custom scrollbars for sidebar and vault list.
+   Uses the standard CSS Scrollbar Styling API (Baseline 2024).
+   Falls back to Webkit pseudo-element API for older Chromium-based browsers. */
+
+/* ─── Standard API ───────────────────────────────────────────────── */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* ─── Webkit Pseudo-Element Fallback ─────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 99px;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+/* ─── Sidebar Specific ───────────────────────────────────────────── */
+
+aside::-webkit-scrollbar {
+  width: 4px;
+}
+
+aside::-webkit-scrollbar-thumb {
+  background-color: #e2e8f0;
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+/* ─── Vault List ─────────────────────────────────────────────────── */
+
+.vault-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.vault-list::-webkit-scrollbar-thumb {
+  background-color: #e2e8f0;
+  border-radius: 99px;
+}

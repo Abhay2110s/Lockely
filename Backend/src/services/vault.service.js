@@ -1,10 +1,14 @@
 // Vault service — business logic for encrypted password entries,
 // including creation, retrieval, update, soft/hard delete,
 // export/import, reuse detection, and dashboard statistics.
+//
+// Zero-knowledge architecture: vault secrets are encrypted in the browser
+// (AES-256-GCM, key derived via PBKDF2 from master password).
+// The server only stores and passes through ciphertext/iv/authTag blobs.
+// It never decrypts or sees plaintext passwords.
 import Password from "../models/password.js";
 import ApiError from "../utils/ApiError.js";
-import { encrypt, decrypt, hashForComparison } from "./encryption.service.js";
-import { checkPasswordStrength } from "../utils/passwordChecker.js";
+import { hashForComparison, validateCiphertextBlob } from "./encryption.service.js";
 import { toCSV, fromCSV } from "../utils/csv.js";
 import { WEAK_STRENGTH_LEVELS, STRONG_STRENGTH_LEVELS } from "../constants/index.js";
 
@@ -27,45 +31,57 @@ const EXPORT_COLUMNS = [
 ];
 
 /**
- * Encrypts the plaintext secret + computes its strength snapshot and
- * reuse-detection hash. Shared by create and update flows.
+ * Validates and extracts the client-provided ciphertext blob + reuse hash.
+ * The server never encrypts or decrypts — it just stores what the client sends.
+ *
+ * @param {object} payload — from the request body
+ * @param {string} payload.cipherText  — base64 AES-256-GCM ciphertext
+ * @param {string} payload.iv          — base64 12-byte IV
+ * @param {string} payload.authTag     — base64 16-byte GCM auth tag
+ * @param {string} payload.passwordHash — SHA-256 of plaintext (computed client-side)
+ * @param {object} [payload.strength]  — { score, label, entropy } from client
  */
-const buildSecretFields = (plainPassword) => {
-  const { cipherText, iv, authTag } = encrypt(plainPassword);
-  const analysis = checkPasswordStrength(plainPassword, {
-    includeSuggestions: false,
-  });
+const buildSecretFields = (payload) => {
+  validateCiphertextBlob(payload);
+
+  if (!payload.passwordHash) {
+    throw ApiError.badRequest("passwordHash is required for reuse detection.");
+  }
 
   return {
-    cipherText,
-    iv,
-    authTag,
-    passwordHash: hashForComparison(plainPassword),
+    cipherText: payload.cipherText,
+    iv: payload.iv,
+    authTag: payload.authTag,
+    passwordHash: payload.passwordHash,
     strength: {
-      score: analysis.score,
-      label: analysis.strength,
-      entropy: analysis.entropy,
+      score: payload.strength?.score ?? 0,
+      label: payload.strength?.label ?? "Unknown",
+      entropy: payload.strength?.entropy ?? 0,
     },
     lastPasswordChangeAt: new Date(),
   };
 };
 
+/**
+ * Validates and extracts backup codes ciphertext blob from the client.
+ */
 const buildBackupCodesFields = (backupCodes) => {
-  if (!backupCodes || backupCodes.length === 0) {
+  if (!backupCodes || !backupCodes.cipherText) {
     return { backupCodes: { cipherText: null, iv: null, authTag: null } };
   }
-  const { cipherText, iv, authTag } = encrypt(JSON.stringify(backupCodes));
-  return { backupCodes: { cipherText, iv, authTag } };
+  validateCiphertextBlob(backupCodes);
+  return { backupCodes };
 };
 
 /**
  * Shapes a Mongoose vault document for API responses.
- * By default the secret stays encrypted; pass reveal=true to decrypt it.
+ * The ciphertext blob is always returned as-is — the client decrypts it.
+ * The server never calls decrypt().
  */
-export const toSafeEntry = (doc, { reveal = false } = {}) => {
+export const toSafeEntry = (doc, _opts = {}) => {
   const obj = doc.toObject({ virtuals: true });
 
-  const safe = {
+  return {
     id: obj._id,
     title: obj.title,
     website: obj.website,
@@ -75,7 +91,13 @@ export const toSafeEntry = (doc, { reveal = false } = {}) => {
     email: obj.email,
     notes: obj.notes,
     recoveryEmail: obj.recoveryEmail,
+    // Return the encrypted blob — the browser decrypts it.
+    cipherText: obj.cipherText,
+    iv: obj.iv,
+    authTag: obj.authTag,
     hasBackupCodes: Boolean(obj.backupCodes?.cipherText),
+    // Return backup codes blob too if present.
+    backupCodes: obj.backupCodes?.cipherText ? obj.backupCodes : null,
     category: obj.category,
     favorite: obj.favorite,
     strength: obj.strength,
@@ -90,32 +112,10 @@ export const toSafeEntry = (doc, { reveal = false } = {}) => {
     createdAt: obj.createdAt,
     updatedAt: obj.updatedAt,
   };
-
-  if (reveal) {
-    safe.password = decrypt({
-      cipherText: obj.cipherText,
-      iv: obj.iv,
-      authTag: obj.authTag,
-    });
-
-    if (obj.backupCodes?.cipherText) {
-      safe.backupCodes = JSON.parse(
-        decrypt({
-          cipherText: obj.backupCodes.cipherText,
-          iv: obj.backupCodes.iv,
-          authTag: obj.backupCodes.authTag,
-        })
-      );
-    } else {
-      safe.backupCodes = [];
-    }
-  }
-
-  return safe;
 };
 
 export const createEntry = async (userId, payload) => {
-  const secretFields = buildSecretFields(payload.password);
+  const secretFields = buildSecretFields(payload);
   const backupFields = buildBackupCodesFields(payload.backupCodes);
 
   const entry = await Password.create({
@@ -257,8 +257,10 @@ export const updateEntry = async (userId, id, payload) => {
     entry.backupCodes = backupCodes;
   }
 
-  if (payload.password !== undefined) {
-    const newHash = hashForComparison(payload.password);
+  if (payload.cipherText !== undefined) {
+    // Client is updating the password (re-encrypted and sent as a new blob).
+    const newHash = payload.passwordHash;
+    if (!newHash) throw ApiError.badRequest("passwordHash is required when updating the password.");
 
     const reusedInHistory =
       entry.passwordHash === newHash ||
@@ -281,7 +283,7 @@ export const updateEntry = async (userId, id, payload) => {
     // Cap history length to avoid unbounded growth.
     entry.history = entry.history.slice(0, 10);
 
-    const secretFields = buildSecretFields(payload.password);
+    const secretFields = buildSecretFields(payload);
     Object.assign(entry, secretFields);
   }
 
@@ -412,11 +414,12 @@ export const exportEncryptedEntries = async (userId) => {
   return JSON.stringify(
     {
       format: "passguardian-encrypted-vault",
-      version: 1,
+      version: 2,
       exportedAt: new Date().toISOString(),
       encryption: {
         algorithm: "AES-256-GCM",
-        note: "Secrets remain encrypted with the server vault encryption key."
+        keyDerivation: "PBKDF2-SHA256-client-side",
+        note: "Secrets are encrypted client-side. Only the account owner with their master password can decrypt."
       },
       entries: entries.map((entry) => ({
         id: String(entry._id),
@@ -450,17 +453,19 @@ export const exportEncryptedEntries = async (userId) => {
 export const exportEntries = async (userId, format) => {
   const entries = await Password.find({ user: userId, isDeleted: false });
   const rows = entries.map((entry) => {
-    const safe = toSafeEntry(entry, { reveal: true });
+    // In the zero-knowledge model the server cannot decrypt secrets.
+    // The plaintext CSV export is no longer supported server-side.
+    // Clients must use the encrypted export and decrypt locally.
     return {
-      title: safe.title,
-      website: safe.website,
-      url: safe.url,
-      username: safe.username,
-      email: safe.email,
-      password: safe.password,
-      category: safe.category,
-      notes: safe.notes,
-      favorite: safe.favorite,
+      title: entry.title || "",
+      website: entry.website || "",
+      url: entry.url || "",
+      username: entry.username || "",
+      email: entry.email || "",
+      password: "[encrypted — export via the app to decrypt]",
+      category: entry.category || "",
+      notes: entry.notes || "",
+      favorite: entry.favorite,
     };
   });
 

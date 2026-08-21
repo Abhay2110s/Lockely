@@ -13,24 +13,16 @@ if (isProduction && !configuredApiUrl) {
 
 const API_BASE_URL = configuredApiUrl || "http://localhost:3000/api/v1";
 
+// The auth JWT is stored in an httpOnly cookie set by the backend.
+// `withCredentials: true` ensures cookies are sent on every cross-origin
+// request — this is all that's needed; no manual token attachment is required.
+// NEVER store the JWT in localStorage; that makes it readable to injected scripts.
 export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  withCredentials: true, // sends the pg_auth httpOnly cookie automatically
 });
-
-// Attach the JWT from localStorage to every outgoing request.
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("pg_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
 
 export default api;

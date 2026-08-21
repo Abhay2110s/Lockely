@@ -1,15 +1,22 @@
-// AuthContext — manages JWT-based auth state in memory + localStorage.
-// Provides login, logout, register, and the current user to the whole app.
+// AuthContext — manages auth state and vault key in memory.
+//
+// Security design:
+//   - JWT lives in an httpOnly cookie (never in JS-accessible storage).
+//   - Non-sensitive user profile (name/email) is cached in localStorage for
+//     instant render on page load.
+//   - vaultKey (derived via PBKDF2 from master password) is held ONLY in memory
+//     as a CryptoKey object. It is never exported, serialised, or persisted.
+//     On logout it is set to null and garbage-collected.
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import api from "@/services/api";
+import { logout as logoutAPI } from "@/services/auth.service";
+import { deriveVaultKey } from "@/services/crypto.service";
 
 const AuthContext = createContext(null);
 
-const TOKEN_KEY = "pg_token";
 const USER_KEY = "pg_user";
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
   const [user, setUser] = useState(() => {
     try {
       const raw = localStorage.getItem(USER_KEY);
@@ -18,60 +25,75 @@ export function AuthProvider({ children }) {
       return null;
     }
   });
+  // The AES-256-GCM CryptoKey derived from the master password.
+  // null = vault is "locked" (user hasn't logged in yet or has logged out).
+  const [vaultKey, setVaultKey] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // On mount, validate the stored token by fetching the user profile.
+  // On mount, validate the session by fetching the user profile.
+  // If the cookie is gone/expired, this will 401 and we clear local state.
+  // Note: the vault key is NOT restored on page reload — the user must re-derive
+  // it by logging in again (enter master password). This is intentional: the key
+  // should not survive page refreshes in a zero-knowledge model.
   useEffect(() => {
-    const stored = localStorage.getItem(TOKEN_KEY);
-    if (!stored) {
-      setIsLoaded(true);
-      return;
-    }
-
-    api.get("/auth/me", {
-      headers: { Authorization: `Bearer ${stored}` },
-    })
+    api
+      .get("/auth/me")
       .then(({ data }) => {
         const userData = data.data;
         setUser(userData);
-        setToken(stored);
         localStorage.setItem(USER_KEY, JSON.stringify(userData));
       })
       .catch(() => {
-        // Token is invalid/expired — clear storage.
-        localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
-        setToken(null);
         setUser(null);
+        setVaultKey(null);
       })
       .finally(() => setIsLoaded(true));
   }, []);
 
   /**
-   * Store token + user after a successful login or OTP verification.
-   * @param {string} newToken - JWT returned from the backend
-   * @param {object} newUser  - { id, name, email }
+   * Derive the vault key and store the session after successful login.
+   * Called by login and 2FA verify flows once credentials are confirmed.
+   *
+   * @param {object} newUser       — { id, name, email }
+   * @param {string} vaultKeySalt  — hex-encoded per-user salt from server
+   * @param {string} masterPassword — the user's plaintext password (never stored)
    */
-  const saveSession = useCallback((newToken, newUser) => {
-    localStorage.setItem(TOKEN_KEY, newToken);
+  const saveSession = useCallback(async (newUser, vaultKeySalt, masterPassword) => {
     localStorage.setItem(USER_KEY, JSON.stringify(newUser));
-    setToken(newToken);
     setUser(newUser);
+
+    // Derive the vault key in the background.
+    if (vaultKeySalt && masterPassword) {
+      try {
+        const key = await deriveVaultKey(masterPassword, vaultKeySalt);
+        setVaultKey(key);
+      } catch (err) {
+        console.error("[AuthContext] Vault key derivation failed:", err);
+        // Non-fatal — user can still navigate; vault items just won't decrypt.
+      }
+    }
   }, []);
 
-  /** Clear everything and sign the user out. */
-  const logout = useCallback(() => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    setToken(null);
-    setUser(null);
+  /** Clear the session: tell the backend to clear the cookie, wipe local state. */
+  const logout = useCallback(async () => {
+    try {
+      await logoutAPI();
+    } catch {
+      // Ignore server errors — the cookie will expire naturally.
+    } finally {
+      localStorage.removeItem(USER_KEY);
+      setUser(null);
+      setVaultKey(null); // drop the key from memory
+    }
   }, []);
 
   const value = {
-    token,
     user,
+    vaultKey,
     isLoaded,
-    isAuthenticated: !!token && !!user,
+    isAuthenticated: !!user,
+    isVaultUnlocked: !!vaultKey,
     saveSession,
     logout,
     // Convenience shorthands used by components.

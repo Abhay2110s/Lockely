@@ -14,8 +14,10 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Allow email to be passed as a prop or via router state (from login redirect)
+  // Allow email to be passed as a prop or via router state (from login redirect).
+  // `password` is also passed in state so the vault key can be derived here.
   const email = emailProp || location.state?.email || "";
+  const passwordFromState = location.state?.password || null;
 
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -77,8 +79,11 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
 
     try {
       const res = await authService.verifyOTP({ email, otp: code });
-      if (res.data?.token) {
-        saveSession(res.data.token, res.data.user);
+      const { user, vaultKeySalt } = res.data || {};
+      if (user) {
+        // Use the password from router state for vault key derivation.
+        // It is never stored — only held in router state for this one step.
+        await saveSession(user, vaultKeySalt, passwordFromState);
         onSuccess?.(res.data);
         toast.success("Email verified! Welcome to PassGuardian.");
         navigate("/dashboard");

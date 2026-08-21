@@ -35,7 +35,7 @@ const fieldVariant = {
 };
 
 /* ── OTP verify view ── */
-function OTPVerify({ email, onSuccess }) {
+function OTPVerify({ email, password: masterPassword }) {
   const { saveSession } = useAppAuth();
   const navigate = useNavigate();
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
@@ -73,10 +73,10 @@ function OTPVerify({ email, onSuccess }) {
     setError(""); setLoading(true);
     try {
       const res = await authService.verifyOTP({ email, otp: code });
-      if (res.data?.token) {
-        saveSession(res.data.token, res.data.user);
+      const { user, vaultKeySalt } = res.data || {};
+      if (user) {
+        await saveSession(user, vaultKeySalt, masterPassword);
         toast.success("Email verified! Welcome to PassGuardian.");
-        onSuccess?.();
         navigate("/dashboard");
       }
     } catch (err) {
@@ -200,7 +200,7 @@ export default function RegisterForm() {
   };
 
   if (pendingVerification) {
-    return <OTPVerify email={email} />;
+    return <OTPVerify email={email} password={password} />;
   }
 
   return (

@@ -31,7 +31,19 @@ export default function LoginForm() {
 
     try {
       const res = await authService.login({ email, password });
-      saveSession(res.data.token, res.data.user);
+      const { user, vaultKeySalt, requires2FA, pendingUserId } = res.data;
+
+      if (requires2FA) {
+        // 2FA is enabled — redirect to the TOTP challenge step.
+        // Pass the password in state so the vault key can be derived
+        // AFTER the 2FA code is confirmed (never stored anywhere else).
+        navigate("/verify-2fa", {
+          state: { pendingUserId, vaultKeySalt, password },
+        });
+        return;
+      }
+
+      await saveSession(user, vaultKeySalt, password);
       toast.success("Welcome back!");
       navigate("/dashboard");
     } catch (err) {

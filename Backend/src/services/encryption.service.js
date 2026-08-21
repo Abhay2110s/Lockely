@@ -1,73 +1,41 @@
-// Encryption service — AES-256-GCM symmetric encryption for
-// vault secrets, plus a one-way SHA-256 hash for reuse detection.
+// Encryption service — now acts as a thin validation layer only.
+//
+// ┌─ Architecture Change (Zero-Knowledge) ──────────────────────────────────────┐
+// │ Vault secrets are encrypted CLIENT-SIDE using AES-256-GCM before being     │
+// │ sent to the API. The server stores and returns ciphertext blobs only —      │
+// │ it never sees plaintext passwords or the derived vault key.                 │
+// │                                                                             │
+// │ Key derivation: PBKDF2(masterPassword, vaultKeySalt) in the browser.        │
+// │ vaultKeySalt is a per-user random salt stored on the User document.         │
+// │                                                                             │
+// │ hashForComparison is kept server-side (SHA-256 of plaintext) because:       │
+// │   - A one-way hash is not the plaintext — it cannot be decrypted.           │
+// │   - Reuse detection across vault entries would be impossible client-side    │
+// │     (you'd need to decrypt all entries to compare, defeating the model).    │
+// │   - The hash is computed client-side before sending, so the server still    │
+// │     never sees the plaintext password — only its SHA-256 fingerprint.       │
+// └─────────────────────────────────────────────────────────────────────────────┘
 import crypto from "crypto";
-import env from "../config/env.js";
-
-const ALGORITHM = "aes-256-gcm";
-const IV_LENGTH = 12; // recommended IV length for GCM
-
-// ENCRYPTION_KEY is validated (32 chars) at startup in config/env.js
-const KEY = Buffer.from(env.ENCRYPTION_KEY, "utf8");
 
 /**
- * Encrypts a plaintext string.
- * Returns the ciphertext, the IV used, and the GCM auth tag —
- * all of which must be stored to decrypt later.
- */
-export const encrypt = (plainText) => {
-  if (plainText === undefined || plainText === null) {
-    return null;
-  }
-
-  const iv = crypto.randomBytes(IV_LENGTH);
-  const cipher = crypto.createCipheriv(ALGORITHM, KEY, iv);
-
-  const encrypted = Buffer.concat([
-    cipher.update(String(plainText), "utf8"),
-    cipher.final(),
-  ]);
-
-  const authTag = cipher.getAuthTag();
-
-  return {
-    cipherText: encrypted.toString("base64"),
-    iv: iv.toString("base64"),
-    authTag: authTag.toString("base64"),
-  };
-};
-
-/**
- * Decrypts a value previously produced by `encrypt`.
- */
-export const decrypt = ({ cipherText, iv, authTag }) => {
-  if (!cipherText || !iv || !authTag) {
-    return null;
-  }
-
-  const decipher = crypto.createDecipheriv(
-    ALGORITHM,
-    KEY,
-    Buffer.from(iv, "base64")
-  );
-
-  decipher.setAuthTag(Buffer.from(authTag, "base64"));
-
-  const decrypted = Buffer.concat([
-    decipher.update(Buffer.from(cipherText, "base64")),
-    decipher.final(),
-  ]);
-
-  return decrypted.toString("utf8");
-};
-
-/**
- * One-way hash used purely for reuse detection — lets us compare
- * whether two vault entries share the same underlying password
+ * One-way hash used purely for reuse detection.
+ * Lets us compare whether two vault entries share the same underlying password
  * without ever decrypting either of them.
+ * Computed CLIENT-SIDE and sent with each create/update; stored server-side.
  */
 export const hashForComparison = (plainText) => {
   return crypto
     .createHash("sha256")
     .update(String(plainText))
     .digest("hex");
+};
+
+/**
+ * Validate that a ciphertext blob from the client has all required fields.
+ * Throws if any field is missing — prevents partial/corrupt blobs from being stored.
+ */
+export const validateCiphertextBlob = ({ cipherText, iv, authTag }) => {
+  if (!cipherText || !iv || !authTag) {
+    throw new Error("Invalid ciphertext blob: cipherText, iv, and authTag are all required.");
+  }
 };

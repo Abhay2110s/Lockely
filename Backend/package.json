@@ -36,6 +36,8 @@
     "mongoose": "^9.9.1",
     "morgan": "^1.11.0",
     "nodemailer": "^9.0.5",
+    "otplib": "^13.4.1",
+    "qrcode": "^1.5.4",
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.19.0",

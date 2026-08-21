@@ -4,6 +4,7 @@
 import express from "express";
 import * as authController from "../controllers/auth.controller.js";
 import verifyAuth from "../middleware/auth.middleware.js";
+import * as twoFactorController from "../controllers/twoFactor.controller.js";
 
 const router = express.Router();
 
@@ -27,5 +28,22 @@ router.post("/resend-otp", authController.resendOTP);
 
 // GET /api/v1/auth/me — return the authenticated user's profile
 router.get("/me", verifyAuth, authController.getMe);
+
+// POST /api/v1/auth/logout — clear the auth cookie and end the session
+router.post("/logout", authController.logout);
+
+// ─ 2FA routes (all require authentication) ────────────────────────────────────
+
+// POST /api/v1/auth/2fa/setup — generate TOTP secret + QR code URI
+router.post("/2fa/setup", verifyAuth, twoFactorController.setup);
+
+// POST /api/v1/auth/2fa/verify-setup — confirm first TOTP code, enable 2FA, get backup codes
+router.post("/2fa/verify-setup", verifyAuth, twoFactorController.verifySetup);
+
+// POST /api/v1/auth/2fa/verify — verify TOTP code during login (unauthenticated step)
+router.post("/2fa/verify", twoFactorController.verifyCode);
+
+// POST /api/v1/auth/2fa/disable — turn off 2FA (requires valid TOTP or backup code)
+router.post("/2fa/disable", verifyAuth, twoFactorController.disable);
 
 export default router;

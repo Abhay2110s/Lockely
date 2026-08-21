@@ -16,6 +16,7 @@ import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import VerifyOTP from "@/pages/VerifyOTP";
+import TwoFactorChallenge from "@/pages/TwoFactorChallenge";
 import Dashboard from "@/pages/Dashboard";
 import Vault from "@/pages/Vault";
 import PasswordGenerator from "@/pages/PasswordGenerator";
@@ -52,6 +53,9 @@ export default function AppRoutes() {
       <Route path="/sign-in/*" element={<Navigate to="/login" replace />} />
       <Route path="/sign-up" element={<Navigate to="/register" replace />} />
       <Route path="/sign-up/*" element={<Navigate to="/register" replace />} />
+
+      {/* 2FA challenge step — intermediate auth step (not fully public or protected) */}
+      <Route path="/verify-2fa" element={<TwoFactorChallenge />} />
 
       {/* Protected Dashboard & Vault Application Pages */}
       <Route

@@ -1,4 +1,5 @@
-// User model — stores account credentials and profile data.
+// User model — stores account credentials, profile data, 2FA state,
+// and the vault key salt for client-side key derivation.
 // Auth is handled in-house with bcrypt + JWT.
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
@@ -31,6 +32,43 @@ const userSchema = new mongoose.Schema(
     isVerified: {
       type: Boolean,
       default: false,
+    },
+
+    // ─── Vault Key Derivation (zero-knowledge encryption) ───────────────────
+    //
+    // The browser derives a per-user AES-256-GCM vault key from the user's
+    // master password using PBKDF2: key = PBKDF2(masterPassword, vaultKeySalt).
+    //
+    // vaultKeySalt is a random 32-byte hex string generated at registration.
+    // It is NOT secret — it's sent to the browser on login so key derivation
+    // can happen. Without the master password, the salt is useless.
+    //
+    // The server NEVER sees the derived key or plaintext vault secrets.
+    // It only stores and passes through ciphertext/iv/authTag blobs.
+    vaultKeySalt: {
+      type: String,
+      default: null,
+    },
+
+    // ─── Two-Factor Authentication (TOTP) ──────────────────────────────────
+    twoFactorEnabled: {
+      type: Boolean,
+      default: false,
+    },
+
+    // TOTP secret (base32). Stored encrypted-at-rest by MongoDB encryption if
+    // configured; otherwise rely on DB access controls + httpOnly cookie auth.
+    twoFactorSecret: {
+      type: String,
+      default: null,
+      select: false, // never returned by default — only fetched explicitly
+    },
+
+    // Hashed backup codes (bcrypt). Each is single-use.
+    twoFactorBackupCodes: {
+      type: [String],
+      default: [],
+      select: false,
     },
   },
   {
