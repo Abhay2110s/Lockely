@@ -6,6 +6,7 @@
 @import "./styles/scrollbar.css";
 @import "./styles/ledger.css";
 @import "./styles/soft-modern.css";
+@import "./styles/crayon-comic.css";
 
 @custom-variant dark (&:is(.dark *));
 

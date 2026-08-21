@@ -8,6 +8,8 @@ import {
   ShieldCheck,
   ArrowRight,
   Loader2,
+  Sparkles,
+  Zap,
 } from "lucide-react";
 import { useAppAuth } from "@/context/AuthContext";
 import * as authService from "@/services/auth.service";
@@ -22,7 +24,6 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [focused, setFocused] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,9 +35,6 @@ export default function LoginForm() {
       const { user, vaultKeySalt, requires2FA, pendingUserId, token } = res.data;
 
       if (requires2FA) {
-        // 2FA is enabled — redirect to the TOTP challenge step.
-        // Pass the password in state so the vault key can be derived
-        // AFTER the 2FA code is confirmed (never stored anywhere else).
         navigate("/verify-2fa", {
           state: { pendingUserId, vaultKeySalt, password },
         });
@@ -44,7 +42,7 @@ export default function LoginForm() {
       }
 
       await saveSession(user, vaultKeySalt, password, token);
-      toast.success("Welcome back!");
+      toast.success("Welcome back to your Comic Vault! 🚀");
       navigate("/dashboard");
     } catch (err) {
       const msg =
@@ -63,123 +61,92 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full space-y-7">
-      <div className="space-y-1.5">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 mb-3">
-          <ShieldCheck className="size-3.5 text-indigo-600" />
-          <span className="text-[0.68rem] font-bold text-indigo-600 uppercase tracking-wider">
-            Secure Sign In
-          </span>
+    <div className="w-full space-y-6 font-comic">
+      <div className="space-y-2 text-center sm:text-left">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fef08a] border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] text-xs font-heading-comic font-bold text-slate-950">
+          <Zap className="size-3.5 fill-amber-400 text-slate-950" />
+          PassGuardian Vault
         </div>
 
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          Welcome back
+        <h1 className="text-3xl sm:text-4xl font-heading-comic font-black text-slate-950 tracking-tight">
+          Welcome Back! 🛡️
         </h1>
-        <p className="text-sm text-slate-500">
-          Sign in to your encrypted vault
+        <p className="text-xs sm:text-sm text-slate-600 font-comic font-bold">
+          Unlock your zero-knowledge encrypted vault
         </p>
       </div>
 
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium">
-          <span className="size-1.5 rounded-full bg-rose-500 shrink-0 mt-1" />
-          {error}
+        <div className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] text-xs text-slate-950 font-bold">
+          ⚠️ {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-bold text-slate-700 tracking-wide">
-            Email address
+          <label className="text-xs font-heading-comic font-bold text-slate-900 tracking-wide block">
+            Email Address ✉️
           </label>
 
-          <div
-            className={`relative transition-all duration-200 ${
-              focused === "email" ? "scale-[1.01]" : ""
-            }`}
-          >
-            <Mail
-              className={`absolute left-3.5 top-1/2 -translate-y-1/2 size-4 transition-colors duration-200 ${
-                focused === "email" ? "text-indigo-500" : "text-slate-400"
-              }`}
-            />
+          <div className="relative">
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-slate-600" />
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              onFocus={() => setFocused("email")}
-              onBlur={() => setFocused(null)}
               placeholder="you@example.com"
-              className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-50 border-2 border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/8 transition-all duration-200"
+              className="comic-input w-full pl-10 pr-4 py-3 text-xs font-bold text-slate-900 placeholder:text-slate-400"
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-slate-700 tracking-wide">
-              Password
+            <label className="text-xs font-heading-comic font-bold text-slate-900 tracking-wide block">
+              Master Password 🔑
             </label>
             <Link
               to="/forgot-password"
-              className="text-[0.72rem] font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
+              className="text-[0.72rem] font-heading-comic font-bold text-indigo-700 hover:underline"
             >
               Forgot password?
             </Link>
           </div>
 
-          <div
-            className={`relative transition-all duration-200 ${
-              focused === "password" ? "scale-[1.01]" : ""
-            }`}
-          >
-            <Lock
-              className={`absolute left-3.5 top-1/2 -translate-y-1/2 size-4 transition-colors duration-200 ${
-                focused === "password"
-                  ? "text-indigo-500"
-                  : "text-slate-400"
-              }`}
-            />
-
+          <div className="relative">
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-slate-600" />
             <input
               type={showPassword ? "text" : "password"}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              onFocus={() => setFocused("password")}
-              onBlur={() => setFocused(null)}
-              placeholder="Your master password"
-              className="w-full pl-10 pr-11 py-3 rounded-2xl bg-slate-50 border-2 border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/8 transition-all duration-200"
+              placeholder="Your super secret master password"
+              className="comic-input w-full pl-10 pr-11 py-3 text-xs font-bold text-slate-900 placeholder:text-slate-400 font-mono"
             />
 
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition-colors p-0.5"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-950 p-1"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? (
-                <EyeOff className="size-4" />
-              ) : (
-                <Eye className="size-4" />
-              )}
+              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </button>
           </div>
         </div>
 
-        <div className="pt-1">
+        <div className="pt-2">
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-soft-primary py-3.5 text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full btn-comic btn-comic-yellow py-3.5 text-sm gap-2"
           >
             {loading ? (
               <Loader2 className="size-4.5 animate-spin" />
             ) : (
               <>
-                Sign In to Vault
-                <ArrowRight className="size-4.5" />
+                Unlock &amp; Sign In ➔
               </>
             )}
           </button>
@@ -187,27 +154,27 @@ export default function LoginForm() {
       </form>
 
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-[0.65rem] font-semibold text-slate-400 uppercase tracking-wider">
-          or
+        <div className="flex-1 h-0.5 bg-[#18181b]" />
+        <span className="text-xs font-heading-comic font-bold text-slate-700 bg-white px-2 py-0.5 rounded border border-[#18181b]">
+          OR
         </span>
-        <div className="flex-1 h-px bg-slate-200" />
+        <div className="flex-1 h-0.5 bg-[#18181b]" />
       </div>
 
       <div className="text-center space-y-3">
-        <p className="text-sm text-slate-500">
+        <p className="text-xs font-comic font-bold text-slate-700">
           Don&apos;t have an account?{" "}
           <Link
             to="/register"
-            className="font-bold text-indigo-600 hover:text-indigo-700 transition-colors"
+            className="font-heading-comic font-black text-indigo-700 hover:underline"
           >
-            Create free account
+            Create free vault! ✨
           </Link>
         </p>
 
-        <div className="inline-flex items-center gap-1.5 text-[0.65rem] text-slate-400 font-medium">
-          <ShieldCheck className="size-3 text-emerald-500" />
-          256-bit encrypted · Zero knowledge · No tracking
+        <div className="inline-flex items-center gap-1.5 text-[0.7rem] font-heading-comic font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-900">
+          <ShieldCheck className="size-3.5 text-emerald-700" />
+          AES-256-GCM · Client Decrypted
         </div>
       </div>
     </div>

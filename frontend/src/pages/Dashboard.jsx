@@ -16,6 +16,8 @@ import {
   RotateCcw,
   Star,
   Clock3,
+  Zap,
+  Sparkles,
 } from "lucide-react";
 import { getDashboardStats, getPasswords } from "@/services/password.service";
 import { decryptSecret } from "@/services/crypto.service";
@@ -34,18 +36,17 @@ const formatRelativeTime = (dateValue) => {
   if (diffSeconds < 60) return "Just now";
 
   const minutes = Math.floor(diffSeconds / 60);
-  if (minutes < 60) return `${minutes} min ago`;
+  if (minutes < 60) return `${minutes}m ago`;
 
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours} hr${hours === 1 ? "" : "s"} ago`;
+  if (hours < 24) return `${hours}h ago`;
 
   const days = Math.floor(hours / 24);
-  if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
+  if (days < 7) return `${days}d ago`;
 
   return date.toLocaleDateString(undefined, {
     day: "numeric",
     month: "short",
-    year: date.getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
   });
 };
 
@@ -61,7 +62,6 @@ const emptyStats = {
   securityScore: 0,
 };
 
-
 function PasswordStrengthPie({ stats, loading }) {
   const total = Number(stats.totalPasswords || 0);
   const strong = Math.min(total, Math.max(0, Number(stats.strongPasswords || 0)));
@@ -69,9 +69,9 @@ function PasswordStrengthPie({ stats, loading }) {
   const other = Math.max(0, total - strong - weak);
 
   const segments = [
-    { label: "Strong", value: strong, className: "bg-emerald-500", color: "#10b981" },
-    { label: "Weak", value: weak, className: "bg-amber-500", color: "#f59e0b" },
-    { label: "Other", value: other, className: "bg-slate-300", color: "#cbd5e1" },
+    { label: "Super Strong", value: strong, color: "#4ade80", bg: "bg-[#4ade80]" },
+    { label: "Weak / Needs Boost", value: weak, color: "#fb7185", bg: "bg-[#fb7185]" },
+    { label: "Fair / Medium", value: other, color: "#fde047", bg: "bg-[#fde047]" },
   ];
 
   let cursor = 0;
@@ -87,54 +87,48 @@ function PasswordStrengthPie({ stats, loading }) {
     : { background: "conic-gradient(#e2e8f0 0% 100%)" };
 
   return (
-    <div className="rounded-2xl bg-slate-50 border border-slate-100 p-5">
+    <div className="rounded-2xl bg-[#fffef7] border-2.5 border-[#18181b] p-5 shadow-[3px_3px_0px_#18181b]">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div>
-          <p className="text-xs font-semibold text-slate-700">Password strength</p>
-          <p className="text-[0.7rem] text-slate-400 mt-0.5">Based on your current vault</p>
+          <p className="text-sm font-heading-comic font-bold text-slate-900">Strength Spectrum</p>
+          <p className="text-xs text-slate-500 font-comic">Analyzed in memory</p>
         </div>
-        <div className="text-[0.7rem] font-bold text-slate-500">
-          {loading ? "Loading…" : `${total} item${total === 1 ? "" : "s"}`}
+        <div className="text-xs font-heading-comic font-bold bg-[#fef08a] px-2.5 py-1 rounded-lg border-2 border-[#18181b]">
+          {loading ? "..." : `${total} Entries`}
         </div>
       </div>
 
       <div className="flex items-center gap-5">
         <div
-          className="relative size-28 shrink-0 rounded-full"
+          className="relative size-28 shrink-0 rounded-full border-3 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b]"
           style={chartStyle}
           aria-label="Password strength distribution pie chart"
           role="img"
         >
-          <div className="absolute inset-[18%] rounded-full bg-white flex flex-col items-center justify-center shadow-sm">
-            <span className="text-xl font-extrabold text-slate-900">
+          <div className="absolute inset-[18%] rounded-full bg-white border-2 border-[#18181b] flex flex-col items-center justify-center shadow-inner">
+            <span className="text-2xl font-black font-heading-comic text-slate-950">
               {loading ? "—" : stats.securityScore}
             </span>
-            <span className="text-[0.58rem] font-semibold uppercase tracking-wider text-slate-400">
-              score
+            <span className="text-[0.6rem] font-bold uppercase tracking-wider text-slate-600 font-heading-comic">
+              PTS
             </span>
           </div>
         </div>
 
-        <div className="space-y-2.5 min-w-0 flex-1">
+        <div className="space-y-2 min-w-0 flex-1">
           {segments.map((segment) => (
-            <div key={segment.label} className="flex items-center justify-between gap-3 text-[0.7rem]">
+            <div key={segment.label} className="flex items-center justify-between gap-2 text-xs">
               <div className="flex items-center gap-2 min-w-0">
-                <span className={`size-2.5 rounded-full shrink-0 ${segment.className}`} />
-                <span className="text-slate-500 truncate">{segment.label}</span>
+                <span className={`size-3 rounded-md border border-[#18181b] shrink-0 ${segment.bg}`} />
+                <span className="text-slate-700 font-comic font-bold truncate">{segment.label}</span>
               </div>
-              <span className="font-bold text-slate-800">
+              <span className="font-heading-comic font-bold text-slate-950 bg-white px-1.5 py-0.5 rounded border border-[#18181b]">
                 {loading ? "—" : segment.value}
               </span>
             </div>
           ))}
         </div>
       </div>
-
-      {!loading && total === 0 && (
-        <p className="mt-4 text-[0.68rem] text-slate-400">
-          Add a vault entry to populate the chart.
-        </p>
-      )}
     </div>
   );
 }
@@ -184,30 +178,33 @@ export default function Dashboard() {
         change:
           stats.totalPasswords === 0
             ? "No items yet"
-            : `${stats.favoritePasswords} favorite${stats.favoritePasswords === 1 ? "" : "s"}`,
+            : `${stats.favoritePasswords} Starred ⭐`,
         icon: KeyRound,
-        color: "text-indigo-600 bg-indigo-50",
+        cardBg: "bg-[#fef08a]",
+        iconBg: "bg-white",
         positive: true,
       },
       {
-        label: "Security Health",
+        label: "Security Score",
         value: `${stats.securityScore}%`,
         change:
           stats.securityScore >= 80
-            ? "Healthy vault"
+            ? "Super Fortress! 🛡️"
             : stats.securityScore >= 50
-              ? "Needs attention"
-              : "Action required",
+              ? "Good, needs tuning ⚠️"
+              : "Vulnerable! 💥",
         icon: ShieldCheck,
-        color: "text-emerald-600 bg-emerald-50",
+        cardBg: "bg-[#bbf7d0]",
+        iconBg: "bg-white",
         positive: stats.securityScore >= 80,
       },
       {
         label: "Weak Passwords",
         value: stats.weakPasswords,
-        change: stats.weakPasswords === 0 ? "All clear" : "Action advised",
+        change: stats.weakPasswords === 0 ? "Rock Solid! 💎" : "Upgrade recommended",
         icon: AlertCircle,
-        color: "text-amber-600 bg-amber-50",
+        cardBg: "bg-[#fda4af]",
+        iconBg: "bg-white",
         positive: stats.weakPasswords === 0,
       },
       {
@@ -215,10 +212,11 @@ export default function Dashboard() {
         value: stats.reusedPasswords,
         change:
           stats.reusedPasswords === 0
-            ? "No reuse detected"
+            ? "All unique! ✨"
             : `${stats.reusedGroups} reused group${stats.reusedGroups === 1 ? "" : "s"}`,
         icon: RotateCcw,
-        color: "text-rose-600 bg-rose-50",
+        cardBg: "bg-[#ddd6fe]",
+        iconBg: "bg-white",
         positive: stats.reusedPasswords === 0,
       },
     ],
@@ -228,7 +226,7 @@ export default function Dashboard() {
   const handleCopy = async (entry) => {
     try {
       if (!vaultKey) {
-        toast.error("Vault is locked. Visit the Vault page to unlock.");
+        toast.error("Vault is locked. Visit the Vault page to unlock with Master Key.");
         return;
       }
       if (!entry.cipherText || !entry.iv || !entry.authTag) {
@@ -242,7 +240,7 @@ export default function Dashboard() {
       if (!password) return;
 
       copy(password, entry.id);
-      toast.success("Password copied!");
+      toast.success("Copied to clipboard! 📋");
     } catch (err) {
       console.error("Failed to copy/decrypt:", err);
       toast.error("Couldn't decrypt this password.");
@@ -252,163 +250,182 @@ export default function Dashboard() {
   const firstName = user?.name?.trim()?.split(" ")[0] || "Guardian";
 
   return (
-    <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-8 sm:p-10 shadow-xl">
+    <div className="space-y-8 font-comic">
+      {/* Comic Hero Banner */}
+      <div className="relative overflow-hidden rounded-3xl bg-[#fffef7] border-3 border-[#18181b] text-slate-900 p-6 sm:p-9 shadow-[6px_6px_0px_#18181b]">
         <div className="relative z-10 max-w-2xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-indigo-200 text-xs font-semibold backdrop-blur-md">
-            <ShieldCheck className="size-3.5 text-indigo-300" />
-            Your secure vault
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fef08a] border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] text-xs font-heading-comic font-bold text-slate-950">
+            <Zap className="size-3.5 fill-amber-400 text-slate-950" />
+            Zero-Knowledge Comic Vault
           </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-            Welcome back, {firstName} 👋
+          <h1 className="text-3xl sm:text-4xl font-heading-comic font-black tracking-tight text-slate-950">
+            Hey there, {firstName}! 🚀
           </h1>
-          <p className="text-xs sm:text-sm text-indigo-100/80 leading-relaxed">
-            Manage your saved credentials, monitor password security, and keep your vault up to date.
+          <p className="text-xs sm:text-sm text-slate-700 font-comic font-bold leading-relaxed">
+            Your secrets are fortified with military-grade AES-256-GCM and zero-knowledge client encryption!
           </p>
 
           <div className="pt-2 flex flex-wrap gap-3">
             <Link
               to="/vault"
-              className="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all"
+              className="btn-comic btn-comic-yellow text-xs px-5 py-2.5 gap-2"
             >
               <Plus className="size-4" />
-              Add Vault Entry
+              Add New Password
             </Link>
             <Link
               to="/generator"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-5 py-2.5 rounded-xl backdrop-blur-md transition-all"
+              className="btn-comic btn-comic-sky text-xs px-5 py-2.5 gap-2"
             >
-              <Wand2 className="size-4 text-indigo-300" />
-              Password Generator
+              <Wand2 className="size-4" />
+              Super Generator
             </Link>
             <button
               type="button"
               onClick={() => loadDashboard({ silent: true })}
               disabled={refreshing}
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 disabled:opacity-60 text-white text-xs font-semibold px-4 py-2.5 rounded-xl backdrop-blur-md transition-all"
+              className="btn-comic btn-comic-white text-xs px-4 py-2.5 gap-2"
             >
               {refreshing ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />}
-              Refresh
+              Sync Stats
             </button>
           </div>
         </div>
 
-        <div className="absolute -right-16 -bottom-16 size-72 rounded-full bg-indigo-500/20 blur-3xl" />
+        <div className="absolute right-4 bottom-3 hidden lg:flex flex-col items-center rotate-6">
+          <div className="size-24 rounded-2xl bg-[#6366f1] border-3 border-[#18181b] shadow-[4px_4px_0px_#18181b] flex items-center justify-center text-white">
+            <ShieldCheck className="size-14" />
+          </div>
+          <span className="text-[0.65rem] font-heading-comic font-bold bg-[#fde047] px-2 py-0.5 rounded border border-[#18181b] -mt-2 shadow-[1px_1px_0px_#18181b]">
+            100% PROTECTED
+          </span>
+        </div>
       </div>
 
       {error && (
-        <div className="flex items-center justify-between gap-4 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold px-4 py-3 rounded-xl">
+        <div className="flex items-center justify-between gap-4 bg-[#fda4af] border-2.5 border-[#18181b] text-slate-950 text-xs font-bold px-4 py-3 rounded-2xl shadow-[3px_3px_0px_#18181b]">
           <span>{error}</span>
           <button
             type="button"
             onClick={() => loadDashboard()}
-            className="inline-flex items-center gap-1.5 shrink-0 hover:text-rose-900"
+            className="inline-flex items-center gap-1.5 shrink-0 bg-white px-2 py-1 rounded-lg border border-[#18181b]"
           >
             <RefreshCw className="size-3.5" /> Retry
           </button>
         </div>
       )}
 
+      {/* 4 Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between"
+              className={`${stat.cardBg} p-5 rounded-2xl border-2.5 border-[#18181b] shadow-[4px_4px_0px_#18181b] flex items-center justify-between transition-transform hover:-translate-y-1`}
             >
               <div className="space-y-1">
-                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">{stat.label}</p>
-                <p className="text-2xl font-bold text-slate-900">
-                  {loading ? <span className="inline-block h-8 w-14 rounded-lg bg-slate-100 animate-pulse" /> : stat.value}
+                <p className="text-xs font-heading-comic font-bold text-slate-800 uppercase tracking-wide">
+                  {stat.label}
                 </p>
-                <p
-                  className={`text-[0.7rem] font-semibold flex items-center gap-1 ${
-                    stat.positive ? "text-emerald-600" : "text-amber-600"
-                  }`}
-                >
-                  <TrendingUp className="size-3" /> {stat.change}
+                <p className="text-3xl font-heading-comic font-black text-slate-950">
+                  {loading ? (
+                    <span className="inline-block h-8 w-14 rounded-lg bg-white/60 animate-pulse border border-[#18181b]" />
+                  ) : (
+                    stat.value
+                  )}
+                </p>
+                <p className="text-[0.72rem] font-bold text-slate-800 flex items-center gap-1">
+                  {stat.change}
                 </p>
               </div>
-              <div className={`size-12 rounded-2xl ${stat.color} flex items-center justify-center`}>
-                <Icon className="size-6" />
+              <div className={`size-12 rounded-xl ${stat.iconBg} border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] flex items-center justify-center shrink-0`}>
+                <Icon className="size-6 text-slate-950" />
               </div>
             </div>
           );
         })}
       </div>
 
+      {/* Main Grid: Recent Entries + Vault Health */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
+        {/* Recent Entries */}
+        <div className="xl:col-span-2 bg-[#fffef7] rounded-3xl border-3 border-[#18181b] p-6 sm:p-8 shadow-[5px_5px_0px_#18181b] space-y-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Recent Vault Entries</h2>
-              <p className="text-xs text-slate-500">Your latest saved credentials from the vault</p>
+              <h2 className="text-xl font-heading-comic font-black text-slate-950">
+                Recent Credentials 🔑
+              </h2>
+              <p className="text-xs text-slate-500 font-comic font-bold">
+                Quick access to your latest saved passwords
+              </p>
             </div>
             <Link
               to="/vault"
-              className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 shrink-0"
+              className="text-xs font-heading-comic font-bold bg-[#bae6fd] text-slate-900 px-3 py-1.5 rounded-xl border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] hover:-translate-y-0.5 flex items-center gap-1 shrink-0"
             >
-              View All <ArrowRight className="size-3.5" />
+              Open Vault <ArrowRight className="size-3.5" />
             </Link>
           </div>
 
           {loading ? (
             <div className="space-y-3">
               {[1, 2, 3].map((row) => (
-                <div key={row} className="h-16 rounded-2xl bg-slate-50 animate-pulse" />
+                <div key={row} className="h-16 rounded-2xl bg-slate-100 border-2 border-[#18181b] animate-pulse" />
               ))}
             </div>
           ) : recentEntries.length === 0 ? (
-            <div className="py-12 text-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/50">
-              <KeyRound className="size-10 text-slate-200 mx-auto mb-3" />
-              <h3 className="text-sm font-bold text-slate-700">Your vault is empty</h3>
-              <p className="text-xs text-slate-400 mt-1 mb-4">Add your first credential to see it here.</p>
+            <div className="py-12 text-center rounded-2xl border-2 border-dashed border-[#18181b] bg-[#faf6ea]">
+              <KeyRound className="size-12 text-slate-400 mx-auto mb-3" />
+              <h3 className="text-base font-heading-comic font-bold text-slate-800">Your vault is squeaky clean!</h3>
+              <p className="text-xs text-slate-500 font-comic mt-1 mb-4">Add your first login credential to see it here.</p>
               <Link
                 to="/vault"
-                className="inline-flex items-center gap-2 btn-soft-primary text-xs py-2.5 px-4"
+                className="btn-comic btn-comic-yellow text-xs py-2.5 px-4 gap-2"
               >
                 <Plus className="size-4" /> Add First Entry
               </Link>
             </div>
           ) : (
-            <div className="divide-y divide-slate-100">
+            <div className="space-y-3">
               {recentEntries.map((entry) => (
                 <div
                   key={entry.id}
-                  className="py-4 flex items-center justify-between gap-4 hover:bg-slate-50/80 px-3 rounded-2xl transition-colors"
+                  className="p-3.5 bg-white border-2 border-[#18181b] rounded-2xl shadow-[2.5px_2.5px_0px_#18181b] flex items-center justify-between gap-4 hover:-translate-y-0.5 transition-all"
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="size-10 rounded-xl bg-indigo-50 text-indigo-600 font-bold text-sm flex items-center justify-center shrink-0">
+                    <div className="size-11 rounded-xl bg-[#fef08a] border-2 border-[#18181b] text-slate-950 font-heading-comic font-black text-base flex items-center justify-center shrink-0 shadow-[1.5px_1.5px_0px_#18181b]">
                       {entry.title?.[0]?.toUpperCase() || "?"}
                     </div>
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <h3 className="text-xs font-bold text-slate-900 truncate">{entry.title}</h3>
-                        {entry.favorite && <Star className="size-3 text-amber-500 fill-amber-400 shrink-0" />}
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <h3 className="text-sm font-heading-comic font-bold text-slate-950 truncate">
+                          {entry.title}
+                        </h3>
+                        {entry.favorite && <Star className="size-3.5 text-amber-500 fill-amber-400 shrink-0" />}
                       </div>
-                      <p className="text-[0.7rem] text-slate-500 truncate">
+                      <p className="text-xs text-slate-500 font-mono truncate">
                         {entry.username || entry.email || entry.website || "No username"}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className="hidden sm:inline-block px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 text-[0.65rem] font-semibold">
+                  <div className="flex items-center gap-2.5 shrink-0">
+                    <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-[#ede9fe] text-purple-950 border border-[#18181b] text-[0.68rem] font-heading-comic font-bold">
                       {entry.category || "General"}
                     </span>
-                    <span className="text-[0.65rem] text-slate-400 hidden md:inline-flex items-center gap-1">
+                    <span className="text-[0.68rem] text-slate-500 font-comic font-bold hidden md:inline-flex items-center gap-1">
                       <Clock3 className="size-3" />
                       {formatRelativeTime(entry.createdAt)}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleCopy(entry)}
-                      className="p-2 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                      className="p-2 rounded-xl bg-[#fef08a] border-2 border-[#18181b] shadow-[1.5px_1.5px_0px_#18181b] text-slate-950 hover:-translate-y-0.5 transition-all"
                       title="Copy password"
                     >
                       {copied && copiedId === entry.id ? (
-                        <Check className="size-4 text-emerald-600" />
+                        <Check className="size-4 text-emerald-700" />
                       ) : (
                         <Copy className="size-4" />
                       )}
@@ -420,53 +437,64 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-5">
+        {/* Vault Health Column */}
+        <div className="bg-[#fffef7] rounded-3xl border-3 border-[#18181b] p-6 sm:p-8 shadow-[5px_5px_0px_#18181b] space-y-5">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Vault Health</h2>
-            <p className="text-xs text-slate-500">Live metrics calculated from your saved entries</p>
+            <h2 className="text-xl font-heading-comic font-black text-slate-950">
+              Vault Health 🛡️
+            </h2>
+            <p className="text-xs text-slate-500 font-comic font-bold">
+              Real-time security diagnostics
+            </p>
           </div>
 
           <PasswordStrengthPie stats={stats} loading={loading} />
 
-          <div className="rounded-2xl bg-slate-50 border border-slate-100 p-5">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold text-slate-600">Security score</span>
-              <span className="text-sm font-extrabold text-slate-900">{loading ? "—" : `${stats.securityScore}%`}</span>
+          <div className="rounded-2xl bg-[#ede9fe] border-2.5 border-[#18181b] p-4 shadow-[3px_3px_0px_#18181b]">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-heading-comic font-bold text-slate-900">Security Score Power</span>
+              <span className="text-sm font-heading-comic font-black text-slate-950">
+                {loading ? "—" : `${stats.securityScore}%`}
+              </span>
             </div>
-            <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden">
+            <div className="h-3.5 bg-white border-2 border-[#18181b] rounded-full overflow-hidden p-0.5">
               <div
-                className="h-full rounded-full bg-indigo-600 transition-all duration-500"
+                className="h-full rounded-full bg-[#4ade80] border border-[#18181b] transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.max(0, stats.securityScore))}%` }}
               />
             </div>
           </div>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between py-2">
-              <span className="text-xs text-slate-500">Strong passwords</span>
-              <span className="text-xs font-bold text-slate-800">{stats.strongPasswords}</span>
+          <div className="space-y-2.5 bg-white border-2 border-[#18181b] rounded-2xl p-4 shadow-[2px_2px_0px_#18181b] text-xs">
+            <div className="flex items-center justify-between py-1 font-heading-comic font-bold">
+              <span className="text-slate-600">Strong Passwords</span>
+              <span className="text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-800">
+                {stats.strongPasswords}
+              </span>
             </div>
-            <div className="flex items-center justify-between py-2 border-t border-slate-100">
-              <span className="text-xs text-slate-500">Weak passwords</span>
-              <span className={`text-xs font-bold ${stats.weakPasswords > 0 ? "text-amber-600" : "text-emerald-600"}`}>
+            <div className="flex items-center justify-between py-1 border-t border-slate-200 font-heading-comic font-bold">
+              <span className="text-slate-600">Weak Passwords</span>
+              <span className={`px-2 py-0.5 rounded border ${stats.weakPasswords > 0 ? "text-amber-800 bg-amber-100 border-amber-800" : "text-emerald-800 bg-emerald-100 border-emerald-800"}`}>
                 {stats.weakPasswords}
               </span>
             </div>
-            <div className="flex items-center justify-between py-2 border-t border-slate-100">
-              <span className="text-xs text-slate-500">Expired passwords</span>
-              <span className={`text-xs font-bold ${stats.expiredPasswords > 0 ? "text-rose-600" : "text-emerald-600"}`}>
+            <div className="flex items-center justify-between py-1 border-t border-slate-200 font-heading-comic font-bold">
+              <span className="text-slate-600">Expired Passwords</span>
+              <span className={`px-2 py-0.5 rounded border ${stats.expiredPasswords > 0 ? "text-rose-800 bg-rose-100 border-rose-800" : "text-emerald-800 bg-emerald-100 border-emerald-800"}`}>
                 {stats.expiredPasswords}
               </span>
             </div>
-            <div className="flex items-center justify-between py-2 border-t border-slate-100">
-              <span className="text-xs text-slate-500">Reused passwords</span>
-              <span className={`text-xs font-bold ${stats.reusedPasswords > 0 ? "text-rose-600" : "text-emerald-600"}`}>
+            <div className="flex items-center justify-between py-1 border-t border-slate-200 font-heading-comic font-bold">
+              <span className="text-slate-600">Reused Passwords</span>
+              <span className={`px-2 py-0.5 rounded border ${stats.reusedPasswords > 0 ? "text-rose-800 bg-rose-100 border-rose-800" : "text-emerald-800 bg-emerald-100 border-emerald-800"}`}>
                 {stats.reusedPasswords}
               </span>
             </div>
-            <div className="flex items-center justify-between py-2 border-t border-slate-100">
-              <span className="text-xs text-slate-500">Average entropy</span>
-              <span className="text-xs font-bold text-slate-800">{Number(stats.averageEntropy || 0).toFixed(2)}</span>
+            <div className="flex items-center justify-between py-1 border-t border-slate-200 font-heading-comic font-bold">
+              <span className="text-slate-600">Entropy Score</span>
+              <span className="text-slate-900 bg-slate-100 px-2 py-0.5 rounded border border-slate-800">
+                {Number(stats.averageEntropy || 0).toFixed(2)} bits
+              </span>
             </div>
           </div>
         </div>
