@@ -23,37 +23,62 @@ export default function Hero() {
   const [seed, setSeed] = useState(0);
   const [showEncryptedMock, setShowEncryptedMock] = useState(false);
 
-  // Square Cursor effect states (Only active inside Hero section)
+  // Smooth Interpolated (LERP) Cursor effect states
   const heroRef = useRef(null);
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+  const targetPos = useRef({ x: -100, y: -100 });
+  const currentPos = useRef({ x: -100, y: -100 });
+  const [cursorDisplay, setCursorDisplay] = useState({ x: -100, y: -100 });
   const [isInsideHero, setIsInsideHero] = useState(false);
   const [isHoverInteractive, setIsHoverInteractive] = useState(false);
+  const rafId = useRef(null);
 
   useEffect(() => {
     const heroEl = heroRef.current;
     if (!heroEl) return;
 
     const handleMouseMove = (e) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
+      targetPos.current = { x: e.clientX, y: e.clientY };
       const target = e.target;
-      if (target && target.closest("a, button, input, [role='button']")) {
+      if (target && target.closest("a, button, input, [role='button'], .group")) {
         setIsHoverInteractive(true);
       } else {
         setIsHoverInteractive(false);
       }
     };
 
-    const handleMouseEnter = () => setIsInsideHero(true);
+    const handleMouseEnter = (e) => {
+      setIsInsideHero(true);
+      targetPos.current = { x: e.clientX, y: e.clientY };
+      currentPos.current = { x: e.clientX, y: e.clientY };
+    };
+
     const handleMouseLeave = () => {
       setIsInsideHero(false);
       setIsHoverInteractive(false);
     };
 
-    heroEl.addEventListener("mousemove", handleMouseMove);
+    // Smooth LERP loop for natural inertia without lag
+    const updateCursor = () => {
+      const lerp = 0.18; // smooth, responsive inertia factor
+      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * lerp;
+      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * lerp;
+
+      setCursorDisplay({
+        x: currentPos.current.x,
+        y: currentPos.current.y,
+      });
+
+      rafId.current = requestAnimationFrame(updateCursor);
+    };
+
+    rafId.current = requestAnimationFrame(updateCursor);
+
+    heroEl.addEventListener("mousemove", handleMouseMove, { passive: true });
     heroEl.addEventListener("mouseenter", handleMouseEnter);
     heroEl.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
       heroEl.removeEventListener("mousemove", handleMouseMove);
       heroEl.removeEventListener("mouseenter", handleMouseEnter);
       heroEl.removeEventListener("mouseleave", handleMouseLeave);
@@ -106,18 +131,18 @@ export default function Hero() {
       className="ca-grid relative flex flex-col justify-center overflow-hidden px-4 min-h-[90vh] pb-16 pt-8 sm:pt-14 sm:pb-24 select-none"
     >
       {/* ========================================================================= */}
-      {/* SQUARE INVERTING CURSOR LENS (Only active inside Hero section)            */}
+      {/* LERP-INTERPOLATED SQUARE INVERTING CURSOR LENS                            */}
       {/* ========================================================================= */}
       {isInsideHero && (
         <div
-          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl"
+          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl will-change-transform"
           style={{
-            left: `${cursorPos.x}px`,
-            top: `${cursorPos.y}px`,
+            left: `${cursorDisplay.x}px`,
+            top: `${cursorDisplay.y}px`,
             width: isHoverInteractive ? "140px" : "110px",
             height: isHoverInteractive ? "140px" : "110px",
             transform: "translate(-50%, -50%)",
-            transition: "width 0.15s ease, height 0.15s ease",
+            transition: "width 0.35s cubic-bezier(0.22, 1, 0.36, 1), height 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-2 rounded-full bg-[#faf6ea]" />
@@ -346,7 +371,7 @@ export default function Hero() {
                   </div>
                   <div className="p-1.5 bg-white border border-[#191510] text-xs font-mono text-[#191510] truncate">
                     {showEncryptedMock
-                      ? `{"iv":"e4b1...","cipher":"k8z0...","tag":"9f3a..."}`
+                       ? `{"iv":"e4b1...","cipher":"k8z0...","tag":"9f3a..."}`
                       : `${item.username} ••••••••`}
                   </div>
                 </div>
