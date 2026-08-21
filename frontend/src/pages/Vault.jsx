@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   KeyRound,
   Search,
@@ -65,9 +66,19 @@ function evaluateStrength(pwd) {
 
 export default function Vault() {
   const { vaultKey, isVaultUnlocked, unlockVault } = useAppAuth();
-  const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search.trim(), 350);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlSearch = searchParams.get("q") || searchParams.get("search") || "";
+  const [search, setSearch] = useState(urlSearch);
+  const debouncedSearch = useDebounce(search.trim(), 300);
   const [activeCategory, setActiveCategory] = useState("All");
+
+  // Keep state in sync if URL search params change
+  useEffect(() => {
+    const q = searchParams.get("q") || searchParams.get("search") || "";
+    if (q !== search) {
+      setSearch(q);
+    }
+  }, [searchParams]);
 
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -117,6 +128,21 @@ export default function Vault() {
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
+
+  // Instant real-time filtering on loaded entries
+  const displayEntries = useMemo(() => {
+    if (!search.trim()) return entries;
+    const term = search.trim().toLowerCase();
+    return entries.filter((e) =>
+      e.title?.toLowerCase().includes(term) ||
+      e.username?.toLowerCase().includes(term) ||
+      e.website?.toLowerCase().includes(term) ||
+      e.url?.toLowerCase().includes(term) ||
+      e.email?.toLowerCase().includes(term) ||
+      e.category?.toLowerCase().includes(term) ||
+      e.notes?.toLowerCase().includes(term)
+    );
+  }, [entries, search]);
 
   const categories = [
     { label: "All Items" },
@@ -352,11 +378,19 @@ export default function Vault() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search credentials..."
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+            className="w-full pl-9 pr-8 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
           />
-          {isLoading && (
+          {search ? (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-200/50"
+            >
+              <X className="size-3.5" />
+            </button>
+          ) : isLoading ? (
             <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 size-3.5 text-slate-300 animate-spin" />
-          )}
+          ) : null}
         </div>
       </div>
 
@@ -369,7 +403,7 @@ export default function Vault() {
       {/* Vault Items List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {!isLoading &&
-          entries.map((item) => {
+          displayEntries.map((item) => {
             const isPasswordVisible = visibleId === item.id;
             const isRevealing = revealingId === item.id;
             const displayPassword = revealCache[item.id];
@@ -483,11 +517,26 @@ export default function Vault() {
           </div>
         )}
 
-        {!isLoading && entries.length === 0 && !error && (
+        {!isLoading && displayEntries.length === 0 && !error && (
           <div className="col-span-full bg-white p-12 rounded-3xl border border-slate-200/80 text-center space-y-3">
             <ShieldAlert className="size-10 text-slate-300 mx-auto" />
-            <h3 className="text-sm font-bold text-slate-700">No vault entries found</h3>
-            <p className="text-xs text-slate-400">Try adjusting your search query or add a new entry.</p>
+            <h3 className="text-sm font-bold text-slate-700">
+              {search ? `No credentials found matching "${search}"` : "No vault entries found"}
+            </h3>
+            <p className="text-xs text-slate-400">
+              {search
+                ? "Try a different search term or check spelling."
+                : "Add your first credential using the button above."}
+            </p>
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-50 text-indigo-600 font-semibold text-xs hover:bg-indigo-100 transition-colors"
+              >
+                Clear Search
+              </button>
+            )}
           </div>
         )}
       </div>

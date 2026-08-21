@@ -160,7 +160,15 @@ const buildFilterQuery = (userId, { search, category, favorite, weak, expired, i
 
   if (search) {
     const regex = new RegExp(escapeRegExp(search.trim()), "i");
-    query.$or = [{ website: regex }, { username: regex }, { title: regex }, { category: regex }];
+    query.$or = [
+      { title: regex },
+      { username: regex },
+      { website: regex },
+      { url: regex },
+      { email: regex },
+      { category: regex },
+      { notes: regex },
+    ];
   }
 
   return query;

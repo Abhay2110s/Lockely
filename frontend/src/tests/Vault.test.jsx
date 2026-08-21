@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import React from "react";
 import Vault from "../pages/Vault";
 import { AuthProvider } from "../context/AuthContext";
@@ -29,9 +30,11 @@ describe("Vault Component", () => {
     });
 
     render(
-      <AuthProvider>
-        <Vault />
-      </AuthProvider>
+      <MemoryRouter>
+        <AuthProvider>
+          <Vault />
+        </AuthProvider>
+      </MemoryRouter>
     );
 
     expect(screen.getByText("Encrypted Password Vault")).toBeInTheDocument();
@@ -59,9 +62,11 @@ describe("Vault Component", () => {
     });
 
     render(
-      <AuthProvider>
-        <Vault />
-      </AuthProvider>
+      <MemoryRouter>
+        <AuthProvider>
+          <Vault />
+        </AuthProvider>
+      </MemoryRouter>
     );
 
     await waitFor(() => {

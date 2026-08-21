@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAppAuth } from "@/context/AuthContext";
 import {
   ShieldCheck,
@@ -28,6 +28,18 @@ export default function DashboardLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { displayName, initials, logout } = useAppAuth();
   const location = useLocation();
+
+  const [navSearch, setNavSearch] = useState("");
+  const navigate = useNavigate();
+
+  const handleNavSearch = (e) => {
+    e.preventDefault();
+    if (navSearch.trim()) {
+      navigate(`/vault?q=${encodeURIComponent(navSearch.trim())}`);
+    } else {
+      navigate("/vault");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#faf8f5] text-slate-900 flex flex-col md:flex-row">
@@ -138,13 +150,22 @@ export default function DashboardLayout() {
             >
               <Menu className="size-5" />
             </button>
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/80 text-slate-400 text-xs w-64 border border-slate-200/60">
-              <Search className="size-3.5 text-slate-400" />
-              <span>Search vault entries...</span>
-              <kbd className="ml-auto text-[0.6rem] bg-white text-slate-400 px-1.5 py-0.5 rounded border border-slate-200 font-mono">
-                ⌘K
+            <form
+              onSubmit={handleNavSearch}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/80 text-xs w-72 border border-slate-200/60 focus-within:border-indigo-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all"
+            >
+              <Search className="size-3.5 text-slate-400 shrink-0" />
+              <input
+                type="text"
+                value={navSearch}
+                onChange={(e) => setNavSearch(e.target.value)}
+                placeholder="Search vault credentials..."
+                className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none text-xs"
+              />
+              <kbd className="text-[0.6rem] bg-white text-slate-400 px-1.5 py-0.5 rounded border border-slate-200 font-mono shrink-0">
+                ↵
               </kbd>
-            </div>
+            </form>
           </div>
 
           {/* Right Header Actions */}
