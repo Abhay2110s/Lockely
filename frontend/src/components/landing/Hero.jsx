@@ -112,15 +112,19 @@ export default function Hero() {
       {/* ========================================================================= */}
       {isInsideHero && (
         <div
-          className={`pointer-events-none fixed top-0 left-0 z-[100] rounded-2xl border-3 border-white bg-white mix-blend-difference shadow-2xl transition-transform duration-75 ease-out ${
-            isHoverInteractive
-              ? "size-32 sm:size-36 scale-110"
-              : "size-24 sm:size-28 scale-100"
-          }`}
+          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-white bg-white mix-blend-difference shadow-2xl"
           style={{
-            transform: `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0) translate(-50%, -50%)`,
+            left: `${cursorPos.x}px`,
+            top: `${cursorPos.y}px`,
+            width: isHoverInteractive ? "140px" : "110px",
+            height: isHoverInteractive ? "140px" : "110px",
+            transform: "translate(-50%, -50%)",
+            transition: "width 0.15s ease, height 0.15s ease",
           }}
-        />
+        >
+          {/* Exact Center Point Marker */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-2 rounded-full bg-white" />
+        </div>
       )}
 
       <div className="max-w-6xl mx-auto space-y-16 relative z-10">
