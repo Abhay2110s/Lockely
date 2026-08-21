@@ -260,10 +260,16 @@ export const resetPassword = asyncHandler(async (req, res) => {
 
 // ─── Get Me ──────────────────────────────────────────────────────────────────
 
-// GET /api/v1/auth/me  (requires auth)
+// GET /api/v1/auth/me
 export const getMe = asyncHandler(async (req, res) => {
+  if (!req.user?.id) {
+    return new ApiResponse(200, "No active session.", null).send(res);
+  }
+
   const user = await User.findById(req.user.id);
-  if (!user) throw ApiError.notFound("User not found.");
+  if (!user) {
+    return new ApiResponse(200, "User not found.", null).send(res);
+  }
 
   return new ApiResponse(200, "User fetched.", {
     id: user._id,

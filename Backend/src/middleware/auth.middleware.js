@@ -11,7 +11,7 @@ import env from "../config/env.js";
 import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-const verifyAuth = asyncHandler(async (req, res, next) => {
+export const verifyAuth = asyncHandler(async (req, res, next) => {
   // Prefer cookie (httpOnly — XSS-safe) over header.
   const cookieToken = req.cookies?.pg_auth ?? null;
 
@@ -38,6 +38,35 @@ const verifyAuth = asyncHandler(async (req, res, next) => {
   }
 
   req.user = { id: payload.userId };
+  next();
+});
+
+// Optional authentication middleware — attaches user if valid token exists,
+// but does not throw 401 if unauthenticated (useful for session status checks like /auth/me).
+export const optionalAuth = asyncHandler(async (req, res, next) => {
+  const cookieToken = req.cookies?.pg_auth ?? null;
+  const bearerToken = req.headers.authorization?.startsWith("Bearer ")
+    ? req.headers.authorization.split(" ")[1]
+    : null;
+
+  const token = cookieToken || bearerToken;
+
+  if (!token) {
+    req.user = null;
+    return next();
+  }
+
+  try {
+    const payload = jwt.verify(token, env.JWT_SECRET);
+    if (payload?.userId) {
+      req.user = { id: payload.userId };
+    } else {
+      req.user = null;
+    }
+  } catch {
+    req.user = null;
+  }
+
   next();
 });
 

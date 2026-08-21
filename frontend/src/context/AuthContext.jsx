@@ -39,9 +39,15 @@ export function AuthProvider({ children }) {
     api
       .get("/auth/me")
       .then(({ data }) => {
-        const userData = data.data;
-        setUser(userData);
-        localStorage.setItem(USER_KEY, JSON.stringify(userData));
+        const userData = data?.data;
+        if (userData) {
+          setUser(userData);
+          localStorage.setItem(USER_KEY, JSON.stringify(userData));
+        } else {
+          localStorage.removeItem(USER_KEY);
+          setUser(null);
+          setVaultKey(null);
+        }
       })
       .catch(() => {
         localStorage.removeItem(USER_KEY);

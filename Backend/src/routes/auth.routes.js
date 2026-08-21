@@ -3,7 +3,7 @@
 // are handled here. Protected routes use verifyAuth middleware.
 import express from "express";
 import * as authController from "../controllers/auth.controller.js";
-import verifyAuth from "../middleware/auth.middleware.js";
+import verifyAuth, { optionalAuth } from "../middleware/auth.middleware.js";
 import * as twoFactorController from "../controllers/twoFactor.controller.js";
 
 const router = express.Router();
@@ -26,8 +26,8 @@ router.post("/reset-password", authController.resetPassword);
 // POST /api/v1/auth/resend-otp — resend verification or reset OTP
 router.post("/resend-otp", authController.resendOTP);
 
-// GET /api/v1/auth/me — return the authenticated user's profile
-router.get("/me", verifyAuth, authController.getMe);
+// GET /api/v1/auth/me — return the authenticated user's profile (or null if unauthenticated)
+router.get("/me", optionalAuth, authController.getMe);
 
 // POST /api/v1/auth/logout — clear the auth cookie and end the session
 router.post("/logout", authController.logout);
