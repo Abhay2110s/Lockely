@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -24,6 +24,43 @@ export default function Hero() {
   const [copied, setCopied] = useState(false);
   const [seed, setSeed] = useState(0);
   const [showEncryptedMock, setShowEncryptedMock] = useState(false);
+
+  // Square Cursor effect states (Only active inside Hero section)
+  const heroRef = useRef(null);
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+  const [isInsideHero, setIsInsideHero] = useState(false);
+  const [isHoverInteractive, setIsHoverInteractive] = useState(false);
+
+  useEffect(() => {
+    const heroEl = heroRef.current;
+    if (!heroEl) return;
+
+    const handleMouseMove = (e) => {
+      setCursorPos({ x: e.clientX, y: e.clientY });
+      const target = e.target;
+      if (target && target.closest("a, button, input, [role='button']")) {
+        setIsHoverInteractive(true);
+      } else {
+        setIsHoverInteractive(false);
+      }
+    };
+
+    const handleMouseEnter = () => setIsInsideHero(true);
+    const handleMouseLeave = () => {
+      setIsInsideHero(false);
+      setIsHoverInteractive(false);
+    };
+
+    heroEl.addEventListener("mousemove", handleMouseMove);
+    heroEl.addEventListener("mouseenter", handleMouseEnter);
+    heroEl.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      heroEl.removeEventListener("mousemove", handleMouseMove);
+      heroEl.removeEventListener("mouseenter", handleMouseEnter);
+      heroEl.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
 
   // Generate password dynamically
   const password = useMemo(() => {
@@ -65,7 +102,27 @@ export default function Hero() {
   ];
 
   return (
-    <section id="top" className="relative px-6 pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden font-comic">
+    <section
+      ref={heroRef}
+      id="top"
+      className="relative px-6 pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden font-comic select-none"
+    >
+      {/* ========================================================================= */}
+      {/* SQUARE INVERTING CURSOR (Only active inside Hero section)                */}
+      {/* ========================================================================= */}
+      {isInsideHero && (
+        <div
+          className={`pointer-events-none fixed top-0 left-0 z-[100] rounded-2xl border-3 border-white bg-white mix-blend-difference shadow-2xl transition-all duration-75 ease-out ${
+            isHoverInteractive
+              ? "size-20 -rotate-6 scale-110"
+              : "size-14 rotate-6 scale-100"
+          }`}
+          style={{
+            transform: `translate3d(${cursorPos.x - (isHoverInteractive ? 40 : 28)}px, ${cursorPos.y - (isHoverInteractive ? 40 : 28)}px, 0)`,
+          }}
+        />
+      )}
+
       <div className="max-w-6xl mx-auto space-y-16 relative z-10">
         {/* Top Hero Header */}
         <div className="text-center max-w-3xl mx-auto space-y-6">
