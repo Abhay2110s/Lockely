@@ -112,13 +112,13 @@ export default function Hero() {
       {/* ========================================================================= */}
       {isInsideHero && (
         <div
-          className={`pointer-events-none fixed top-0 left-0 z-[100] rounded-2xl border-3 border-white bg-white mix-blend-difference shadow-2xl transition-all duration-75 ease-out ${
+          className={`pointer-events-none fixed top-0 left-0 z-[100] rounded-2xl border-3 border-white bg-white mix-blend-difference shadow-2xl transition-transform duration-75 ease-out ${
             isHoverInteractive
-              ? "size-20 -rotate-6 scale-110"
-              : "size-14 rotate-6 scale-100"
+              ? "size-32 sm:size-36 scale-110"
+              : "size-24 sm:size-28 scale-100"
           }`}
           style={{
-            transform: `translate3d(${cursorPos.x - (isHoverInteractive ? 40 : 28)}px, ${cursorPos.y - (isHoverInteractive ? 40 : 28)}px, 0)`,
+            transform: `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0) translate(-50%, -50%)`,
           }}
         />
       )}
