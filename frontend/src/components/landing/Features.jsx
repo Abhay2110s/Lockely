@@ -1,7 +1,6 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  ShieldCheck,
   ArrowUpRight,
 } from "lucide-react";
 
@@ -15,7 +14,7 @@ const featureProjects = [
     badgeBg: "bg-white",
     badgeText: "text-[#191510]",
     borderColor: "border-white",
-    tabMargin: "0px",
+    tabMargin: "0%",
     tagBg: "bg-white",
     tagText: "text-[#191510]",
     badge: "AES-256-GCM CIPHER",
@@ -37,7 +36,7 @@ const featureProjects = [
     badgeBg: "bg-white",
     badgeText: "text-[#191510]",
     borderColor: "border-white",
-    tabMargin: "min(calc(21% - 30px), calc(100% - 280px))",
+    tabMargin: "22%",
     tagBg: "bg-white",
     tagText: "text-[#191510]",
     badge: "HARDWARE CSPRNG",
@@ -59,7 +58,7 @@ const featureProjects = [
     badgeBg: "bg-[#191510]",
     badgeText: "text-white",
     borderColor: "border-[#191510]",
-    tabMargin: "min(calc(42% - 30px), calc(100% - 280px))",
+    tabMargin: "44%",
     tagBg: "bg-[#191510]",
     tagText: "text-white",
     badge: "k-ANONYMITY WATCH",
@@ -81,7 +80,7 @@ const featureProjects = [
     badgeBg: "bg-white",
     badgeText: "text-[#191510]",
     borderColor: "border-white",
-    tabMargin: "min(calc(63% - 30px), calc(100% - 280px))",
+    tabMargin: "66%",
     tagBg: "bg-white",
     tagText: "text-[#191510]",
     badge: "RFC-6238 TOTP",
@@ -96,61 +95,44 @@ const featureProjects = [
   },
 ];
 
-function CardItem({ feat, index, total, globalProgress }) {
-  const cardRef = useRef(null);
-
+function Card({ i, feat, progress, range, targetScale }) {
+  const container = useRef(null);
   const { scrollYProgress } = useScroll({
-    target: cardRef,
+    target: container,
     offset: ["start end", "start start"],
   });
 
-  // Smooth entry physics: translation from 60px down to 0, scale from 0.95 to 1, rotate -1.2deg to 0deg
-  const rawY = useTransform(scrollYProgress, [0, 1], [60, 0]);
-  const rawScaleIn = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
-  const rawRotate = useTransform(scrollYProgress, [0, 1], [-1.2, 0]);
-
-  // Stacking exit physics: as subsequent cards stack over this card, gently scale down
-  const startRange = index / total;
-  const targetScale = 1 - (total - index) * 0.03;
-  const rawScaleOut = useTransform(
-    globalProgress,
-    [startRange, 1],
-    [1, targetScale]
-  );
-
-  // Smooth springs with editorial cubic-bezier feel
-  const springY = useSpring(rawY, { stiffness: 180, damping: 26 });
-  const springScaleIn = useSpring(rawScaleIn, { stiffness: 180, damping: 26 });
-  const springRotate = useSpring(rawRotate, { stiffness: 180, damping: 26 });
-  const springScaleOut = useSpring(rawScaleOut, { stiffness: 180, damping: 26 });
+  // Entry transforms: card translates up and scales into position smoothly
+  const translateY = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const scaleIn = useTransform(scrollYProgress, [0, 1], [0.93, 1]);
+  
+  // Stacking transform: as subsequent cards scroll over, smoothly scale down
+  const scaleOut = useTransform(progress, range, [1, targetScale]);
 
   return (
     <div
-      ref={cardRef}
-      className="lg:sticky will-change-transform"
-      style={{
-        top: `calc(7rem + ${index * 28}px)`,
-        zIndex: index + 1,
-      }}
+      ref={container}
+      className="min-h-[85vh] sm:min-h-[92vh] flex items-start justify-center sticky top-20 sm:top-24 lg:top-28 will-change-transform"
+      style={{ zIndex: i + 1 }}
     >
-      <motion.article
+      <motion.div
         style={{
-          y: springY,
-          scale: index === total - 1 ? springScaleIn : springScaleOut,
-          rotate: springRotate,
+          y: translateY,
+          scale: i === featureProjects.length - 1 ? scaleIn : scaleOut,
+          top: `calc(10px + ${i * 26}px)`,
           transformOrigin: "top center",
         }}
-        className="transition-shadow duration-300 group"
+        className="relative w-full max-w-5xl"
       >
         {/* Staggered Folder Tab Header */}
         <div
           className="flex transition-transform duration-300 group-hover:-translate-y-1"
           style={{
-            marginLeft: feat.tabMargin,
+            marginLeft: `min(${feat.tabMargin}, calc(100% - 240px))`,
           }}
         >
           <span
-            className={`ca-mono inline-flex items-center gap-2 py-3 pr-10 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] sm:gap-3 sm:py-4 sm:pr-16 ${feat.tabColor} ${feat.textColor} pl-10 [clip-path:polygon(32px_0,calc(100%-32px)_0,100%_100%,0_100%)] sm:pl-14 sm:[clip-path:polygon(48px_0,calc(100%-48px)_0,100%_100%,0_100%)] shadow-md`}
+            className={`ca-mono inline-flex items-center gap-2 py-2.5 pr-8 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] sm:gap-3 sm:py-3.5 sm:pr-14 ${feat.tabColor} ${feat.textColor} pl-8 [clip-path:polygon(28px_0,calc(100%-28px)_0,100%_100%,0_100%)] sm:pl-12 sm:[clip-path:polygon(42px_0,calc(100%-42px)_0,100%_100%,0_100%)] shadow-md`}
           >
             <svg
               viewBox="0 0 24 24"
@@ -166,10 +148,10 @@ function CardItem({ feat, index, total, globalProgress }) {
 
         {/* Main Card Body */}
         <div
-          className={`grid grid-cols-1 gap-6 p-6 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:p-14 lg:min-h-[calc(100vh-14rem)] ${feat.cardBg} border-3 border-[#191510] shadow-[8px_8px_0_#191510] group-hover:shadow-[12px_12px_0_#191510] transition-shadow duration-300`}
+          className={`grid grid-cols-1 gap-6 p-6 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:p-12 min-h-[500px] sm:min-h-[540px] lg:min-h-[580px] ${feat.cardBg} border-3 border-[#191510] shadow-[8px_8px_0_#191510] transition-shadow duration-300`}
         >
           {/* Left Column: Details */}
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between space-y-6">
             <div>
               <span
                 className={`ca-mono inline-flex items-center gap-3 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] ${feat.textColor}`}
@@ -179,20 +161,20 @@ function CardItem({ feat, index, total, globalProgress }) {
               </span>
 
               <h2
-                className={`mt-6 text-4xl sm:text-6xl xl:text-7xl font-semibold tracking-tight ${feat.textColor} ca-display leading-tight`}
+                className={`mt-4 sm:mt-6 text-3xl sm:text-5xl xl:text-6xl font-semibold tracking-tight ${feat.textColor} ca-display leading-tight`}
               >
                 {feat.title}
               </h2>
 
               <p
-                className={`mt-5 max-w-lg text-base sm:text-lg leading-relaxed ${feat.subTextColor}`}
+                className={`mt-4 max-w-lg text-sm sm:text-base lg:text-lg leading-relaxed ${feat.subTextColor}`}
               >
                 {feat.desc}
               </p>
 
               <a
                 href="#interactive-demo"
-                className={`ca-mono mt-8 inline-flex items-center gap-2.5 self-start border-b-2 pb-1 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] ${feat.textColor} border-current hover:translate-x-1 transition-transform`}
+                className={`ca-mono mt-6 inline-flex items-center gap-2.5 self-start border-b-2 pb-1 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] ${feat.textColor} border-current hover:translate-x-1 transition-transform`}
               >
                 Try in live sandbox
                 <ArrowUpRight className="size-4" />
@@ -200,11 +182,11 @@ function CardItem({ feat, index, total, globalProgress }) {
             </div>
 
             {/* Bottom Cutout Tags */}
-            <div className="mt-8 flex flex-wrap gap-2.5 pt-8 border-t border-current/20">
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-current/20">
               {feat.tags.map((tag, tIdx) => (
                 <span
                   key={tIdx}
-                  className={`ca-mono px-3.5 pb-1.5 pt-2 text-xs sm:text-sm font-bold uppercase tracking-wide [clip-path:polygon(0_28%,12%_0,100%_0,100%_100%,0_100%)] ${feat.tagBg} ${feat.tagText} shadow-[1.5px_1.5px_0_#191510] hover:-translate-y-0.5 transition-transform cursor-default`}
+                  className={`ca-mono px-3 py-1.5 text-xs font-bold uppercase tracking-wide [clip-path:polygon(0_28%,12%_0,100%_0,100%_100%,0_100%)] ${feat.tagBg} ${feat.tagText} shadow-[1.5px_1.5px_0_#191510] hover:-translate-y-0.5 transition-transform cursor-default`}
                 >
                   {tag}
                 </span>
@@ -213,7 +195,7 @@ function CardItem({ feat, index, total, globalProgress }) {
           </div>
 
           {/* Right Column: Polaroid Graphic */}
-          <div className="lg:self-center">
+          <div className="self-center">
             <div className="relative group/polaroid">
               <span
                 aria-hidden="true"
@@ -225,16 +207,16 @@ function CardItem({ feat, index, total, globalProgress }) {
               />
 
               <div
-                className={`relative overflow-hidden border-4 ${feat.borderColor} bg-[#faf6ea] aspect-square w-full lg:aspect-auto lg:h-[calc(100vh-21rem)] flex flex-col items-center justify-center p-8 text-center shadow-[0_8px_24px_rgba(17,18,18,0.2)] transition-transform duration-500 group-hover/polaroid:scale-[1.02]`}
+                className={`relative overflow-hidden border-4 ${feat.borderColor} bg-[#faf6ea] aspect-square w-full sm:h-[340px] lg:h-[380px] flex flex-col items-center justify-center p-6 text-center shadow-[0_8px_24px_rgba(17,18,18,0.2)] transition-transform duration-500 group-hover/polaroid:scale-[1.02]`}
               >
                 <div className="flex flex-col items-center space-y-4">
-                  <span className="text-5xl sm:text-6xl animate-bounce">
+                  <span className="text-4xl sm:text-5xl animate-bounce">
                     {feat.illustrationIcon}
                   </span>
                   <span className="ca-mono text-xs font-black bg-[#ffe066] text-[#191510] px-3.5 py-1.5 border-2 border-[#191510] shadow-[2px_2px_0_#191510]">
                     {feat.illustrationTitle}
                   </span>
-                  <p className="ca-display text-2xl sm:text-3xl text-[#191510] tracking-tight">
+                  <p className="ca-display text-xl sm:text-2xl text-[#191510] tracking-tight">
                     {feat.polaroidCaption}
                   </p>
                   <p className="ca-mono text-xs text-[#191510]/70 font-bold">
@@ -245,20 +227,20 @@ function CardItem({ feat, index, total, globalProgress }) {
             </div>
           </div>
         </div>
-      </motion.article>
+      </motion.div>
     </div>
   );
 }
 
 export default function Features() {
-  const containerRef = useRef(null);
+  const container = useRef(null);
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: container,
     offset: ["start start", "end end"],
   });
 
   return (
-    <section id="features" ref={containerRef} className="ca-grid scroll-mt-24 pb-36 pt-8">
+    <section id="features" ref={container} className="ca-grid scroll-mt-24 pb-28 pt-8">
       {/* Hand-drawn Curved Wave Divider */}
       <svg
         viewBox="0 0 1440 130"
@@ -307,17 +289,21 @@ export default function Features() {
         </div>
       </div>
 
-      {/* Stacking Card Deck with Scroll-Driven Parallax & Progressive Overlap */}
-      <div className="flex flex-col gap-16 px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto lg:gap-[16vh]">
-        {featureProjects.map((feat, idx) => (
-          <CardItem
-            key={feat.id}
-            feat={feat}
-            index={idx}
-            total={featureProjects.length}
-            globalProgress={scrollYProgress}
-          />
-        ))}
+      {/* Stacked Cards Deck with Exact Scroll-Driven Parallax */}
+      <div className="relative px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto">
+        {featureProjects.map((feat, idx) => {
+          const targetScale = 1 - (featureProjects.length - idx) * 0.04;
+          return (
+            <Card
+              key={feat.id}
+              i={idx}
+              feat={feat}
+              progress={scrollYProgress}
+              range={[idx * 0.25, 1]}
+              targetScale={targetScale}
+            />
+          );
+        })}
       </div>
     </section>
   );
