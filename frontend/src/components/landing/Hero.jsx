@@ -190,7 +190,7 @@ export default function Hero() {
             <div className="pointer-events-auto absolute bottom-0 right-0 translate-x-1/3 translate-y-1/2">
               <span className="relative inline-block">
                 <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2px_3px_8px_rgba(17,18,18,0.18)] text-2xl rotate-6 bg-[#a7f3d0] border border-[#191510]/30">
-                  Open Source ✨
+                  Easy Usage ✨
                 </span>
               </span>
             </div>
