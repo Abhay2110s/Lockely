@@ -125,7 +125,7 @@ export default function Hero() {
       )}
 
       {/* Hero Content Container */}
-      <div className="relative mx-auto flex max-w-5xl flex-col items-center pt-2 text-center">
+      <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center pt-2 text-center">
         {/* Top Handwritten Intro */}
         <div className="flex flex-col items-center text-[#191510]">
           <p className="ca-hand text-2xl sm:text-3xl">the zero-knowledge vault!</p>
