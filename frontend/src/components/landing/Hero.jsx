@@ -293,9 +293,9 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Password Display */}
-              <div className="flex items-center gap-2 bg-white p-3 border-2 border-[#191510] shadow-[2px_2px_0_#191510]">
-                <span className="font-mono text-sm sm:text-base font-bold text-[#191510] flex-1 truncate tracking-wider">
+              {/* Password Display — row is fixed-width via min-w-0; text truncates inside */}
+              <div className="flex items-center gap-2 bg-white p-3 border-2 border-[#191510] shadow-[2px_2px_0_#191510] min-w-0 overflow-hidden">
+                <span className="font-mono text-sm sm:text-base font-bold text-[#191510] flex-1 min-w-0 overflow-hidden truncate tracking-wider block">
                   <DecryptedText key={password} text={password} speed={25} maxIterations={5} />
                 </span>
                 <button

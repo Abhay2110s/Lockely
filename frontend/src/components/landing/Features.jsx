@@ -86,7 +86,7 @@ export default function Features() {
 
     const ctx = gsap.context(() => {
       // Master timeline — all card entrances happen inside this
-      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
 
       cards.forEach((card, idx) => {
         if (idx === 0) return; // card 1 is already visible
@@ -107,8 +107,8 @@ export default function Features() {
           tl.to(
             cards[prev],
             {
-              scale: 1 - depth * 0.04,          // 0.96, 0.92, 0.88
-              yPercent: -(depth * 3),            // -3%, -6%, -9%
+              scale: 1 - depth * 0.03,          // 0.97, 0.94, 0.91
+              yPercent: -(depth * 2),            // -2%, -4%, -6%
               duration: 1,
             },
             segStart
@@ -123,7 +123,7 @@ export default function Features() {
         pinSpacing: true,
         start: "top top+=72",                  // 72 px = navbar height
         end: `+=${(N - 1) * SCROLL_PER_CARD}`,
-        scrub: 0.8,
+        scrub: 1.5,
         animation: tl,
       });
     }, sectionRef);
