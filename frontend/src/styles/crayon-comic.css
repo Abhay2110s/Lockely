@@ -1,61 +1,125 @@
-/* Crayon Comic / Hand-Drawn Neo-Brutalist Design System */
+/* ─── PassGuardian — Dark Techy Minimalist Design System ──────────────────── */
 
 :root {
-  --comic-ink: #18181b;
-  --comic-yellow: #fef08a;
-  --comic-yellow-dark: #fde047;
-  --comic-pink: #fbcfe8;
-  --comic-coral: #fda4af;
-  --comic-sky: #bae6fd;
-  --comic-mint: #bbf7d0;
-  --comic-purple: #ddd6fe;
-  --comic-orange: #fed7aa;
-  --comic-paper: #fefdfa;
+  --pg-bg:       #030b15;
+  --pg-surface:  rgba(255, 255, 255, 0.03);
+  --pg-border:   rgba(255, 255, 255, 0.07);
+  --pg-cyan:     #00d4ff;
+  --pg-violet:   #7c3aed;
+  --pg-green:    #00ff9d;
+  --pg-text:     #e2eaf8;
+  --pg-muted:    rgba(226, 234, 248, 0.45);
+  --pg-code:     #a5b4fc;
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', 'Comic Neue', sans-serif;
-  background-color: #faf7ee;
-  color: #18181b;
-  background-image: radial-gradient(#d4d0c5 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
+  font-family: 'Inter', 'Geist', sans-serif;
+  background-color: var(--pg-bg);
+  color: var(--pg-text);
 }
 
-/* Typography Helpers */
-.font-comic {
-  font-family: 'Comic Neue', cursive, sans-serif;
-}
+/* ── Typography Utilities (preserved class names) ─────────────────────────── */
 
-.font-heading-comic {
-  font-family: 'Fredoka', 'Bangers', cursive, sans-serif;
-}
-
-.font-bangers {
-  font-family: 'Bangers', cursive, sans-serif;
-  letter-spacing: 0.05em;
-}
-
-.font-sketch {
-  font-family: 'Architects Daughter', cursive, sans-serif;
-}
-
-/* Creative-Artsy Specific Utilities (portfoliofy creative-artsy reference) */
+/* Monospace — terminal labels, badges */
 .ca-mono {
-  font-family: 'Space Mono', 'IBM Plex Mono', monospace;
+  font-family: 'Space Mono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.10em;
 }
 
+/* Hand-drawn → clean sans italic */
 .ca-hand {
-  font-family: 'Architects Daughter', 'Comic Neue', cursive;
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  color: var(--pg-muted);
 }
 
+/* Display headings — tight, bold */
 .ca-display {
-  font-family: 'Anton', 'Bangers', 'Fredoka', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: none;
 }
+
+/* ── Background Grid ──────────────────────────────────────────────────────── */
+
+/* Dark dot grid */
+.ca-grid {
+  background-color: var(--pg-bg);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Hairline grid (for cards/surfaces) */
+.pg-line-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Glass Surface ────────────────────────────────────────────────────────── */
+
+.pg-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.pg-glass-hover {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.pg-glass-hover:hover {
+  border-color: rgba(0, 212, 255, 0.25);
+  box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.08), 0 8px 40px rgba(0, 212, 255, 0.06);
+}
+
+/* ── Glow Utilities ───────────────────────────────────────────────────────── */
+
+.pg-glow-cyan {
+  box-shadow: 0 0 24px rgba(0, 212, 255, 0.15), 0 0 1px rgba(0, 212, 255, 0.4);
+}
+
+.pg-glow-violet {
+  box-shadow: 0 0 24px rgba(124, 58, 237, 0.2), 0 0 1px rgba(124, 58, 237, 0.5);
+}
+
+/* ── Terminal Badge ───────────────────────────────────────────────────────── */
+
+.pg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pg-cyan);
+  background: rgba(0, 212, 255, 0.07);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 2px;
+}
+
+.pg-badge-green {
+  color: var(--pg-green);
+  background: rgba(0, 255, 157, 0.07);
+  border-color: rgba(0, 255, 157, 0.2);
+}
+
+.pg-badge-violet {
+  color: #c4b5fd;
+  background: rgba(124, 58, 237, 0.12);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+/* ── Slow Spin ────────────────────────────────────────────────────────────── */
 
 .ca-spin-slow {
   animation: spin 12s linear infinite;
@@ -63,244 +127,22 @@ body {
 
 @keyframes spin {
   from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  to   { transform: rotate(360deg); }
 }
 
-.ca-grid {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(25, 21, 16, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(25, 21, 16, 0.06) 1px, transparent 1px);
-}
+/* ── Selection ────────────────────────────────────────────────────────────── */
 
-/* Comic Borders */
-.border-ink {
-  border: 2.5px solid var(--comic-ink);
-}
-
-.border-ink-thick {
-  border: 3.5px solid var(--comic-ink);
-}
-
-.border-ink-sm {
-  border: 1.8px solid var(--comic-ink);
-}
-
-/* Comic Hard Shadows */
-.shadow-comic {
-  box-shadow: 4px 4px 0px var(--comic-ink);
-}
-
-.shadow-comic-sm {
-  box-shadow: 2.5px 2.5px 0px var(--comic-ink);
-}
-
-.shadow-comic-lg {
-  box-shadow: 6px 6px 0px var(--comic-ink);
-}
-
-.shadow-comic-xl {
-  box-shadow: 8px 8px 0px var(--comic-ink);
-}
-
-.shadow-comic-yellow {
-  box-shadow: 4px 4px 0px #ca8a04;
-}
-
-.shadow-comic-coral {
-  box-shadow: 4px 4px 0px #e11d48;
-}
-
-.shadow-comic-sky {
-  box-shadow: 4px 4px 0px #0284c7;
-}
-
-.shadow-comic-purple {
-  box-shadow: 4px 4px 0px #7c3aed;
-}
-
-/* Comic Tactile Cards */
-.comic-card {
-  background-color: #ffffff;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1.25rem;
-  box-shadow: 4px 4px 0px var(--comic-ink);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.comic-card:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px var(--comic-ink);
-}
-
-.comic-card-yellow {
-  background-color: #fef08a;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1.25rem;
-  box-shadow: 4px 4px 0px var(--comic-ink);
-}
-
-.comic-card-pink {
-  background-color: #fce7f3;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1.25rem;
-  box-shadow: 4px 4px 0px var(--comic-ink);
-}
-
-.comic-card-sky {
-  background-color: #e0f2fe;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1.25rem;
-  box-shadow: 4px 4px 0px var(--comic-ink);
-}
-
-.comic-card-mint {
-  background-color: #dcfce7;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1.25rem;
-  box-shadow: 4px 4px 0px var(--comic-ink);
-}
-
-.comic-card-purple {
-  background-color: #ede9fe;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1.25rem;
-  box-shadow: 4px 4px 0px var(--comic-ink);
-}
-
-/* Comic Interactive Buttons */
-.btn-comic {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Fredoka', sans-serif;
-  font-weight: 700;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1rem;
-  box-shadow: 3.5px 3.5px 0px var(--comic-ink);
-  transition: all 0.12s ease;
-  cursor: pointer;
-}
-
-.btn-comic:hover:not(:disabled) {
-  transform: translate(-1px, -1px);
-  box-shadow: 4.5px 4.5px 0px var(--comic-ink);
-}
-
-.btn-comic:active:not(:disabled) {
-  transform: translate(3px, 3px);
-  box-shadow: 0.5px 0.5px 0px var(--comic-ink);
-}
-
-.btn-comic:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-comic-primary {
-  background-color: #6366f1;
+::selection {
+  background: rgba(0, 212, 255, 0.25);
   color: #ffffff;
 }
-.btn-comic-primary:hover:not(:disabled) {
-  background-color: #4f46e5;
-}
 
-.btn-comic-yellow {
-  background-color: #fde047;
-  color: #18181b;
-}
-.btn-comic-yellow:hover:not(:disabled) {
-  background-color: #facc15;
-}
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
 
-.btn-comic-coral {
-  background-color: #fb7185;
-  color: #ffffff;
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--pg-bg); }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
 }
-.btn-comic-coral:hover:not(:disabled) {
-  background-color: #f43f5e;
-}
-
-.btn-comic-mint {
-  background-color: #4ade80;
-  color: #18181b;
-}
-.btn-comic-mint:hover:not(:disabled) {
-  background-color: #22c55e;
-}
-
-.btn-comic-sky {
-  background-color: #38bdf8;
-  color: #18181b;
-}
-.btn-comic-sky:hover:not(:disabled) {
-  background-color: #0ea5e9;
-}
-
-.btn-comic-white {
-  background-color: #ffffff;
-  color: #18181b;
-}
-.btn-comic-white:hover:not(:disabled) {
-  background-color: #f8fafc;
-}
-
-/* Comic Form Inputs */
-.comic-input {
-  background-color: #ffffff;
-  border: 2.5px solid var(--comic-ink);
-  border-radius: 1rem;
-  box-shadow: 2.5px 2.5px 0px var(--comic-ink);
-  transition: all 0.15s ease;
-  font-family: inherit;
-}
-
-.comic-input:focus {
-  outline: none;
-  background-color: #ffffff;
-  box-shadow: 4px 4px 0px var(--comic-ink);
-  transform: translate(-1px, -1px);
-}
-
-/* Comic Stickers & Badges */
-.comic-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
-  border: 2px solid var(--comic-ink);
-  border-radius: 9999px;
-  font-weight: 700;
-  font-size: 0.75rem;
-  box-shadow: 1.5px 1.5px 0px var(--comic-ink);
-}
-
-.tape-strip {
-  position: relative;
-}
-.tape-strip::before {
-  content: "";
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-2deg);
-  width: 70px;
-  height: 18px;
-  background-color: rgba(254, 240, 138, 0.75);
-  border: 1px dashed rgba(202, 138, 4, 0.6);
-  z-index: 10;
-}
-
-/* Wobbly Comic Rotations */
-.rot-neg-1 {
-  transform: rotate(-1deg);
-}
-.rot-1 {
-  transform: rotate(1deg);
-}
-.rot-neg-2 {
-  transform: rotate(-2deg);
-}
-.rot-2 {
-  transform: rotate(2deg);
-}
+::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.3); }

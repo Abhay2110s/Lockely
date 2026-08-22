@@ -1,29 +1,21 @@
 import { useState } from "react";
-import { KeyRound, Copy, Check, RefreshCw, Zap, Terminal } from "lucide-react";
+import { KeyRound, Copy, Check, RefreshCw, Terminal } from "lucide-react";
 
 export default function InteractiveDemo() {
-  const [passLength, setPassLength] = useState(20);
+  const [passLength, setPassLength]     = useState(20);
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [includeUpper, setIncludeUpper] = useState(true);
-  const [copied, setCopied] = useState(false);
-  const [mode, setMode] = useState("random");
+  const [includeUpper, setIncludeUpper]   = useState(true);
+  const [copied, setCopied]             = useState(false);
+  const [mode, setMode]                 = useState("random");
 
   const generateRandomPass = () => {
-    let lower = "abcdefghijklmnopqrstuvwxyz";
-    let upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let numbers = "0123456789";
-    let symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-
-    let pool = lower;
-    if (includeUpper) pool += upper;
-    if (includeNumbers) pool += numbers;
-    if (includeSymbols) pool += symbols;
-
+    let pool = "abcdefghijklmnopqrstuvwxyz";
+    if (includeUpper)   pool += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if (includeNumbers) pool += "0123456789";
+    if (includeSymbols) pool += "!@#$%^&*()_+-=[]{}|;:,.<>?";
     let res = "";
-    for (let i = 0; i < passLength; i++) {
-      res += pool.charAt(Math.floor(Math.random() * pool.length));
-    }
+    for (let i = 0; i < passLength; i++) res += pool.charAt(Math.floor(Math.random() * pool.length));
     return res;
   };
 
@@ -31,19 +23,19 @@ export default function InteractiveDemo() {
     "guardian-cipher-artsy-77",
     "zero-knowledge-shield-2026",
     "pbkdf2-gcm-encrypted-99",
-    "vault-fortress-super-hero-42"
+    "vault-fortress-super-hero-42",
   ];
 
-  const [currentPass, setCurrentPass] = useState(generateRandomPass());
+  const [currentPass, setCurrentPass]   = useState(generateRandomPass());
   const [passphraseIdx, setPassphraseIdx] = useState(0);
 
   const handleRegenerate = () => {
     if (mode === "random") {
       setCurrentPass(generateRandomPass());
     } else {
-      const nextIdx = (passphraseIdx + 1) % samplePassphrases.length;
-      setPassphraseIdx(nextIdx);
-      setCurrentPass(samplePassphrases[nextIdx]);
+      const next = (passphraseIdx + 1) % samplePassphrases.length;
+      setPassphraseIdx(next);
+      setCurrentPass(samplePassphrases[next]);
     }
   };
 
@@ -54,162 +46,139 @@ export default function InteractiveDemo() {
   };
 
   return (
-    <section id="interactive-demo" className="ca-grid relative scroll-mt-24 px-4 py-24 bg-[#faf6ea] border-t border-[#191510]/15">
+    <section id="interactive-demo" className="ca-grid relative scroll-mt-24 px-4 py-24 bg-[#030b15] border-t border-white/[0.05]">
       <div className="max-w-4xl mx-auto space-y-12">
+
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
-          <div className="flex flex-col items-center text-[#191510]">
-            <p className="ca-hand text-2xl sm:text-3xl">test our generator!</p>
-            <svg
-              viewBox="0 0 64 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              className="mt-1 h-3 w-24 text-[#191510]"
-              aria-hidden="true"
-            >
-              <path d="M3 4c18-3 40-3 58 0" />
-              <path d="M9 9c14-2.5 32-2.5 46 0" />
-            </svg>
-          </div>
-
-          <h2 className="ca-display text-4xl sm:text-6xl text-[#191510] tracking-tight">
-            LIVE SANDBOX
+          <span className="pg-badge">Test Our Generator</span>
+          <h2 className="ca-display text-4xl sm:text-6xl text-white tracking-tight mt-4">
+            Live Sandbox
           </h2>
+          <p className="text-[#e2eaf8]/45 text-base font-light leading-relaxed">
+            Generate and test cryptographically secure keys in real time.
+          </p>
         </div>
 
-        {/* Studio Card */}
-        <div className="relative p-6 sm:p-10 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl space-y-8">
-          <span aria-hidden="true" className="absolute -left-6 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-[#c4b5fd]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
-          <span aria-hidden="true" className="absolute -right-6 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
+        {/* Terminal card */}
+        <div className="border border-white/[0.07] bg-[#040e1c]">
 
-          {/* Mode Switcher */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b-2 border-[#191510]">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => {
-                  setMode("random");
-                  setCurrentPass(generateRandomPass());
-                }}
-                className={`ca-mono px-4 py-2 text-xs font-bold transition-all border border-[#191510] ${
-                  mode === "random" ? "bg-[#ffe066] shadow-[2px_2px_0_#191510]" : "bg-[#faf6ea] text-[#191510]/70"
-                }`}
-              >
-                Complex Random Key
-              </button>
-              <button
-                onClick={() => {
-                  setMode("passphrase");
-                  setCurrentPass(samplePassphrases[0]);
-                }}
-                className={`ca-mono px-4 py-2 text-xs font-bold transition-all border border-[#191510] ${
-                  mode === "passphrase" ? "bg-[#ffe066] shadow-[2px_2px_0_#191510]" : "bg-[#faf6ea] text-[#191510]/70"
-                }`}
-              >
-                Memorable Words
-              </button>
+          {/* Window bar */}
+          <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#030b15]/60">
+            <div className="flex items-center gap-3">
+              <span className="flex gap-1.5">
+                <span className="size-2.5 rounded-full bg-white/10" />
+                <span className="size-2.5 rounded-full bg-white/10" />
+                <span className="size-2.5 rounded-full bg-white/10" />
+              </span>
+              <span className="ca-mono text-[0.6rem] text-[#e2eaf8]/25 tracking-widest">
+                passg://key-generator
+              </span>
             </div>
-
-            <span className="ca-mono text-xs font-bold bg-[#a7f3d0] text-[#191510] px-3 py-1 border border-[#191510]">
-              ● CSPRNG ACTIVE
+            <span className="pg-badge pg-badge-green text-[0.58rem] py-0.5">
+              <span className="size-1 rounded-full bg-[#00ff9d] animate-pulse" />
+              CSPRNG ACTIVE
             </span>
           </div>
 
-          {/* Output Box */}
-          <div className="space-y-2">
-            <span className="ca-mono text-xs font-bold text-[#191510]/70">GENERATED OUTPUT</span>
-            <div className="flex items-center gap-3 bg-[#faf6ea] p-4 border-2 border-[#191510] shadow-[3px_3px_0_#191510]">
-              <span className="font-mono text-base sm:text-xl font-bold text-[#191510] flex-1 truncate tracking-wider">
-                {currentPass}
-              </span>
-              <button
-                onClick={handleRegenerate}
-                className="p-2 bg-white hover:bg-[#ffe066] text-[#191510] border border-[#191510] transition-colors"
-                title="Generate New"
-              >
-                <RefreshCw className="size-4" />
-              </button>
-              <button
-                onClick={handleCopy}
-                className="ca-mono px-4 py-2 bg-[#191510] text-white hover:bg-[#ffe066] hover:text-[#191510] border border-[#191510] text-xs font-bold flex items-center gap-1.5 transition-colors"
-              >
-                {copied ? <Check className="size-3.5 text-emerald-300" /> : <Copy className="size-3.5" />}
-                <span>{copied ? "Copied" : "Copy Key"}</span>
-              </button>
+          <div className="p-6 sm:p-8 space-y-6">
+            {/* Mode switcher */}
+            <div className="flex items-center gap-1 border-b border-white/[0.05] pb-5">
+              {[
+                { key: "random",     label: "Complex Random Key" },
+                { key: "passphrase", label: "Memorable Words"    },
+              ].map(({ key, label }) => (
+                <button
+                  key={key}
+                  onClick={() => {
+                    setMode(key);
+                    if (key === "random") setCurrentPass(generateRandomPass());
+                    else setCurrentPass(samplePassphrases[0]);
+                  }}
+                  className={`ca-mono px-4 py-2 text-[0.62rem] border transition-all tracking-widest ${
+                    mode === key
+                      ? "border-[#00d4ff]/30 bg-[#00d4ff]/08 text-[#00d4ff]"
+                      : "border-white/[0.06] text-[#e2eaf8]/30 hover:text-[#e2eaf8]/60"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
-          </div>
 
-          {/* Controls */}
-          {mode === "random" && (
-            <div className="grid sm:grid-cols-2 gap-6 pt-2">
-              <div className="space-y-2">
-                <div className="flex justify-between ca-mono text-xs text-[#191510]">
-                  <span>LENGTH</span>
-                  <span>{passLength} CHARS</span>
+            {/* Output */}
+            <div className="space-y-2">
+              <span className="ca-mono text-[0.6rem] text-[#e2eaf8]/30 tracking-widest">GENERATED OUTPUT</span>
+              <div className="flex items-center gap-2 bg-[#030b15] px-4 py-3 border border-white/[0.07]">
+                <span className="font-mono text-base sm:text-lg text-[#00d4ff] flex-1 truncate tracking-widest">
+                  {currentPass}
+                </span>
+                <button
+                  onClick={handleRegenerate}
+                  className="p-2 text-[#e2eaf8]/25 hover:text-[#00d4ff] transition-colors"
+                  title="Generate New"
+                >
+                  <RefreshCw className="size-3.5" />
+                </button>
+                <button
+                  onClick={handleCopy}
+                  className="ca-mono px-3 py-1.5 bg-[#00d4ff]/10 text-[#00d4ff] border border-[#00d4ff]/20 text-[0.6rem] hover:bg-[#00d4ff]/18 transition-colors flex items-center gap-1.5 tracking-widest"
+                >
+                  {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
+                  {copied ? "COPIED" : "COPY KEY"}
+                </button>
+              </div>
+            </div>
+
+            {/* Controls */}
+            {mode === "random" && (
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div className="space-y-2.5">
+                  <div className="flex justify-between ca-mono text-[0.6rem] text-[#e2eaf8]/30 tracking-widest">
+                    <span>LENGTH</span>
+                    <span className="text-[#00d4ff]/60">{passLength} CHARS</span>
+                  </div>
+                  <input
+                    type="range" min="12" max="48" value={passLength}
+                    onChange={(e) => { setPassLength(Number(e.target.value)); setCurrentPass(generateRandomPass()); }}
+                    className="w-full cursor-pointer h-px bg-white/10 accent-[#00d4ff]"
+                  />
                 </div>
-                <input
-                  type="range"
-                  min="12"
-                  max="48"
-                  value={passLength}
-                  onChange={(e) => {
-                    setPassLength(Number(e.target.value));
-                    setCurrentPass(generateRandomPass());
-                  }}
-                  className="w-full accent-[#191510] cursor-pointer h-2 bg-[#faf6ea] border border-[#191510]"
-                />
-              </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => {
-                    setIncludeUpper(!includeUpper);
-                    setCurrentPass(generateRandomPass());
-                  }}
-                  className={`flex-1 py-2 text-xs ca-mono border border-[#191510] transition-all ${
-                    includeUpper ? "bg-[#a7f3d0] shadow-[2px_2px_0_#191510]" : "bg-white text-slate-400"
-                  }`}
-                >
-                  ABC
-                </button>
-                <button
-                  onClick={() => {
-                    setIncludeNumbers(!includeNumbers);
-                    setCurrentPass(generateRandomPass());
-                  }}
-                  className={`flex-1 py-2 text-xs ca-mono border border-[#191510] transition-all ${
-                    includeNumbers ? "bg-[#7dd3fc] shadow-[2px_2px_0_#191510]" : "bg-white text-slate-400"
-                  }`}
-                >
-                  123
-                </button>
-                <button
-                  onClick={() => {
-                    setIncludeSymbols(!includeSymbols);
-                    setCurrentPass(generateRandomPass());
-                  }}
-                  className={`flex-1 py-2 text-xs ca-mono border border-[#191510] transition-all ${
-                    includeSymbols ? "bg-[#ff5e89] text-white shadow-[2px_2px_0_#191510]" : "bg-white text-slate-400"
-                  }`}
-                >
-                  !@#
-                </button>
+                <div className="flex items-center gap-2">
+                  {[
+                    { label: "A–Z", state: includeUpper,   set: setIncludeUpper },
+                    { label: "0–9", state: includeNumbers, set: setIncludeNumbers },
+                    { label: "!@#", state: includeSymbols, set: setIncludeSymbols },
+                  ].map(({ label, state, set }) => (
+                    <button
+                      key={label}
+                      onClick={() => { set(!state); setCurrentPass(generateRandomPass()); }}
+                      className={`flex-1 ca-mono py-2 text-[0.6rem] border transition-all tracking-widest ${
+                        state
+                          ? "border-[#00d4ff]/30 bg-[#00d4ff]/08 text-[#00d4ff]"
+                          : "border-white/[0.06] text-[#e2eaf8]/25"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Cipher Box */}
-          <div className="p-4 bg-[#191510] text-[#faf6ea] rounded-xl font-mono text-xs space-y-1.5">
-            <div className="flex items-center justify-between text-[0.68rem] text-slate-400 border-b border-slate-800 pb-1.5">
-              <span className="flex items-center gap-1.5 text-[#a7f3d0]">
-                <Terminal className="size-3" /> AES-256-GCM Hardware Cipher
-              </span>
-              <span className="text-[#ffe066]">Authenticated</span>
+            {/* Cipher strip */}
+            <div className="px-4 py-3 bg-[#030b15] border border-white/[0.05] font-mono text-xs space-y-1.5">
+              <div className="flex items-center justify-between text-[0.6rem] text-[#e2eaf8]/25 border-b border-white/[0.04] pb-1.5">
+                <span className="flex items-center gap-1.5 text-[#00ff9d]/60">
+                  <Terminal className="size-2.5" /> AES-256-GCM Hardware Cipher
+                </span>
+                <span className="text-[#a5b4fc]/50">Authenticated</span>
+              </div>
+              <p className="text-[#e2eaf8]/25 truncate">
+                Ciphertext: <span className="text-[#e2eaf8]/40">U2FsdGVkX195a82...8f319a2</span>
+              </p>
             </div>
-            <p className="text-[#7dd3fc] truncate">
-              Ciphertext: <span className="text-slate-300">U2FsdGVkX195a82...8f319a2</span>
-            </p>
           </div>
         </div>
       </div>
