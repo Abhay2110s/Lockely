@@ -1,4 +1,9 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ShieldCheck } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const featureProjects = [
   {
@@ -56,8 +61,58 @@ const featureProjects = [
 ];
 
 export default function Features() {
+  const sectionRef = useRef(null);
+  const cardRefs = useRef([]);
+  const trackRefs = useRef([]);
+
+  useEffect(() => {
+    const cards = cardRefs.current;
+    const tracks = trackRefs.current;
+
+    if (!cards.length || !tracks.length) return;
+
+    const ctx = gsap.context(() => {
+      cards.forEach((card, idx) => {
+        // ── Slide each card UP from 100% below as its track enters the viewport
+        if (idx > 0) {
+          gsap.fromTo(
+            card,
+            { yPercent: 100 },
+            {
+              yPercent: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: tracks[idx],
+                start: "top bottom",   // animation begins when the track top hits viewport bottom
+                end: "top top+=80",    // finishes when the track top is near the top of viewport
+                scrub: 0.6,
+              },
+            }
+          );
+        }
+
+        // ── Scale the PREVIOUS card down as the next one slides on top
+        if (idx < cards.length - 1) {
+          gsap.to(card, {
+            scale: 0.93,
+            yPercent: -4,
+            ease: "none",
+            scrollTrigger: {
+              trigger: tracks[idx + 1],
+              start: "top bottom",
+              end: "top top+=80",
+              scrub: 0.6,
+            },
+          });
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="features" className="ca-grid scroll-mt-24 pb-24 pt-8">
+    <section id="features" ref={sectionRef} className="ca-grid scroll-mt-24 pb-24 pt-8">
       {/* Hand-drawn Curved Wave Divider */}
       <svg
         viewBox="0 0 1440 130"
@@ -106,32 +161,38 @@ export default function Features() {
         </div>
       </div>
 
-      {/* ============================================================ */}
-      {/* STICKY STACKING CARDS — each card pins as you scroll up      */}
-      {/* The tall scroll-track gives room for each card to animate    */}
-      {/* ============================================================ */}
-      <div className="relative px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto">
+      {/*
+       * ─────────────────────────────────────────────────────────────────────────
+       * SCROLL-MERGE CARD STACK
+       *
+       * Layout logic:
+       *  • Each card lives inside a "track" div that provides scroll distance.
+       *  • The card wrapper is position:sticky so it pins while scrolling through.
+       *  • GSAP ScrollTrigger fires yPercent: 100→0 on each card as the track
+       *    enters the viewport, making it slide up from below and "merge" into
+       *    the deck. Simultaneously the previous card scales down slightly.
+       *  • We avoid CSS sticky (broken by overflow-x:hidden on the layout root)
+       *    by using `will-change: transform` and GSAP-driven transforms only.
+       * ─────────────────────────────────────────────────────────────────────────
+       */}
+      <div className="px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto" style={{ perspective: "1200px" }}>
         {featureProjects.map((feat, idx) => (
-          /*
-           * Each card sits inside its own "track" that is 100vh tall.
-           * The card itself is sticky, so it pins to the top of the
-           * viewport while its parent track is still in view.
-           * Because tracks stack, each subsequent card slides over the
-           * previous one — creating the merge/deck effect.
-           * A small scale-down + z-index step gives the "card below" feel.
-           */
           <div
             key={feat.id}
-            className="sticky-card-track"
-            style={{ height: "100vh", position: "relative" }}
+            ref={(el) => (trackRefs.current[idx] = el)}
+            /* First card has no top margin; subsequent ones provide the
+               scroll distance needed for the slide-up animation           */
+            style={{ marginTop: idx === 0 ? 0 : "100vh" }}
           >
-            <article
-              className="sticky-card"
+            {/* Card wrapper: GSAP will drive transform on this element */}
+            <div
+              ref={(el) => (cardRefs.current[idx] = el)}
               style={{
-                position: "sticky",
-                top: `${idx * 28}px`,          /* each card stops a bit lower so peeking works */
-                zIndex: idx + 1,
-                paddingBottom: "16px",
+                willChange: "transform",
+                transformOrigin: "top center",
+                /* Cards after the first start off-screen below via GSAP fromTo,
+                   but we also apply translateY here as a visual-only fallback   */
+                transform: idx > 0 ? "translateY(100%)" : "none",
               }}
             >
               {/* Top Diagonal Tab Header */}
@@ -212,7 +273,7 @@ export default function Features() {
                   </div>
                 </div>
               </div>
-            </article>
+            </div>
           </div>
         ))}
       </div>
