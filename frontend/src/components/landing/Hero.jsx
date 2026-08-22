@@ -285,7 +285,7 @@ export default function Hero() {
           {/* Grid Generator & Mock Cards */}
           <div className="grid lg:grid-cols-2 gap-8 items-stretch">
             {/* Left: Generator */}
-            <div className="bg-[#faf6ea] p-5 sm:p-6 border-2 border-[#191510] space-y-4">
+            <div className="bg-[#faf6ea] p-5 sm:p-6 border-2 border-[#191510] space-y-4 overflow-hidden min-w-0">
               <div className="flex items-center justify-between">
                 <span className="ca-mono text-xs font-bold text-[#191510]">SECRET KEY</span>
                 <span className="ca-mono text-xs font-bold bg-white px-2 py-0.5 border border-[#191510]">
@@ -293,11 +293,17 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Password Display — row is fixed-width via min-w-0; text truncates inside */}
-              <div className="flex items-center gap-2 bg-white p-3 border-2 border-[#191510] shadow-[2px_2px_0_#191510] min-w-0 overflow-hidden">
-                <span className="font-mono text-sm sm:text-base font-bold text-[#191510] flex-1 min-w-0 overflow-hidden truncate tracking-wider block">
-                  <DecryptedText key={password} text={password} speed={25} maxIterations={5} />
-                </span>
+              {/* Password Display — fixed width, text clipped inside DecryptedText's own span */}
+              <div className="flex items-center gap-2 bg-white p-3 border-2 border-[#191510] shadow-[2px_2px_0_#191510] w-full overflow-hidden">
+                <div className="flex-1 min-w-0 overflow-hidden">
+                  <DecryptedText
+                    key={password}
+                    text={password}
+                    speed={25}
+                    maxIterations={5}
+                    className="font-mono text-sm sm:text-base font-bold text-[#191510] tracking-wider block w-full overflow-hidden truncate"
+                  />
+                </div>
                 <button
                   onClick={() => setSeed((s) => s + 1)}
                   className="p-1.5 bg-[#faf6ea] border border-[#191510] hover:bg-[#ffe066]"
