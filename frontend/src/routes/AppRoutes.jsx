@@ -1,6 +1,7 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-// Layouts
+// Layouts — kept eager, they're tiny shells needed on every route.
 import LandingLayout from "@/layouts/LandingLayout";
 import AuthLayout from "@/layouts/AuthLayout";
 import DashboardLayout from "@/layouts/DashboardLayout";
@@ -9,24 +10,34 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
-// Pages
+import PageLoader from "@/components/common/PageLoader";
+
+// Landing is the public entry point (/) — keep it in the main bundle so
+// there's no extra network round-trip / loading flash on first paint.
 import Landing from "@/pages/Landing";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import ForgotPassword from "@/pages/ForgotPassword";
-import ResetPassword from "@/pages/ResetPassword";
-import VerifyOTP from "@/pages/VerifyOTP";
-import TwoFactorChallenge from "@/pages/TwoFactorChallenge";
-import Dashboard from "@/pages/Dashboard";
-import Vault from "@/pages/Vault";
-import PasswordGenerator from "@/pages/PasswordGenerator";
-import Profile from "@/pages/Profile";
-import Settings from "@/pages/Settings";
-import NotFound from "@/pages/NotFound";
-import Unauthorized from "@/pages/Unauthorized";
+
+// Everything else is code-split: each page (and the vendor code only it
+// needs) loads on demand instead of shipping on every visit, including
+// anonymous visits to "/". This is the single biggest win for the
+// landing-page Lighthouse score, since Dashboard/Vault/Settings pull in
+// heavy chart/animation code that a first-time visitor never touches.
+const Login = lazy(() => import("@/pages/Login"));
+const Register = lazy(() => import("@/pages/Register"));
+const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
+const VerifyOTP = lazy(() => import("@/pages/VerifyOTP"));
+const TwoFactorChallenge = lazy(() => import("@/pages/TwoFactorChallenge"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Vault = lazy(() => import("@/pages/Vault"));
+const PasswordGenerator = lazy(() => import("@/pages/PasswordGenerator"));
+const Profile = lazy(() => import("@/pages/Profile"));
+const Settings = lazy(() => import("@/pages/Settings"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+const Unauthorized = lazy(() => import("@/pages/Unauthorized"));
 
 export default function AppRoutes() {
   return (
+    <Suspense fallback={<PageLoader />}>
     <Routes>
       {/* Public Landing Pages */}
       <Route element={<LandingLayout />}>
@@ -76,5 +87,6 @@ export default function AppRoutes() {
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
+    </Suspense>
   );
 }
