@@ -7,7 +7,7 @@ export default function LandingLayout() {
     <div className="relative min-h-screen bg-[#faf6ea] text-slate-900 overflow-x-hidden font-comic selection:bg-[#fef08a] selection:text-slate-950">
       <div className="relative z-10">
         <Navbar />
-        <main>
+        <main className="bg-[#faf6ea]">
           <Outlet />
         </main>
         <Footer />

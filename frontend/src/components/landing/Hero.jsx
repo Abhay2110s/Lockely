@@ -103,7 +103,7 @@ export default function Hero() {
     <section
       ref={heroRef}
       id="top"
-      className="ca-grid relative flex flex-col justify-center overflow-hidden px-4 min-h-[90vh] pb-16 pt-8 sm:pt-14 sm:pb-24 select-none"
+      className="ca-grid relative flex flex-col justify-center overflow-hidden px-4 min-h-[90vh] pb-16 pt-8 sm:pt-14 sm:pb-24 select-none bg-[#faf6ea]"
     >
       {/* ========================================================================= */}
       {/* SQUARE INVERTING CURSOR LENS (Only active inside Hero section)            */}
