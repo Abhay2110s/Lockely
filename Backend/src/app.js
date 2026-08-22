@@ -45,13 +45,32 @@ const allowedOrigins =
 // Remove duplicates while preserving the configured origins.
 const uniqueAllowedOrigins = [...new Set(allowedOrigins)];
 
+// Vercel gives every preview deploy its own unique subdomain
+// (e.g. "pass-gaurdian-12-7dujbxixu-abhay2110s-projects.vercel.app"),
+// so a static CLIENT_URL list can never cover them all. This pattern
+// allows any preview URL belonging to this specific Vercel project/team
+// without opening CORS up to arbitrary third-party origins. Adjust the
+// project/team slugs below if your Vercel project or team name changes.
+const VERCEL_PREVIEW_ORIGIN = /^https:\/\/pass-gaurdian(-[a-z0-9]+)*-abhay2110s-projects\.vercel\.app$/i;
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || uniqueAllowedOrigins.length === 0 || uniqueAllowedOrigins.includes(origin)) {
+      if (
+        !origin ||
+        uniqueAllowedOrigins.length === 0 ||
+        uniqueAllowedOrigins.includes(origin) ||
+        VERCEL_PREVIEW_ORIGIN.test(origin)
+      ) {
         return callback(null, true);
       }
-      return callback(new Error("Not allowed by CORS"));
+      // Reject with `false` (not an Error) so the `cors` package simply
+      // omits the Access-Control-Allow-Origin header instead of throwing,
+      // which previously fell through to the generic error handler and
+      // surfaced as a confusing 500. The browser's own CORS check is what
+      // actually blocks the response — this just avoids masking it.
+      logger.warn(`Blocked CORS request from disallowed origin: ${origin}`);
+      return callback(null, false);
     },
     credentials: true,
   })
