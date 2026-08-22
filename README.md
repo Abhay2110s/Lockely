@@ -4,6 +4,8 @@ A modern, high-security MERN-stack password manager built with **Zero-Knowledge 
 
 ---
 
+
+
 ## 🔒 Security & Architecture Overview
 
 ### 1. Zero-Knowledge Vault Encryption
