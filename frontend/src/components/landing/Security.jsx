@@ -41,7 +41,7 @@ const steps = [
 
 export default function Security() {
   return (
-    <section id="security" className="ca-grid relative scroll-mt-24 px-4 py-20 bg-[#faf6ea] border-t border-[#191510]/15">
+    <section id="security" className="ca-grid relative scroll-mt-24 px-4 py-16 bg-[#faf6ea] border-t border-[#191510]/15">
       <div className="max-w-6xl mx-auto space-y-16">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
@@ -61,7 +61,7 @@ export default function Security() {
             </svg>
           </div>
 
-          <h2 className="ca-display text-4xl sm:text-6xl text-[#191510] tracking-tight">
+          <h2 className="ca-display text-3xl sm:text-5xl text-[#191510] tracking-tight">
             PROVABLE SECURITY
           </h2>
 
@@ -110,7 +110,7 @@ export default function Security() {
         </div>
 
         {/* Deep Dive Security Guarantee */}
-        <div className="relative p-8 sm:p-12 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl">
+        <div className="relative p-6 sm:p-10 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl">
           <span aria-hidden="true" className="absolute -left-5 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
           <span aria-hidden="true" className="absolute -right-5 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-[#ff5e89]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
 
@@ -119,7 +119,7 @@ export default function Security() {
               ZERO-KNOWLEDGE STANDARD
             </span>
 
-            <h3 className="ca-display text-3xl sm:text-5xl text-[#191510] tracking-tight">
+            <h3 className="ca-display text-2xl sm:text-4xl text-[#191510] tracking-tight">
               Why Zero-Knowledge matters to your safety.
             </h3>
 

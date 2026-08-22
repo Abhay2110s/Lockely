@@ -28,7 +28,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="ca-grid relative scroll-mt-24 px-4 py-24 bg-white border-t border-[#191510]/15">
+    <section id="faq" className="ca-grid relative scroll-mt-24 px-4 py-16 bg-white border-t border-[#191510]/15">
       <div className="max-w-4xl mx-auto space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-4">
           <div className="flex flex-col items-center text-[#191510]">
@@ -47,7 +47,7 @@ export default function FAQ() {
             </svg>
           </div>
 
-          <h2 className="ca-display text-4xl sm:text-6xl text-[#191510] tracking-tight">
+          <h2 className="ca-display text-3xl sm:text-5xl text-[#191510] tracking-tight">
             FREQUENTLY ASKED
           </h2>
         </div>
@@ -62,7 +62,7 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                  className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 ca-display text-xl sm:text-2xl text-[#191510] hover:bg-[#ffe066]/60 transition-colors"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 ca-display text-lg sm:text-xl text-[#191510] hover:bg-[#ffe066]/60 transition-colors"
                 >
                   <span className="flex items-center gap-3">
                     <span className="ca-mono size-7 bg-white border border-[#191510] flex items-center justify-center text-xs font-bold shrink-0">

@@ -138,7 +138,7 @@ export default function Features() {
         viewBox="0 0 1440 130"
         fill="none"
         preserveAspectRatio="none"
-        className="h-16 w-full sm:h-24 -mx-4 w-[calc(100%+2rem)] text-[#191510]/20"
+        className="h-16 w-full sm:h-24 text-[#191510]/20"
         aria-hidden="true"
       >
         <path
@@ -168,7 +168,7 @@ export default function Features() {
         </div>
 
         <span className="mt-4 block text-center">
-          <span className="ca-display text-5xl sm:text-7xl lg:text-8xl leading-[0.92] tracking-tight text-[#191510]">
+          <span className="ca-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.92] tracking-tight text-[#191510]">
             VAULT ARSENAL
           </span>
         </span>
@@ -216,7 +216,7 @@ export default function Features() {
 
             {/* Card Body */}
             <div
-              className={`grid grid-cols-1 gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-12 border-3 border-[#191510] shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
+              className={`grid grid-cols-1 gap-8 p-5 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-10 border-3 border-[#191510] shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
             >
               {/* Left: Text */}
               <div className="flex flex-col justify-between space-y-6">
@@ -225,7 +225,7 @@ export default function Features() {
                     <span className="size-2.5 rounded-full bg-white animate-pulse" />
                     {feat.badge}
                   </span>
-                  <h2 className="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight text-white ca-display">
+                  <h2 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight text-white ca-display">
                     {feat.title}
                   </h2>
                   <p className="mt-4 text-base sm:text-lg leading-relaxed text-white/95 font-medium">

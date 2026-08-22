@@ -5,6 +5,16 @@
   box-sizing: border-box;
 }
 
+/* Safety net: clip any element that slips past the viewport edge (a
+   mismatched negative margin, an errant 100vw/w-screen, etc.) instead of
+   letting it push a horizontal scrollbar onto the whole page. This masks
+   symptoms, not causes — a component that overflows should still be
+   fixed at the source — but it keeps one bad component from breaking
+   the whole page's horizontal layout while that happens. */
+html {
+  overflow-x: hidden;
+}
+
 /* Remove default margin/padding from common elements */
 body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
   margin: 0;

@@ -3,9 +3,9 @@ import { ArrowRight, Lock, Sparkles, ShieldCheck, CheckCircle2 } from "lucide-re
 
 export default function CTA() {
   return (
-    <section className="ca-grid px-4 py-20 bg-[#faf6ea] border-t border-[#191510]/15">
+    <section className="ca-grid px-4 py-16 bg-[#faf6ea] border-t border-[#191510]/15">
       <div className="max-w-5xl mx-auto">
-        <div className="relative p-8 sm:p-14 bg-[#ffe066] border-3 border-[#191510] shadow-[10px_10px_0_#191510] rounded-3xl space-y-6 text-[#191510]">
+        <div className="relative p-6 sm:p-10 bg-[#ffe066] border-3 border-[#191510] shadow-[10px_10px_0_#191510] rounded-3xl space-y-6 text-[#191510]">
           {/* Washi Tape Corners */}
           <span aria-hidden="true" className="absolute -left-6 -top-3 z-10 h-6 w-28 -rotate-[10deg] bg-[#ff5e89]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
           <span aria-hidden="true" className="absolute -right-6 -top-3 z-10 h-6 w-28 rotate-[10deg] bg-[#7dd3fc]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
@@ -15,7 +15,7 @@ export default function CTA() {
             <span>100% Free Forever for Personal Vaults</span>
           </div>
 
-          <h2 className="ca-display text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#191510] leading-tight">
+          <h2 className="ca-display text-2xl sm:text-4xl md:text-5xl tracking-tight text-[#191510] leading-tight">
             Take control of your passwords in under 2 minutes! 🚀
           </h2>
 

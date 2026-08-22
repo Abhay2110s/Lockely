@@ -155,8 +155,8 @@ export default function Hero() {
 
         {/* Giant Main Display Title with Creative-Artsy Doodle Box & Floating Tags */}
         <div className="relative mt-6">
-          <div className="ca-doodle-box relative inline-block border-[3.5px] border-[#fb923c] px-6 py-2 sm:px-12 sm:py-3 bg-white/70 shadow-[3px_4px_0px_#191510]">
-            <span className="ca-display text-5xl sm:text-8xl lg:text-[7.5rem] leading-[0.92] tracking-tight text-[#191510]">
+          <div className="ca-doodle-box relative inline-block border-[3.5px] border-[#fb923c] px-4 py-2 sm:px-8 sm:py-3 bg-white/70 shadow-[3px_4px_0px_#191510] max-w-full">
+            <span className="ca-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.92] tracking-tight text-[#191510] break-words">
               PASSGUARDIAN
             </span>
           </div>
@@ -190,7 +190,7 @@ export default function Hero() {
             <div className="pointer-events-auto absolute bottom-0 right-0 translate-x-1/3 translate-y-1/2">
               <span className="relative inline-block">
                 <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2px_3px_8px_rgba(17,18,18,0.18)] text-2xl rotate-6 bg-[#a7f3d0] border border-[#191510]/30">
-                  Easy Usage ✨
+                  Open Source ✨
                 </span>
               </span>
             </div>
@@ -204,7 +204,7 @@ export default function Hero() {
         </p>
 
         {/* Headline with Spinning Flower SVGs */}
-        <h1 className="mt-8 max-w-3xl text-3xl font-semibold leading-[1.2] tracking-tight text-[#191510] sm:text-5xl lg:text-6xl">
+        <h1 className="mt-8 max-w-3xl text-2xl font-semibold leading-[1.25] tracking-tight text-[#191510] sm:text-4xl lg:text-5xl">
           I protect secrets that{" "}
           <span className="inline-block">
             <svg viewBox="0 0 40 40" className="inline-block align-[-0.08em] ca-spin-slow h-[0.85em] w-[0.85em]" aria-hidden="true">
@@ -252,7 +252,7 @@ export default function Hero() {
         </div>
 
         {/* Artsy Interactive Sandbox Showcase Card */}
-        <div className="relative mt-14 w-full max-w-4xl p-6 sm:p-10 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl text-left space-y-6">
+        <div className="relative mt-14 w-full max-w-4xl p-5 sm:p-8 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl text-left space-y-6">
           {/* Top Tape Stickers on Corners */}
           <span aria-hidden="true" className="absolute -left-6 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-[#7dd3fc]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
           <span aria-hidden="true" className="absolute -right-6 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />

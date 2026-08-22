@@ -54,7 +54,7 @@ export default function InteractiveDemo() {
   };
 
   return (
-    <section id="interactive-demo" className="ca-grid relative scroll-mt-24 px-4 py-24 bg-[#faf6ea] border-t border-[#191510]/15">
+    <section id="interactive-demo" className="ca-grid relative scroll-mt-24 px-4 py-16 bg-[#faf6ea] border-t border-[#191510]/15">
       <div className="max-w-4xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
@@ -74,13 +74,13 @@ export default function InteractiveDemo() {
             </svg>
           </div>
 
-          <h2 className="ca-display text-4xl sm:text-6xl text-[#191510] tracking-tight">
+          <h2 className="ca-display text-3xl sm:text-5xl text-[#191510] tracking-tight">
             LIVE SANDBOX
           </h2>
         </div>
 
         {/* Studio Card */}
-        <div className="relative p-6 sm:p-10 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl space-y-8">
+        <div className="relative p-5 sm:p-8 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl space-y-8">
           <span aria-hidden="true" className="absolute -left-6 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-[#c4b5fd]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
           <span aria-hidden="true" className="absolute -right-6 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
 
