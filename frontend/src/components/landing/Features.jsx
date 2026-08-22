@@ -1,13 +1,4 @@
-import { useState } from "react";
-import {
-  Lock,
-  KeyRound,
-  AlertTriangle,
-  Zap,
-  CheckCircle2,
-  ArrowRight,
-  ShieldCheck,
-} from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 const featureProjects = [
   {
@@ -115,89 +106,114 @@ export default function Features() {
         </div>
       </div>
 
-      {/* Stacked Project-Style Feature Cards */}
-      <div className="flex flex-col gap-12 px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto">
+      {/* ============================================================ */}
+      {/* STICKY STACKING CARDS — each card pins as you scroll up      */}
+      {/* The tall scroll-track gives room for each card to animate    */}
+      {/* ============================================================ */}
+      <div className="relative px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto">
         {featureProjects.map((feat, idx) => (
-          <article key={feat.id} className="relative">
-            {/* Top Diagonal Tab Header */}
-            <div className="flex">
-              <span
-                className={`ca-mono inline-flex items-center gap-2 py-2.5 pr-10 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white pl-5 [clip-path:polygon(0_0,calc(100%-36px)_0,100%_100%,0_100%)] sm:pl-8 sm:[clip-path:polygon(0_0,calc(100%-60px)_0,100%_100%,0_100%)] ${feat.tabColor}`}
-              >
-                <ShieldCheck className="size-3.5 sm:size-4" />
-                Feature {feat.id}
-              </span>
-            </div>
-
-            {/* Main Feature Card Body */}
-            <div
-              className={`grid grid-cols-1 gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-12 border-3 border-[#191510] shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
+          /*
+           * Each card sits inside its own "track" that is 100vh tall.
+           * The card itself is sticky, so it pins to the top of the
+           * viewport while its parent track is still in view.
+           * Because tracks stack, each subsequent card slides over the
+           * previous one — creating the merge/deck effect.
+           * A small scale-down + z-index step gives the "card below" feel.
+           */
+          <div
+            key={feat.id}
+            className="sticky-card-track"
+            style={{ height: "100vh", position: "relative" }}
+          >
+            <article
+              className="sticky-card"
+              style={{
+                position: "sticky",
+                top: `${idx * 28}px`,          /* each card stops a bit lower so peeking works */
+                zIndex: idx + 1,
+                paddingBottom: "16px",
+              }}
             >
-              {/* Left Column: Details */}
-              <div className="flex flex-col justify-between space-y-6">
-                <div>
-                  <span className="ca-mono inline-flex items-center gap-2.5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white">
-                    <span className="size-2.5 rounded-full bg-white animate-pulse" />
-                    {feat.badge}
-                  </span>
+              {/* Top Diagonal Tab Header */}
+              <div className="flex">
+                <span
+                  className={`ca-mono inline-flex items-center gap-2 py-2.5 pr-10 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white pl-5 [clip-path:polygon(0_0,calc(100%-36px)_0,100%_100%,0_100%)] sm:pl-8 sm:[clip-path:polygon(0_0,calc(100%-60px)_0,100%_100%,0_100%)] ${feat.tabColor}`}
+                >
+                  <ShieldCheck className="size-3.5 sm:size-4" />
+                  Feature {feat.id}
+                </span>
+              </div>
 
-                  <h2 className="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight text-white ca-display">
-                    {feat.title}
-                  </h2>
-
-                  <p className="mt-4 text-base sm:text-lg leading-relaxed text-white/95 font-medium">
-                    {feat.desc}
-                  </p>
-                </div>
-
-                {/* Monospace Polygon Cutout Tags */}
-                <div className="flex flex-wrap gap-2 pt-4">
-                  {feat.tags.map((tag, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className="ca-mono px-3 py-1.5 text-xs font-bold uppercase tracking-wide bg-white text-[#191510] border border-[#191510] shadow-[1.5px_1.5px_0_#191510]"
-                    >
-                      {tag}
+              {/* Main Feature Card Body */}
+              <div
+                className={`grid grid-cols-1 gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-12 border-3 border-[#191510] shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
+              >
+                {/* Left Column: Details */}
+                <div className="flex flex-col justify-between space-y-6">
+                  <div>
+                    <span className="ca-mono inline-flex items-center gap-2.5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white">
+                      <span className="size-2.5 rounded-full bg-white animate-pulse" />
+                      {feat.badge}
                     </span>
-                  ))}
+
+                    <h2 className="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight text-white ca-display">
+                      {feat.title}
+                    </h2>
+
+                    <p className="mt-4 text-base sm:text-lg leading-relaxed text-white/95 font-medium">
+                      {feat.desc}
+                    </p>
+                  </div>
+
+                  {/* Monospace Polygon Cutout Tags */}
+                  <div className="flex flex-wrap gap-2 pt-4">
+                    {feat.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="ca-mono px-3 py-1.5 text-xs font-bold uppercase tracking-wide bg-white text-[#191510] border border-[#191510] shadow-[1.5px_1.5px_0_#191510]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Column: Artsy Polaroid Graphic Frame */}
+                <div className="self-center">
+                  <div className="relative">
+                    {/* Translucent Corner Washi Tapes */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute -left-5 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="absolute -right-5 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
+                    />
+
+                    {/* Polaroid Frame */}
+                    <figure className="relative bg-white p-4 pb-3 shadow-[0_8px_24px_rgba(17,18,18,0.25)] border-2 border-[#191510]">
+                      <div className="p-6 bg-[#faf6ea] border-2 border-[#191510] flex flex-col items-center justify-center text-center space-y-3 min-h-[160px]">
+                        <span className="ca-mono text-xs font-black bg-[#ffe066] px-3 py-1 border border-[#191510]">
+                          {feat.illustrationText}
+                        </span>
+                        <p className="ca-display text-2xl text-[#191510] tracking-tight">
+                          {feat.metaTitle}
+                        </p>
+                        <span className="ca-mono text-[0.7rem] text-[#191510]/80">
+                          100% CLIENT-SIDE ENCRYPTION
+                        </span>
+                      </div>
+
+                      <figcaption className="ca-hand mt-2 text-center text-base text-[#191510] font-bold">
+                        {feat.polaroidCaption}
+                      </figcaption>
+                    </figure>
+                  </div>
                 </div>
               </div>
-
-              {/* Right Column: Artsy Polaroid Graphic Frame */}
-              <div className="self-center">
-                <div className="relative">
-                  {/* Translucent Corner Washi Tapes */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute -left-5 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute -right-5 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
-                  />
-
-                  {/* Polaroid Frame */}
-                  <figure className="relative bg-white p-4 pb-3 shadow-[0_8px_24px_rgba(17,18,18,0.25)] border-2 border-[#191510]">
-                    <div className="p-6 bg-[#faf6ea] border-2 border-[#191510] flex flex-col items-center justify-center text-center space-y-3 min-h-[160px]">
-                      <span className="ca-mono text-xs font-black bg-[#ffe066] px-3 py-1 border border-[#191510]">
-                        {feat.illustrationText}
-                      </span>
-                      <p className="ca-display text-2xl text-[#191510] tracking-tight">
-                        {feat.metaTitle}
-                      </p>
-                      <span className="ca-mono text-[0.7rem] text-[#191510]/80">
-                        100% CLIENT-SIDE ENCRYPTION
-                      </span>
-                    </div>
-
-                    <figcaption className="ca-hand mt-2 text-center text-base text-[#191510] font-bold">
-                      {feat.polaroidCaption}
-                    </figcaption>
-                  </figure>
-                </div>
-              </div>
-            </div>
-          </article>
+            </article>
+          </div>
         ))}
       </div>
     </section>
