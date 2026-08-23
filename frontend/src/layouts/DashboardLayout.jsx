@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAppAuth } from "@/context/AuthContext";
 import {
   ShieldCheck,
@@ -11,7 +11,6 @@ import {
   Menu,
   X,
   Lock,
-  Search,
   Zap,
   LogOut,
   Sparkles,
@@ -30,17 +29,7 @@ export default function DashboardLayout() {
   const { displayName, initials, logout, isVaultUnlocked } = useAppAuth();
   const location = useLocation();
 
-  const [navSearch, setNavSearch] = useState("");
-  const navigate = useNavigate();
 
-  const handleNavSearch = (e) => {
-    e.preventDefault();
-    if (navSearch.trim()) {
-      navigate(`/vault?q=${encodeURIComponent(navSearch.trim())}`);
-    } else {
-      navigate("/vault");
-    }
-  };
 
   return (
     <div className="min-h-screen bg-[#faf6ea] text-slate-900 flex flex-col md:flex-row font-comic">
@@ -156,22 +145,7 @@ export default function DashboardLayout() {
             >
               <Menu className="size-5" />
             </button>
-            <form
-              onSubmit={handleNavSearch}
-              className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-white text-xs w-80 border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] focus-within:shadow-[4px_4px_0px_#18181b] focus-within:-translate-y-0.5 transition-all"
-            >
-              <Search className="size-4 text-slate-600 shrink-0" />
-              <input
-                type="text"
-                value={navSearch}
-                onChange={(e) => setNavSearch(e.target.value)}
-                placeholder="Search credentials..."
-                className="w-full bg-transparent text-slate-900 font-bold placeholder:text-slate-400 focus:outline-none text-xs"
-              />
-              <kbd className="text-[0.62rem] bg-[#fde047] text-slate-900 px-2 py-0.5 rounded-md border border-[#18181b] font-heading-comic font-bold shrink-0">
-                GO ➔
-              </kbd>
-            </form>
+
           </div>
 
           {/* Right Header Actions */}
