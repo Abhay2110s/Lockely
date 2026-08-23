@@ -33,7 +33,11 @@ export default function Hero() {
     const heroEl = heroRef.current;
     if (!heroEl) return;
 
+    // Only enable cursor tracking on desktop screens with hover support
+    const isDesktop = () => window.innerWidth >= 1024 && window.matchMedia("(hover: hover)").matches;
+
     const handleMouseMove = (e) => {
+      if (!isDesktop()) return;
       setCursorPos({ x: e.clientX, y: e.clientY });
       const target = e.target;
       if (target && target.closest("a, button, input, [role='button']")) {
@@ -43,7 +47,11 @@ export default function Hero() {
       }
     };
 
-    const handleMouseEnter = () => setIsInsideHero(true);
+    const handleMouseEnter = () => {
+      if (isDesktop()) {
+        setIsInsideHero(true);
+      }
+    };
     const handleMouseLeave = () => {
       setIsInsideHero(false);
       setIsHoverInteractive(false);
@@ -106,11 +114,11 @@ export default function Hero() {
       className="ca-grid relative flex flex-col justify-center overflow-hidden px-4 min-h-[90vh] pb-16 pt-8 sm:pt-14 sm:pb-24 select-none bg-[#faf6ea]"
     >
       {/* ========================================================================= */}
-      {/* SQUARE INVERTING CURSOR LENS (Only active inside Hero section)            */}
+      {/* SQUARE INVERTING CURSOR LENS (Only active on Desktop)                      */}
       {/* ========================================================================= */}
       {isInsideHero && (
         <div
-          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl"
+          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl hidden lg:block"
           style={{
             left: `${cursorPos.x}px`,
             top: `${cursorPos.y}px`,

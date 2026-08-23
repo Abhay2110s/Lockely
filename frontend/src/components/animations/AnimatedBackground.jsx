@@ -17,7 +17,7 @@ export default function AnimatedBackground() {
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {/* Dynamic Soft Cursor Light Spotlight */}
       <div
-        className="absolute size-[700px] rounded-full opacity-40 transition-transform duration-300 ease-out"
+        className="hidden lg:block absolute size-[700px] rounded-full opacity-40 transition-transform duration-300 ease-out"
         style={{
           left: `${mousePos.x - 350}px`,
           top: `${mousePos.y - 350}px`,
