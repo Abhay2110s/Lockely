@@ -41,7 +41,7 @@ export default function Settings() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 pb-2 overflow-x-auto [scrollbar-width:none]">
+      <div className="flex items-center gap-2 pb-2 overflow-x-auto [scrollbar-width:none] -mx-1 px-1">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -50,14 +50,14 @@ export default function Settings() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               title={tab.label}
-              className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 ca-mono text-[0.65rem] whitespace-nowrap transition-all border-2 border-[#191510] shrink-0 ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 ca-mono text-[0.62rem] sm:text-[0.68rem] whitespace-nowrap transition-all border-2 border-[#191510] shrink-0 ${
                 isActive
-                  ? `${tab.bg} text-[#191510] shadow-[3px_3px_0px_#191510] -translate-y-0.5`
-                  : "bg-white text-[#191510]/50 hover:text-[#191510] hover:bg-slate-50"
+                  ? `${tab.bg} text-[#191510] shadow-[3px_3px_0px_#191510] -translate-y-0.5 font-bold`
+                  : "bg-white text-[#191510]/60 hover:text-[#191510] hover:bg-slate-50"
               }`}
             >
-              <Icon className="size-4 text-[#191510] shrink-0" />
-              <span className="hidden sm:inline">{tab.label}</span>
+              <Icon className="size-3.5 sm:size-4 text-[#191510] shrink-0" />
+              <span>{tab.label}</span>
             </button>
           );
         })}
