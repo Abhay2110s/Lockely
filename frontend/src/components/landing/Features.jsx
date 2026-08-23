@@ -1,114 +1,125 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ShieldCheck } from "lucide-react";
+import {
+  ShieldCheck,
+  Lock,
+  Cpu,
+  RefreshCw,
+  Smartphone,
+  Sparkles,
+  Check,
+  Terminal,
+  Zap,
+  Fingerprint,
+  QrCode,
+  Radio,
+} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const featureProjects = [
   {
     id: "01",
-    tabColor: "bg-[#3b82f6]",
+    tabColor: "bg-[#2563eb]",
     badge: "AES-256-GCM CIPHER",
     title: "Zero-Knowledge Vault",
-    desc: "Your master password is never sent across any network. Cryptographic keys are derived in browser RAM using PBKDF2 with 600,000 rounds before anything is stored.",
+    desc: "Your master password never touches any network or server log. High-security encryption keys are derived inside browser volatile memory with 600,000 PBKDF2 rounds.",
     tags: ["PBKDF2 Derivation", "256-Bit Key", "Hardware WebCrypto", "Zero Plaintext"],
-    polaroidCaption: "AES-256-GCM Galois Authenticated",
-    illustrationText: "ENCRYPTED_BLOB",
-    metaTitle: "100% Isolated Keys",
+    polaroidCaption: "Galois/Counter Mode Client Cipher",
+    icon: Lock,
+    accentColor: "bg-[#ffe066]",
+    type: "vault",
   },
   {
     id: "02",
-    tabColor: "bg-[#ff5e89]",
+    tabColor: "bg-[#e11d48]",
     badge: "HARDWARE CSPRNG",
     title: "Smart Key Generator",
-    desc: "Generate uncrackable passwords tailored to custom length sliders, symbol exclusions, and pronounceable rules with real-time entropy calculation.",
+    desc: "Synthesize uncrackable passwords tailored with custom length sliders, symbol exclusions, pronounceable rules, and real-time entropy calculation.",
     tags: ["Entropy Analyzer", "Auto-Clipboard Clear", "Custom Charsets", "Zero GPU Cracking"],
     polaroidCaption: "Cryptographic Entropy Engine",
-    illustrationText: "CSPRNG_ACTIVE",
-    metaTitle: "128+ Bits Entropy",
+    icon: Cpu,
+    accentColor: "bg-[#7dd3fc]",
+    type: "generator",
   },
   {
     id: "03",
-    tabColor: "bg-[#86efac]",
+    tabColor: "bg-[#059669]",
     badge: "k-ANONYMITY WATCH",
     title: "Breach Sentinel",
-    desc: "Checks anonymized SHA-1 hash prefixes against billions of exposed passwords in real-time. Detect duplicate and weak credentials instantly.",
+    desc: "Checks anonymized 5-character SHA-1 hash prefixes against billions of exposed passwords in real-time. Detects duplicate and compromised credentials instantly.",
     tags: ["k-Anonymity Hashes", "Duplicate Detection", "Strength Meter", "No Hash Exposure"],
     polaroidCaption: "Zero-Exposure Hash Watcher",
-    illustrationText: "BREACH_SHIELD",
-    metaTitle: "Instant Alerting",
+    icon: Radio,
+    accentColor: "bg-[#ffe066]",
+    type: "sentinel",
   },
   {
     id: "04",
-    tabColor: "bg-[#fb923c]",
+    tabColor: "bg-[#ea580c]",
     badge: "RFC-6238 TOTP",
     title: "Authenticator 2FA",
-    desc: "Integrated Time-Based One-Time Password engine compatible with Google Authenticator, Authy, and hardware tokens with backup recovery codes.",
+    desc: "Built-in Time-Based One-Time Password engine compatible with Google Authenticator, Authy, Ente, and hardware security keys with emergency recovery codes.",
     tags: ["TOTP Generator", "QR Provisioning", "Backup Codes", "Rate-Limited"],
     polaroidCaption: "Two-Factor Authentication",
-    illustrationText: "TOTP_AUTHENTICATED",
-    metaTitle: "Ironclad Protection",
+    icon: Smartphone,
+    accentColor: "bg-[#c4b5fd]",
+    type: "totp",
   },
 ];
 
-/*
- * ─── HOW THE ANIMATION WORKS ────────────────────────────────────────────────
- *
- * The card stack wrapper is PINNED by GSAP for (N-1) * 100vh of scroll.
- * While it's pinned, a scrubbed timeline drives each card's entrance:
- *
- *   Card 1 — visible from the start
- *   Card 2 — slides UP from yPercent:100 → 0 in timeline segment [0, 0.33]
- *             Card 1 simultaneously scales 1 → 0.95 and nudges up slightly
- *   Card 3 — same in segment [0.33, 0.66]
- *   Card 4 — same in segment [0.66, 1.00]
- *
- * After all 4 are stacked, the section unpins and normal scroll resumes.
- * Scrolling back UP reverses the animation exactly (scrub: true).
- *
- * Cards 2–4 use position:absolute so they all overlap card 1 in the DOM.
- * Card 1 is in normal flow and gives the wrapper its height.
- * ────────────────────────────────────────────────────────────────────────────
- */
 export default function Features() {
   const sectionRef = useRef(null);
-  const stackRef   = useRef(null);           // the pinned wrapper
-  const cardRefs   = useRef([]);             // individual card elements
+  const stackRef = useRef(null);
+  const cardRefs = useRef([]);
+  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     const stack = stackRef.current;
     const cards = cardRefs.current.filter(Boolean);
     if (!stack || cards.length < 2) return;
 
-    const N = cards.length;                  // 4
-    const SCROLL_PER_CARD = window.innerHeight; // 1 card transition = 1vh of extra scroll
+    const N = cards.length;
+    const SCROLL_PER_CARD = window.innerHeight * 1.1;
 
     const ctx = gsap.context(() => {
-      // Master timeline — all card entrances happen inside this
-      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
       cards.forEach((card, idx) => {
-        if (idx === 0) return; // card 1 is already visible
+        if (idx === 0) return;
 
-        const segStart = (idx - 1) / (N - 1);  // 0, 0.33, 0.66
+        const segStart = (idx - 1) / (N - 1);
+        const rotationAngle = idx % 2 === 0 ? 1.5 : -1.5;
 
-        // ── Slide card in from below
+        // Slide in with physical rotation & spring
         tl.fromTo(
           card,
-          { yPercent: 100 },
-          { yPercent: 0, duration: 1 },
-          segStart         // position in the timeline (0–1 scale)
+          {
+            yPercent: 110,
+            rotate: rotationAngle * 3,
+            scale: 0.95,
+            opacity: 0.8,
+          },
+          {
+            yPercent: 0,
+            rotate: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+          },
+          segStart
         );
 
-        // ── Push every card below this one deeper into the stack
+        // Push previous cards deeper with dynamic layering
         for (let prev = 0; prev < idx; prev++) {
-          const depth = idx - prev;             // how many levels below
+          const depth = idx - prev;
           tl.to(
             cards[prev],
             {
-              scale: 1 - depth * 0.03,          // 0.97, 0.94, 0.91
-              yPercent: -(depth * 2),            // -2%, -4%, -6%
+              scale: 1 - depth * 0.035,
+              yPercent: -(depth * 2.5),
+              rotate: (prev % 2 === 0 ? -1 : 1) * (depth * 0.8),
               duration: 1,
             },
             segStart
@@ -116,15 +127,19 @@ export default function Features() {
         }
       });
 
-      // Pin the stack + scrub the timeline over (N-1) * 100vh of scroll
+      // Pin stack with scrub timeline
       ScrollTrigger.create({
         trigger: stack,
         pin: true,
         pinSpacing: true,
-        start: "top top+=72",                  // 72 px = navbar height
+        start: "top top+=65",
         end: `+=${(N - 1) * SCROLL_PER_CARD}`,
-        scrub: 1.5,
+        scrub: 1.2,
         animation: tl,
+        onUpdate: (self) => {
+          const step = Math.min(N - 1, Math.floor(self.progress * N));
+          setActiveStep(step);
+        },
       });
     }, sectionRef);
 
@@ -132,7 +147,7 @@ export default function Features() {
   }, []);
 
   return (
-    <section id="features" ref={sectionRef} className="ca-grid scroll-mt-24 pb-24 pt-8">
+    <section id="features" ref={sectionRef} className="ca-grid scroll-mt-24 pb-24 pt-8 bg-[#faf6ea]">
       {/* Hand-drawn Curved Wave Divider */}
       <svg
         viewBox="0 0 1440 130"
@@ -150,7 +165,7 @@ export default function Features() {
       </svg>
 
       {/* Header & Handwritten Subheading */}
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-4 pb-14 text-center sm:pb-20">
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-4 pb-12 text-center sm:pb-16">
         <div className="flex flex-col items-center text-[#191510]">
           <p className="ca-hand text-2xl sm:text-3xl">explore core features!</p>
           <svg
@@ -173,8 +188,22 @@ export default function Features() {
           </span>
         </span>
 
-        <div className="mt-6 max-w-md -rotate-2">
-          <span className="ca-tape inline-block px-6 py-2 text-sm sm:text-base font-bold text-[#191510] shadow-sm [clip-path:polygon(1.5%_0,100%_8%,98.5%_100%,0_92%)] bg-[#ffe066] border border-[#191510]/20">
+        {/* Step Indicator Pill */}
+        <div className="mt-5 flex items-center gap-2">
+          {featureProjects.map((f, i) => (
+            <div
+              key={f.id}
+              className={`h-2 transition-all duration-300 border border-[#191510] ${
+                activeStep === i
+                  ? "w-8 bg-[#191510] shadow-[1px_1px_0_#191510]"
+                  : "w-2.5 bg-white"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="mt-4 max-w-md -rotate-2">
+          <span className="ca-tape inline-block px-5 py-1.5 text-xs sm:text-sm font-bold text-[#191510] shadow-sm [clip-path:polygon(1.5%_0,100%_8%,98.5%_100%,0_92%)] bg-[#ffe066] border border-[#191510]/30">
             Four powerful instruments engineered for absolute privacy and speed.
           </span>
         </div>
@@ -183,100 +212,238 @@ export default function Features() {
       {/* ── PINNED CARD STACK ─────────────────────────────────────────────── */}
       <div
         ref={stackRef}
-        className="relative px-4 sm:px-8 lg:px-20 max-w-6xl mx-auto"
-        /* overflow:visible so cards can slide in from below without clipping */
+        className="relative px-3 sm:px-6 lg:px-16 max-w-5xl mx-auto"
         style={{ overflow: "visible" }}
       >
-        {featureProjects.map((feat, idx) => (
-          <div
-            key={feat.id}
-            ref={(el) => (cardRefs.current[idx] = el)}
-            style={{
-              /* Card 1 is in normal flow (gives wrapper its height).
-                 Cards 2–4 are absolutely positioned, overlapping card 1.
-                 GSAP will set their initial yPercent: 100 on mount.       */
-              position: idx === 0 ? "relative" : "absolute",
-              top: idx === 0 ? undefined : 0,
-              left: idx === 0 ? undefined : 0,
-              right: idx === 0 ? undefined : 0,
-              zIndex: idx + 1,
-              willChange: "transform",
-              transformOrigin: "top center",
-            }}
-          >
-            {/* Tab Header */}
-            <div className="flex">
-              <span
-                className={`ca-mono inline-flex items-center gap-2 py-2.5 pr-10 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white pl-5 [clip-path:polygon(0_0,calc(100%-36px)_0,100%_100%,0_100%)] sm:pl-8 sm:[clip-path:polygon(0_0,calc(100%-60px)_0,100%_100%,0_100%)] ${feat.tabColor}`}
-              >
-                <ShieldCheck className="size-3.5 sm:size-4" />
-                Feature {feat.id}
-              </span>
-            </div>
-
-            {/* Card Body */}
+        {featureProjects.map((feat, idx) => {
+          const Icon = feat.icon;
+          return (
             <div
-              className={`grid grid-cols-1 gap-6 p-5 sm:p-7 lg:grid-cols-[1fr_1.05fr] lg:gap-10 lg:p-9 border-[3px] border-[#191510] shadow-[6px_6px_0_#191510] sm:shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
+              key={feat.id}
+              ref={(el) => (cardRefs.current[idx] = el)}
+              style={{
+                position: idx === 0 ? "relative" : "absolute",
+                top: idx === 0 ? undefined : 0,
+                left: idx === 0 ? undefined : 0,
+                right: idx === 0 ? undefined : 0,
+                zIndex: idx + 1,
+                willChange: "transform, opacity",
+                transformOrigin: "top center",
+              }}
             >
-              {/* Left: Text */}
-              <div className="flex flex-col justify-between space-y-4 sm:space-y-6">
-                <div>
-                  <span className="ca-mono inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white">
-                    <span className="size-2 sm:size-2.5 rounded-full bg-white animate-pulse" />
-                    {feat.badge}
+              {/* Tab Header with Index Stamp */}
+              <div className="flex items-center justify-between">
+                <div className="flex">
+                  <span
+                    className={`ca-mono inline-flex items-center gap-2 py-2.5 pr-10 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white pl-5 [clip-path:polygon(0_0,calc(100%-36px)_0,100%_100%,0_100%)] sm:pl-8 sm:[clip-path:polygon(0_0,calc(100%-55px)_0,100%_100%,0_100%)] ${feat.tabColor} border-t-[3px] border-l-[3px] border-r-[3px] border-[#191510] shadow-sm`}
+                  >
+                    <Icon className="size-4 text-white" />
+                    Feature {feat.id}
                   </span>
-                  <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white ca-display leading-tight">
-                    {feat.title}
-                  </h2>
-                  <p className="mt-3 text-sm sm:text-base lg:text-lg leading-relaxed text-white/95 font-medium">
-                    {feat.desc}
-                  </p>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2 sm:pt-4">
-                  {feat.tags.map((tag, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className="ca-mono px-2.5 py-1 sm:px-3 sm:py-1.5 text-[0.65rem] sm:text-xs font-bold uppercase tracking-wide bg-white text-[#191510] border border-[#191510] shadow-[1.5px_1.5px_0_#191510]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                <span className="ca-mono text-xs font-black bg-[#191510] text-[#ffe066] px-3 py-1 border-2 border-[#191510] shadow-[2px_2px_0_#191510] hidden sm:inline-block">
+                  0{idx + 1} / 04
+                </span>
               </div>
 
-              {/* Right: Polaroid */}
-              <div className="self-center w-full max-w-sm sm:max-w-md mx-auto">
-                <div className="relative">
-                  <span
-                    aria-hidden="true"
-                    className="absolute -left-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 -rotate-[12deg] bg-white/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute -right-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 rotate-[12deg] bg-white/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block"
-                  />
-                  <figure className="relative bg-white p-3 sm:p-4 pb-2.5 sm:pb-3 shadow-[0_8px_24px_rgba(17,18,18,0.25)] border-2 border-[#191510]">
-                    <div className="p-4 sm:p-6 bg-[#faf6ea] border-2 border-[#191510] flex flex-col items-center justify-center text-center space-y-2 sm:space-y-3 min-h-[130px] sm:min-h-[160px]">
-                      <span className="ca-mono text-[0.65rem] sm:text-xs font-black bg-[#ffe066] px-2.5 py-0.5 sm:px-3 sm:py-1 border border-[#191510]">
-                        {feat.illustrationText}
-                      </span>
-                      <p className="ca-display text-xl sm:text-2xl text-[#191510] tracking-tight">
-                        {feat.metaTitle}
-                      </p>
-                      <span className="ca-mono text-[0.6rem] sm:text-[0.7rem] text-[#191510]/80">
-                        100% CLIENT-SIDE ENCRYPTION
+              {/* Card Body */}
+              <div
+                className={`grid grid-cols-1 gap-6 p-5 sm:p-7 lg:grid-cols-[1.1fr_1fr] lg:gap-8 lg:p-9 border-[3px] border-[#191510] shadow-[6px_6px_0_#191510] sm:shadow-[9px_9px_0_#191510] ${feat.tabColor} relative overflow-hidden`}
+              >
+                {/* Subtle Background Pattern Stamp */}
+                <div className="absolute right-0 bottom-0 pointer-events-none opacity-10 select-none">
+                  <span className="ca-display text-9xl text-white leading-none">
+                    {feat.id}
+                  </span>
+                </div>
+
+                {/* Left: Text & Features */}
+                <div className="flex flex-col justify-between space-y-4 sm:space-y-6 relative z-10">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="ca-mono inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-white bg-[#191510] px-3 py-1 border border-white/40 shadow-[1.5px_1.5px_0_#191510]">
+                        <span className="size-2 rounded-full bg-[#86efac] animate-pulse" />
+                        {feat.badge}
                       </span>
                     </div>
-                    <figcaption className="ca-hand mt-1.5 sm:mt-2 text-center text-sm sm:text-base text-[#191510] font-bold">
-                      {feat.polaroidCaption}
-                    </figcaption>
-                  </figure>
+
+                    <h2 className="mt-3.5 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white ca-display leading-tight">
+                      {feat.title}
+                    </h2>
+
+                    <p className="mt-3 text-sm sm:text-base leading-relaxed text-white/95 font-medium">
+                      {feat.desc}
+                    </p>
+                  </div>
+
+                  {/* Tech Specs Badges */}
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2 sm:pt-3">
+                    {feat.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="ca-mono px-2.5 py-1 text-[0.65rem] sm:text-xs font-bold uppercase tracking-wide bg-white text-[#191510] border border-[#191510] shadow-[2px_2px_0_#191510] hover:-translate-y-0.5 transition-transform"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right: Bespoke Polaroid Visual Widget */}
+                <div className="self-center w-full max-w-sm sm:max-w-md mx-auto relative z-10">
+                  <div className="relative">
+                    {/* Washi tape stickers */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute -left-3 -top-2.5 z-10 h-5 w-20 sm:h-6 sm:w-24 -rotate-[12deg] bg-white/85 shadow-[0_1px_3px_rgba(17,18,18,0.2)] hidden sm:block"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="absolute -right-3 -top-2.5 z-10 h-5 w-20 sm:h-6 sm:w-24 rotate-[12deg] bg-white/85 shadow-[0_1px_3px_rgba(17,18,18,0.2)] hidden sm:block"
+                    />
+
+                    <figure className="relative bg-white p-3 sm:p-4 pb-2.5 sm:pb-3 shadow-[0_8px_24px_rgba(17,18,18,0.3)] border-[2.5px] border-[#191510]">
+                      {/* Visual 1: Zero-Knowledge Encryption Flow */}
+                      {feat.type === "vault" && (
+                        <div className="p-4 sm:p-5 bg-[#faf6ea] border-2 border-[#191510] flex flex-col justify-between space-y-3 min-h-[160px]">
+                          <div className="flex items-center justify-between border-b border-[#191510]/20 pb-2">
+                            <span className="ca-mono text-[0.62rem] font-bold text-[#191510] uppercase">
+                              Client RAM Sandbox
+                            </span>
+                            <span className="ca-mono text-[0.6rem] bg-[#86efac] text-emerald-950 px-2 py-0.5 border border-[#191510] font-bold">
+                              ZERO NETWORK LEAK
+                            </span>
+                          </div>
+
+                          <div className="flex items-center justify-between gap-1.5 py-1">
+                            <div className="bg-white p-2 border border-[#191510] text-center flex-1 shadow-[1.5px_1.5px_0_#191510]">
+                              <p className="ca-mono text-[0.55rem] text-[#191510]/60 uppercase">Input</p>
+                              <p className="ca-mono text-[0.65rem] font-black text-[#191510] truncate">Master Key</p>
+                            </div>
+                            <span className="text-[#191510] font-bold text-xs">➔</span>
+                            <div className="bg-[#ffe066] p-2 border border-[#191510] text-center flex-1 shadow-[1.5px_1.5px_0_#191510]">
+                              <p className="ca-mono text-[0.55rem] text-[#191510]/60 uppercase">PBKDF2</p>
+                              <p className="ca-mono text-[0.65rem] font-black text-[#191510]">600k Hash</p>
+                            </div>
+                            <span className="text-[#191510] font-bold text-xs">➔</span>
+                            <div className="bg-[#86efac] p-2 border border-[#191510] text-center flex-1 shadow-[1.5px_1.5px_0_#191510]">
+                              <p className="ca-mono text-[0.55rem] text-[#191510]/60 uppercase">Store</p>
+                              <p className="ca-mono text-[0.65rem] font-black text-emerald-950">AES-GCM</p>
+                            </div>
+                          </div>
+
+                          <div className="p-2 bg-[#191510] text-white font-mono text-[0.62rem] truncate rounded-none border border-[#191510]">
+                            <span className="text-[#86efac]">Cipher:</span> 9f8a2b7c4d0e1f3a5b6c...
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Visual 2: CSPRNG Entropy Engine */}
+                      {feat.type === "generator" && (
+                        <div className="p-4 sm:p-5 bg-[#faf6ea] border-2 border-[#191510] flex flex-col justify-between space-y-3 min-h-[160px]">
+                          <div className="flex items-center justify-between border-b border-[#191510]/20 pb-2">
+                            <span className="ca-mono text-[0.62rem] font-bold text-[#191510] uppercase">
+                              Entropy Meter
+                            </span>
+                            <span className="ca-mono text-[0.6rem] bg-[#ffe066] text-[#191510] px-2 py-0.5 border border-[#191510] font-bold">
+                              128+ BITS (MILITARY)
+                            </span>
+                          </div>
+
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between ca-mono text-[0.65rem] text-[#191510]">
+                              <span className="font-bold">Strength Score</span>
+                              <span className="font-black text-emerald-700">100% HERO GRADE</span>
+                            </div>
+                            <div className="h-3 bg-white border border-[#191510] overflow-hidden p-0.5">
+                              <div className="h-full bg-[#86efac] border-r border-[#191510] w-full animate-pulse" />
+                            </div>
+                          </div>
+
+                          <div className="p-2 bg-white border border-[#191510] flex items-center justify-between font-mono text-[0.65rem] shadow-[1.5px_1.5px_0_#191510]">
+                            <span className="font-bold text-[#191510] truncate">K#9x$mP@2!vL7*qW</span>
+                            <span className="ca-mono text-[0.55rem] bg-[#7dd3fc] px-1.5 py-0.5 border border-[#191510] font-bold">
+                              CSPRNG
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Visual 3: Breach Sentinel Radar */}
+                      {feat.type === "sentinel" && (
+                        <div className="p-4 sm:p-5 bg-[#faf6ea] border-2 border-[#191510] flex flex-col justify-between space-y-3 min-h-[160px]">
+                          <div className="flex items-center justify-between border-b border-[#191510]/20 pb-2">
+                            <span className="ca-mono text-[0.62rem] font-bold text-[#191510] uppercase">
+                              k-Anonymity Scanner
+                            </span>
+                            <span className="ca-mono text-[0.6rem] bg-[#86efac] text-emerald-950 px-2 py-0.5 border border-[#191510] font-bold flex items-center gap-1">
+                              <span className="size-1.5 rounded-full bg-emerald-600 animate-ping" />
+                              LIVE SENTINEL
+                            </span>
+                          </div>
+
+                          <div className="space-y-1.5 font-mono text-[0.62rem] bg-white p-2 border border-[#191510] shadow-[1.5px_1.5px_0_#191510]">
+                            <div className="flex justify-between text-[#191510]">
+                              <span>SHA-1 Prefix:</span>
+                              <span className="font-bold bg-[#ffe066] px-1">5BAA6</span>
+                            </div>
+                            <div className="flex justify-between text-[#191510]/60">
+                              <span>Exposed Records:</span>
+                              <span className="font-bold text-emerald-700">0 Matches Found</span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-center gap-1.5 ca-mono text-[0.6rem] text-emerald-900 bg-[#86efac] py-1 border border-emerald-900 font-bold">
+                            <Check className="size-3 text-emerald-900" />
+                            Vault Credentials Fully Secure
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Visual 4: Authenticator 2FA */}
+                      {feat.type === "totp" && (
+                        <div className="p-4 sm:p-5 bg-[#faf6ea] border-2 border-[#191510] flex flex-col justify-between space-y-3 min-h-[160px]">
+                          <div className="flex items-center justify-between border-b border-[#191510]/20 pb-2">
+                            <span className="ca-mono text-[0.62rem] font-bold text-[#191510] uppercase">
+                              TOTP Authenticator
+                            </span>
+                            <span className="ca-mono text-[0.6rem] bg-[#c4b5fd] text-purple-950 px-2 py-0.5 border border-[#191510] font-bold">
+                              RFC-6238 READY
+                            </span>
+                          </div>
+
+                          <div className="flex items-center justify-between bg-white p-2.5 border border-[#191510] shadow-[1.5px_1.5px_0_#191510]">
+                            <div>
+                              <p className="ca-mono text-[0.55rem] text-[#191510]/60">TIME-BASED OTP</p>
+                              <p className="font-mono text-base font-black text-[#191510] tracking-widest">
+                                839 204
+                              </p>
+                            </div>
+                            <div className="size-8 bg-[#ffe066] border border-[#191510] flex items-center justify-center font-bold text-xs">
+                              30s
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between ca-mono text-[0.6rem] text-[#191510]/70 px-1">
+                            <span className="flex items-center gap-1">
+                              <QrCode className="size-3" /> QR Setup
+                            </span>
+                            <span>Backup Codes Active</span>
+                          </div>
+                        </div>
+                      )}
+
+                      <figcaption className="ca-hand mt-2 text-center text-sm sm:text-base text-[#191510] font-bold">
+                        {feat.polaroidCaption}
+                      </figcaption>
+                    </figure>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
