@@ -143,54 +143,46 @@ export default function Hero() {
           </svg>
         </div>
 
-        {/* Floating Tape Notes for Mobile & Tablet */}
-        <div className="mt-4 mb-3 flex flex-wrap justify-center gap-2.5 xl:hidden">
-          <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2px_2px_0_#191510] bg-[#c4b5fd] -rotate-2">
-            Zero-Knowledge
-          </span>
-          <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2px_2px_0_#191510] bg-[#ffe066] rotate-2">
-            AES-256-GCM
-          </span>
-          <span className="ca-hand inline-block px-3.5 py-1 text-sm font-bold text-[#191510] shadow-[2px_2px_0_#191510] bg-[#a7f3d0] border border-[#191510] -rotate-1">
-            Easy to Use ⚡
-          </span>
-        </div>
+        {/* Giant Main Display Title with Corner Stickers */}
+        <div className="relative my-7 sm:my-10 inline-block max-w-full">
+          {/* Top Left Corner Sticker */}
+          <div className="absolute -top-4 -left-3 sm:-top-5 sm:-left-6 z-20">
+            <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-[0.65rem] sm:text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2.5px_2.5px_0_#191510] -rotate-12 bg-[#c4b5fd] hover:rotate-0 transition-transform select-none">
+              Zero-Knowledge
+            </span>
+          </div>
 
-        {/* Giant Main Display Title with Creative-Artsy Doodle Box & Flanking Wings */}
-        <div className="relative my-4 sm:my-7">
-          {/* Main Title Box */}
-          <div className="ca-doodle-box relative inline-block border-[3.5px] border-[#fb923c] px-5 py-2.5 sm:px-9 sm:py-3.5 bg-white/80 shadow-[4px_5px_0px_#191510] max-w-full">
+          {/* Top Right Corner Sticker */}
+          <div className="absolute -top-4 -right-3 sm:-top-5 sm:-right-6 z-20">
+            <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-[0.65rem] sm:text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2.5px_2.5px_0_#191510] rotate-12 bg-[#ffe066] hover:rotate-0 transition-transform select-none">
+              AES-256-GCM
+            </span>
+          </div>
+
+          {/* Main Title Box with inner padding so letters are never hidden */}
+          <div className="ca-doodle-box relative inline-block border-[3.5px] border-[#fb923c] px-6 py-3 sm:px-10 sm:py-4 bg-white/80 shadow-[4px_5px_0px_#191510] max-w-full">
             <span className="ca-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.92] tracking-tight text-[#191510] break-words">
               PASSGUARDIAN
             </span>
           </div>
 
-          {/* Desktop Flanking Stickers — Positioned to the left & right wings, completely clear of all content */}
-          <div className="hidden xl:block pointer-events-none">
-            {/* Left Wing Stickers */}
-            <div className="pointer-events-auto absolute -left-48 top-1/2 -translate-y-1/2 flex flex-col items-end gap-3">
-              <span className="ca-mono inline-block rounded-full border-[3px] border-white px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[0_4px_10px_rgba(25,21,16,0.2)] -rotate-6 bg-[#c4b5fd] hover:rotate-0 transition-transform">
-                Zero-Knowledge
-              </span>
-              <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2px_3px_8px_rgba(17,18,18,0.18)] text-xl -rotate-3 bg-[#ffe066] border border-[#191510]/30 hover:rotate-0 transition-transform">
-                Client-Side Keys 🛡️
-              </span>
-            </div>
+          {/* Bottom Left Corner Note */}
+          <div className="absolute -bottom-4 -left-3 sm:-bottom-5 sm:-left-6 z-20">
+            <span className="ca-hand inline-block px-3.5 py-1 sm:px-4 sm:py-1.5 leading-snug text-[#191510] shadow-[2.5px_2.5px_0_#191510] text-sm sm:text-lg -rotate-6 bg-[#ffe066] border-2 border-[#191510] hover:rotate-0 transition-transform select-none">
+              Client-Side Keys 🛡️
+            </span>
+          </div>
 
-            {/* Right Wing Stickers */}
-            <div className="pointer-events-auto absolute -right-48 top-1/2 -translate-y-1/2 flex flex-col items-start gap-3">
-              <span className="ca-mono inline-block rounded-full border-[3px] border-white px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[0_4px_10px_rgba(25,21,16,0.2)] rotate-6 bg-[#ffe066] hover:rotate-0 transition-transform">
-                AES-256-GCM
-              </span>
-              <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2px_3px_8px_rgba(17,18,18,0.18)] text-xl rotate-3 bg-[#a7f3d0] border border-[#191510]/30 hover:rotate-0 transition-transform">
-                Easy to Use ⚡
-              </span>
-            </div>
+          {/* Bottom Right Corner Note */}
+          <div className="absolute -bottom-4 -right-3 sm:-bottom-5 sm:-right-6 z-20">
+            <span className="ca-hand inline-block px-3.5 py-1 sm:px-4 sm:py-1.5 leading-snug text-[#191510] shadow-[2.5px_2.5px_0_#191510] text-sm sm:text-lg rotate-6 bg-[#a7f3d0] border-2 border-[#191510] hover:rotate-0 transition-transform select-none">
+              Easy to Use ⚡
+            </span>
           </div>
         </div>
 
         {/* Operational Status Pill */}
-        <p className="ca-mono mt-4 sm:mt-6 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[#191510] sm:text-sm">
+        <p className="ca-mono mt-6 sm:mt-8 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[#191510] sm:text-sm">
           <span className="size-3 rounded-full bg-[#60a5fa] animate-pulse" />
           Hardware CSPRNG &amp; Client-Side Vault Sealed
         </p>
