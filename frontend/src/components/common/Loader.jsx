@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
  * @param {string} [className=""]      — additional classes (e.g. for colour)
  * @param {string} [label="Loading..."] — accessible label for screen readers
  */
-export default function Loader({ size = "size-5", className = "text-indigo-500", label = "Loading..." }) {
+export default function Loader({ size = "size-5", className = "text-[#191510]", label = "Loading..." }) {
   return (
     <span role="status" aria-label={label} className="inline-flex items-center justify-center">
       <Loader2 className={`${size} animate-spin ${className}`} aria-hidden="true" />

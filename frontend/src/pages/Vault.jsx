@@ -369,10 +369,9 @@ export default function Vault() {
                 onClick={() => setActiveCategory(value)}
                 className={`
                   flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-heading-comic font-bold whitespace-nowrap transition-all border-2 border-[#191510] shrink-0
-                  ${
-                    isSelected
-                      ? "bg-[#6366f1] text-white shadow-[2px_2px_0px_#191510] -translate-y-0.5"
-                      : "bg-white text-slate-700 hover:bg-[#fef08a] hover:text-slate-950"
+                  ${isSelected
+                    ? "bg-[#6366f1] text-white shadow-[2px_2px_0px_#191510] -translate-y-0.5"
+                    : "bg-white text-slate-700 hover:bg-[#fef08a] hover:text-slate-950"
                   }
                 `}
               >
@@ -529,9 +528,12 @@ export default function Vault() {
           })}
 
         {isLoading && (
-          <div className="col-span-full bg-[#fffef7] p-12 rounded-3xl border-3 border-[#191510] shadow-[5px_5px_0px_#191510] text-center space-y-3">
-            <Loader2 className="size-10 text-indigo-600 mx-auto animate-spin" />
-            <p className="text-sm font-heading-comic font-bold text-slate-800">Loading your comic vault…</p>
+          <div className="col-span-full bg-white p-12 border-[3px] border-[#191510] shadow-[5px_5px_0px_#191510] text-center space-y-3">
+            <div className="size-12 bg-[#ffe066] border-2 border-[#191510] shadow-[2px_2px_0px_#191510] flex items-center justify-center mx-auto">
+              <Loader2 className="size-6 text-[#191510] animate-spin" />
+            </div>
+            <p className="ca-display text-lg text-[#191510]">Loading your vault…</p>
+            <p className="ca-mono text-[0.65rem] text-[#191510]/50">Decrypting zero-knowledge credentials</p>
           </div>
         )}
 
