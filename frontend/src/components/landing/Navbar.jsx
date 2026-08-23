@@ -8,6 +8,10 @@ import {
   LogIn,
   X,
   Menu,
+  User,
+  Settings,
+  LogOut,
+  ChevronDown,
 } from "lucide-react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
@@ -21,7 +25,8 @@ const navItems = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isAuthenticated, initials, logout } = useAppAuth();
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const { isAuthenticated, initials, displayName, user, logout } = useAppAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -33,7 +38,10 @@ export default function Navbar() {
   // Close mobile drawer on resize to desktop
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth >= 768) setMobileOpen(false);
+      if (window.innerWidth >= 768) {
+        setMobileOpen(false);
+        setUserDropdownOpen(false);
+      }
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -111,13 +119,69 @@ export default function Navbar() {
                   <LayoutDashboard className="size-3.5" />
                   <span className="hidden xs:inline">Dashboard</span>
                 </Link>
-                <button
-                  onClick={logout}
-                  className="size-9 rounded-full bg-[#ff5e89] text-white font-bold text-xs border-2 border-white shadow-[1.5px_1.5px_0_rgba(25,21,16,0.25)]"
-                  title="Sign out"
-                >
-                  {initials}
-                </button>
+
+                {/* Authenticated Avatar Menu */}
+                <div className="relative">
+                  <button
+                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                    className="flex items-center gap-1 p-0.5 rounded-full bg-[#ff5e89] border-2 border-white shadow-[1.5px_1.5px_0_rgba(25,21,16,0.25)] hover:scale-105 transition-transform"
+                    aria-expanded={userDropdownOpen}
+                    aria-label="User dropdown menu"
+                  >
+                    <div className="size-8 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                      {initials}
+                    </div>
+                  </button>
+
+                  {/* Backdrop */}
+                  {userDropdownOpen && (
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setUserDropdownOpen(false)}
+                    />
+                  )}
+
+                  {/* Dropdown Menu */}
+                  {userDropdownOpen && (
+                    <div className="absolute right-0 top-11 w-48 bg-[#faf6ea] border-2 border-[#191510] shadow-[4px_4px_0px_#191510] p-1.5 z-50 animate-in fade-in zoom-in-95">
+                      <div className="px-3 py-1.5 border-b border-[#191510]/15 mb-1 bg-white">
+                        <p className="ca-mono text-[0.68rem] text-[#191510] font-bold truncate">
+                          {displayName || "Guardian"}
+                        </p>
+                        <p className="ca-mono text-[0.55rem] text-[#191510]/60 truncate">
+                          {user?.email}
+                        </p>
+                      </div>
+                      <Link
+                        to="/profile"
+                        onClick={() => setUserDropdownOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 ca-mono text-[0.65rem] text-[#191510] hover:bg-[#7dd3fc] transition-colors font-bold"
+                      >
+                        <User className="size-3.5" />
+                        Profile
+                      </Link>
+                      <Link
+                        to="/settings"
+                        onClick={() => setUserDropdownOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 ca-mono text-[0.65rem] text-[#191510] hover:bg-[#ffe066] transition-colors font-bold"
+                      >
+                        <Settings className="size-3.5" />
+                        Settings &amp; 2FA
+                      </Link>
+                      <div className="my-1 border-t-2 border-[#191510]" />
+                      <button
+                        onClick={() => {
+                          setUserDropdownOpen(false);
+                          logout();
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 ca-mono text-[0.65rem] text-rose-800 hover:bg-[#fda4af] transition-colors font-bold"
+                      >
+                        <LogOut className="size-3.5" />
+                        Log Out
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <>
@@ -177,7 +241,7 @@ export default function Navbar() {
           </div>
           <button
             onClick={() => setMobileOpen(false)}
-            className="size-8 flex items-center justify-center border-2 border-[#191510] bg-white text-[#191510] rounded-xl"
+            className="size-8 flex items-center justify-center border-2 border-[#191510] bg-white text-[#191510]"
             aria-label="Close navigation"
           >
             <X className="size-4" />
@@ -185,7 +249,7 @@ export default function Navbar() {
         </div>
 
         {/* Nav Links */}
-        <nav className="flex flex-col p-4 gap-2 flex-1">
+        <nav className="flex flex-col p-4 gap-2 flex-1 overflow-y-auto">
           <p className="ca-mono text-[0.62rem] font-bold uppercase tracking-widest text-[#191510]/50 px-2 mb-1">
             Navigate
           </p>
@@ -200,7 +264,7 @@ export default function Navbar() {
             </a>
           ))}
 
-          <div className="my-3 border-t-2 border-[#191510]/20" />
+          <div className="my-2 border-t-2 border-[#191510]/20" />
 
           {/* Social Links in drawer */}
           <p className="ca-mono text-[0.62rem] font-bold uppercase tracking-widest text-[#191510]/50 px-2 mb-1">
@@ -210,7 +274,7 @@ export default function Navbar() {
             href="https://github.com/Abhay2110s/PassGaurdian"
             target="_blank"
             rel="noreferrer"
-            className="ca-mono flex items-center gap-3 px-4 py-3 text-sm font-bold uppercase tracking-widest text-[#191510] border-2 border-[#191510] bg-[#ffe066] shadow-[2px_2px_0_#191510] transition-all hover:-translate-y-0.5"
+            className="ca-mono flex items-center gap-3 px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-[#191510] border-2 border-[#191510] bg-[#ffe066] shadow-[2px_2px_0_#191510] transition-all"
           >
             <FaGithub className="size-4" />
             GitHub
@@ -219,24 +283,72 @@ export default function Navbar() {
             href="https://www.linkedin.com/in/abhay-singh-btech"
             target="_blank"
             rel="noreferrer"
-            className="ca-mono flex items-center gap-3 px-4 py-3 text-sm font-bold uppercase tracking-widest text-[#191510] border-2 border-[#191510] bg-[#7dd3fc] shadow-[2px_2px_0_#191510] transition-all hover:-translate-y-0.5"
+            className="ca-mono flex items-center gap-3 px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-[#191510] border-2 border-[#191510] bg-[#7dd3fc] shadow-[2px_2px_0_#191510] transition-all"
           >
             <FaLinkedin className="size-4" />
             LinkedIn
           </a>
         </nav>
 
-        {/* Drawer Footer — Auth */}
+        {/* Drawer Footer — Auth & User Actions */}
         <div className="p-4 border-t-2 border-[#191510] bg-white space-y-2">
           {isAuthenticated ? (
-            <Link
-              to="/dashboard"
-              onClick={() => setMobileOpen(false)}
-              className="ca-mono w-full flex items-center justify-center gap-2 border-2 border-[#191510] bg-[#191510] px-4 py-3 text-xs font-bold uppercase tracking-widest text-white"
-            >
-              <LayoutDashboard className="size-4" />
-              Go to Dashboard
-            </Link>
+            <div className="space-y-2">
+              <div className="p-2 bg-[#faf6ea] border-2 border-[#191510] flex items-center gap-2.5">
+                <div className="size-8 bg-[#ff5e89] border border-white text-white flex items-center justify-center ca-display text-xs">
+                  {initials}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="ca-mono text-[0.68rem] text-[#191510] font-bold truncate">
+                    {displayName || "Guardian"}
+                  </p>
+                  <p className="ca-mono text-[0.55rem] text-[#191510]/60 truncate">
+                    {user?.email || "Zero-Knowledge Protected"}
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                to="/dashboard"
+                onClick={() => setMobileOpen(false)}
+                className="ca-mono w-full flex items-center justify-center gap-2 border-2 border-[#191510] bg-[#191510] px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white shadow-[2px_2px_0_#191510]"
+              >
+                <LayoutDashboard className="size-3.5" />
+                Dashboard
+              </Link>
+
+              {/* Profile & Settings Buttons */}
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileOpen(false)}
+                  className="ca-mono flex items-center justify-center gap-1.5 border-2 border-[#191510] bg-[#7dd3fc] px-2 py-2 text-[0.65rem] font-bold uppercase tracking-wide text-[#191510]"
+                >
+                  <User className="size-3.5" />
+                  Profile
+                </Link>
+                <Link
+                  to="/settings"
+                  onClick={() => setMobileOpen(false)}
+                  className="ca-mono flex items-center justify-center gap-1.5 border-2 border-[#191510] bg-[#ffe066] px-2 py-2 text-[0.65rem] font-bold uppercase tracking-wide text-[#191510]"
+                >
+                  <Settings className="size-3.5" />
+                  Settings
+                </Link>
+              </div>
+
+              {/* Mobile Logout Button */}
+              <button
+                onClick={() => {
+                  setMobileOpen(false);
+                  logout();
+                }}
+                className="ca-mono w-full flex items-center justify-center gap-2 border-2 border-[#191510] bg-[#fda4af] px-4 py-2 text-xs font-bold uppercase tracking-widest text-rose-950 shadow-[2px_2px_0_#191510]"
+              >
+                <LogOut className="size-3.5" />
+                Log Out
+              </button>
+            </div>
           ) : (
             <div className="flex flex-col gap-2">
               <Link
