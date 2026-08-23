@@ -80,9 +80,9 @@ export default function InteractiveDemo() {
         </div>
 
         {/* Studio Card */}
-        <div className="relative p-5 sm:p-8 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl space-y-8">
-          <span aria-hidden="true" className="absolute -left-6 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-[#c4b5fd]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
-          <span aria-hidden="true" className="absolute -right-6 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
+        <div className="relative p-4 sm:p-7 lg:p-8 bg-white border-[3px] border-[#191510] shadow-[6px_6px_0_#191510] sm:shadow-[8px_8px_0_#191510] space-y-6 sm:space-y-8">
+          <span aria-hidden="true" className="absolute -left-3 -top-2.5 z-10 h-5 w-20 sm:h-6 sm:w-24 -rotate-[12deg] bg-[#c4b5fd]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
+          <span aria-hidden="true" className="absolute -right-3 -top-2.5 z-10 h-5 w-20 sm:h-6 sm:w-24 rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
 
           {/* Mode Switcher */}
           <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b-2 border-[#191510]">

@@ -73,35 +73,35 @@ export default function Security() {
         </div>
 
         {/* 4 Steps Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {steps.map((step) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.no}
-                className={`${step.bg} p-6 border-3 border-[#191510] shadow-[5px_5px_0_#191510] flex flex-col justify-between space-y-5 hover:-translate-y-1 transition-transform`}
+                className={`${step.bg} p-5 sm:p-6 border-[3px] border-[#191510] shadow-[5px_5px_0_#191510] hover:shadow-[7px_7px_0_#191510] flex flex-col justify-between space-y-5 hover:-translate-y-1 transition-all group`}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="ca-mono text-sm font-black bg-white px-2.5 py-0.5 border border-[#191510]">
+                    <span className="ca-mono text-xs sm:text-sm font-black bg-white px-2.5 py-0.5 border border-[#191510] shadow-[1px_1px_0_#191510]">
                       #{step.no}
                     </span>
-                    <span className="ca-mono text-[0.65rem] bg-white px-2 py-0.5 border border-[#191510]">
+                    <span className="ca-mono text-[0.62rem] sm:text-[0.68rem] font-bold bg-white px-2 py-0.5 border border-[#191510] shadow-[1px_1px_0_#191510]">
                       {step.badge}
                     </span>
                   </div>
 
-                  <div className="size-11 rounded-xl bg-white border-2 border-[#191510] flex items-center justify-center shadow-[1.5px_1.5px_0_#191510]">
-                    <Icon className="size-5 text-[#191510]" />
+                  <div className="size-11 sm:size-12 bg-white border-2 border-[#191510] flex items-center justify-center shadow-[2px_2px_0_#191510] group-hover:scale-105 transition-transform">
+                    <Icon className="size-5 sm:size-6 text-[#191510]" />
                   </div>
 
                   <div>
-                    <h4 className="ca-display text-xl text-[#191510]">{step.title}</h4>
-                    <p className="ca-mono text-[0.68rem] text-[#191510]/80 mt-1">{step.subtitle}</p>
+                    <h4 className="ca-display text-xl text-[#191510] leading-tight">{step.title}</h4>
+                    <p className="ca-mono text-[0.68rem] text-[#191510]/80 mt-1 font-bold">{step.subtitle}</p>
                   </div>
                 </div>
 
-                <p className="text-xs text-[#191510] font-medium pt-3 border-t-2 border-[#191510]/40 leading-relaxed">
+                <p className="text-xs sm:text-[0.8rem] text-[#191510] font-medium pt-3 border-t-2 border-[#191510]/30 leading-relaxed">
                   {step.desc}
                 </p>
               </div>
@@ -110,12 +110,12 @@ export default function Security() {
         </div>
 
         {/* Deep Dive Security Guarantee */}
-        <div className="relative p-6 sm:p-10 bg-white border-3 border-[#191510] shadow-[8px_8px_0_#191510] rounded-2xl">
-          <span aria-hidden="true" className="absolute -left-5 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
-          <span aria-hidden="true" className="absolute -right-5 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-[#ff5e89]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
+        <div className="relative p-6 sm:p-10 bg-white border-[3px] border-[#191510] shadow-[8px_8px_0_#191510]">
+          <span aria-hidden="true" className="absolute -left-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 -rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
+          <span aria-hidden="true" className="absolute -right-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 rotate-[12deg] bg-[#ff5e89]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
 
           <div className="space-y-5">
-            <span className="ca-mono text-xs font-bold bg-[#ffe066] px-3 py-1 border border-[#191510] inline-block">
+            <span className="ca-mono text-xs font-bold bg-[#ffe066] px-3 py-1 border border-[#191510] inline-block shadow-[1.5px_1.5px_0_#191510]">
               ZERO-KNOWLEDGE STANDARD
             </span>
 
@@ -134,7 +134,7 @@ export default function Security() {
                 "Sub-millisecond WebCrypto speed",
                 "Open and transparent cryptographic standard",
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#191510] bg-[#faf6ea] p-3 border border-[#191510]">
+                <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#191510] bg-[#faf6ea] p-3 border border-[#191510] shadow-[1.5px_1.5px_0_#191510]">
                   <CheckCircle className="size-4 text-emerald-600 shrink-0" />
                   <span>{item}</span>
                 </div>

@@ -216,28 +216,28 @@ export default function Features() {
 
             {/* Card Body */}
             <div
-              className={`grid grid-cols-1 gap-8 p-5 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-10 border-3 border-[#191510] shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
+              className={`grid grid-cols-1 gap-6 p-5 sm:p-7 lg:grid-cols-[1fr_1.05fr] lg:gap-10 lg:p-9 border-[3px] border-[#191510] shadow-[6px_6px_0_#191510] sm:shadow-[8px_8px_0_#191510] ${feat.tabColor}`}
             >
               {/* Left: Text */}
-              <div className="flex flex-col justify-between space-y-6">
+              <div className="flex flex-col justify-between space-y-4 sm:space-y-6">
                 <div>
-                  <span className="ca-mono inline-flex items-center gap-2.5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white">
-                    <span className="size-2.5 rounded-full bg-white animate-pulse" />
+                  <span className="ca-mono inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white">
+                    <span className="size-2 sm:size-2.5 rounded-full bg-white animate-pulse" />
                     {feat.badge}
                   </span>
-                  <h2 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight text-white ca-display">
+                  <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white ca-display leading-tight">
                     {feat.title}
                   </h2>
-                  <p className="mt-4 text-base sm:text-lg leading-relaxed text-white/95 font-medium">
+                  <p className="mt-3 text-sm sm:text-base lg:text-lg leading-relaxed text-white/95 font-medium">
                     {feat.desc}
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-2 pt-4">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2 sm:pt-4">
                   {feat.tags.map((tag, tIdx) => (
                     <span
                       key={tIdx}
-                      className="ca-mono px-3 py-1.5 text-xs font-bold uppercase tracking-wide bg-white text-[#191510] border border-[#191510] shadow-[1.5px_1.5px_0_#191510]"
+                      className="ca-mono px-2.5 py-1 sm:px-3 sm:py-1.5 text-[0.65rem] sm:text-xs font-bold uppercase tracking-wide bg-white text-[#191510] border border-[#191510] shadow-[1.5px_1.5px_0_#191510]"
                     >
                       {tag}
                     </span>
@@ -246,29 +246,29 @@ export default function Features() {
               </div>
 
               {/* Right: Polaroid */}
-              <div className="self-center">
+              <div className="self-center w-full max-w-sm sm:max-w-md mx-auto">
                 <div className="relative">
                   <span
                     aria-hidden="true"
-                    className="absolute -left-5 -top-3 z-10 h-6 w-24 -rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
+                    className="absolute -left-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 -rotate-[12deg] bg-white/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block"
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute -right-5 -top-3 z-10 h-6 w-24 rotate-[12deg] bg-white/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]"
+                    className="absolute -right-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 rotate-[12deg] bg-white/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block"
                   />
-                  <figure className="relative bg-white p-4 pb-3 shadow-[0_8px_24px_rgba(17,18,18,0.25)] border-2 border-[#191510]">
-                    <div className="p-6 bg-[#faf6ea] border-2 border-[#191510] flex flex-col items-center justify-center text-center space-y-3 min-h-[160px]">
-                      <span className="ca-mono text-xs font-black bg-[#ffe066] px-3 py-1 border border-[#191510]">
+                  <figure className="relative bg-white p-3 sm:p-4 pb-2.5 sm:pb-3 shadow-[0_8px_24px_rgba(17,18,18,0.25)] border-2 border-[#191510]">
+                    <div className="p-4 sm:p-6 bg-[#faf6ea] border-2 border-[#191510] flex flex-col items-center justify-center text-center space-y-2 sm:space-y-3 min-h-[130px] sm:min-h-[160px]">
+                      <span className="ca-mono text-[0.65rem] sm:text-xs font-black bg-[#ffe066] px-2.5 py-0.5 sm:px-3 sm:py-1 border border-[#191510]">
                         {feat.illustrationText}
                       </span>
-                      <p className="ca-display text-2xl text-[#191510] tracking-tight">
+                      <p className="ca-display text-xl sm:text-2xl text-[#191510] tracking-tight">
                         {feat.metaTitle}
                       </p>
-                      <span className="ca-mono text-[0.7rem] text-[#191510]/80">
+                      <span className="ca-mono text-[0.6rem] sm:text-[0.7rem] text-[#191510]/80">
                         100% CLIENT-SIDE ENCRYPTION
                       </span>
                     </div>
-                    <figcaption className="ca-hand mt-2 text-center text-base text-[#191510] font-bold">
+                    <figcaption className="ca-hand mt-1.5 sm:mt-2 text-center text-sm sm:text-base text-[#191510] font-bold">
                       {feat.polaroidCaption}
                     </figcaption>
                   </figure>

@@ -5,10 +5,10 @@ export default function CTA() {
   return (
     <section className="ca-grid px-4 py-16 bg-[#faf6ea] border-t border-[#191510]/15">
       <div className="max-w-5xl mx-auto">
-        <div className="relative p-6 sm:p-10 bg-[#ffe066] border-3 border-[#191510] shadow-[10px_10px_0_#191510] rounded-3xl space-y-6 text-[#191510]">
-          {/* Washi Tape Corners */}
-          <span aria-hidden="true" className="absolute -left-6 -top-3 z-10 h-6 w-28 -rotate-[10deg] bg-[#ff5e89]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
-          <span aria-hidden="true" className="absolute -right-6 -top-3 z-10 h-6 w-28 rotate-[10deg] bg-[#7dd3fc]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)]" />
+        <div className="relative p-6 sm:p-10 bg-[#ffe066] border-[3px] border-[#191510] shadow-[8px_8px_0_#191510] sm:shadow-[10px_10px_0_#191510] space-y-6 text-[#191510]">
+          {/* Washi Tape Corners — mobile safe */}
+          <span aria-hidden="true" className="absolute -left-3 -top-2.5 z-10 h-5 w-24 sm:h-6 sm:w-28 -rotate-[10deg] bg-[#ff5e89]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
+          <span aria-hidden="true" className="absolute -right-3 -top-2.5 z-10 h-5 w-24 sm:h-6 sm:w-28 rotate-[10deg] bg-[#7dd3fc]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
 
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white border-2 border-[#191510] shadow-[2px_2px_0_#191510] text-xs ca-mono text-[#191510]">
             <ShieldCheck className="size-4 text-emerald-600" />

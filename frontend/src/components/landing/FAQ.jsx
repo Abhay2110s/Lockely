@@ -58,14 +58,14 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className="bg-[#faf6ea] border-2 border-[#191510] shadow-[3.5px_3.5px_0_#191510] overflow-hidden transition-all"
+                className="bg-[#faf6ea] border-2 border-[#191510] shadow-[3.5px_3.5px_0_#191510] hover:shadow-[4.5px_4.5px_0_#191510] hover:-translate-y-0.5 overflow-hidden transition-all"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
                   className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 ca-display text-lg sm:text-xl text-[#191510] hover:bg-[#ffe066]/60 transition-colors"
                 >
                   <span className="flex items-center gap-3">
-                    <span className="ca-mono size-7 bg-white border border-[#191510] flex items-center justify-center text-xs font-bold shrink-0">
+                    <span className="ca-mono size-7 bg-white border border-[#191510] shadow-[1px_1px_0_#191510] flex items-center justify-center text-xs font-bold shrink-0">
                       0{index + 1}
                     </span>
                     <span>{item.question}</span>
@@ -78,7 +78,7 @@ export default function FAQ() {
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-2 text-sm sm:text-base font-medium text-[#191510]/90 leading-relaxed border-t border-[#191510] bg-white">
+                  <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-2 text-sm sm:text-base font-medium text-[#191510]/90 leading-relaxed border-t-2 border-[#191510] bg-white">
                     {item.answer}
                   </div>
                 )}
