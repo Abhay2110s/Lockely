@@ -289,24 +289,24 @@ export default function Vault() {
   };
 
   return (
-    <div className="space-y-6 font-comic">
+    <div className="space-y-6">
       {/* Vault Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#fffef7] p-6 rounded-3xl border-3 border-[#18181b] shadow-[5px_5px_0px_#18181b]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#ffe066] p-6 border-[3px] border-[#191510] shadow-[5px_5px_0px_#191510]">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#fef08a] border-2 border-[#18181b] text-xs font-heading-comic font-bold text-slate-950 mb-2">
-            <Sparkles className="size-3 text-amber-600 fill-amber-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#191510] ca-mono text-[0.6rem] text-[#ffe066] border-2 border-[#191510] mb-3">
+            <Sparkles className="size-3 text-[#ffe066]" />
             Zero-Knowledge Store
           </div>
-          <h1 className="text-2xl sm:text-3xl font-heading-comic font-black text-slate-950 flex items-center gap-2">
-            <KeyRound className="size-7 text-[#6366f1]" />
-            Encrypted Password Vault
+          <h1 className="ca-display text-3xl sm:text-4xl text-[#191510] flex items-center gap-3">
+            <KeyRound className="size-8 text-[#191510]" />
+            Password Vault
           </h1>
-          <p className="text-xs text-slate-600 font-comic font-bold mt-1">
+          <p className="ca-mono text-[0.65rem] text-[#191510]/60 mt-2">
             Zero-knowledge client encrypted with AES-256-GCM. Decrypted purely in memory.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {!isVaultUnlocked && (
             <button
               onClick={() => setIsUnlockModalOpen(true)}
@@ -335,9 +335,9 @@ export default function Vault() {
 
       {/* Lock Notice Banner if Vault is locked */}
       {!isVaultUnlocked && (
-        <div className="p-4 rounded-2xl bg-[#fef08a] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="p-4 rounded-2xl bg-[#fef08a] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-white border-2 border-[#18181b] text-slate-950 flex items-center justify-center shrink-0 shadow-[1.5px_1.5px_0px_#18181b]">
+            <div className="size-10 rounded-xl bg-white border-2 border-[#191510] text-slate-950 flex items-center justify-center shrink-0 shadow-[1.5px_1.5px_0px_#191510]">
               <Lock className="size-5 text-amber-700" />
             </div>
             <div>
@@ -357,9 +357,9 @@ export default function Vault() {
       )}
 
       {/* Filter and Search Control Bar */}
-      <div className="bg-[#fffef7] p-4 rounded-2xl border-2.5 border-[#18181b] shadow-[4px_4px_0px_#18181b] flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-[#fffef7] p-4 rounded-2xl border-2.5 border-[#191510] shadow-[4px_4px_0px_#191510] flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Category Pills */}
-        <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+        <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 [scrollbar-width:none] [-webkit-overflow-scrolling:touch]">
           {categories.map((cat) => {
             const value = cat.label === "All Items" ? "All" : cat.label;
             const isSelected = activeCategory === value;
@@ -368,10 +368,10 @@ export default function Vault() {
                 key={cat.label}
                 onClick={() => setActiveCategory(value)}
                 className={`
-                  flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-heading-comic font-bold whitespace-nowrap transition-all border-2 border-[#18181b]
+                  flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-heading-comic font-bold whitespace-nowrap transition-all border-2 border-[#191510] shrink-0
                   ${
                     isSelected
-                      ? "bg-[#6366f1] text-white shadow-[2px_2px_0px_#18181b] -translate-y-0.5"
+                      ? "bg-[#6366f1] text-white shadow-[2px_2px_0px_#191510] -translate-y-0.5"
                       : "bg-white text-slate-700 hover:bg-[#fef08a] hover:text-slate-950"
                   }
                 `}
@@ -407,7 +407,7 @@ export default function Vault() {
       </div>
 
       {error && (
-        <div className="bg-[#fda4af] border-2.5 border-[#18181b] text-slate-950 text-xs font-bold px-4 py-3 rounded-2xl shadow-[3px_3px_0px_#18181b]">
+        <div className="bg-[#fda4af] border-2.5 border-[#191510] text-slate-950 text-xs font-bold px-4 py-3 rounded-2xl shadow-[3px_3px_0px_#191510]">
           {error}
         </div>
       )}
@@ -424,11 +424,11 @@ export default function Vault() {
             return (
               <div
                 key={item.id}
-                className="bg-[#fffef7] p-5 rounded-3xl border-2.5 border-[#18181b] shadow-[4px_4px_0px_#18181b] hover:-translate-y-1 transition-all space-y-4 flex flex-col justify-between"
+                className="bg-[#fffef7] p-5 rounded-3xl border-2.5 border-[#191510] shadow-[4px_4px_0px_#191510] hover:-translate-y-1 transition-all space-y-4 flex flex-col justify-between"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="size-11 rounded-2xl bg-[#bae6fd] border-2 border-[#18181b] text-slate-950 flex items-center justify-center font-heading-comic font-black text-base shrink-0 shadow-[2px_2px_0px_#18181b]">
+                    <div className="size-11 rounded-2xl bg-[#bae6fd] border-2 border-[#191510] text-slate-950 flex items-center justify-center font-heading-comic font-black text-base shrink-0 shadow-[2px_2px_0px_#191510]">
                       {item.title?.[0]?.toUpperCase() || "?"}
                     </div>
                     <div className="min-w-0">
@@ -453,12 +453,12 @@ export default function Vault() {
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <span className={`px-2.5 py-0.5 rounded-full border border-[#18181b] text-[0.68rem] font-heading-comic font-bold ${catBadgeClass}`}>
+                    <span className={`px-2.5 py-0.5 rounded-full border border-[#191510] text-[0.68rem] font-heading-comic font-bold ${catBadgeClass}`}>
                       {item.category}
                     </span>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-[#fda4af] hover:border hover:border-[#18181b] transition-colors"
+                      className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-[#fda4af] hover:border hover:border-[#191510] transition-colors"
                       title="Move to trash"
                     >
                       <Trash2 className="size-4 text-slate-600" />
@@ -467,7 +467,7 @@ export default function Vault() {
                 </div>
 
                 {/* Username Field */}
-                <div className="p-2.5 rounded-2xl bg-white border-2 border-[#18181b] flex items-center justify-between gap-2 text-xs shadow-[1.5px_1.5px_0px_#18181b]">
+                <div className="p-2.5 rounded-2xl bg-white border-2 border-[#191510] flex items-center justify-between gap-2 text-xs shadow-[1.5px_1.5px_0px_#191510]">
                   <span className="text-slate-500 text-[0.7rem] uppercase font-heading-comic font-bold">User:</span>
                   <span className="font-mono font-bold text-slate-800 truncate">{item.username || "—"}</span>
                   <button
@@ -476,7 +476,7 @@ export default function Vault() {
                       toast.success("Username copied!");
                     }}
                     disabled={!item.username}
-                    className="p-1.5 rounded-lg bg-slate-100 border border-[#18181b] text-slate-900 hover:bg-[#fef08a] disabled:opacity-30 transition-colors"
+                    className="p-1.5 rounded-lg bg-slate-100 border border-[#191510] text-slate-900 hover:bg-[#fef08a] disabled:opacity-30 transition-colors"
                     title="Copy Username"
                   >
                     {copied && copiedId === `${item.id}-user` ? (
@@ -488,7 +488,7 @@ export default function Vault() {
                 </div>
 
                 {/* Password Field */}
-                <div className="p-2.5 rounded-2xl bg-[#fef08a] border-2 border-[#18181b] flex items-center justify-between gap-2 text-xs shadow-[2px_2px_0px_#18181b]">
+                <div className="p-2.5 rounded-2xl bg-[#fef08a] border-2 border-[#191510] flex items-center justify-between gap-2 text-xs shadow-[2px_2px_0px_#191510]">
                   <span className="text-slate-900 text-[0.7rem] uppercase font-heading-comic font-black flex items-center gap-1">
                     <Lock className="size-3.5" /> Key:
                   </span>
@@ -500,7 +500,7 @@ export default function Vault() {
                     <button
                       onClick={() => handleToggleVisible(item)}
                       disabled={isRevealing}
-                      className="p-1.5 rounded-lg bg-white border border-[#18181b] text-slate-900 hover:bg-[#bae6fd] disabled:opacity-50 transition-colors"
+                      className="p-1.5 rounded-lg bg-white border border-[#191510] text-slate-900 hover:bg-[#bae6fd] disabled:opacity-50 transition-colors"
                       title="Toggle Password Visibility"
                     >
                       {isRevealing ? (
@@ -513,7 +513,7 @@ export default function Vault() {
                     </button>
                     <button
                       onClick={() => handleCopyPassword(item)}
-                      className="p-1.5 rounded-lg bg-white border border-[#18181b] text-slate-900 hover:bg-[#bbf7d0] transition-colors"
+                      className="p-1.5 rounded-lg bg-white border border-[#191510] text-slate-900 hover:bg-[#bbf7d0] transition-colors"
                       title="Copy Password"
                     >
                       {copied && copiedId === `${item.id}-pass` ? (
@@ -529,14 +529,14 @@ export default function Vault() {
           })}
 
         {isLoading && (
-          <div className="col-span-full bg-[#fffef7] p-12 rounded-3xl border-3 border-[#18181b] shadow-[5px_5px_0px_#18181b] text-center space-y-3">
+          <div className="col-span-full bg-[#fffef7] p-12 rounded-3xl border-3 border-[#191510] shadow-[5px_5px_0px_#191510] text-center space-y-3">
             <Loader2 className="size-10 text-indigo-600 mx-auto animate-spin" />
             <p className="text-sm font-heading-comic font-bold text-slate-800">Loading your comic vault…</p>
           </div>
         )}
 
         {!isLoading && displayEntries.length === 0 && !error && (
-          <div className="col-span-full bg-[#fffef7] p-12 rounded-3xl border-3 border-[#18181b] shadow-[5px_5px_0px_#18181b] text-center space-y-3">
+          <div className="col-span-full bg-[#fffef7] p-12 rounded-3xl border-3 border-[#191510] shadow-[5px_5px_0px_#191510] text-center space-y-3">
             <ShieldAlert className="size-12 text-slate-400 mx-auto" />
             <h3 className="text-lg font-heading-comic font-black text-slate-950">
               {search ? `No credentials found matching "${search}"` : "No vault entries found"}
@@ -562,17 +562,17 @@ export default function Vault() {
       {/* Unlock Vault Modal */}
       {isUnlockModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-[#fffef7] rounded-3xl border-3 border-[#18181b] shadow-[8px_8px_0px_#18181b] p-6 sm:p-8 space-y-6">
+          <div className="w-full max-w-sm bg-[#fffef7] rounded-3xl border-3 border-[#191510] shadow-[8px_8px_0px_#191510] p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="size-10 rounded-2xl bg-[#fef08a] border-2 border-[#18181b] text-slate-950 flex items-center justify-center font-bold shadow-[2px_2px_0px_#18181b]">
+                <div className="size-10 rounded-2xl bg-[#fef08a] border-2 border-[#191510] text-slate-950 flex items-center justify-center font-bold shadow-[2px_2px_0px_#191510]">
                   <Unlock className="size-5" />
                 </div>
                 <h2 className="text-xl font-heading-comic font-black text-slate-950">Unlock Vault</h2>
               </div>
               <button
                 onClick={() => setIsUnlockModalOpen(false)}
-                className="p-1.5 rounded-xl text-slate-900 hover:bg-slate-200 border-2 border-[#18181b]"
+                className="p-1.5 rounded-xl text-slate-900 hover:bg-slate-200 border-2 border-[#191510]"
               >
                 <X className="size-4" />
               </button>
@@ -583,7 +583,7 @@ export default function Vault() {
             </p>
 
             {unlockError && (
-              <div className="bg-[#fda4af] border-2 border-[#18181b] text-slate-950 text-xs font-bold px-3.5 py-2.5 rounded-xl">
+              <div className="bg-[#fda4af] border-2 border-[#191510] text-slate-950 text-xs font-bold px-3.5 py-2.5 rounded-xl">
                 {unlockError}
               </div>
             )}
@@ -629,19 +629,19 @@ export default function Vault() {
       {/* Add Item Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#fffef7] rounded-3xl border-3 border-[#18181b] shadow-[8px_8px_0px_#18181b] p-6 sm:p-8 space-y-6">
+          <div className="w-full max-w-md bg-[#fffef7] rounded-3xl border-3 border-[#191510] shadow-[8px_8px_0px_#191510] p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-heading-comic font-black text-slate-950">Add Secret Entry ✨</h2>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 rounded-xl text-slate-900 hover:bg-slate-200 border-2 border-[#18181b]"
+                className="p-1.5 rounded-xl text-slate-900 hover:bg-slate-200 border-2 border-[#191510]"
               >
                 <X className="size-4" />
               </button>
             </div>
 
             {formError && (
-              <div className="bg-[#fda4af] border-2 border-[#18181b] text-slate-950 text-xs font-bold px-3.5 py-2.5 rounded-xl">
+              <div className="bg-[#fda4af] border-2 border-[#191510] text-slate-950 text-xs font-bold px-3.5 py-2.5 rounded-xl">
                 {formError}
               </div>
             )}

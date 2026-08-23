@@ -26,22 +26,22 @@ export default function Settings() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 font-comic">
-      <div className="bg-[#fffef7] p-6 rounded-3xl border-3 border-[#18181b] shadow-[5px_5px_0px_#18181b]">
-        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#fef08a] border-2 border-[#18181b] text-xs font-heading-comic font-bold text-slate-950 mb-2">
-          <Sparkles className="size-3 text-amber-600 fill-amber-400" />
+      <div className="bg-white border-[3px] border-[#191510] p-6 shadow-[5px_5px_0px_#191510]">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ffe066] border-2 border-[#191510] ca-mono text-[0.6rem] text-[#191510] mb-3">
+          <Sparkles className="size-3 text-[#191510]" />
           Vault Preferences
         </div>
-        <h1 className="text-2xl sm:text-3xl font-heading-comic font-black text-slate-950 flex items-center gap-2">
-          <SettingsIcon className="size-7 text-[#6366f1]" />
-          Settings &amp; Security Shield
+        <h1 className="ca-display text-3xl sm:text-4xl text-[#191510] flex items-center gap-3">
+          <SettingsIcon className="size-7 text-[#191510]" />
+          Settings
         </h1>
-        <p className="text-xs text-slate-600 font-comic font-bold mt-1">
-          Manage your two-factor authentication, master password, data exports, and theme preferences.
+        <p className="ca-mono text-[0.65rem] text-[#191510]/50 mt-2">
+          Manage two-factor authentication, master password, data exports, and theme preferences.
         </p>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2.5 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 pb-2 overflow-x-auto [scrollbar-width:none]">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -49,14 +49,15 @@ export default function Settings() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-heading-comic font-bold whitespace-nowrap transition-all border-2.5 border-[#18181b] ${
+              title={tab.label}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 ca-mono text-[0.65rem] whitespace-nowrap transition-all border-2 border-[#191510] shrink-0 ${
                 isActive
-                  ? `${tab.bg} text-slate-950 shadow-[3px_3px_0px_#18181b] -translate-y-0.5`
-                  : "bg-white text-slate-700 hover:bg-slate-100"
+                  ? `${tab.bg} text-[#191510] shadow-[3px_3px_0px_#191510] -translate-y-0.5`
+                  : "bg-white text-[#191510]/50 hover:text-[#191510] hover:bg-slate-50"
               }`}
             >
-              <Icon className="size-4 text-slate-950" />
-              {tab.label}
+              <Icon className="size-4 text-[#191510] shrink-0" />
+              <span className="hidden sm:inline">{tab.label}</span>
             </button>
           );
         })}

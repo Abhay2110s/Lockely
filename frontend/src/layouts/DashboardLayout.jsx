@@ -13,15 +13,14 @@ import {
   Lock,
   Zap,
   LogOut,
-  Sparkles,
 } from "lucide-react";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, color: "bg-[#fef08a]" },
-  { label: "Password Vault", href: "/vault", icon: KeyRound, color: "bg-[#bae6fd]" },
-  { label: "Generator", href: "/generator", icon: Wand2, color: "bg-[#bbf7d0]" },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, color: "bg-[#ffe066]" },
+  { label: "Password Vault", href: "/vault", icon: KeyRound, color: "bg-[#7dd3fc]" },
+  { label: "Generator", href: "/generator", icon: Wand2, color: "bg-[#86efac]" },
   { label: "Profile", href: "/profile", icon: User, color: "bg-[#fed7aa]" },
-  { label: "Settings", href: "/settings", icon: Settings, color: "bg-[#ddd6fe]" },
+  { label: "Settings", href: "/settings", icon: Settings, color: "bg-[#c4b5fd]" },
 ];
 
 export default function DashboardLayout() {
@@ -29,66 +28,71 @@ export default function DashboardLayout() {
   const { displayName, initials, logout, isVaultUnlocked } = useAppAuth();
   const location = useLocation();
 
-
-
   return (
-    <div className="min-h-screen bg-[#faf6ea] text-slate-900 flex flex-col md:flex-row font-comic">
+    <div className="min-h-screen app-bg text-[#191510] flex flex-col md:flex-row">
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 md:hidden"
+          className="fixed inset-0 bg-[#191510]/50 backdrop-blur-xs z-40 md:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
+      {/* ================================================================ */}
+      {/* SIDEBAR                                                           */}
+      {/* ================================================================ */}
       <aside
         className={`
-        fixed md:sticky top-0 bottom-0 left-0 z-50 w-68 bg-[#fffef7] border-r-3 border-[#18181b] flex flex-col justify-between transition-transform duration-300 ease-in-out
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-        h-screen overflow-y-auto
-      `}
+          fixed md:sticky top-0 bottom-0 left-0 z-50 w-64 bg-[#faf6ea] border-r-[3px] border-[#191510] flex flex-col justify-between transition-transform duration-300 ease-in-out
+          ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          h-screen overflow-y-auto
+        `}
       >
         <div>
           {/* Brand Header */}
-          <div className="p-5 border-b-3 border-[#18181b] bg-[#fef08a] flex items-center justify-between">
+          <div className="p-5 border-b-[3px] border-[#191510] bg-[#ffe066] flex items-center justify-between">
             <Link to="/dashboard" className="flex items-center gap-3 group">
-              <div className="size-11 rounded-2xl bg-[#6366f1] text-white flex items-center justify-center border-2 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b] group-hover:rotate-6 transition-transform">
-                <ShieldCheck className="size-6 text-white" />
+              <div className="size-10 bg-[#191510] text-[#ffe066] flex items-center justify-center border-2 border-[#191510] shadow-[2px_2px_0px_#191510] group-hover:-rotate-6 transition-transform">
+                <ShieldCheck className="size-5" />
               </div>
               <div className="flex flex-col">
-                <span className="font-heading-comic font-black text-xl tracking-tight text-slate-950 flex items-center gap-1">
-                  PassGuardian
-                  <Sparkles className="size-3.5 text-amber-500 fill-amber-400" />
+                <span className="ca-display text-lg text-[#191510] leading-none">
+                  PASSGUARDIAN
+                </span>
+                <span className="ca-mono text-[0.55rem] text-[#191510]/60 tracking-widest uppercase mt-0.5">
+                  Zero-Knowledge Vault
                 </span>
               </div>
             </Link>
             <button
               onClick={() => setMobileOpen(false)}
-              className="md:hidden p-1.5 rounded-xl text-slate-900 hover:bg-white border-2 border-slate-900"
+              className="md:hidden p-1.5 text-[#191510] hover:bg-[#191510] hover:text-[#ffe066] border-2 border-[#191510] transition-colors"
             >
-              <X className="size-5" />
+              <X className="size-4" />
             </button>
           </div>
 
           {/* User Quick Info */}
-          <div className="p-3.5 mx-3.5 my-4 rounded-2xl bg-[#fff] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-[#bae6fd] border-2 border-[#18181b] text-slate-900 flex items-center justify-center font-heading-comic font-bold text-base shadow-[1.5px_1.5px_0px_#18181b]">
+          <div className="p-3 mx-3 mt-4 bg-white border-2 border-[#191510] shadow-[3px_3px_0px_#191510] flex items-center gap-3">
+            <div className="size-9 bg-[#191510] text-[#ffe066] flex items-center justify-center ca-display text-sm shadow-[1.5px_1.5px_0px_#191510] shrink-0">
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-slate-900 truncate font-heading-comic">
+              <p className="ca-mono text-[0.65rem] text-[#191510] truncate">
                 {displayName}
               </p>
-              <div className="text-[0.68rem] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-900 w-fit flex items-center gap-1 mt-0.5">
-                <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="ca-mono text-[0.55rem] text-emerald-700 bg-[#86efac] px-2 py-0.5 border border-emerald-900 w-fit flex items-center gap-1 mt-0.5">
+                <span className="size-1.5 rounded-full bg-emerald-600 animate-pulse" />
                 Zero-Knowledge
               </div>
             </div>
           </div>
 
           {/* Navigation Links */}
-          <nav className="px-3.5 space-y-2">
+          <nav className="px-3 mt-4 space-y-1.5">
+            <p className="ca-mono text-[0.55rem] text-[#191510]/40 px-2 mb-2 tracking-widest">
+              Navigation
+            </p>
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname.startsWith(item.href);
@@ -98,16 +102,16 @@ export default function DashboardLayout() {
                   to={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={`
-                    flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-heading-comic font-bold tracking-wide transition-all border-2
+                    flex items-center gap-3 px-3 py-2.5 ca-mono text-[0.68rem] tracking-wide transition-all border-2
                     ${
                       isActive
-                        ? `${item.color} text-slate-950 border-[#18181b] shadow-[3px_3px_0px_#18181b] translate-x-1`
-                        : "bg-white text-slate-700 border-transparent hover:border-[#18181b] hover:bg-slate-100 hover:shadow-[2px_2px_0px_#18181b]"
+                        ? `${item.color} text-[#191510] border-[#191510] shadow-[3px_3px_0px_#191510] -translate-y-0.5`
+                        : "bg-white text-[#191510]/60 border-transparent hover:border-[#191510] hover:text-[#191510] hover:shadow-[2px_2px_0px_#191510]"
                     }
                   `}
                 >
-                  <div className={`p-1 rounded-lg border border-[#18181b] ${isActive ? "bg-white" : "bg-slate-100"}`}>
-                    <Icon className="size-4 text-slate-900" />
+                  <div className={`p-1 border border-[#191510] ${isActive ? "bg-white" : "bg-[#faf6ea]"}`}>
+                    <Icon className="size-3.5 text-[#191510]" />
                   </div>
                   {item.label}
                 </NavLink>
@@ -117,16 +121,16 @@ export default function DashboardLayout() {
         </div>
 
         {/* Security Badge Footer */}
-        <div className="p-4 border-t-2 border-[#18181b] bg-[#fff] m-3 rounded-2xl shadow-[3px_3px_0px_#18181b]">
+        <div className="p-3 mx-3 mb-4 border-2 border-[#191510] bg-white shadow-[3px_3px_0px_#191510]">
           <div className="flex items-center gap-2.5">
-            <div className="size-8 rounded-xl bg-[#fde047] border-2 border-[#18181b] text-slate-900 flex items-center justify-center shrink-0">
+            <div className="size-8 bg-[#ffe066] border-2 border-[#191510] text-[#191510] flex items-center justify-center shrink-0">
               <Lock className="size-4" />
             </div>
             <div>
-              <p className="text-[0.72rem] font-heading-comic font-extrabold text-slate-900">
+              <p className="ca-mono text-[0.65rem] text-[#191510]">
                 AES-256-GCM
               </p>
-              <p className="text-[0.62rem] font-bold text-slate-500">
+              <p className="ca-mono text-[0.55rem] text-[#191510]/50">
                 Zero-Knowledge Shield
               </p>
             </div>
@@ -134,56 +138,65 @@ export default function DashboardLayout() {
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Navbar Header */}
-        <header className="sticky top-0 z-30 bg-[#fffef7]/95 backdrop-blur-md border-b-3 border-[#18181b] px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
+      {/* ================================================================ */}
+      {/* MAIN CONTENT AREA                                                 */}
+      {/* ================================================================ */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+        {/* Top Header Bar */}
+        <header className="sticky top-0 z-30 bg-[#faf6ea]/95 backdrop-blur-md border-b-[3px] border-[#191510] px-4 sm:px-8 py-3 flex items-center justify-between gap-4">
+          {/* Left: hamburger */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 rounded-xl text-slate-900 bg-[#fef08a] border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b]"
+              className="md:hidden p-2 text-[#191510] bg-[#ffe066] border-2 border-[#191510] shadow-[2px_2px_0px_#191510]"
             >
-              <Menu className="size-5" />
+              <Menu className="size-4" />
             </button>
 
+            {/* Page breadcrumb label on desktop */}
+            <span className="hidden md:block ca-display text-sm text-[#191510]/50">
+              {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? ""}
+            </span>
           </div>
 
           {/* Right Header Actions */}
-          <div className="flex items-center gap-3.5">
-            <div className={`hidden sm:flex items-center gap-2 px-3.5 py-1 rounded-full border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] text-[0.72rem] font-heading-comic font-bold ${
-              isVaultUnlocked ? "bg-[#bbf7d0] text-emerald-950" : "bg-[#fef08a] text-amber-950"
+          <div className="flex items-center gap-3">
+            {/* Vault status pill */}
+            <div className={`hidden sm:flex items-center gap-2 px-3 py-1 border-2 border-[#191510] shadow-[2px_2px_0px_#191510] ca-mono text-[0.65rem] ${
+              isVaultUnlocked ? "bg-[#86efac] text-emerald-950" : "bg-[#ffe066] text-[#191510]"
             }`}>
-              <Zap className="size-3.5 fill-current" />
+              <Zap className="size-3 fill-current" />
               {isVaultUnlocked ? "Vault Unlocked" : "Vault Locked"}
             </div>
 
-            {/* User Avatar + Sign Out Dropdown */}
+            {/* User Avatar + Dropdown */}
             <div className="relative group">
-              <button className="size-10 rounded-2xl bg-[#6366f1] text-white flex items-center justify-center font-heading-comic font-black text-sm border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] hover:-translate-y-0.5 transition-transform">
+              <button className="size-9 bg-[#191510] text-[#ffe066] flex items-center justify-center ca-display text-sm border-2 border-[#191510] shadow-[3px_3px_0px_#191510] hover:-translate-y-0.5 transition-transform">
                 {initials}
               </button>
               {/* Dropdown */}
-              <div className="absolute right-0 top-12 w-48 bg-white border-2.5 border-[#18181b] rounded-2xl shadow-[4px_4px_0px_#18181b] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+              <div className="absolute right-0 top-11 w-44 bg-[#faf6ea] border-2 border-[#191510] shadow-[4px_4px_0px_#191510] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <Link
                   to="/profile"
-                  className="flex items-center gap-2.5 px-3 py-2 text-xs font-heading-comic font-bold text-slate-800 hover:bg-[#bae6fd] rounded-xl transition-colors"
+                  className="flex items-center gap-2.5 px-3 py-2 ca-mono text-[0.65rem] text-[#191510] hover:bg-[#7dd3fc] transition-colors"
                 >
-                  <User className="size-4" />
+                  <User className="size-3.5" />
                   My Profile
                 </Link>
                 <Link
                   to="/settings"
-                  className="flex items-center gap-2.5 px-3 py-2 text-xs font-heading-comic font-bold text-slate-800 hover:bg-[#fef08a] rounded-xl transition-colors"
+                  className="flex items-center gap-2.5 px-3 py-2 ca-mono text-[0.65rem] text-[#191510] hover:bg-[#ffe066] transition-colors"
                 >
-                  <Settings className="size-4" />
+                  <Settings className="size-3.5" />
                   Settings &amp; 2FA
                 </Link>
-                <div className="my-1 border-t-2 border-[#18181b]" />
+                <div className="my-1 border-t-2 border-[#191510]" />
                 <button
                   onClick={logout}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-heading-comic font-bold text-rose-700 hover:bg-[#fda4af] rounded-xl transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 ca-mono text-[0.65rem] text-rose-700 hover:bg-[#fda4af] transition-colors"
                 >
-                  <LogOut className="size-4" />
+                  <LogOut className="size-3.5" />
                   Log Out
                 </button>
               </div>
@@ -192,7 +205,7 @@ export default function DashboardLayout() {
         </header>
 
         {/* Dynamic Page Outlet */}
-        <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-3 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>
       </div>

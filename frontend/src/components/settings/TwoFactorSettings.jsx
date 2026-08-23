@@ -91,24 +91,24 @@ export default function TwoFactorSettings() {
   };
 
   return (
-    <div className="bg-[#fffef7] p-6 sm:p-8 rounded-3xl border-3 border-[#18181b] shadow-[5px_5px_0px_#18181b] space-y-6 font-comic">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className={`size-12 rounded-2xl border-2 border-[#18181b] flex items-center justify-center font-bold shadow-[2px_2px_0px_#18181b] ${
+    <div className="bg-[#fffef7] p-6 sm:p-8 rounded-3xl border-3 border-[#191510] shadow-[5px_5px_0px_#191510] space-y-6 font-comic">
+      <div className="flex flex-wrap items-start gap-4">
+        <div className="flex items-center gap-3.5 flex-1 min-w-0">
+          <div className={`size-12 rounded-2xl border-2 border-[#191510] flex items-center justify-center font-bold shadow-[2px_2px_0px_#191510] shrink-0 ${
             isEnabled ? "bg-[#bbf7d0] text-emerald-950" : "bg-[#fef08a] text-amber-950"
           }`}>
             <Smartphone className="size-6 text-slate-950" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-base font-heading-comic font-black text-slate-950">Two-Factor Authentication (2FA)</h2>
-              <span className={`px-2.5 py-0.5 rounded-full border border-[#18181b] text-xs font-heading-comic font-bold ${
+              <span className={`px-2.5 py-0.5 rounded-full border border-[#191510] text-xs font-heading-comic font-bold shrink-0 ${
                 isEnabled ? "bg-[#bbf7d0] text-emerald-950" : "bg-slate-200 text-slate-700"
               }`}>
                 {isEnabled ? "ACTIVE 🛡️" : "DISABLED"}
               </span>
             </div>
-            <p className="text-xs text-slate-600 font-comic font-bold">
+            <p className="text-xs text-slate-600 font-comic font-bold mt-0.5">
               Require a 6-digit TOTP authenticator code whenever you unlock your account.
             </p>
           </div>
@@ -141,10 +141,10 @@ export default function TwoFactorSettings() {
       {/* Setup Modal */}
       {isSetupModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#fffef7] rounded-3xl border-3 border-[#18181b] shadow-[8px_8px_0px_#18181b] p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-md bg-[#fffef7] rounded-3xl border-3 border-[#191510] shadow-[8px_8px_0px_#191510] p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="size-9 rounded-xl bg-[#fef08a] border-2 border-[#18181b] flex items-center justify-center shadow-[1.5px_1.5px_0px_#18181b]">
+                <div className="size-9 rounded-xl bg-[#fef08a] border-2 border-[#191510] flex items-center justify-center shadow-[1.5px_1.5px_0px_#191510]">
                   <ShieldCheck className="size-5 text-slate-950" />
                 </div>
                 <h3 className="text-lg font-heading-comic font-black text-slate-950">Set Up 2FA Authenticator</h3>
@@ -155,7 +155,7 @@ export default function TwoFactorSettings() {
                   setBackupCodes(null);
                   setConfirmCode("");
                 }}
-                className="p-1.5 rounded-xl border-2 border-[#18181b] hover:bg-slate-200"
+                className="p-1.5 rounded-xl border-2 border-[#191510] hover:bg-slate-200"
               >
                 <X className="size-4" />
               </button>
@@ -163,7 +163,7 @@ export default function TwoFactorSettings() {
 
             {backupCodes ? (
               <div className="space-y-4">
-                <div className="p-4 rounded-2xl bg-[#bbf7d0] border-2 border-[#18181b] text-emerald-950 text-xs space-y-1">
+                <div className="p-4 rounded-2xl bg-[#bbf7d0] border-2 border-[#191510] text-emerald-950 text-xs space-y-1">
                   <p className="font-heading-comic font-black text-sm flex items-center gap-1.5">
                     <Check className="size-4 text-emerald-800" /> 2FA is now super active!
                   </p>
@@ -172,9 +172,9 @@ export default function TwoFactorSettings() {
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white border-2 border-[#18181b] grid grid-cols-2 gap-2 font-mono text-xs text-slate-950">
+                <div className="p-4 rounded-2xl bg-white border-2 border-[#191510] grid grid-cols-2 gap-2 font-mono text-xs text-slate-950">
                   {backupCodes.map((code, idx) => (
-                    <div key={idx} className="p-2 bg-[#fef08a] rounded-xl border border-[#18181b] text-center font-black shadow-[1px_1px_0px_#18181b]">
+                    <div key={idx} className="p-2 bg-[#fef08a] rounded-xl border border-[#191510] text-center font-black shadow-[1px_1px_0px_#191510]">
                       {code}
                     </div>
                   ))}
@@ -212,13 +212,13 @@ export default function TwoFactorSettings() {
                 </p>
 
                 {setupData?.otpAuthUrl && (
-                  <div className="flex justify-center p-4 bg-white rounded-2xl border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b]">
+                  <div className="flex justify-center p-4 bg-white rounded-2xl border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510]">
                     <img
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
                         setupData.otpAuthUrl
                       )}`}
                       alt="2FA QR Code"
-                      className="size-44 rounded-xl border border-[#18181b] p-2 bg-white"
+                      className="size-44 rounded-xl border border-[#191510] p-2 bg-white"
                     />
                   </div>
                 )}
@@ -227,7 +227,7 @@ export default function TwoFactorSettings() {
                   <p className="text-[0.7rem] text-slate-600 uppercase font-heading-comic font-bold mb-1">
                     Or enter this secret key manually:
                   </p>
-                  <div className="p-2.5 rounded-2xl bg-white border-2 border-[#18181b] flex items-center justify-between font-mono text-xs font-black text-slate-950 shadow-[1.5px_1.5px_0px_#18181b]">
+                  <div className="p-2.5 rounded-2xl bg-white border-2 border-[#191510] flex items-center justify-between font-mono text-xs font-black text-slate-950 shadow-[1.5px_1.5px_0px_#191510]">
                     <span className="truncate">{setupData?.secret}</span>
                     <button
                       type="button"
@@ -235,7 +235,7 @@ export default function TwoFactorSettings() {
                         copy(setupData?.secret);
                         toast.success("Secret copied!");
                       }}
-                      className="p-1 rounded-lg bg-[#fef08a] border border-[#18181b] text-slate-950"
+                      className="p-1 rounded-lg bg-[#fef08a] border border-[#191510] text-slate-950"
                     >
                       {copied ? <Check className="size-3.5 text-emerald-700" /> : <Copy className="size-3.5" />}
                     </button>
@@ -259,7 +259,7 @@ export default function TwoFactorSettings() {
                 </div>
 
                 {error && (
-                  <div className="p-3 rounded-2xl bg-[#fda4af] border-2 border-[#18181b] text-xs text-slate-950 font-bold text-center">
+                  <div className="p-3 rounded-2xl bg-[#fda4af] border-2 border-[#191510] text-xs text-slate-950 font-bold text-center">
                     ⚠️ {error}
                   </div>
                 )}
@@ -290,7 +290,7 @@ export default function TwoFactorSettings() {
       {/* Disable Modal */}
       {isDisableModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-[#fffef7] rounded-3xl border-3 border-[#18181b] shadow-[8px_8px_0px_#18181b] p-6 sm:p-8 space-y-5">
+          <div className="w-full max-w-sm bg-[#fffef7] rounded-3xl border-3 border-[#191510] shadow-[8px_8px_0px_#191510] p-6 sm:p-8 space-y-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-rose-700">
                 <AlertTriangle className="size-5" />
@@ -298,7 +298,7 @@ export default function TwoFactorSettings() {
               </div>
               <button
                 onClick={() => setIsDisableModalOpen(false)}
-                className="p-1.5 rounded-xl border-2 border-[#18181b] hover:bg-slate-200"
+                className="p-1.5 rounded-xl border-2 border-[#191510] hover:bg-slate-200"
               >
                 <X className="size-4" />
               </button>
@@ -336,7 +336,7 @@ export default function TwoFactorSettings() {
               </div>
 
               {error && (
-                <div className="p-3 rounded-2xl bg-[#fda4af] border-2 border-[#18181b] text-xs text-slate-950 font-bold text-center">
+                <div className="p-3 rounded-2xl bg-[#fda4af] border-2 border-[#191510] text-xs text-slate-950 font-bold text-center">
                   ⚠️ {error}
                 </div>
               )}

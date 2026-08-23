@@ -63,7 +63,7 @@ export default function LoginForm() {
   return (
     <div className="w-full space-y-6 font-comic">
       <div className="space-y-2 text-center sm:text-left">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fef08a] border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] text-xs font-heading-comic font-bold text-slate-950">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fef08a] border-2 border-[#191510] shadow-[2px_2px_0px_#191510] text-xs font-heading-comic font-bold text-slate-950">
           <Zap className="size-3.5 fill-amber-400 text-slate-950" />
           PassGuardian Vault
         </div>
@@ -77,7 +77,7 @@ export default function LoginForm() {
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] text-xs text-slate-950 font-bold">
+        <div className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] text-xs text-slate-950 font-bold">
           ⚠️ {error}
         </div>
       )}
@@ -154,11 +154,11 @@ export default function LoginForm() {
       </form>
 
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-0.5 bg-[#18181b]" />
-        <span className="text-xs font-heading-comic font-bold text-slate-700 bg-white px-2 py-0.5 rounded border border-[#18181b]">
+        <div className="flex-1 h-0.5 bg-[#191510]" />
+        <span className="text-xs font-heading-comic font-bold text-slate-700 bg-white px-2 py-0.5 rounded border border-[#191510]">
           OR
         </span>
-        <div className="flex-1 h-0.5 bg-[#18181b]" />
+        <div className="flex-1 h-0.5 bg-[#191510]" />
       </div>
 
       <div className="text-center space-y-3">

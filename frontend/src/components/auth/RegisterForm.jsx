@@ -112,7 +112,7 @@ function OTPVerify({ email, password: masterPassword }) {
   return (
     <div className="w-full space-y-6 font-comic">
       <div className="space-y-2 text-center sm:text-left">
-        <div className="size-12 rounded-2xl bg-[#fef08a] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] flex items-center justify-center mb-3">
+        <div className="size-12 rounded-2xl bg-[#fef08a] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] flex items-center justify-center mb-3">
           <Mail className="size-6 text-slate-950" />
         </div>
         <h2 className="text-3xl font-heading-comic font-black text-slate-950">Check Your Inbox! ✉️</h2>
@@ -127,7 +127,7 @@ function OTPVerify({ email, password: masterPassword }) {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] text-xs text-slate-950 font-bold flex items-center gap-2"
+            className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] text-xs text-slate-950 font-bold flex items-center gap-2"
           >
             <XCircle className="size-4 shrink-0 text-rose-800" /> {error}
           </motion.div>
@@ -137,7 +137,7 @@ function OTPVerify({ email, password: masterPassword }) {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="p-3.5 rounded-2xl bg-[#bbf7d0] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] text-xs text-slate-950 font-bold flex items-center gap-2"
+            className="p-3.5 rounded-2xl bg-[#bbf7d0] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] text-xs text-slate-950 font-bold flex items-center gap-2"
           >
             <CheckCircle2 className="size-4 shrink-0 text-emerald-800" /> Fresh code sent! 🚀
           </motion.div>
@@ -156,7 +156,7 @@ function OTPVerify({ email, password: masterPassword }) {
             value={d}
             onChange={(e) => handleDigit(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
-            className="size-12 text-center text-2xl font-black font-heading-comic rounded-2xl bg-white border-2.5 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b] focus:shadow-[4px_4px_0px_#18181b] focus:bg-[#fef08a] focus:outline-none transition-all"
+            className="size-12 text-center text-2xl font-black font-heading-comic rounded-2xl bg-white border-2.5 border-[#191510] shadow-[2.5px_2.5px_0px_#191510] focus:shadow-[4px_4px_0px_#191510] focus:bg-[#fef08a] focus:outline-none transition-all"
           />
         ))}
       </div>
@@ -216,7 +216,7 @@ export default function RegisterForm() {
     <div className="w-full space-y-6 font-comic">
       {/* Header */}
       <div className="space-y-2 text-center sm:text-left">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#bbf7d0] border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b] text-xs font-heading-comic font-bold text-slate-950">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#bbf7d0] border-2 border-[#191510] shadow-[2px_2px_0px_#191510] text-xs font-heading-comic font-bold text-slate-950">
           <Sparkles className="size-3.5 fill-emerald-400 text-slate-950" />
           Join PassGuardian
         </div>
@@ -229,7 +229,7 @@ export default function RegisterForm() {
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] text-xs text-slate-950 font-bold">
+        <div className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] text-xs text-slate-950 font-bold">
           ⚠️ {error}
         </div>
       )}
@@ -297,7 +297,7 @@ export default function RegisterForm() {
 
           {/* Strength Meter */}
           {password && (
-            <div className="space-y-2 bg-[#fffef7] border-2 border-[#18181b] rounded-2xl p-3 shadow-[2px_2px_0px_#18181b]">
+            <div className="space-y-2 bg-[#fffef7] border-2 border-[#191510] rounded-2xl p-3 shadow-[2px_2px_0px_#191510]">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-heading-comic font-bold text-slate-900">
                   Strength Meter:
@@ -310,7 +310,7 @@ export default function RegisterForm() {
                 {[1, 2, 3, 4].map((n) => (
                   <div
                     key={n}
-                    className={`h-2 flex-1 rounded-full border border-[#18181b] transition-colors duration-300 ${
+                    className={`h-2 flex-1 rounded-full border border-[#191510] transition-colors duration-300 ${
                       score >= n ? strengthColors[score] : "bg-slate-200"
                     }`}
                   />
@@ -357,7 +357,7 @@ export default function RegisterForm() {
       </form>
 
       {/* Sign-in CTA */}
-      <div className="text-center space-y-2 border-t-2 border-[#18181b] pt-4">
+      <div className="text-center space-y-2 border-t-2 border-[#191510] pt-4">
         <p className="text-xs font-comic font-bold text-slate-700">
           Already have an account?{" "}
           <Link to="/login" className="font-heading-comic font-black text-indigo-700 hover:underline">
