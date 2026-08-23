@@ -144,62 +144,62 @@ export default function Hero() {
         </div>
 
         {/* Floating Tape Notes for Mobile */}
-        <div className="mt-4 flex flex-wrap justify-center gap-2 lg:hidden">
-          <span className="ca-mono inline-block rounded-full border-[3px] border-white px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[0_4px_10px_rgba(25,21,16,0.2)] bg-[#c4b5fd] -rotate-3">
+        <div className="mt-4 mb-2 flex flex-wrap justify-center gap-2 lg:hidden">
+          <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2px_2px_0_#191510] bg-[#c4b5fd] -rotate-2">
             Zero-Knowledge
           </span>
-          <span className="ca-mono inline-block rounded-full border-[3px] border-white px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[0_4px_10px_rgba(25,21,16,0.2)] bg-[#ffe066] rotate-3">
+          <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2px_2px_0_#191510] bg-[#ffe066] rotate-2">
             AES-256-GCM
           </span>
         </div>
 
         {/* Giant Main Display Title with Creative-Artsy Doodle Box & Floating Tags */}
-        <div className="relative mt-6">
-          <div className="ca-doodle-box relative inline-block border-[3.5px] border-[#fb923c] px-4 py-2 sm:px-8 sm:py-3 bg-white/70 shadow-[3px_4px_0px_#191510] max-w-full">
+        <div className="relative mt-6 sm:mt-8">
+          <div className="ca-doodle-box relative inline-block border-[3.5px] border-[#fb923c] px-5 py-2.5 sm:px-9 sm:py-3.5 bg-white/80 shadow-[4px_5px_0px_#191510] max-w-full z-10">
             <span className="ca-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.92] tracking-tight text-[#191510] break-words">
               PASSGUARDIAN
             </span>
           </div>
 
-          {/* Desktop Surrounding Washi Stickers */}
-          <div className="pointer-events-none absolute -inset-x-20 -inset-y-6 hidden lg:block">
+          {/* Desktop Surrounding Washi Stickers — Positioned safely outside the content box */}
+          <div className="pointer-events-none absolute -inset-x-28 -inset-y-4 hidden lg:block">
             {/* Top Left Tape */}
-            <div className="pointer-events-auto absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2">
-              <span className="ca-mono inline-block rounded-full border-[3px] border-white px-4 py-1.5 text-sm font-bold uppercase tracking-widest text-[#191510] shadow-[0_4px_10px_rgba(25,21,16,0.25)] -rotate-12 bg-[#c4b5fd]">
+            <div className="pointer-events-auto absolute left-0 top-[-10px] -translate-y-1/2">
+              <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[3px_3px_0_#191510] -rotate-12 bg-[#c4b5fd] hover:rotate-0 transition-transform">
                 Zero-Knowledge
               </span>
             </div>
 
             {/* Top Right Tape */}
-            <div className="pointer-events-auto absolute right-0 top-0 -translate-y-1/2 translate-x-1/2">
-              <span className="ca-mono inline-block rounded-full border-[3px] border-white px-4 py-1.5 text-sm font-bold uppercase tracking-widest text-[#191510] shadow-[0_4px_10px_rgba(25,21,16,0.25)] rotate-12 bg-[#ffe066]">
+            <div className="pointer-events-auto absolute right-0 top-[-10px] -translate-y-1/2">
+              <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[3px_3px_0_#191510] rotate-12 bg-[#ffe066] hover:rotate-0 transition-transform">
                 AES-256-GCM
               </span>
             </div>
 
             {/* Bottom Left Note */}
-            <div className="pointer-events-auto absolute bottom-0 left-0 -translate-x-1/3 translate-y-1/2">
+            <div className="pointer-events-auto absolute bottom-[-16px] left-[-10px]">
               <span className="relative inline-block">
-                <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2px_3px_8px_rgba(17,18,18,0.18)] text-2xl -rotate-6 bg-[#ffe066] border border-[#191510]/30">
+                <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2.5px_3px_0_#191510] text-xl -rotate-6 bg-[#ffe066] border-2 border-[#191510] hover:rotate-0 transition-transform">
                   Client-Side Keys 🛡️
                 </span>
               </span>
             </div>
 
-            {/* Bottom Right Note */}
-            <div className="pointer-events-auto absolute bottom-0 right-0 translate-x-1/3 translate-y-1/2">
+            {/* Bottom Right Note — Updated to PBKDF2 600K ⚡ */}
+            <div className="pointer-events-auto absolute bottom-[-16px] right-[-10px]">
               <span className="relative inline-block">
-                <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2px_3px_8px_rgba(17,18,18,0.18)] text-2xl rotate-6 bg-[#a7f3d0] border border-[#191510]/30">
-                  Open Source ✨
+                <span className="ca-hand inline-block px-4 py-1.5 leading-snug text-[#191510] shadow-[2.5px_3px_0_#191510] text-xl rotate-6 bg-[#86efac] border-2 border-[#191510] hover:rotate-0 transition-transform">
+                  PBKDF2 600K ⚡
                 </span>
               </span>
             </div>
           </div>
         </div>
 
-        {/* Operational Status Pill */}
-        <p className="ca-mono mt-6 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[#191510] sm:text-sm">
-          <span className="size-3 rounded-full bg-[#60a5fa] animate-pulse" />
+        {/* Operational Status Pill — Ample clearance so nothing overlaps */}
+        <p className="ca-mono mt-10 sm:mt-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[#191510] sm:text-sm bg-white/70 px-4 py-1.5 border border-[#191510]/30 shadow-[2px_2px_0_#191510]">
+          <span className="size-2.5 rounded-full bg-[#60a5fa] animate-pulse" />
           Hardware CSPRNG &amp; Client-Side Vault Sealed
         </p>
 

@@ -1,19 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ShieldCheck,
   Lock,
   Cpu,
-  RefreshCw,
   Smartphone,
-  Sparkles,
   Check,
-  Terminal,
-  Zap,
-  Fingerprint,
-  QrCode,
   Radio,
+  QrCode,
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -71,75 +66,40 @@ const featureProjects = [
 
 export default function Features() {
   const sectionRef = useRef(null);
-  const stackRef = useRef(null);
   const cardRefs = useRef([]);
-  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
-    const stack = stackRef.current;
     const cards = cardRefs.current.filter(Boolean);
-    if (!stack || cards.length < 2) return;
-
-    const N = cards.length;
-    const SCROLL_PER_CARD = window.innerHeight * 1.1;
+    if (cards.length === 0) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-
       cards.forEach((card, idx) => {
-        if (idx === 0) return;
+        const isEven = idx % 2 === 0;
+        const initialRotate = isEven ? -2 : 2;
 
-        const segStart = (idx - 1) / (N - 1);
-        const rotationAngle = idx % 2 === 0 ? 1.5 : -1.5;
-
-        // Slide in with physical rotation & spring
-        tl.fromTo(
+        gsap.fromTo(
           card,
           {
-            yPercent: 110,
-            rotate: rotationAngle * 3,
-            scale: 0.95,
-            opacity: 0.8,
+            opacity: 0,
+            y: 70,
+            scale: 0.94,
+            rotate: initialRotate,
           },
           {
-            yPercent: 0,
-            rotate: 0,
-            scale: 1,
             opacity: 1,
-            duration: 1,
-          },
-          segStart
-        );
-
-        // Push previous cards deeper with dynamic layering
-        for (let prev = 0; prev < idx; prev++) {
-          const depth = idx - prev;
-          tl.to(
-            cards[prev],
-            {
-              scale: 1 - depth * 0.035,
-              yPercent: -(depth * 2.5),
-              rotate: (prev % 2 === 0 ? -1 : 1) * (depth * 0.8),
-              duration: 1,
+            y: 0,
+            scale: 1,
+            rotate: 0,
+            duration: 0.85,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play reverse play reverse",
             },
-            segStart
-          );
-        }
-      });
-
-      // Pin stack with scrub timeline
-      ScrollTrigger.create({
-        trigger: stack,
-        pin: true,
-        pinSpacing: true,
-        start: "top top+=65",
-        end: `+=${(N - 1) * SCROLL_PER_CARD}`,
-        scrub: 1.2,
-        animation: tl,
-        onUpdate: (self) => {
-          const step = Math.min(N - 1, Math.floor(self.progress * N));
-          setActiveStep(step);
-        },
+          }
+        );
       });
     }, sectionRef);
 
@@ -165,7 +125,7 @@ export default function Features() {
       </svg>
 
       {/* Header & Handwritten Subheading */}
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-4 pb-12 text-center sm:pb-16">
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-4 pb-14 text-center sm:pb-20">
         <div className="flex flex-col items-center text-[#191510]">
           <p className="ca-hand text-2xl sm:text-3xl">explore core features!</p>
           <svg
@@ -188,48 +148,22 @@ export default function Features() {
           </span>
         </span>
 
-        {/* Step Indicator Pill */}
-        <div className="mt-5 flex items-center gap-2">
-          {featureProjects.map((f, i) => (
-            <div
-              key={f.id}
-              className={`h-2 transition-all duration-300 border border-[#191510] ${
-                activeStep === i
-                  ? "w-8 bg-[#191510] shadow-[1px_1px_0_#191510]"
-                  : "w-2.5 bg-white"
-              }`}
-            />
-          ))}
-        </div>
-
-        <div className="mt-4 max-w-md -rotate-2">
+        <div className="mt-5 max-w-md -rotate-2">
           <span className="ca-tape inline-block px-5 py-1.5 text-xs sm:text-sm font-bold text-[#191510] shadow-sm [clip-path:polygon(1.5%_0,100%_8%,98.5%_100%,0_92%)] bg-[#ffe066] border border-[#191510]/30">
             Four powerful instruments engineered for absolute privacy and speed.
           </span>
         </div>
       </div>
 
-      {/* ── PINNED CARD STACK ─────────────────────────────────────────────── */}
-      <div
-        ref={stackRef}
-        className="relative px-3 sm:px-6 lg:px-16 max-w-5xl mx-auto"
-        style={{ overflow: "visible" }}
-      >
+      {/* ── NATURAL SEQUENTIAL CARDS (Smooth Entrance & Exit on Scroll Up/Down) ── */}
+      <div className="space-y-12 sm:space-y-16 max-w-5xl mx-auto px-3 sm:px-6">
         {featureProjects.map((feat, idx) => {
           const Icon = feat.icon;
           return (
             <div
               key={feat.id}
               ref={(el) => (cardRefs.current[idx] = el)}
-              style={{
-                position: idx === 0 ? "relative" : "absolute",
-                top: idx === 0 ? undefined : 0,
-                left: idx === 0 ? undefined : 0,
-                right: idx === 0 ? undefined : 0,
-                zIndex: idx + 1,
-                willChange: "transform, opacity",
-                transformOrigin: "top center",
-              }}
+              className="will-change-transform"
             >
               {/* Tab Header with Index Stamp */}
               <div className="flex items-center justify-between">
