@@ -37,7 +37,7 @@ describe("Vault Component", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Encrypted Password Vault")).toBeInTheDocument();
+    expect(screen.getByText("Password Vault")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Search credentials...")).toBeInTheDocument();
     expect(screen.getByText("Add New Vault Item")).toBeInTheDocument();
   });
