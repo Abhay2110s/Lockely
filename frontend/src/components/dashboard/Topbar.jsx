@@ -1,5 +1,5 @@
 import { useAppAuth } from "@/context/AuthContext";
-import { Menu, Search, Bell, LogOut, User } from "lucide-react";
+import { Menu, Bell, LogOut, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
 /**
@@ -21,13 +21,13 @@ export default function Topbar({ onMenuClick }) {
         </button>
 
         {/* Search Bar */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/80 text-slate-400 text-xs w-64 border border-slate-200/60 cursor-text">
+        {/* <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/80 text-slate-400 text-xs w-64 border border-slate-200/60 cursor-text">
           <Search className="size-3.5 text-slate-400 shrink-0" />
           <span className="text-slate-400">Search vault entries...</span>
           <kbd className="ml-auto text-[0.6rem] bg-white text-slate-400 px-1.5 py-0.5 rounded border border-slate-200 font-mono">
             ⌘K
           </kbd>
-        </div>
+        </div> */}
       </div>
 
       {/* Right: Status + Notifications + User */}

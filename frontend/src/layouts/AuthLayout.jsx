@@ -20,9 +20,6 @@ export default function AuthLayout() {
             <p className="font-heading-comic font-black text-2xl text-slate-950 tracking-tight leading-none">
               PassGuardian
             </p>
-            <span className="text-[0.68rem] font-heading-comic font-black text-slate-800 bg-white px-2 py-0.5 rounded border border-[#18181b] mt-1 inline-block">
-              COMIC EDITION 💥
-            </span>
           </div>
         </Link>
 

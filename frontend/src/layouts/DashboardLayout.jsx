@@ -72,9 +72,6 @@ export default function DashboardLayout() {
                   PassGuardian
                   <Sparkles className="size-3.5 text-amber-500 fill-amber-400" />
                 </span>
-                <span className="text-[0.68rem] font-bold tracking-wider text-slate-700 bg-white px-1.5 py-0.5 rounded-md border border-slate-900 w-fit">
-                  COMIC VAULT ⚡
-                </span>
               </div>
             </Link>
             <button
