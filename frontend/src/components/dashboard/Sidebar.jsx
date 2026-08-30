@@ -8,7 +8,6 @@ import {
   User,
   Settings,
   X,
-  Lock,
   CheckCircle2,
 } from "lucide-react";
 

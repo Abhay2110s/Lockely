@@ -6,50 +6,42 @@ import {
   Copy,
   RefreshCw,
   ShieldCheck,
-  Sparkles,
-  Zap,
   Eye,
   EyeOff,
   Lock,
-  Cpu,
 } from "lucide-react";
 import DecryptedText from "@/components/animations/DecryptedText";
 
+function generateHeroPassword(length) {
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()_+-=[]{}";
+  const pool = lower + upper + numbers + symbols;
+
+  let res = "";
+  const array = new Uint32Array(length);
+  window.crypto.getRandomValues(array);
+  for (let i = 0; i < length; i++) {
+    res += pool.charAt(array[i] % pool.length);
+  }
+  return res;
+}
+
 export default function Hero() {
   const [length, setLength] = useState(18);
-  const [useUpper, setUseUpper] = useState(true);
-  const [useNumbers, setUseNumbers] = useState(true);
-  const [useSymbols, setUseSymbols] = useState(true);
+  const [password, setPassword] = useState(() => generateHeroPassword(18));
   const [copied, setCopied] = useState(false);
-  const [seed, setSeed] = useState(0);
   const [showEncryptedMock, setShowEncryptedMock] = useState(false);
 
-  // Generate password dynamically
-  const password = useMemo(() => {
-    let lower = "abcdefghijklmnopqrstuvwxyz";
-    let upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let numbers = "0123456789";
-    let symbols = "!@#$%^&*()_+-=[]{}";
-
-    let pool = lower;
-    if (useUpper) pool += upper;
-    if (useNumbers) pool += numbers;
-    if (useSymbols) pool += symbols;
-
-    let res = "";
-    for (let i = 0; i < length; i++) {
-      res += pool.charAt(Math.floor(Math.random() * pool.length));
-    }
-    return res;
-  }, [length, useUpper, useNumbers, useSymbols, seed]);
-
   const entropyBits = useMemo(() => {
-    let poolSize = 26;
-    if (useUpper) poolSize += 26;
-    if (useNumbers) poolSize += 10;
-    if (useSymbols) poolSize += 18;
+    const poolSize = 80;
     return Math.round(length * Math.log2(poolSize));
-  }, [length, useUpper, useNumbers, useSymbols]);
+  }, [length]);
+
+  const regenerate = (len = length) => {
+    setPassword(generateHeroPassword(len));
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(password);
@@ -164,7 +156,7 @@ export default function Hero() {
                   />
                 </div>
                 <button
-                  onClick={() => setSeed((s) => s + 1)}
+                  onClick={() => regenerate()}
                   className="p-1.5 rounded-lg text-[#fda4b8] hover:text-white hover:bg-[#3c0b1a] transition-colors cursor-pointer"
                   title="Regenerate"
                 >
@@ -190,7 +182,11 @@ export default function Hero() {
                   min={8}
                   max={32}
                   value={length}
-                  onChange={(e) => setLength(Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    setLength(val);
+                    regenerate(val);
+                  }}
                   className="w-full accent-[#fb7193] cursor-pointer h-1.5 bg-[#120307] rounded-lg border border-[#581026]"
                 />
               </div>

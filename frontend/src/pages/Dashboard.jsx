@@ -12,9 +12,7 @@ import {
   Check,
   Star,
   Clock3,
-  ExternalLink,
   ShieldAlert,
-  Loader2,
 } from "lucide-react";
 import { getDashboardStats, getPasswords } from "@/services/password.service";
 import { decryptSecret } from "@/services/crypto.service";
@@ -41,7 +39,7 @@ const emptyStats = {
   },
 };
 
-function PasswordStrengthPie({ stats, loading }) {
+function PasswordStrengthPie({ stats }) {
   const breakdown = stats?.strengthBreakdown || {
     weak: 0,
     fair: 0,
@@ -112,17 +110,15 @@ function PasswordStrengthPie({ stats, loading }) {
 }
 
 export default function Dashboard() {
-  const { user, vaultKey, displayName } = useAppAuth();
+  const { vaultKey, displayName } = useAppAuth();
   const [stats, setStats] = useState(emptyStats);
   const [recentEntries, setRecentEntries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
   const { copied, copiedId, copy } = useClipboard(2000);
 
   const loadDashboard = useCallback(async ({ silent = false } = {}) => {
-    if (silent) setRefreshing(true);
-    else setLoading(true);
+    if (!silent) setLoading(true);
     setError("");
 
     try {
@@ -140,13 +136,39 @@ export default function Dashboard() {
       );
     } finally {
       setLoading(false);
-      setRefreshing(false);
     }
   }, []);
 
   useEffect(() => {
-    loadDashboard();
-  }, [loadDashboard]);
+    let ignore = false;
+    async function init() {
+      try {
+        const [statsResponse, entriesResponse] = await Promise.all([
+          getDashboardStats(),
+          getPasswords({ limit: 5, sortBy: "latest" }),
+        ]);
+        if (!ignore) {
+          setStats(statsResponse?.data || emptyStats);
+          setRecentEntries(entriesResponse?.data?.entries || []);
+        }
+      } catch (err) {
+        if (!ignore) {
+          setError(
+            err?.response?.data?.message ||
+              "Couldn't load your dashboard. Please make sure the backend is running."
+          );
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    }
+    init();
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   const statCards = useMemo(
     () => [

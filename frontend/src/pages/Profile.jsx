@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAppAuth } from "@/context/AuthContext";
 import * as userService from "@/services/user.service";
 import toast from "react-hot-toast";
-import { User, Mail, Shield, Key, Trash2, Download, Loader2, CheckCircle2, Sparkles } from "lucide-react";
+import { User, Mail, Shield, Key, Trash2, Download, Loader2, CheckCircle2 } from "lucide-react";
 
 export default function Profile() {
   const { user, logout, displayName, initials } = useAppAuth();

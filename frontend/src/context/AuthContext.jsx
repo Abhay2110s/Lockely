@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // AuthContext — manages auth state and vault key in memory.
 //
 // Security design:

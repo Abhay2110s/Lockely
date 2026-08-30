@@ -1,6 +1,24 @@
-import { useState, useEffect, useCallback } from "react";
-import { Wand2, Copy, Check, RefreshCw, Sparkles, Zap, Lock } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Wand2, Copy, Check, RefreshCw, Zap } from "lucide-react";
 import toast from "react-hot-toast";
+
+function generatePasswordString(length, useUppercase, useLowercase, useNumbers, useSymbols) {
+  let chars = "";
+  if (useLowercase) chars += "abcdefghijklmnopqrstuvwxyz";
+  if (useUppercase) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  if (useNumbers) chars += "0123456789";
+  if (useSymbols) chars += "!@#$%^&*()_+-=[]{}|;:,.<>?";
+
+  if (!chars) return "";
+
+  let pass = "";
+  const array = new Uint32Array(length);
+  window.crypto.getRandomValues(array);
+  for (let i = 0; i < length; i++) {
+    pass += chars[array[i] % chars.length];
+  }
+  return pass;
+}
 
 export default function PasswordGenerator() {
   const [length, setLength] = useState(16);
@@ -8,33 +26,34 @@ export default function PasswordGenerator() {
   const [useLowercase, setUseLowercase] = useState(true);
   const [useNumbers, setUseNumbers] = useState(true);
   const [useSymbols, setUseSymbols] = useState(true);
-  const [generatedPassword, setGeneratedPassword] = useState("");
+  const [generatedPassword, setGeneratedPassword] = useState(() =>
+    generatePasswordString(16, true, true, true, true)
+  );
   const [copied, setCopied] = useState(false);
 
-  const generate = useCallback(() => {
-    let chars = "";
-    if (useLowercase) chars += "abcdefghijklmnopqrstuvwxyz";
-    if (useUppercase) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    if (useNumbers) chars += "0123456789";
-    if (useSymbols) chars += "!@#$%^&*()_+-=[]{}|;:,.<>?";
+  const generate = useCallback(
+    (len = length, up = useUppercase, low = useLowercase, num = useNumbers, sym = useSymbols) => {
+      setGeneratedPassword(generatePasswordString(len, up, low, num, sym));
+    },
+    [length, useUppercase, useLowercase, useNumbers, useSymbols]
+  );
 
-    if (!chars) {
-      setGeneratedPassword("");
-      return;
-    }
+  const updateLength = (newLen) => {
+    setLength(newLen);
+    generate(newLen, useUppercase, useLowercase, useNumbers, useSymbols);
+  };
 
-    let pass = "";
-    const array = new Uint32Array(length);
-    window.crypto.getRandomValues(array);
-    for (let i = 0; i < length; i++) {
-      pass += chars[array[i] % chars.length];
-    }
-    setGeneratedPassword(pass);
-  }, [length, useUppercase, useLowercase, useNumbers, useSymbols]);
-
-  useEffect(() => {
-    generate();
-  }, [generate]);
+  const toggleOption = (key, val) => {
+    const nextUp = key === "up" ? val : useUppercase;
+    const nextLow = key === "low" ? val : useLowercase;
+    const nextNum = key === "num" ? val : useNumbers;
+    const nextSym = key === "sym" ? val : useSymbols;
+    if (key === "up") setUseUppercase(val);
+    if (key === "low") setUseLowercase(val);
+    if (key === "num") setUseNumbers(val);
+    if (key === "sym") setUseSymbols(val);
+    generate(length, nextUp, nextLow, nextNum, nextSym);
+  };
 
   const handleCopy = () => {
     if (!generatedPassword) return;
@@ -126,7 +145,7 @@ export default function PasswordGenerator() {
             min={6}
             max={48}
             value={length}
-            onChange={(e) => setLength(Number(e.target.value))}
+            onChange={(e) => updateLength(Number(e.target.value))}
             className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-[#f43f6e]"
           />
         </div>
@@ -134,10 +153,10 @@ export default function PasswordGenerator() {
         {/* Character Rules Checkboxes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           {[
-            { label: "Uppercase (A-Z)", state: useUppercase, set: setUseUppercase },
-            { label: "Lowercase (a-z)", state: useLowercase, set: setUseLowercase },
-            { label: "Numbers (0-9)", state: useNumbers, set: setUseNumbers },
-            { label: "Symbols (!@#$)", state: useSymbols, set: setUseSymbols },
+            { label: "Uppercase (A-Z)", state: useUppercase, key: "up" },
+            { label: "Lowercase (a-z)", state: useLowercase, key: "low" },
+            { label: "Numbers (0-9)", state: useNumbers, key: "num" },
+            { label: "Symbols (!@#$)", state: useSymbols, key: "sym" },
           ].map((opt, i) => (
             <label
               key={i}
@@ -150,7 +169,7 @@ export default function PasswordGenerator() {
               <input
                 type="checkbox"
                 checked={opt.state}
-                onChange={(e) => opt.set(e.target.checked)}
+                onChange={(e) => toggleOption(opt.key, e.target.checked)}
                 className="size-4 rounded accent-[#f43f6e] cursor-pointer"
               />
               {opt.label}

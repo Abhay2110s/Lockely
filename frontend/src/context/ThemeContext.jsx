@@ -1,4 +1,5 @@
-import { createContext, useContext } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext } from "react";
 import { useTheme as useNextTheme } from "next-themes";
 
 const ThemeContext = createContext(null);

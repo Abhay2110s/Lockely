@@ -1,4 +1,3 @@
-import React from "react";
 
 /**
  * EmptyState — reusable glassmorphic empty-state display with icon, title, description,

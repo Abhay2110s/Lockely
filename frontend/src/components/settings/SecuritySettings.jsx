@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import * as userService from "@/services/user.service";
 import toast from "react-hot-toast";
-import { Lock, Shield, Check, Loader2 } from "lucide-react";
+import { Lock, Check, Loader2 } from "lucide-react";
 
 export default function SecuritySettings() {
   const [autoLockMinutes, setAutoLockMinutes] = useState(15);

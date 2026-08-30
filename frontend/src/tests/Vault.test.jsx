@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import React from "react";
 import Vault from "../pages/Vault";
 import { AuthProvider } from "../context/AuthContext";
 import * as passwordService from "../services/password.service";
@@ -37,7 +36,9 @@ describe("Vault Component", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Password Vault")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Password Vault")).toBeInTheDocument();
+    });
     expect(screen.getByPlaceholderText("Search credentials...")).toBeInTheDocument();
     expect(screen.getByText("Add New Vault Item")).toBeInTheDocument();
   });

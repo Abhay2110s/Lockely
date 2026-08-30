@@ -1,5 +1,34 @@
 import { useState } from "react";
-import { Copy, Check, RefreshCw, Zap, Terminal, Sparkles, KeyRound } from "lucide-react";
+import { Copy, Check, RefreshCw, Terminal, Sparkles } from "lucide-react";
+
+function generateRandomPass(passLength = 20, includeUpper = true, includeNumbers = true, includeSymbols = true) {
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+
+  let pool = lower;
+  if (includeUpper) pool += upper;
+  if (includeNumbers) pool += numbers;
+  if (includeSymbols) pool += symbols;
+
+  if (!pool) return "";
+
+  let res = "";
+  const array = new Uint32Array(passLength);
+  window.crypto.getRandomValues(array);
+  for (let i = 0; i < passLength; i++) {
+    res += pool.charAt(array[i] % pool.length);
+  }
+  return res;
+}
+
+const samplePassphrases = [
+  "guardian-cipher-velvet-77",
+  "zero-knowledge-shield-2026",
+  "pbkdf2-gcm-encrypted-99",
+  "vault-fortress-blush-42",
+];
 
 export default function InteractiveDemo() {
   const [passLength, setPassLength] = useState(20);
@@ -8,38 +37,12 @@ export default function InteractiveDemo() {
   const [includeUpper, setIncludeUpper] = useState(true);
   const [copied, setCopied] = useState(false);
   const [mode, setMode] = useState("random");
-
-  const generateRandomPass = () => {
-    let lower = "abcdefghijklmnopqrstuvwxyz";
-    let upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let numbers = "0123456789";
-    let symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-
-    let pool = lower;
-    if (includeUpper) pool += upper;
-    if (includeNumbers) pool += numbers;
-    if (includeSymbols) pool += symbols;
-
-    let res = "";
-    for (let i = 0; i < passLength; i++) {
-      res += pool.charAt(Math.floor(Math.random() * pool.length));
-    }
-    return res;
-  };
-
-  const samplePassphrases = [
-    "guardian-cipher-velvet-77",
-    "zero-knowledge-shield-2026",
-    "pbkdf2-gcm-encrypted-99",
-    "vault-fortress-blush-42",
-  ];
-
-  const [currentPass, setCurrentPass] = useState(generateRandomPass());
+  const [currentPass, setCurrentPass] = useState(() => generateRandomPass(20, true, true, true));
   const [passphraseIdx, setPassphraseIdx] = useState(0);
 
-  const handleRegenerate = () => {
+  const handleRegenerate = (len = passLength, up = includeUpper, num = includeNumbers, sym = includeSymbols) => {
     if (mode === "random") {
-      setCurrentPass(generateRandomPass());
+      setCurrentPass(generateRandomPass(len, up, num, sym));
     } else {
       const nextIdx = (passphraseIdx + 1) % samplePassphrases.length;
       setPassphraseIdx(nextIdx);

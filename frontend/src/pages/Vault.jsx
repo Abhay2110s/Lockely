@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   KeyRound,
@@ -16,7 +16,6 @@ import {
   ShieldAlert,
   ShieldCheck,
   ExternalLink,
-  Zap,
   Sparkles,
 } from "lucide-react";
 import {
@@ -59,19 +58,11 @@ const DEFAULT_CATEGORIES = [
 
 export default function Vault() {
   const { vaultKey, isVaultUnlocked, unlockVault } = useAppAuth();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const urlSearch = searchParams.get("q") || searchParams.get("search") || "";
   const [search, setSearch] = useState(urlSearch);
   const debouncedSearch = useDebounce(search.trim(), 300);
   const [activeCategory, setActiveCategory] = useState("All");
-
-  // Keep state in sync if URL search params change
-  useEffect(() => {
-    const q = searchParams.get("q") || searchParams.get("search") || "";
-    if (q !== search) {
-      setSearch(q);
-    }
-  }, [searchParams]);
 
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -99,28 +90,36 @@ export default function Vault() {
   const [unlockError, setUnlockError] = useState("");
   const [unlocking, setUnlocking] = useState(false);
 
-  const fetchEntries = useCallback(async () => {
-    setIsLoading(true);
-    setError("");
-    try {
-      const params = { limit: 100, sortBy: "latest" };
-      if (debouncedSearch) params.search = debouncedSearch;
-      if (activeCategory !== "All") params.category = activeCategory;
-
-      const res = await getPasswords(params);
-      setEntries(res?.data?.entries || []);
-    } catch (err) {
-      setError(
-        err?.response?.data?.message || "Couldn't load your vault. Please try again."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, [debouncedSearch, activeCategory]);
-
   useEffect(() => {
-    fetchEntries();
-  }, [fetchEntries]);
+    let ignore = false;
+    async function load() {
+      setError("");
+      try {
+        const params = { limit: 100, sortBy: "latest" };
+        if (debouncedSearch) params.search = debouncedSearch;
+        if (activeCategory !== "All") params.category = activeCategory;
+
+        const res = await getPasswords(params);
+        if (!ignore) {
+          setEntries(res?.data?.entries || []);
+        }
+      } catch (err) {
+        if (!ignore) {
+          setError(
+            err?.response?.data?.message || "Couldn't load your vault. Please try again."
+          );
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoading(false);
+        }
+      }
+    }
+    load();
+    return () => {
+      ignore = true;
+    };
+  }, [debouncedSearch, activeCategory]);
 
   // Instant real-time filtering on loaded entries
   const displayEntries = useMemo(() => {

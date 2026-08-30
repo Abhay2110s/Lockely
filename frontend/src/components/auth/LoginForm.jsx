@@ -9,7 +9,6 @@ import {
   ArrowRight,
   Loader2,
   Sparkles,
-  Zap,
 } from "lucide-react";
 import { useAppAuth } from "@/context/AuthContext";
 import * as authService from "@/services/auth.service";

@@ -1,9 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, act, waitFor } from "@testing-library/react";
-import React from "react";
 import { AuthProvider, useAppAuth } from "../context/AuthContext";
 import api from "../services/api";
-import * as authService from "../services/auth.service";
 
 vi.mock("../services/api", () => ({
   default: {

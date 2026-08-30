@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppAuth } from "@/context/AuthContext";
 import * as authService from "@/services/auth.service";
 import toast from "react-hot-toast";
@@ -10,13 +10,12 @@ import {
   Loader2,
   X,
   AlertTriangle,
-  Sparkles,
 } from "lucide-react";
 import useClipboard from "@/hooks/useClipboard";
 
 export default function TwoFactorSettings() {
   const { user, updateUser } = useAppAuth();
-  const [isEnabled, setIsEnabled] = useState(Boolean(user?.twoFactorEnabled));
+  const isEnabled = Boolean(user?.twoFactorEnabled);
   const [setupData, setSetupData] = useState(null); // { otpAuthUrl, secret }
   const [confirmCode, setConfirmCode] = useState("");
   const [backupCodes, setBackupCodes] = useState(null);
@@ -29,10 +28,6 @@ export default function TwoFactorSettings() {
   const [error, setError] = useState("");
 
   const { copied, copy } = useClipboard(2000);
-
-  useEffect(() => {
-    setIsEnabled(Boolean(user?.twoFactorEnabled));
-  }, [user?.twoFactorEnabled]);
 
   const handleStartSetup = async () => {
     setError("");
@@ -57,7 +52,6 @@ export default function TwoFactorSettings() {
       const res = await authService.verifySetup2FA({ token: confirmCode.trim() });
       const codes = res.data?.backupCodes || [];
       setBackupCodes(codes);
-      setIsEnabled(true);
       updateUser({ twoFactorEnabled: true });
       toast.success("2FA enabled successfully! 🛡️");
     } catch (err) {
@@ -78,7 +72,6 @@ export default function TwoFactorSettings() {
         : { token: disableCode.trim() };
 
       await authService.disable2FA(payload);
-      setIsEnabled(false);
       updateUser({ twoFactorEnabled: false });
       setIsDisableModalOpen(false);
       setDisableCode("");

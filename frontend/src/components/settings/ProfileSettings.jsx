@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppAuth } from "@/context/AuthContext";
 import * as userService from "@/services/user.service";
 import toast from "react-hot-toast";
@@ -11,14 +11,14 @@ export default function ProfileSettings() {
   const [preferredLanguage, setPreferredLanguage] = useState(user?.preferredLanguage || "en");
   const [saving, setSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [prevUser, setPrevUser] = useState(user);
 
-  useEffect(() => {
-    if (user) {
-      setDisplayName(user.displayName || user.name || "");
-      setBio(user.bio || "");
-      setPreferredLanguage(user.preferredLanguage || "en");
-    }
-  }, [user]);
+  if (user && user !== prevUser) {
+    setPrevUser(user);
+    setDisplayName(user.displayName || user.name || "");
+    setBio(user.bio || "");
+    setPreferredLanguage(user.preferredLanguage || "en");
+  }
 
   const handleSave = async (e) => {
     e.preventDefault();

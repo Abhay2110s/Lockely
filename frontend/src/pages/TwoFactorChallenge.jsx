@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ShieldCheck, Loader2, KeyRound, Smartphone, Zap } from "lucide-react";
+import { ShieldCheck, Loader2, KeyRound, Smartphone } from "lucide-react";
 import { useAppAuth } from "@/context/AuthContext";
 import { verify2FA } from "@/services/auth.service";
 import toast from "react-hot-toast";
