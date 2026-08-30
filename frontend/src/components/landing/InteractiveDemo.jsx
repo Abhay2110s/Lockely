@@ -71,7 +71,7 @@ export default function InteractiveDemo() {
           </p>
         </div>
 
-        {/* Studio Glass Card */}
+        {/* Studio Solid Card */}
         <div className="relative p-5 sm:p-8 glass-panel rounded-2xl border border-pink-500/20 shadow-2xl space-y-6">
           {/* Mode Switcher */}
           <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-pink-500/15">
@@ -113,7 +113,7 @@ export default function InteractiveDemo() {
           </div>
 
           {/* Key Output Window */}
-          <div className="p-4 sm:p-5 rounded-xl bg-black/40 border border-pink-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="p-4 sm:p-5 rounded-xl bg-[#120307] border border-pink-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="w-full overflow-hidden text-center sm:text-left">
               <span className="text-[0.65rem] font-mono-code font-bold uppercase tracking-wider text-[#fda4b8]/70 block mb-1">
                 Generated Cipher Text
@@ -159,7 +159,7 @@ export default function InteractiveDemo() {
                     setPassLength(Number(e.target.value));
                     setTimeout(() => setCurrentPass(generateRandomPass()), 0);
                   }}
-                  className="w-full accent-[#f43f6e] cursor-pointer h-1.5 bg-black/40 rounded-lg"
+                  className="w-full accent-[#f43f6e] cursor-pointer h-1.5 bg-[#120307] rounded-lg"
                 />
               </div>
 
@@ -172,7 +172,7 @@ export default function InteractiveDemo() {
                   }}
                   className={`p-3 rounded-xl text-center text-xs font-semibold border transition-all cursor-pointer ${
                     includeUpper
-                      ? "bg-[#7a1534]/60 border-pink-400/50 text-white shadow-md"
+                      ? "bg-[#3c0b1a] border-pink-400/50 text-white shadow-md"
                       : "glass-card-subtle text-[#fda4b8]/50"
                   }`}
                 >
@@ -187,7 +187,7 @@ export default function InteractiveDemo() {
                   }}
                   className={`p-3 rounded-xl text-center text-xs font-semibold border transition-all cursor-pointer ${
                     includeNumbers
-                      ? "bg-[#7a1534]/60 border-pink-400/50 text-white shadow-md"
+                      ? "bg-[#3c0b1a] border-pink-400/50 text-white shadow-md"
                       : "glass-card-subtle text-[#fda4b8]/50"
                   }`}
                 >
@@ -202,7 +202,7 @@ export default function InteractiveDemo() {
                   }}
                   className={`p-3 rounded-xl text-center text-xs font-semibold border transition-all cursor-pointer ${
                     includeSymbols
-                      ? "bg-[#7a1534]/60 border-pink-400/50 text-white shadow-md"
+                      ? "bg-[#3c0b1a] border-pink-400/50 text-white shadow-md"
                       : "glass-card-subtle text-[#fda4b8]/50"
                   }`}
                 >

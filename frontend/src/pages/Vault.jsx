@@ -282,7 +282,7 @@ export default function Vault() {
   return (
     <div className="space-y-6">
       {/* Vault Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel rounded-3xl p-6 sm:p-8 border border-pink-500/25 shadow-2xl bg-gradient-to-br from-[#3c0b1a]/90 via-[#581026]/80 to-[#7a1534]/70">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel rounded-3xl p-6 sm:p-8 border border-pink-500/30 shadow-2xl bg-gradient-to-br from-[#280712] via-[#3c0b1a] to-[#581026]">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-badge-blush text-xs mb-3">
             <Sparkles className="size-3.5 text-[#f43f6e]" />
@@ -292,7 +292,7 @@ export default function Vault() {
             <KeyRound className="size-8 text-[#f43f6e]" />
             Password Vault
           </h1>
-          <p className="text-xs sm:text-sm text-[#ffe4e9]/80 mt-1 font-normal">
+          <p className="text-xs sm:text-sm text-[#ffe4e9]/90 mt-1 font-normal">
             Zero-knowledge client encrypted with AES-256-GCM. Decrypted purely in browser memory.
           </p>
         </div>
@@ -326,14 +326,14 @@ export default function Vault() {
 
       {/* Lock Notice Banner if Vault is locked */}
       {!isVaultUnlocked && (
-        <div className="p-4 sm:p-5 rounded-2xl glass-card border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#280712] border border-amber-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs shadow-xl">
           <div className="flex items-center gap-3">
             <div className="size-10 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center justify-center shrink-0">
               <Lock className="size-5" />
             </div>
             <div>
               <p className="font-bold text-white text-sm">Vault is currently locked</p>
-              <p className="text-[#fda4b8]/80 text-xs">
+              <p className="text-[#fda4b8] text-xs">
                 Unlock with your Master Password to reveal stored passwords and encrypt new credentials.
               </p>
             </div>
@@ -348,7 +348,7 @@ export default function Vault() {
       )}
 
       {/* Filter and Search Control Bar */}
-      <div className="glass-panel p-4 rounded-2xl border border-pink-500/20 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="glass-panel p-4 rounded-2xl border border-pink-500/25 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Category Pills */}
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 [scrollbar-width:none] [-webkit-overflow-scrolling:touch]">
           {categories.map((cat) => {
@@ -374,13 +374,13 @@ export default function Vault() {
 
         {/* Search input */}
         <div className="relative w-full md:w-72">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/70" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8] pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search credentials..."
-            className="glass-input pl-9 pr-8 py-2 text-xs text-white placeholder:text-[#fda4b8]/50"
+            className="glass-input pl-10 pr-10 py-2.5 text-xs text-white placeholder:text-[#fda4b8]/50 bg-[#120307]"
           />
           {search ? (
             <button
@@ -397,7 +397,7 @@ export default function Vault() {
       </div>
 
       {error && (
-        <div className="glass-card p-4 rounded-xl border-rose-500/40 text-rose-200 text-xs">
+        <div className="p-4 rounded-xl bg-rose-950 border border-rose-500/40 text-rose-200 text-xs">
           {error}
         </div>
       )}
@@ -413,10 +413,11 @@ export default function Vault() {
             return (
               <div
                 key={item.id}
-                className="glass-card p-5 rounded-2xl border border-pink-500/15 hover:border-pink-400/40 space-y-4 flex flex-col justify-between transition-all"
+                className="glass-card p-5 sm:p-6 space-y-4 border border-[#7a1534] hover:border-[#be2656] transition-all group"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3.5 min-w-0">
+                {/* Header Row */}
+                <div className="flex items-center justify-between gap-3 border-b border-[#581026] pb-3.5">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div className="size-11 rounded-xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] border border-white/20 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-lg shadow-[#be2656]/20">
                       {item.title?.[0]?.toUpperCase() || "?"}
                     </div>
@@ -424,7 +425,7 @@ export default function Vault() {
                       <h3 className="text-base font-bold text-white truncate">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-[#fda4b8]/70 font-mono-code truncate flex items-center gap-1">
+                      <p className="text-xs text-[#fda4b8]/80 font-mono-code truncate flex items-center gap-1">
                         {item.website || item.url ? (
                           <a
                             href={item.url?.startsWith("http") ? item.url : `https://${item.url || item.website}`}
@@ -432,7 +433,7 @@ export default function Vault() {
                             rel="noopener noreferrer"
                             className="hover:underline hover:text-white inline-flex items-center gap-0.5"
                           >
-                            {item.website || item.url} <ExternalLink className="size-2.5 inline" />
+                            {item.website || item.url} <ExternalLink className="size-2.5 inline shrink-0" />
                           </a>
                         ) : (
                           "—"
@@ -441,13 +442,13 @@ export default function Vault() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     <span className="glass-badge-blush text-[0.65rem]">
                       {item.category || "General"}
                     </span>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="p-1.5 rounded-lg text-[#fda4b8]/60 hover:text-rose-300 hover:bg-rose-950/40 transition-colors"
+                      className="p-1.5 rounded-lg text-[#fda4b8]/70 hover:text-rose-300 hover:bg-rose-950 transition-colors shrink-0"
                       title="Move to trash"
                     >
                       <Trash2 className="size-4" />
@@ -456,16 +457,16 @@ export default function Vault() {
                 </div>
 
                 {/* Username Field */}
-                <div className="p-2.5 rounded-xl bg-black/40 border border-pink-500/15 flex items-center justify-between gap-2 text-xs">
-                  <span className="text-[#fda4b8]/70 text-[0.7rem] uppercase font-mono-code font-bold">User:</span>
-                  <span className="font-mono-code font-medium text-[#fff5f7] truncate">{item.username || "—"}</span>
+                <div className="p-2.5 rounded-xl bg-[#130207] border border-[#7a1534] flex items-center justify-between gap-2.5 text-xs">
+                  <span className="text-[#fda4b8] text-[0.7rem] uppercase font-mono-code font-bold shrink-0">User:</span>
+                  <span className="font-mono-code font-medium text-[#fff5f7] truncate flex-1 min-w-0">{item.username || "—"}</span>
                   <button
                     onClick={() => {
                       copy(item.username, `${item.id}-user`);
                       toast.success("Username copied!");
                     }}
                     disabled={!item.username}
-                    className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white disabled:opacity-30 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg bg-[#240610] text-[#fda4b8] hover:text-white disabled:opacity-30 transition-colors cursor-pointer border border-[#7a1534] shrink-0"
                     title="Copy Username"
                   >
                     {copied && copiedId === `${item.id}-user` ? (
@@ -477,23 +478,23 @@ export default function Vault() {
                 </div>
 
                 {/* Password Field */}
-                <div className="p-2.5 rounded-xl bg-[#3c0b1a]/50 border border-pink-500/20 flex items-center justify-between gap-2 text-xs">
-                  <span className="text-[#fda4b8] text-[0.7rem] uppercase font-mono-code font-bold flex items-center gap-1">
-                    <Lock className="size-3.5 text-[#f43f6e]" /> Key:
+                <div className="p-2.5 rounded-xl bg-[#20050e] border border-[#7a1534] flex items-center justify-between gap-2.5 text-xs">
+                  <span className="text-[#fda4b8] text-[0.7rem] uppercase font-mono-code font-bold flex items-center gap-1.5 shrink-0">
+                    <Lock className="size-3.5 text-[#fb7193] shrink-0" /> Key:
                   </span>
-                  <span className="font-mono-code text-white font-semibold truncate tracking-wider">
+                  <span className="font-mono-code text-white font-semibold truncate tracking-wider flex-1 min-w-0">
                     {isPasswordVisible && displayPassword ? displayPassword : "••••••••••••••••"}
                   </span>
 
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 shrink-0">
                     <button
                       onClick={() => handleToggleVisible(item)}
                       disabled={isRevealing}
-                      className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white disabled:opacity-50 transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg bg-[#2b0813] text-[#fda4b8] hover:text-white disabled:opacity-50 transition-colors cursor-pointer border border-[#7a1534]"
                       title="Toggle Password Visibility"
                     >
                       {isRevealing ? (
-                        <Loader2 className="size-3.5 animate-spin text-[#f43f6e]" />
+                        <Loader2 className="size-3.5 animate-spin text-[#fb7193]" />
                       ) : isPasswordVisible ? (
                         <EyeOff className="size-3.5" />
                       ) : (
@@ -502,7 +503,7 @@ export default function Vault() {
                     </button>
                     <button
                       onClick={() => handleCopyPassword(item)}
-                      className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg bg-[#2b0813] text-[#fda4b8] hover:text-white transition-colors cursor-pointer border border-[#7a1534]"
                       title="Copy Password"
                     >
                       {copied && copiedId === `${item.id}-pass` ? (
@@ -518,8 +519,8 @@ export default function Vault() {
           })}
 
         {isLoading && (
-          <div className="col-span-full glass-panel p-12 rounded-3xl border border-pink-500/20 text-center space-y-3">
-            <div className="size-12 rounded-2xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center mx-auto shadow-lg shadow-pink-900/40 text-white">
+          <div className="col-span-full glass-panel p-12 rounded-3xl border border-pink-500/25 text-center space-y-3">
+            <div className="size-12 rounded-2xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center mx-auto shadow-lg text-white">
               <Loader2 className="size-6 animate-spin" />
             </div>
             <p className="text-lg font-bold text-white">Loading your vault…</p>
@@ -533,7 +534,7 @@ export default function Vault() {
             <h3 className="text-lg font-bold text-white">
               {search ? `No credentials found matching "${search}"` : "No vault entries found"}
             </h3>
-            <p className="text-xs text-[#fda4b8]/70">
+            <p className="text-xs text-[#fda4b8]/80">
               {search
                 ? "Try a different search query or check spelling."
                 : "Add your first secret credential using the button above."}
@@ -553,29 +554,29 @@ export default function Vault() {
 
       {/* Unlock Vault Modal */}
       {isUnlockModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#120307]/75 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-sm glass-panel rounded-3xl border border-pink-500/30 shadow-2xl p-6 sm:p-8 space-y-6">
+        <div className="fixed inset-0 z-50 bg-[#0c0205]/85 flex items-center justify-center p-4">
+          <div className="w-full max-w-sm bg-[#1a040b] rounded-3xl border border-pink-500/35 shadow-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] text-white flex items-center justify-center font-bold shadow-lg shadow-pink-900/40">
+                <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] text-white flex items-center justify-center font-bold shadow-lg">
                   <Unlock className="size-5" />
                 </div>
                 <h2 className="text-xl font-bold text-white">Unlock Vault</h2>
               </div>
               <button
                 onClick={() => setIsUnlockModalOpen(false)}
-                className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white"
+                className="p-1.5 rounded-lg bg-[#280712] text-[#fda4b8] hover:text-white border border-pink-500/20"
               >
                 <X className="size-4" />
               </button>
             </div>
 
-            <p className="text-xs text-[#fda4b8]/80 leading-relaxed">
+            <p className="text-xs text-[#fda4b8] leading-relaxed">
               Enter your Master Password to derive your AES encryption key. Never leaves your browser memory.
             </p>
 
             {unlockError && (
-              <div className="bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
+              <div className="bg-rose-950 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
                 {unlockError}
               </div>
             )}
@@ -592,7 +593,7 @@ export default function Vault() {
                   value={unlockPassword}
                   onChange={(e) => setUnlockPassword(e.target.value)}
                   placeholder="Enter your master password"
-                  className="glass-input text-xs"
+                  className="glass-input text-xs bg-[#120307]"
                 />
               </div>
 
@@ -620,8 +621,8 @@ export default function Vault() {
 
       {/* Add Item Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#120307]/75 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-md glass-panel rounded-3xl border border-pink-500/30 shadow-2xl p-6 sm:p-8 space-y-6">
+        <div className="fixed inset-0 z-50 bg-[#0c0205]/85 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#1a040b] rounded-3xl border border-pink-500/35 shadow-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="size-9 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center text-white">
@@ -631,14 +632,14 @@ export default function Vault() {
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white"
+                className="p-1.5 rounded-lg bg-[#280712] text-[#fda4b8] hover:text-white border border-pink-500/20"
               >
                 <X className="size-4" />
               </button>
             </div>
 
             {formError && (
-              <div className="bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
+              <div className="bg-rose-950 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
                 {formError}
               </div>
             )}
@@ -654,7 +655,7 @@ export default function Vault() {
                   value={newForm.title}
                   onChange={(e) => setNewForm({ ...newForm, title: e.target.value })}
                   placeholder="e.g. GitHub, Google, Netflix"
-                  className="glass-input text-xs"
+                  className="glass-input text-xs bg-[#120307]"
                 />
               </div>
 
@@ -667,7 +668,7 @@ export default function Vault() {
                   value={newForm.username}
                   onChange={(e) => setNewForm({ ...newForm, username: e.target.value })}
                   placeholder="user@example.com"
-                  className="glass-input text-xs"
+                  className="glass-input text-xs bg-[#120307]"
                 />
               </div>
 
@@ -681,7 +682,7 @@ export default function Vault() {
                   value={newForm.password}
                   onChange={(e) => setNewForm({ ...newForm, password: e.target.value })}
                   placeholder="Secret password"
-                  className="glass-input text-xs font-mono-code"
+                  className="glass-input text-xs font-mono-code bg-[#120307]"
                 />
               </div>
 
@@ -694,7 +695,7 @@ export default function Vault() {
                   value={newForm.url}
                   onChange={(e) => setNewForm({ ...newForm, url: e.target.value })}
                   placeholder="https://github.com"
-                  className="glass-input text-xs"
+                  className="glass-input text-xs bg-[#120307]"
                 />
               </div>
 
@@ -705,10 +706,10 @@ export default function Vault() {
                 <select
                   value={newForm.category}
                   onChange={(e) => setNewForm({ ...newForm, category: e.target.value })}
-                  className="glass-input text-xs bg-[#1f050d]"
+                  className="glass-input text-xs bg-[#120307] text-white"
                 >
                   {DEFAULT_CATEGORIES.map((c) => (
-                    <option key={c} value={c} className="bg-[#1f050d] text-white">{c}</option>
+                    <option key={c} value={c} className="bg-[#120307] text-white">{c}</option>
                   ))}
                 </select>
               </div>

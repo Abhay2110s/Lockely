@@ -71,22 +71,22 @@ export default function Hero() {
       {/* Hero Content Container */}
       <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center pt-2 text-center z-10">
         
-        {/* Status Pill Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-badge-blush mb-6 animate-in fade-in">
-          <span className="size-2 rounded-full bg-[#f43f6e] animate-pulse" />
-          <span className="text-xs font-semibold text-[#ffe4e9]">
+        {/* Status Pill Badge with Burgundy Border & Glowing Blush */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-badge-blush mb-6 animate-burgundy-border">
+          <span className="size-2 rounded-full bg-[#fb7193] animate-ping" />
+          <span className="text-xs font-bold text-[#ffe4e9]">
             Zero-Knowledge Hardware-Accelerated Vault
           </span>
         </div>
 
-        {/* Main Display Title with Gradient Highlight */}
+        {/* Main Display Title with Blush Pink Gradient Highlight */}
         <div className="space-y-4 max-w-3xl">
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
             Protecting secrets that <br />
             <span className="text-gradient-blush">never leave your browser.</span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-[#fda4b8]/80 leading-relaxed font-normal pt-2">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-[#fda4b8] leading-relaxed font-medium pt-2">
             Military-grade client-side encryption powered by WebCrypto AES-256-GCM. 
             Your master key never crosses the internet, keeping your credentials safe from data breaches.
           </p>
@@ -106,21 +106,21 @@ export default function Hero() {
             href="#interactive-demo"
             className="glass-btn-secondary py-3.5 px-6 text-sm"
           >
-            <ShieldCheck className="size-4 text-[#f43f6e]" />
+            <ShieldCheck className="size-4 text-[#fb7193]" />
             Live Sandbox
           </a>
         </div>
 
-        {/* Glassmorphic Interactive Sandbox Showcase Card */}
-        <div className="relative mt-12 sm:mt-16 w-full max-w-4xl glass-panel p-5 sm:p-8 rounded-2xl border border-pink-500/20 shadow-2xl text-left space-y-6">
+        {/* Solid Interactive Sandbox Showcase Card with Burgundy Borders */}
+        <div className="relative mt-12 sm:mt-16 w-full max-w-4xl glass-panel p-5 sm:p-8 rounded-2xl shadow-2xl text-left space-y-6">
           
           {/* Card Header Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-pink-500/15">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#581026]">
             <div className="flex items-center gap-2.5">
-              <span className="glass-badge-burgundy text-xs font-semibold">
+              <span className="glass-badge-burgundy text-xs font-bold">
                 KEY SYNTHESIS
               </span>
-              <span className="text-xs text-[#fda4b8]/80 font-mono-code">
+              <span className="text-xs text-[#fda4b8] font-mono-code font-semibold">
                 PBKDF2 (600,000 rounds) + AES-GCM
               </span>
             </div>
@@ -130,7 +130,7 @@ export default function Hero() {
                 onClick={() => setShowEncryptedMock(!showEncryptedMock)}
                 className="glass-btn-ghost text-xs py-1 px-2.5 flex items-center gap-1.5 cursor-pointer"
               >
-                {showEncryptedMock ? <EyeOff className="size-3 text-[#f43f6e]" /> : <Eye className="size-3 text-[#f43f6e]" />}
+                {showEncryptedMock ? <EyeOff className="size-3 text-[#fb7193]" /> : <Eye className="size-3 text-[#fb7193]" />}
                 {showEncryptedMock ? "Decrypted View" : "Cipher View"}
               </button>
               <span className="glass-badge-emerald text-xs">
@@ -142,10 +142,10 @@ export default function Hero() {
           {/* Grid Generator & Mock Cards */}
           <div className="grid lg:grid-cols-2 gap-6 items-stretch">
             {/* Left: Generator Sandbox */}
-            <div className="glass-card-subtle p-5 sm:p-6 space-y-4 border border-pink-500/15">
+            <div className="glass-card-subtle p-5 sm:p-6 space-y-4 border border-[#7a1534]">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#fff5f7] tracking-wider uppercase font-mono-code flex items-center gap-1.5">
-                  <Lock className="size-3.5 text-[#f43f6e]" /> Secret Key
+                <span className="text-xs font-bold text-[#ffe4e9] tracking-wider uppercase font-mono-code flex items-center gap-1.5">
+                  <Lock className="size-3.5 text-[#fb7193]" /> Secret Key
                 </span>
                 <span className="glass-badge-blush text-[0.65rem] font-mono-code font-bold">
                   {entropyBits} BITS ENTROPY
@@ -153,7 +153,7 @@ export default function Hero() {
               </div>
 
               {/* Password Display */}
-              <div className="flex items-center gap-2 glass-input p-2.5 overflow-hidden">
+              <div className="flex items-center gap-2 glass-input p-2.5 overflow-hidden bg-[#120307]">
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <DecryptedText
                     key={password}
@@ -165,7 +165,7 @@ export default function Hero() {
                 </div>
                 <button
                   onClick={() => setSeed((s) => s + 1)}
-                  className="p-1.5 rounded-lg text-[#fda4b8] hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-[#fda4b8] hover:text-white hover:bg-[#3c0b1a] transition-colors cursor-pointer"
                   title="Regenerate"
                 >
                   <RefreshCw className="size-4" />
@@ -191,7 +191,7 @@ export default function Hero() {
                   max={32}
                   value={length}
                   onChange={(e) => setLength(Number(e.target.value))}
-                  className="w-full accent-[#f43f6e] cursor-pointer h-1.5 bg-black/40 rounded-lg"
+                  className="w-full accent-[#fb7193] cursor-pointer h-1.5 bg-[#120307] rounded-lg border border-[#581026]"
                 />
               </div>
             </div>
@@ -201,15 +201,15 @@ export default function Hero() {
               {mockVaultItems.map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-3.5 rounded-xl glass-card-interactive border border-pink-500/15 space-y-1.5"
+                  className="p-3.5 rounded-xl bg-[#20050e] border border-[#7a1534] hover:border-[#be2656] transition-all space-y-1.5 shadow-md hover:shadow-[0_0_20px_rgba(159,28,68,0.5)]"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-white">{item.name}</span>
+                    <span className="text-sm font-bold text-white">{item.name}</span>
                     <span className="glass-badge-blush text-[0.62rem]">
                       {item.category}
                     </span>
                   </div>
-                  <div className="p-2 rounded-lg bg-black/40 border border-pink-500/10 text-xs font-mono-code text-[#fda4b8] truncate">
+                  <div className="p-2 rounded-lg bg-[#120307] border border-[#581026] text-xs font-mono-code text-[#fda4b8] truncate">
                     {showEncryptedMock
                       ? `{"iv":"e4b1...","cipher":"k8z0...","tag":"9f3a..."}`
                       : `${item.username} ••••••••••••`}

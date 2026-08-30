@@ -66,7 +66,7 @@ export default function Security() {
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold font-mono-code text-[#fda4b8] px-2.5 py-1 rounded-lg bg-black/40 border border-pink-500/20">
+                    <span className="text-xs font-bold font-mono-code text-[#fda4b8] px-2.5 py-1 rounded-lg bg-[#120307] border border-pink-500/20">
                       STEP {step.no}
                     </span>
                     <span className="glass-badge-blush text-[0.62rem]">

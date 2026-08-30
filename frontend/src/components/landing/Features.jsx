@@ -16,7 +16,7 @@ const featureProjects = [
     caption: "Galois Authenticated Integrity",
     illustrationText: "ENCRYPTED_BLOB",
     metaTitle: "100% Isolated Keys",
-    gradient: "from-[#3c0b1a] via-[#581026] to-[#7a1534]",
+    gradient: "from-[#280712] via-[#3c0b1a] to-[#581026]",
   },
   {
     id: "02",
@@ -28,7 +28,7 @@ const featureProjects = [
     caption: "Cryptographic Entropy Engine",
     illustrationText: "CSPRNG_ACTIVE",
     metaTitle: "128+ Bits Entropy",
-    gradient: "from-[#581026] via-[#7a1534] to-[#9f1c44]",
+    gradient: "from-[#350917] via-[#4c0e21] to-[#7a1534]",
   },
   {
     id: "03",
@@ -40,7 +40,7 @@ const featureProjects = [
     caption: "Zero-Exposure Hash Watcher",
     illustrationText: "BREACH_SHIELD",
     metaTitle: "Instant Alerting",
-    gradient: "from-[#7a1534] via-[#9f1c44] to-[#be2656]",
+    gradient: "from-[#460c1f] via-[#65122c] to-[#9f1c44]",
   },
   {
     id: "04",
@@ -52,7 +52,7 @@ const featureProjects = [
     caption: "Two-Factor Authentication",
     illustrationText: "TOTP_AUTHENTICATED",
     metaTitle: "Ironclad Protection",
-    gradient: "from-[#9f1c44] via-[#be2656] to-[#f43f6e]",
+    gradient: "from-[#581026] via-[#7a1534] to-[#be2656]",
   },
 ];
 
@@ -83,8 +83,8 @@ export default function Features() {
           card,
           {
             yPercent: 110,
-            opacity: 0.8,
-            scale: 0.96,
+            opacity: 1,
+            scale: 0.98,
           },
           {
             yPercent: 0,
@@ -101,9 +101,8 @@ export default function Features() {
           tl.to(
             cards[prev],
             {
-              scale: 1 - depth * 0.04,
+              scale: 1 - depth * 0.03,
               yPercent: -(depth * 2),
-              opacity: 1 - depth * 0.15,
               duration: stepDuration,
               ease: "power2.out",
             },
@@ -158,27 +157,28 @@ export default function Features() {
             <div
               key={feat.id}
               ref={(el) => (cardRefs.current[idx] = el)}
+              className="bg-[#1a040b]"
               style={{
                 position: idx === 0 ? "relative" : "absolute",
                 top: idx === 0 ? undefined : 0,
                 left: idx === 0 ? undefined : 0,
                 right: idx === 0 ? undefined : 0,
                 zIndex: idx + 1,
-                willChange: "transform, opacity",
+                willChange: "transform",
                 transformOrigin: "top center",
               }}
             >
               {/* Tab Header */}
               <div className="flex">
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-t-xl glass-badge-burgundy text-xs font-bold font-mono-code border-b-0">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-t-xl bg-[#240610] text-[#fda4b8] text-xs font-bold font-mono-code border border-b-0 border-pink-500/30">
                   <Icon className="size-3.5 text-[#f43f6e]" />
                   Feature {feat.id}
                 </span>
               </div>
 
-              {/* Card Body */}
+              {/* Card Body — 100% Solid background */}
               <div
-                className={`grid grid-cols-1 gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:gap-8 rounded-2xl rounded-tl-none glass-panel border border-pink-500/25 shadow-2xl bg-gradient-to-br ${feat.gradient}`}
+                className={`grid grid-cols-1 gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:gap-8 rounded-2xl rounded-tl-none border border-pink-500/30 shadow-2xl bg-gradient-to-br ${feat.gradient}`}
               >
                 {/* Left: Text */}
                 <div className="flex flex-col justify-between space-y-5">
@@ -190,7 +190,7 @@ export default function Features() {
                     <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                       {feat.title}
                     </h3>
-                    <p className="mt-3 text-sm sm:text-base leading-relaxed text-[#ffe4e9]/90 font-normal">
+                    <p className="mt-3 text-sm sm:text-base leading-relaxed text-[#ffe4e9]/95 font-normal">
                       {feat.desc}
                     </p>
                   </div>
@@ -199,7 +199,7 @@ export default function Features() {
                     {feat.tags.map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className="px-2.5 py-1 rounded-lg text-xs font-medium bg-black/40 text-[#fda4b8] border border-pink-500/20 font-mono-code"
+                        className="px-2.5 py-1 rounded-lg text-xs font-medium bg-[#140207] text-[#fda4b8] border border-pink-500/25 font-mono-code"
                       >
                         {tag}
                       </span>
@@ -207,19 +207,19 @@ export default function Features() {
                   </div>
                 </div>
 
-                {/* Right: Glass Widget Showcase */}
+                {/* Right: Solid Widget Showcase */}
                 <div className="self-center w-full max-w-sm mx-auto">
-                  <div className="p-6 rounded-2xl glass-card-subtle border border-pink-500/30 text-center space-y-3 shadow-xl bg-black/30 backdrop-blur-md">
-                    <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#7a1534]/80 text-[#fda4b8] border border-pink-500/30 font-mono-code">
+                  <div className="p-6 rounded-2xl bg-[#130207] border border-pink-500/30 text-center space-y-3 shadow-xl">
+                    <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#3c0b1a] text-[#fda4b8] border border-pink-500/30 font-mono-code">
                       {feat.illustrationText}
                     </span>
                     <p className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                       {feat.metaTitle}
                     </p>
-                    <p className="text-xs text-[#fda4b8]/75 font-mono-code">
+                    <p className="text-xs text-[#fda4b8]/80 font-mono-code">
                       100% CLIENT-SIDE ENCRYPTION
                     </p>
-                    <div className="pt-2 border-t border-pink-500/15 text-xs text-[#ffe4e9] font-medium">
+                    <div className="pt-2 border-t border-pink-500/20 text-xs text-[#ffe4e9] font-medium">
                       {feat.caption}
                     </div>
                   </div>

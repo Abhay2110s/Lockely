@@ -1,8 +1,6 @@
-/* animations.css — reusable keyframe animations for micro-interactions.
-   Import into index.css and reference classes in components.             */
+/* animations.css — keyframe animations for micro-interactions and burgundy glow effects. */
 
 /* ─── Fade In ─────────────────────────────────────────────────────── */
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -13,7 +11,6 @@
 }
 
 /* ─── Slide Up ────────────────────────────────────────────────────── */
-
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -24,7 +21,6 @@
 }
 
 /* ─── Slide Down ──────────────────────────────────────────────────── */
-
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -35,7 +31,6 @@
 }
 
 /* ─── Scale In ────────────────────────────────────────────────────── */
-
 @keyframes scaleIn {
   from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
@@ -45,27 +40,60 @@
   animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* ─── Shimmer (Skeleton Loader) ───────────────────────────────────── */
+/* ─── Burgundy Border Pulse Animation ─────────────────────────────── */
+@keyframes burgundyBorderPulse {
+  0%, 100% {
+    border-color: #7a1534;
+    box-shadow: 0 0 15px -2px rgba(122, 21, 52, 0.5), inset 0 0 10px rgba(122, 21, 52, 0.2);
+  }
+  50% {
+    border-color: #be2656;
+    box-shadow: 0 0 30px 2px rgba(159, 28, 68, 0.8), inset 0 0 18px rgba(159, 28, 68, 0.35);
+  }
+}
 
-@keyframes shimmer {
+.animate-burgundy-border {
+  animation: burgundyBorderPulse 3s ease-in-out infinite;
+}
+
+/* ─── Burgundy Aurora Glow Animation ──────────────────────────────── */
+@keyframes burgundyGlowSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-burgundy-sweep {
+  background-size: 200% 200%;
+  animation: burgundyGlowSweep 6s ease infinite;
+}
+
+/* ─── Burgundy Shimmer (Skeleton Loader & Sheen) ──────────────────── */
+@keyframes burgundyShimmer {
   0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
 
-.animate-shimmer {
+.animate-burgundy-shimmer {
   background: linear-gradient(
     90deg,
-    #f1f5f9 0%,
-    #e2e8f0 50%,
-    #f1f5f9 100%
+    #1f050d 0%,
+    #581026 30%,
+    #7a1534 50%,
+    #581026 70%,
+    #1f050d 100%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
+  animation: burgundyShimmer 2.2s ease-in-out infinite;
 }
 
 /* ─── Staggered Children ──────────────────────────────────────────── */
-/* Apply to a parent; first 6 direct children get a staggered delay.  */
-
 .animate-stagger > *:nth-child(1) { animation-delay: 0ms; }
 .animate-stagger > *:nth-child(2) { animation-delay: 60ms; }
 .animate-stagger > *:nth-child(3) { animation-delay: 120ms; }

@@ -1,5 +1,6 @@
 /* ==========================================================================
-   PassGuardian — Glassmorphic Design System (Burgundy & Blush Pink)
+   PassGuardian — Blush Pink & Burgundy Design System
+   Emphasis: Rich Blush Pink Presence, Deep Burgundy Borders & Animated Glows
    ========================================================================== */
 
 :root {
@@ -13,7 +14,7 @@
   --burgundy-500: #9f1c44;
   --burgundy-400: #be2656;
 
-  /* Blush Pink Palette */
+  /* Blush Pink Palette (Prominent) */
   --blush-50: #fff5f7;
   --blush-100: #ffe4e9;
   --blush-200: #fecdd6;
@@ -22,28 +23,33 @@
   --blush-500: #f43f6e;
   --blush-600: #e11d53;
 
-  /* Glassmorphic Alpha Tokens */
-  --glass-bg-primary: rgba(31, 5, 13, 0.65);
-  --glass-bg-card: rgba(43, 8, 19, 0.55);
-  --glass-bg-card-hover: rgba(60, 11, 26, 0.7);
-  --glass-bg-subtle: rgba(255, 255, 255, 0.04);
-  --glass-bg-active: rgba(251, 113, 147, 0.15);
+  /* Solid Surface Tokens */
+  --glass-bg-primary: #1a040b;
+  --glass-bg-card: #20050e;
+  --glass-bg-card-hover: #2b0813;
+  --glass-bg-subtle: #160309;
+  --glass-bg-active: #3c0b1a;
 
-  --glass-border: rgba(253, 164, 184, 0.18);
-  --glass-border-hover: rgba(253, 164, 184, 0.35);
-  --glass-border-highlight: rgba(255, 255, 255, 0.25);
-  --glass-border-glow: rgba(244, 63, 110, 0.4);
+  /* Burgundy Borders */
+  --glass-border: #7a1534;
+  --glass-border-subtle: #581026;
+  --glass-border-hover: #be2656;
+  --glass-border-active: #f43f6e;
+  --glass-border-glow: rgba(159, 28, 68, 0.7);
 
-  --glass-shadow: 0 8px 32px 0 rgba(18, 3, 7, 0.45);
-  --glass-shadow-lg: 0 16px 48px 0 rgba(18, 3, 7, 0.6);
-  --glass-shadow-pink: 0 0 30px -5px rgba(251, 113, 147, 0.25);
-  --glass-shadow-burgundy: 0 0 35px -5px rgba(122, 21, 52, 0.5);
+  /* Shadows */
+  --glass-shadow: 0 10px 32px 0 rgba(10, 2, 5, 0.85);
+  --glass-shadow-lg: 0 18px 50px 0 rgba(10, 2, 5, 0.95);
+  --glass-shadow-pink: 0 0 30px -5px rgba(251, 113, 147, 0.35);
+  --glass-shadow-burgundy: 0 0 35px 0px rgba(122, 21, 52, 0.7);
 
-  /* Typography / Text colors */
-  --text-primary: #fff5f7;
-  --text-secondary: #fda4b8;
-  --text-muted: #d99aa7;
-  --text-dim: #9b6b77;
+  /* Typography / Text colors - Primed in Blush Pink */
+  --text-primary: #ffffff;
+  --text-blush: #ffe4e9;
+  --text-blush-vibrant: #fda4b8;
+  --text-blush-deep: #fb7193;
+  --text-muted: #e5a4b2;
+  --text-dim: #b87585;
 
   /* Global Body */
   color-scheme: dark;
@@ -52,30 +58,33 @@
 body {
   font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--burgundy-950);
-  color: var(--text-primary);
+  color: var(--text-blush);
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  selection-background-color: var(--blush-400);
-  selection-color: var(--burgundy-950);
 }
 
 ::selection {
-  background: rgba(251, 113, 147, 0.35);
-  color: #ffffff;
+  background: #fb7193;
+  color: #120307;
+}
+
+/* Global SVG Safety - Never allow icons to collapse into adjacent text */
+svg {
+  flex-shrink: 0;
 }
 
 /* --------------------------------------------------------------------------
-   Ambient Glass Background & Radial Meshes
+   Ambient Background & Radial Meshes
    -------------------------------------------------------------------------- */
 .app-bg, .landing-bg {
   background-color: #120307;
   background-image: 
-    radial-gradient(at 15% 15%, rgba(122, 21, 52, 0.4) 0px, transparent 55%),
-    radial-gradient(at 85% 20%, rgba(244, 63, 110, 0.18) 0px, transparent 50%),
-    radial-gradient(at 50% 60%, rgba(60, 11, 26, 0.45) 0px, transparent 65%),
-    radial-gradient(at 80% 85%, rgba(159, 28, 68, 0.3) 0px, transparent 55%),
-    radial-gradient(at 20% 90%, rgba(251, 113, 147, 0.15) 0px, transparent 50%);
+    radial-gradient(at 15% 15%, rgba(122, 21, 52, 0.45) 0px, transparent 55%),
+    radial-gradient(at 85% 20%, rgba(251, 113, 147, 0.25) 0px, transparent 50%),
+    radial-gradient(at 50% 60%, rgba(159, 28, 68, 0.35) 0px, transparent 65%),
+    radial-gradient(at 80% 85%, rgba(244, 63, 110, 0.2) 0px, transparent 55%),
+    radial-gradient(at 20% 90%, rgba(254, 205, 214, 0.18) 0px, transparent 50%);
   background-attachment: fixed;
 }
 
@@ -83,106 +92,119 @@ body {
 .aurora-orb-burgundy {
   position: absolute;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(122, 21, 52, 0.45) 0%, rgba(60, 11, 26, 0) 70%);
+  background: radial-gradient(circle, rgba(159, 28, 68, 0.5) 0%, rgba(60, 11, 26, 0) 70%);
   filter: blur(60px);
   pointer-events: none;
+  animation: floatOrbBurgundy 8s ease-in-out infinite alternate;
 }
 
 .aurora-orb-blush {
   position: absolute;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(251, 113, 147, 0.28) 0%, rgba(244, 63, 110, 0) 70%);
+  background: radial-gradient(circle, rgba(251, 113, 147, 0.38) 0%, rgba(244, 63, 110, 0) 70%);
   filter: blur(50px);
   pointer-events: none;
+  animation: floatOrbBlush 10s ease-in-out infinite alternate;
+}
+
+@keyframes floatOrbBurgundy {
+  0% { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-30px) scale(1.1); }
+}
+
+@keyframes floatOrbBlush {
+  0% { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(30px) scale(1.08); }
 }
 
 /* --------------------------------------------------------------------------
-   Glassmorphic Surface Containers
+   Solid Surface Containers with Burgundy Borders & Blush Highlights
    -------------------------------------------------------------------------- */
 .glass-panel {
-  background: rgba(31, 5, 13, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(253, 164, 184, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(18, 3, 7, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background-color: #1a040b;
+  background-image: linear-gradient(145deg, #250712 0%, #150308 100%);
+  border: 1.5px solid #7a1534;
+  box-shadow: 0 10px 35px 0 rgba(8, 1, 4, 0.9), inset 0 1px 0 rgba(253, 164, 184, 0.3), 0 0 20px -5px rgba(122, 21, 52, 0.4);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: #9f1c44;
+  box-shadow: 0 12px 40px 0 rgba(8, 1, 4, 0.95), inset 0 1px 0 rgba(253, 164, 184, 0.4), 0 0 25px 0px rgba(159, 28, 68, 0.5);
 }
 
 .glass-card {
-  background: rgba(43, 8, 19, 0.58);
-  backdrop-filter: blur(16px) saturate(170%);
-  -webkit-backdrop-filter: blur(16px) saturate(170%);
-  border: 1px solid rgba(253, 164, 184, 0.14);
-  box-shadow: 0 8px 24px -4px rgba(18, 3, 7, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  background-color: #20050e;
+  background-image: linear-gradient(145deg, #2a0713 0%, #1a040b 100%);
+  border: 1.5px solid #7a1534;
+  box-shadow: 0 10px 28px -4px rgba(8, 1, 4, 0.85), inset 0 1px 1px rgba(253, 164, 184, 0.25), 0 0 15px -4px rgba(122, 21, 52, 0.4);
   border-radius: 1rem;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  background: rgba(60, 11, 26, 0.7);
-  border-color: rgba(253, 164, 184, 0.3);
-  box-shadow: 0 12px 36px -4px rgba(18, 3, 7, 0.65), 0 0 25px -4px rgba(251, 113, 147, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  transform: translateY(-2px);
+  background-color: #280712;
+  background-image: linear-gradient(145deg, #350a18 0%, #20050e 100%);
+  border-color: #be2656;
+  box-shadow: 0 14px 40px -4px rgba(8, 1, 4, 0.95), 0 0 30px 2px rgba(159, 28, 68, 0.7), inset 0 1px 1px rgba(253, 164, 184, 0.4);
+  transform: translateY(-2.5px);
 }
 
 .glass-card-subtle {
-  background: rgba(31, 5, 13, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(253, 164, 184, 0.1);
+  background-color: #160309;
+  border: 1px solid #581026;
   border-radius: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card-subtle:hover {
+  border-color: #7a1534;
+  box-shadow: 0 0 15px rgba(122, 21, 52, 0.35);
 }
 
 .glass-card-interactive {
-  background: rgba(43, 8, 19, 0.5);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(253, 164, 184, 0.12);
+  background-color: #20050e;
+  border: 1.5px solid #7a1534;
   border-radius: 1rem;
   transition: all 0.2s ease;
 }
 
 .glass-card-interactive:hover {
-  background: rgba(74, 14, 32, 0.65);
-  border-color: rgba(253, 164, 184, 0.35);
-  box-shadow: 0 8px 30px -4px rgba(18, 3, 7, 0.5), 0 0 20px rgba(251, 113, 147, 0.2);
+  background-color: #2d0814;
+  border-color: #be2656;
+  box-shadow: 0 10px 32px -4px rgba(8, 1, 4, 0.85), 0 0 25px rgba(159, 28, 68, 0.65);
+  transform: translateY(-1.5px);
 }
 
 /* --------------------------------------------------------------------------
-   Glass Buttons & Interactive Elements
+   Buttons & Interactive Elements (Blush Pink Focus + Burgundy Border)
    -------------------------------------------------------------------------- */
 .glass-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #7a1534 0%, #be2656 50%, #f43f6e 100%);
+  background: linear-gradient(135deg, #fb7193 0%, #f43f6e 45%, #be2656 100%);
   color: #ffffff;
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.65rem 1.35rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 20px -2px rgba(244, 63, 110, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 700;
+  border-radius: 0.875rem;
+  border: 1.5px solid #7a1534;
+  box-shadow: 0 6px 24px -4px rgba(244, 63, 110, 0.5), 0 0 15px rgba(122, 21, 52, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   cursor: pointer;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 2px rgba(18, 3, 7, 0.4);
 }
 
-.glass-btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #8b183b 0%, #d42b61 50%, #fb7193 100%);
-  box-shadow: 0 6px 28px 0 rgba(244, 63, 110, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  transform: translateY(-1.5px) scale(1.01);
+.glass-btn-primary:hover {
+  background: linear-gradient(135deg, #fda4b8 0%, #fb7193 45%, #d82963 100%);
+  border-color: #be2656;
+  box-shadow: 0 8px 32px -4px rgba(244, 63, 110, 0.7), 0 0 25px rgba(159, 28, 68, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
 }
 
-.glass-btn-primary:active:not(:disabled) {
-  transform: translateY(0) scale(0.99);
-  box-shadow: 0 2px 10px rgba(244, 63, 110, 0.3);
-}
-
-.glass-btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: grayscale(40%);
+.glass-btn-primary:active {
+  transform: translateY(0.5px);
+  box-shadow: 0 4px 14px -2px rgba(244, 63, 110, 0.4);
 }
 
 .glass-btn-secondary {
@@ -190,26 +212,24 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: rgba(60, 11, 26, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: #2b0813;
+  background-image: linear-gradient(135deg, #2b0813 0%, #3c0b1a 100%);
   color: #ffe4e9;
   font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.65rem 1.35rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(253, 164, 184, 0.25);
-  box-shadow: 0 4px 16px rgba(18, 3, 7, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: all 0.2s ease;
+  border-radius: 0.875rem;
+  border: 1.5px solid #7a1534;
+  box-shadow: 0 4px 16px 0 rgba(10, 2, 5, 0.7), 0 0 12px rgba(122, 21, 52, 0.35);
   cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-btn-secondary:hover:not(:disabled) {
-  background: rgba(90, 16, 38, 0.7);
-  border-color: rgba(253, 164, 184, 0.5);
+.glass-btn-secondary:hover {
+  background-color: #3c0b1a;
+  background-image: linear-gradient(135deg, #3c0b1a 0%, #581026 100%);
+  border-color: #be2656;
   color: #ffffff;
-  box-shadow: 0 6px 24px rgba(18, 3, 7, 0.45), 0 0 18px rgba(251, 113, 147, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 24px 0 rgba(10, 2, 5, 0.85), 0 0 20px rgba(159, 28, 68, 0.6);
+  transform: translateY(-1.5px);
 }
 
 .glass-btn-ghost {
@@ -217,165 +237,197 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: transparent;
+  background-color: #1a040b;
   color: #fda4b8;
-  font-weight: 500;
-  font-size: 0.875rem;
-  padding: 0.55rem 1rem;
-  border-radius: 0.65rem;
-  border: 1px solid transparent;
-  transition: all 0.18s ease;
+  border-radius: 0.75rem;
+  border: 1.5px solid #581026;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.glass-btn-ghost:hover:not(:disabled) {
-  background: rgba(251, 113, 147, 0.12);
+.glass-btn-ghost:hover {
+  background-color: #2b0813;
   color: #ffffff;
-  border-color: rgba(253, 164, 184, 0.2);
+  border-color: #9f1c44;
+  box-shadow: 0 0 15px rgba(122, 21, 52, 0.5);
 }
 
 /* --------------------------------------------------------------------------
-   Glass Form Inputs
+   Inputs & Form Elements (With Protected Icon Spacing)
    -------------------------------------------------------------------------- */
 .glass-input {
   width: 100%;
-  background: rgba(22, 4, 9, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(253, 164, 184, 0.2);
-  color: #fff5f7;
-  border-radius: 0.75rem;
-  padding: 0.65rem 1rem;
+  background-color: #120307;
+  border: 1.5px solid #7a1534;
+  border-radius: 0.875rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: #ffe4e9;
   font-size: 0.875rem;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
   transition: all 0.2s ease;
 }
 
 .glass-input::placeholder {
-  color: rgba(217, 154, 167, 0.55);
+  color: rgba(253, 164, 184, 0.55);
 }
 
 .glass-input:focus {
   outline: none;
-  background: rgba(31, 5, 13, 0.85);
+  background-color: #160409;
   border-color: #fb7193;
-  box-shadow: 0 0 0 3px rgba(244, 63, 110, 0.25), 0 0 20px rgba(251, 113, 147, 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 3px rgba(244, 63, 110, 0.3), 0 0 20px rgba(159, 28, 68, 0.5), inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Automatic Icon Padding Overrides — Guaranteed zero text/icon overlap */
+.relative:has(> svg:first-child) > .glass-input,
+.relative:has(> svg.absolute) > .glass-input,
+.relative:has(> .absolute.left-3) > .glass-input,
+.relative:has(> .absolute.left-3\.5) > .glass-input,
+.relative:has(> .absolute.left-4) > .glass-input,
+.glass-input.pl-9,
+.glass-input.pl-10,
+.glass-input.pl-11,
+.glass-input.pl-12,
+.glass-input[class*="pl-"] {
+  padding-left: 2.75rem !important;
+}
+
+.relative:has(> button.absolute) > .glass-input,
+.relative:has(> svg.absolute.right-3) > .glass-input,
+.relative:has(> .absolute.right-2) > .glass-input,
+.relative:has(> .absolute.right-2\.5) > .glass-input,
+.relative:has(> .absolute.right-3) > .glass-input,
+.relative:has(> .absolute.right-3\.5) > .glass-input,
+.relative:has(> .absolute.right-4) > .glass-input,
+.glass-input.pr-8,
+.glass-input.pr-9,
+.glass-input.pr-10,
+.glass-input.pr-11,
+.glass-input.pr-12,
+.glass-input[class*="pr-"] {
+  padding-right: 2.75rem !important;
+}
+
+.relative:has(> svg.absolute):has(> button.absolute) > .glass-input,
+.relative:has(> .absolute.left-3):has(> .absolute.right-3) > .glass-input,
+.relative:has(> .absolute.left-3\.5):has(> .absolute.right-3\.5) > .glass-input,
+.glass-input[class*="pl-"][class*="pr-"] {
+  padding-left: 2.75rem !important;
+  padding-right: 2.75rem !important;
 }
 
 /* --------------------------------------------------------------------------
-   Glass Badges, Pills & Medallions
+   Badges & Status Chips (Luminous Blush Pink + Burgundy Edge)
    -------------------------------------------------------------------------- */
 .glass-badge-blush {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  background: rgba(251, 113, 147, 0.15);
-  border: 1px solid rgba(253, 164, 184, 0.3);
-  color: #ffe4e9;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.2rem 0.65rem;
+  gap: 0.45rem;
+  padding: 0.3rem 0.85rem;
   border-radius: 9999px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 2px 8px rgba(244, 63, 110, 0.15);
+  background: linear-gradient(135deg, rgba(254, 205, 214, 0.2) 0%, rgba(251, 113, 147, 0.25) 100%);
+  background-color: #2a0713;
+  border: 1.5px solid #7a1534;
+  color: #ffe4e9;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 10px rgba(122, 21, 52, 0.35);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.glass-badge-blush:hover {
+  border-color: #be2656;
+  box-shadow: 0 0 18px rgba(159, 28, 68, 0.6);
 }
 
 .glass-badge-burgundy {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  background: rgba(60, 11, 26, 0.6);
-  border: 1px solid rgba(159, 28, 68, 0.4);
-  color: #fda4b8;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.2rem 0.65rem;
+  gap: 0.45rem;
+  padding: 0.3rem 0.85rem;
   border-radius: 9999px;
-  backdrop-filter: blur(8px);
+  background-color: #3c0b1a;
+  border: 1.5px solid #9f1c44;
+  color: #fda4b8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 12px rgba(159, 28, 68, 0.4);
+  white-space: nowrap;
 }
 
 .glass-badge-emerald {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(52, 211, 153, 0.35);
-  color: #a7f3d0;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.2rem 0.65rem;
+  gap: 0.45rem;
+  padding: 0.3rem 0.85rem;
   border-radius: 9999px;
-  backdrop-filter: blur(8px);
+  background-color: #08281a;
+  border: 1.5px solid #10b981;
+  color: #6ee7b7;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 12px rgba(16, 185, 129, 0.35);
+  white-space: nowrap;
 }
 
 /* --------------------------------------------------------------------------
-   Typography Helpers
+   Gradients & Text Highlights (Blush Pink Richness)
    -------------------------------------------------------------------------- */
 .text-gradient-blush {
-  background: linear-gradient(135deg, #ffffff 0%, #ffe4e9 40%, #fda4b8 75%, #f43f6e 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffe4e9 25%, #fda4b8 55%, #fb7193 80%, #f43f6e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-burgundy {
-  background: linear-gradient(135deg, #f43f6e 0%, #be2656 50%, #7a1534 100%);
+  background: linear-gradient(135deg, #fda4b8 0%, #be2656 50%, #7a1534 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.font-mono-code {
-  font-family: 'JetBrains Mono', 'Fira Code', 'IBM Plex Mono', monospace;
+/* --------------------------------------------------------------------------
+   Burgundy Animated Border & Glow Utilities
+   -------------------------------------------------------------------------- */
+.burgundy-border-glow {
+  border: 1.5px solid #7a1534;
+  box-shadow: 0 0 20px rgba(122, 21, 52, 0.55);
+  transition: all 0.3s ease;
+}
+
+.burgundy-border-glow:hover {
+  border-color: #be2656;
+  box-shadow: 0 0 35px rgba(159, 28, 68, 0.85);
 }
 
 /* --------------------------------------------------------------------------
-   Animations & Shimmer
+   Custom Scrollbar
    -------------------------------------------------------------------------- */
-@keyframes glass-shimmer {
-  0% { transform: translateX(-100%) rotate(25deg); }
-  100% { transform: translateX(200%) rotate(25deg); }
-}
-
-.glass-shimmer-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.glass-shimmer-wrapper::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    60deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 60%
-  );
-  transform: translateX(-100%);
-  animation: glass-shimmer 6s infinite;
-  pointer-events: none;
-}
-
-/* Custom Scrollbar for Glass Theme */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(18, 3, 7, 0.6);
+  background: #120307;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(122, 21, 52, 0.5);
-  border-radius: 4px;
-  border: 1px solid rgba(253, 164, 184, 0.15);
+  background: #581026;
+  border-radius: 9999px;
+  border: 2px solid #120307;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(159, 28, 68, 0.7);
-  border-color: rgba(253, 164, 184, 0.35);
+  background: #9f1c44;
+}
+
+/* --------------------------------------------------------------------------
+   Typography Helper Classes
+   -------------------------------------------------------------------------- */
+.font-mono-code {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }

@@ -70,7 +70,7 @@ export default function FAQ() {
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 pt-2 text-xs sm:text-sm text-[#ffe4e9]/85 leading-relaxed border-t border-pink-500/15 bg-black/25">
+                  <div className="px-5 sm:px-6 pb-5 pt-2 text-xs sm:text-sm text-[#ffe4e9]/90 leading-relaxed border-t border-pink-500/15 bg-[#160309]">
                     {item.answer}
                   </div>
                 )}
