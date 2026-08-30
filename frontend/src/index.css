@@ -4,9 +4,7 @@
 @import "./styles/globals.css";
 @import "./styles/animations.css";
 @import "./styles/scrollbar.css";
-@import "./styles/ledger.css";
-@import "./styles/soft-modern.css";
-@import "./styles/crayon-comic.css";
+@import "./styles/glassmorphic.css";
 
 @custom-variant dark (&:is(.dark *));
 

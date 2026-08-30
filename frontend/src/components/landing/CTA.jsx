@@ -3,55 +3,54 @@ import { ArrowRight, Lock, Sparkles, ShieldCheck, CheckCircle2 } from "lucide-re
 
 export default function CTA() {
   return (
-    <section className="ca-grid px-4 py-16 bg-[#faf6ea] border-t border-[#191510]/15">
+    <section className="px-4 py-16 relative">
       <div className="max-w-5xl mx-auto">
-        <div className="relative p-6 sm:p-10 bg-[#ffe066] border-[3px] border-[#191510] shadow-[8px_8px_0_#191510] sm:shadow-[10px_10px_0_#191510] space-y-6 text-[#191510]">
-          {/* Washi Tape Corners — mobile safe */}
-          <span aria-hidden="true" className="absolute -left-3 -top-2.5 z-10 h-5 w-24 sm:h-6 sm:w-28 -rotate-[10deg] bg-[#ff5e89]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
-          <span aria-hidden="true" className="absolute -right-3 -top-2.5 z-10 h-5 w-24 sm:h-6 sm:w-28 rotate-[10deg] bg-[#7dd3fc]/70 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
+        <div className="relative p-7 sm:p-12 rounded-3xl glass-panel border border-pink-500/30 shadow-2xl space-y-6 overflow-hidden bg-gradient-to-br from-[#3c0b1a]/90 via-[#581026]/80 to-[#7a1534]/70">
+          
+          {/* Ambient Glows */}
+          <div className="absolute top-0 right-0 size-72 rounded-full bg-[#f43f6e]/25 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 size-60 rounded-full bg-[#7a1534]/40 blur-2xl pointer-events-none" />
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white border-2 border-[#191510] shadow-[2px_2px_0_#191510] text-xs ca-mono text-[#191510]">
-            <ShieldCheck className="size-4 text-emerald-600" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-badge-blush text-xs">
+            <ShieldCheck className="size-3.5 text-[#f43f6e]" />
             <span>100% Free Forever for Personal Vaults</span>
           </div>
 
-          <h2 className="ca-display text-2xl sm:text-4xl md:text-5xl tracking-tight text-[#191510] leading-tight">
-            Take control of your passwords in under 2 minutes! 🚀
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Take control of your passwords in under <span className="text-gradient-blush">2 minutes.</span>
           </h2>
 
-          <p className="text-base sm:text-lg font-medium text-[#191510]/90 max-w-xl">
-            Protect your digital identity with military-grade client-side encryption and zero-knowledge privacy.
+          <p className="text-sm sm:text-base md:text-lg text-[#ffe4e9]/90 max-w-xl font-normal leading-relaxed">
+            Protect your digital identity with military-grade client-side encryption and provable zero-knowledge privacy.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2 text-xs sm:text-sm ca-mono text-[#191510]">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2 text-xs sm:text-sm text-[#fda4b8] font-medium">
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-emerald-800" /> No credit card needed
+              <CheckCircle2 className="size-4 text-emerald-400" /> No credit card needed
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-emerald-800" /> Instant client setup
+              <CheckCircle2 className="size-4 text-emerald-400" /> Instant browser setup
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-emerald-800" /> Unlimited passwords
+              <CheckCircle2 className="size-4 text-emerald-400" /> Unlimited passwords
             </span>
           </div>
 
-          <div className="flex flex-wrap gap-4 pt-4">
+          <div className="flex flex-wrap gap-4 pt-4 relative z-10">
             <Link
               to="/register"
-              className="group/cta ca-mono relative inline-flex items-center gap-3 border-2 border-[#191510] bg-[#191510] py-3.5 pl-3.5 pr-8 text-sm font-bold uppercase tracking-[0.2em] text-white hover:bg-transparent hover:text-[#191510] transition-colors"
+              className="glass-btn-primary py-3.5 px-8 text-sm shadow-xl"
             >
-              <span className="flex size-9 items-center justify-center bg-[#60a5fa] text-[#191510] transition-colors group-hover/cta:bg-[#ff5e89] group-hover/cta:text-white">
-                <Sparkles className="size-4" />
-              </span>
-              Open Free Vault
+              <Sparkles className="size-4" />
+              <span>Open Free Vault</span>
               <ArrowRight className="size-4" />
             </Link>
 
             <Link
               to="/login"
-              className="ca-mono inline-flex items-center gap-2.5 border-2 border-[#191510] bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-widest text-[#191510] shadow-[3px_3px_0_#191510] hover:-translate-y-0.5 transition-transform"
+              className="glass-btn-secondary py-3.5 px-7 text-sm"
             >
-              <Lock className="size-4 text-[#191510]" />
+              <Lock className="size-4 text-[#f43f6e]" />
               Sign In
             </Link>
           </div>

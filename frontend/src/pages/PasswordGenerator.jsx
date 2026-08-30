@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Wand2, Copy, Check, RefreshCw, Sparkles, Zap } from "lucide-react";
+import { Wand2, Copy, Check, RefreshCw, Sparkles, Zap, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function PasswordGenerator() {
@@ -46,50 +46,50 @@ export default function PasswordGenerator() {
 
   // Strength score
   const getStrength = () => {
-    if (length < 8) return { label: "Weak 💥", color: "bg-[#fb7185]", width: "w-1/4" };
-    if (length < 12) return { label: "Fair ⚡", color: "bg-[#fde047]", width: "w-2/4" };
-    if (length < 16) return { label: "Strong 🛡️", color: "bg-[#38bdf8]", width: "w-3/4" };
-    return { label: "Hero Grade! 🦸‍♂️", color: "bg-[#4ade80]", width: "w-full" };
+    if (length < 8) return { label: "Weak 💥", color: "bg-rose-500", width: "w-1/4" };
+    if (length < 12) return { label: "Fair ⚡", color: "bg-pink-400", width: "w-2/4" };
+    if (length < 16) return { label: "Strong 🛡️", color: "bg-emerald-400", width: "w-3/4" };
+    return { label: "Fortress Grade! 🦸‍♂️", color: "bg-emerald-400", width: "w-full" };
   };
 
   const strength = getStrength();
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6 font-comic">
+    <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="size-14 rounded-2xl bg-[#fef08a] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] flex items-center justify-center mx-auto text-slate-950">
+      <div className="text-center space-y-2.5">
+        <div className="size-14 rounded-2xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] border border-white/30 shadow-lg shadow-[#be2656]/30 flex items-center justify-center mx-auto text-white">
           <Wand2 className="size-7" />
         </div>
-        <h1 className="text-3xl font-heading-comic font-black text-slate-950">
-          Super Password Generator ✨
+        <h1 className="text-3xl font-extrabold text-white tracking-tight">
+          Password Generator
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600 font-comic font-bold">
-          Hardware-randomized CSPRNG entropy for unbreakable keys!
+        <p className="text-xs sm:text-sm text-[#fda4b8]/80 font-normal">
+          Hardware-randomized CSPRNG entropy for unbreakable keys
         </p>
       </div>
 
       {/* Main Password Output Display */}
-      <div className="bg-[#fffef7] p-6 sm:p-8 rounded-3xl border-3 border-[#18181b] shadow-[6px_6px_0px_#18181b] space-y-6">
-        <div className="relative p-4.5 rounded-2xl bg-[#fef08a] border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b] text-slate-950 flex items-center justify-between gap-4 font-mono text-sm sm:text-lg break-all font-black">
-          <span className="tracking-wider select-all">
+      <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-pink-500/20 shadow-2xl space-y-6">
+        <div className="relative p-4 rounded-2xl bg-[#3c0b1a]/60 border border-pink-500/25 text-white flex items-center justify-between gap-4 font-mono-code text-sm sm:text-base break-all">
+          <span className="tracking-wider select-all font-bold">
             {generatedPassword || "Select at least one option below"}
           </span>
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={generate}
-              className="p-2 rounded-xl bg-white border-2 border-[#18181b] text-slate-900 shadow-[1.5px_1.5px_0px_#18181b] hover:-translate-y-0.5 transition-all"
+              className="p-2 rounded-xl glass-card-subtle text-[#fda4b8] hover:text-white transition-all cursor-pointer"
               title="Regenerate Password"
             >
               <RefreshCw className="size-4" />
             </button>
             <button
               onClick={handleCopy}
-              className="btn-comic btn-comic-primary px-3.5 py-2 text-xs gap-1.5 font-heading-comic"
+              className="glass-btn-primary px-4 py-2 text-xs gap-1.5"
             >
               {copied ? (
                 <>
-                  <Check className="size-4 text-emerald-300" /> Copied!
+                  <Check className="size-4 text-emerald-200" /> Copied!
                 </>
               ) : (
                 <>
@@ -102,22 +102,22 @@ export default function PasswordGenerator() {
 
         {/* Strength meter bar */}
         <div className="space-y-2">
-          <div className="flex justify-between text-xs font-heading-comic font-bold">
-            <span className="text-slate-700">Entropy Level:</span>
-            <span className="text-slate-950 flex items-center gap-1">
-              <Zap className="size-3.5 fill-amber-400 text-slate-950" /> {strength.label}
+          <div className="flex justify-between text-xs font-semibold">
+            <span className="text-[#fda4b8]">Entropy Level:</span>
+            <span className="text-white flex items-center gap-1">
+              <Zap className="size-3.5 text-[#f43f6e] fill-current" /> {strength.label}
             </span>
           </div>
-          <div className="h-3 w-full bg-slate-100 border-2 border-[#18181b] rounded-full overflow-hidden p-0.5">
-            <div className={`h-full ${strength.color} border border-[#18181b] rounded-full transition-all duration-300 ${strength.width}`} />
+          <div className="h-2 w-full bg-black/40 border border-pink-500/20 rounded-full overflow-hidden p-0.5">
+            <div className={`h-full ${strength.color} rounded-full transition-all duration-300 ${strength.width}`} />
           </div>
         </div>
 
         {/* Password Length Slider */}
-        <div className="space-y-3 pt-2 bg-white p-4 rounded-2xl border-2 border-[#18181b] shadow-[2px_2px_0px_#18181b]">
-          <div className="flex justify-between text-xs font-heading-comic font-bold text-slate-900">
+        <div className="space-y-3 pt-1 p-4 rounded-2xl glass-card-subtle border border-pink-500/15">
+          <div className="flex justify-between text-xs font-semibold text-white font-mono-code">
             <span>Password Length</span>
-            <span className="font-mono bg-[#fef08a] text-slate-950 px-2.5 py-0.5 rounded-lg border border-[#18181b] text-xs">
+            <span className="glass-badge-blush text-xs">
               {length} characters
             </span>
           </div>
@@ -127,29 +127,31 @@ export default function PasswordGenerator() {
             max={48}
             value={length}
             onChange={(e) => setLength(Number(e.target.value))}
-            className="w-full h-3 bg-slate-100 border-2 border-[#18181b] rounded-lg appearance-none cursor-pointer accent-[#6366f1]"
+            className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-[#f43f6e]"
           />
         </div>
 
         {/* Character Rules Checkboxes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           {[
-            { label: "Uppercase (A-Z)", state: useUppercase, set: setUseUppercase, bg: "bg-[#bae6fd]" },
-            { label: "Lowercase (a-z)", state: useLowercase, set: setUseLowercase, bg: "bg-[#bbf7d0]" },
-            { label: "Numbers (0-9)", state: useNumbers, set: setUseNumbers, bg: "bg-[#fef08a]" },
-            { label: "Symbols (!@#$)", state: useSymbols, set: setUseSymbols, bg: "bg-[#ddd6fe]" },
+            { label: "Uppercase (A-Z)", state: useUppercase, set: setUseUppercase },
+            { label: "Lowercase (a-z)", state: useLowercase, set: setUseLowercase },
+            { label: "Numbers (0-9)", state: useNumbers, set: setUseNumbers },
+            { label: "Symbols (!@#$)", state: useSymbols, set: setUseSymbols },
           ].map((opt, i) => (
             <label
               key={i}
-              className={`flex items-center gap-3 p-3 rounded-2xl border-2 border-[#18181b] ${
-                opt.state ? `${opt.bg} shadow-[2px_2px_0px_#18181b]` : "bg-white opacity-70"
-              } cursor-pointer transition-all text-xs font-heading-comic font-bold text-slate-950 select-none hover:-translate-y-0.5`}
+              className={`flex items-center gap-3 p-3 rounded-2xl border transition-all text-xs font-semibold cursor-pointer select-none ${
+                opt.state
+                  ? "bg-[#7a1534]/50 border-pink-400/40 text-white shadow-md"
+                  : "glass-card-subtle text-[#fda4b8]/50 border-pink-500/10"
+              }`}
             >
               <input
                 type="checkbox"
                 checked={opt.state}
                 onChange={(e) => opt.set(e.target.checked)}
-                className="size-4.5 rounded text-indigo-600 focus:ring-0 accent-[#18181b]"
+                className="size-4 rounded accent-[#f43f6e] cursor-pointer"
               />
               {opt.label}
             </label>

@@ -15,18 +15,18 @@ export default function Logo({ showText = true, size = "md", className = "" }) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <div
-        className={`${iconSizes[size]} rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-md shadow-indigo-500/20 shrink-0`}
+        className={`${iconSizes[size]} rounded-xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] text-white flex items-center justify-center shadow-lg shadow-[#be2656]/30 border border-white/25 shrink-0`}
       >
         <ShieldCheck className={iconIconSizes[size]} />
       </div>
       {showText && (
         <div className="flex flex-col">
-          <span className={`font-bold ${textSizes[size]} tracking-tight text-slate-900`}>
+          <span className={`font-bold ${textSizes[size]} tracking-tight text-white`}>
             PassGuardian
           </span>
           {size !== "sm" && (
-            <span className="text-[0.6rem] font-semibold tracking-wider text-slate-400 uppercase">
-              Encrypted Vault
+            <span className="text-[0.6rem] font-semibold tracking-wider text-[#fda4b8] uppercase">
+              Zero-Knowledge Vault
             </span>
           )}
         </div>

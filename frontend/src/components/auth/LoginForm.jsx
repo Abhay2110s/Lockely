@@ -42,7 +42,7 @@ export default function LoginForm() {
       }
 
       await saveSession(user, vaultKeySalt, password, token);
-      toast.success("Welcome back to your Comic Vault! 🚀");
+      toast.success("Welcome back to your Vault! 🛡️");
       navigate("/dashboard");
     } catch (err) {
       const msg =
@@ -61,74 +61,74 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full space-y-6 font-comic">
+    <div className="w-full space-y-6">
       <div className="space-y-2 text-center sm:text-left">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fef08a] border-2 border-[#191510] shadow-[2px_2px_0px_#191510] text-xs font-heading-comic font-bold text-slate-950">
-          <Zap className="size-3.5 fill-amber-400 text-slate-950" />
-          PassGuardian Vault
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-badge-blush text-xs mb-1">
+          <Sparkles className="size-3.5 text-[#f43f6e]" />
+          <span>PassGuardian Security</span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-heading-comic font-black text-slate-950 tracking-tight">
-          Welcome Back! 🛡️
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Welcome Back
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600 font-comic font-bold">
+        <p className="text-xs sm:text-sm text-[#fda4b8]/80 font-normal">
           Unlock your zero-knowledge encrypted vault
         </p>
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-2xl bg-[#fda4af] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] text-xs text-slate-950 font-bold">
-          ⚠️ {error}
+        <div className="p-3.5 rounded-2xl bg-rose-950/50 border border-rose-500/40 text-xs text-rose-200 font-medium">
+          {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-heading-comic font-bold text-slate-900 tracking-wide block">
-            Email Address ✉️
+          <label className="text-xs font-semibold text-[#fda4b8] tracking-wide block">
+            Email Address
           </label>
 
           <div className="relative">
-            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-slate-600" />
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/50" />
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="comic-input w-full pl-10 pr-4 py-3 text-xs font-bold text-slate-900 placeholder:text-slate-400"
+              className="glass-input pl-10 pr-4 py-3 text-xs"
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-heading-comic font-bold text-slate-900 tracking-wide block">
-              Master Password 🔑
+            <label className="text-xs font-semibold text-[#fda4b8] tracking-wide block">
+              Master Password
             </label>
             <Link
               to="/forgot-password"
-              className="text-[0.72rem] font-heading-comic font-bold text-indigo-700 hover:underline"
+              className="text-[0.72rem] text-[#fda4b8] hover:text-white underline transition-colors"
             >
               Forgot password?
             </Link>
           </div>
 
           <div className="relative">
-            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-slate-600" />
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/50" />
             <input
               type={showPassword ? "text" : "password"}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Your super secret master password"
-              className="comic-input w-full pl-10 pr-11 py-3 text-xs font-bold text-slate-900 placeholder:text-slate-400 font-mono"
+              placeholder="Enter your master password"
+              className="glass-input pl-10 pr-11 py-3 text-xs font-mono-code"
             />
 
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-950 p-1"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#fda4b8]/60 hover:text-white p-1 transition-colors"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -140,13 +140,14 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-comic btn-comic-yellow py-3.5 text-sm gap-2"
+            className="w-full glass-btn-primary py-3.5 text-xs font-semibold gap-2"
           >
             {loading ? (
               <Loader2 className="size-4.5 animate-spin" />
             ) : (
               <>
-                Unlock &amp; Sign In ➔
+                <span>Unlock &amp; Sign In</span>
+                <ArrowRight className="size-4" />
               </>
             )}
           </button>
@@ -154,27 +155,27 @@ export default function LoginForm() {
       </form>
 
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-0.5 bg-[#191510]" />
-        <span className="text-xs font-heading-comic font-bold text-slate-700 bg-white px-2 py-0.5 rounded border border-[#191510]">
-          OR
+        <div className="flex-1 h-px bg-pink-500/20" />
+        <span className="text-[0.65rem] font-mono-code uppercase font-semibold text-[#fda4b8]/60">
+          Zero-Knowledge Access
         </span>
-        <div className="flex-1 h-0.5 bg-[#191510]" />
+        <div className="flex-1 h-px bg-pink-500/20" />
       </div>
 
       <div className="text-center space-y-3">
-        <p className="text-xs font-comic font-bold text-slate-700">
+        <p className="text-xs text-[#fda4b8]/80 font-normal">
           Don&apos;t have an account?{" "}
           <Link
             to="/register"
-            className="font-heading-comic font-black text-indigo-700 hover:underline"
+            className="font-bold text-white hover:text-[#fda4b8] underline transition-colors ml-1"
           >
-            Create free vault! ✨
+            Create free vault
           </Link>
         </p>
 
-        <div className="inline-flex items-center gap-1.5 text-[0.7rem] font-heading-comic font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-900">
-          <ShieldCheck className="size-3.5 text-emerald-700" />
-          AES-256-GCM · Client Decrypted
+        <div className="inline-flex items-center gap-1.5 text-[0.7rem] glass-badge-blush">
+          <ShieldCheck className="size-3.5 text-[#f43f6e]" />
+          <span>AES-256-GCM · Client Decrypted</span>
         </div>
       </div>
     </div>

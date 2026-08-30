@@ -1,145 +1,114 @@
-import { ShieldCheck, Lock, Cpu, Database, Key, CheckCircle } from "lucide-react";
+import { ShieldCheck, Lock, Cpu, Database, Key, CheckCircle2 } from "lucide-react";
 
 const steps = [
   {
     no: "01",
     title: "Master Password",
-    subtitle: "Stored in volatile RAM only",
-    desc: "Your master password is never sent over any network. It stays exclusively inside browser memory.",
+    subtitle: "Volatile RAM only",
+    desc: "Your master password is never sent over any network. It stays exclusively inside browser volatile memory.",
     icon: Key,
-    bg: "bg-[#ffe066]",
     badge: "100% LOCAL",
   },
   {
     no: "02",
     title: "PBKDF2 Key Derivation",
-    subtitle: "Salted memory-hard key derivation",
+    subtitle: "Salted memory-hard rounds",
     desc: "Stretches your master password into a 256-bit AES encryption key immune to GPU cracking clusters.",
     icon: Cpu,
-    bg: "bg-[#7dd3fc]",
     badge: "600,000 ROUNDS",
   },
   {
     no: "03",
     title: "AES-256-GCM Cipher",
-    subtitle: "Galois/Counter Mode payload",
-    desc: "Encrypts your credentials with unique IVs and cryptographic authentication tags.",
+    subtitle: "Galois authenticated tag",
+    desc: "Encrypts your credentials with unique initialization vectors (IVs) and cryptographic authentication tags.",
     icon: Lock,
-    bg: "bg-[#a7f3d0]",
     badge: "AUTHENTICATED",
   },
   {
     no: "04",
     title: "Zero-Knowledge Cloud",
-    subtitle: "Opaque ciphertext storage",
-    desc: "MongoDB stores only encrypted bytes. Even our servers have zero capability to read your secrets.",
+    subtitle: "Opaque ciphertext only",
+    desc: "Cloud database stores exclusively encrypted bytes. Even the host servers have zero capability to read your secrets.",
     icon: Database,
-    bg: "bg-[#c4b5fd]",
     badge: "ZERO-SERVER ACCESS",
   },
 ];
 
 export default function Security() {
   return (
-    <section id="security" className="ca-grid relative scroll-mt-24 px-4 py-16 bg-[#faf6ea] border-t border-[#191510]/15">
-      <div className="max-w-6xl mx-auto space-y-16">
+    <section id="security" className="relative scroll-mt-24 px-4 py-16">
+      <div className="max-w-6xl mx-auto space-y-14">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-4">
-          <div className="flex flex-col items-center text-[#191510]">
-            <p className="ca-hand text-2xl sm:text-3xl">cryptographic mathematics!</p>
-            <svg
-              viewBox="0 0 64 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              className="mt-1 h-3 w-24 text-[#191510]"
-              aria-hidden="true"
-            >
-              <path d="M3 4c18-3 40-3 58 0" />
-              <path d="M9 9c14-2.5 32-2.5 46 0" />
-            </svg>
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-badge-blush">
+            <ShieldCheck className="size-3.5 text-[#f43f6e]" />
+            <span className="text-xs font-semibold text-[#ffe4e9]">MATHEMATICAL ASSURANCE</span>
           </div>
 
-          <h2 className="ca-display text-3xl sm:text-5xl text-[#191510] tracking-tight">
-            PROVABLE SECURITY
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+            Provable <span className="text-gradient-blush">Zero-Knowledge</span> Architecture
           </h2>
 
-          <div className="inline-block -rotate-1">
-            <span className="ca-tape inline-block px-5 py-1.5 text-sm font-bold text-[#191510] bg-[#a7f3d0] border border-[#191510]/30 shadow-sm [clip-path:polygon(1.5%_0,100%_8%,98.5%_100%,0_92%)]">
-              Not a marketing promise — mathematical end-to-end zero-knowledge.
-            </span>
-          </div>
+          <p className="text-sm sm:text-base text-[#fda4b8]/80 font-normal">
+            Not a marketing claim — client-side WebCrypto mathematics that mathematically guarantees privacy.
+          </p>
         </div>
 
         {/* 4 Steps Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {steps.map((step) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.no}
-                className={`${step.bg} p-5 sm:p-6 border-[3px] border-[#191510] shadow-[5px_5px_0_#191510] hover:shadow-[7px_7px_0_#191510] flex flex-col justify-between space-y-5 hover:-translate-y-1 transition-all group`}
+                className="glass-card p-6 flex flex-col justify-between space-y-5 border border-pink-500/20 hover:border-pink-400/40 transition-all group"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="ca-mono text-xs sm:text-sm font-black bg-white px-2.5 py-0.5 border border-[#191510] shadow-[1px_1px_0_#191510]">
-                      #{step.no}
+                    <span className="text-xs font-bold font-mono-code text-[#fda4b8] px-2.5 py-1 rounded-lg bg-black/40 border border-pink-500/20">
+                      STEP {step.no}
                     </span>
-                    <span className="ca-mono text-[0.62rem] sm:text-[0.68rem] font-bold bg-white px-2 py-0.5 border border-[#191510] shadow-[1px_1px_0_#191510]">
+                    <span className="glass-badge-blush text-[0.62rem]">
                       {step.badge}
                     </span>
                   </div>
 
-                  <div className="size-11 sm:size-12 bg-white border-2 border-[#191510] flex items-center justify-center shadow-[2px_2px_0_#191510] group-hover:scale-105 transition-transform">
-                    <Icon className="size-5 sm:size-6 text-[#191510]" />
+                  <div className="size-12 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#be2656] border border-white/20 flex items-center justify-center text-white shadow-lg shadow-[#be2656]/25 group-hover:scale-105 transition-transform">
+                    <Icon className="size-5 text-white" />
                   </div>
 
                   <div>
-                    <h4 className="ca-display text-xl text-[#191510] leading-tight">{step.title}</h4>
-                    <p className="ca-mono text-[0.68rem] text-[#191510]/80 mt-1 font-bold">{step.subtitle}</p>
+                    <h3 className="text-lg font-bold text-white leading-snug">{step.title}</h3>
+                    <p className="text-xs text-[#fda4b8] mt-1 font-mono-code font-medium">{step.subtitle}</p>
                   </div>
+
+                  <p className="text-xs text-[#ffe4e9]/80 leading-relaxed font-normal">
+                    {step.desc}
+                  </p>
                 </div>
 
-                <p className="text-xs sm:text-[0.8rem] text-[#191510] font-medium pt-3 border-t-2 border-[#191510]/30 leading-relaxed">
-                  {step.desc}
-                </p>
+                <div className="pt-3 border-t border-pink-500/15 flex items-center gap-1.5 text-emerald-400 text-xs font-semibold">
+                  <CheckCircle2 className="size-3.5 text-emerald-400" />
+                  <span>Hardware Verified</span>
+                </div>
               </div>
             );
           })}
         </div>
 
-        {/* Deep Dive Security Guarantee */}
-        <div className="relative p-6 sm:p-10 bg-white border-[3px] border-[#191510] shadow-[8px_8px_0_#191510]">
-          <span aria-hidden="true" className="absolute -left-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 -rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
-          <span aria-hidden="true" className="absolute -right-3 -top-2 z-10 h-5 w-20 sm:h-6 sm:w-24 rotate-[12deg] bg-[#ff5e89]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
-
-          <div className="space-y-5">
-            <span className="ca-mono text-xs font-bold bg-[#ffe066] px-3 py-1 border border-[#191510] inline-block shadow-[1.5px_1.5px_0_#191510]">
-              ZERO-KNOWLEDGE STANDARD
-            </span>
-
-            <h3 className="ca-display text-2xl sm:text-4xl text-[#191510] tracking-tight">
-              Why Zero-Knowledge matters to your safety.
-            </h3>
-
-            <p className="text-slate-700 text-sm sm:text-base font-medium max-w-2xl leading-relaxed">
-              Even if our servers or databases were compromised, your vault data remains 100% unreadable ciphertext without your local master password key.
+        {/* Cryptographic Trust Callout */}
+        <div className="glass-panel p-6 sm:p-8 rounded-2xl border border-pink-500/20 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1.5 text-center md:text-left">
+            <h3 className="text-xl font-bold text-white">Open, Auditable, and Client-Autonomous</h3>
+            <p className="text-xs sm:text-sm text-[#fda4b8]/80 max-w-2xl font-normal">
+              PassGuardian uses standard W3C Web Cryptography API. We do not invent custom ciphers or rely on proprietary obfuscation.
             </p>
-
-            <div className="grid sm:grid-cols-2 gap-3 pt-2">
-              {[
-                "No plaintext stored in MongoDB",
-                "Client-side PBKDF2 Key Derivation",
-                "Sub-millisecond WebCrypto speed",
-                "Open and transparent cryptographic standard",
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#191510] bg-[#faf6ea] p-3 border border-[#191510] shadow-[1.5px_1.5px_0_#191510]">
-                  <CheckCircle className="size-4 text-emerald-600 shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="glass-badge-emerald px-4 py-2 text-xs font-bold font-mono-code">
+              NIST SP 800-132 COMPLIANT
+            </span>
           </div>
         </div>
       </div>

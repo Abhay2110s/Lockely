@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Settings as SettingsIcon,
   Shield,
-  Smartphone,
   User,
   Palette,
   HardDrive,
@@ -15,27 +14,27 @@ import ProfileSettings from "@/components/settings/ProfileSettings";
 import AppearanceSettings from "@/components/settings/AppearanceSettings";
 
 const TABS = [
-  { id: "security", label: "Security & 2FA", icon: Shield, bg: "bg-[#fef08a]" },
-  { id: "profile", label: "Profile", icon: User, bg: "bg-[#bae6fd]" },
-  { id: "appearance", label: "Appearance", icon: Palette, bg: "bg-[#bbf7d0]" },
-  { id: "account", label: "Account & Data", icon: HardDrive, bg: "bg-[#ddd6fe]" },
+  { id: "security", label: "Security & 2FA", icon: Shield },
+  { id: "profile", label: "Profile", icon: User },
+  { id: "appearance", label: "Appearance", icon: Palette },
+  { id: "account", label: "Account & Data", icon: HardDrive },
 ];
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("security");
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 font-comic">
-      <div className="bg-white border-[3px] border-[#191510] p-6 shadow-[5px_5px_0px_#191510]">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ffe066] border-2 border-[#191510] ca-mono text-[0.6rem] text-[#191510] mb-3">
-          <Sparkles className="size-3 text-[#191510]" />
-          Vault Preferences
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-pink-500/25 shadow-2xl bg-gradient-to-br from-[#3c0b1a]/90 via-[#581026]/80 to-[#7a1534]/70">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-badge-blush text-xs mb-3">
+          <Sparkles className="size-3 text-[#f43f6e]" />
+          <span>Vault Preferences</span>
         </div>
-        <h1 className="ca-display text-3xl sm:text-4xl text-[#191510] flex items-center gap-3">
-          <SettingsIcon className="size-7 text-[#191510]" />
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white flex items-center gap-3 tracking-tight">
+          <SettingsIcon className="size-7 text-[#f43f6e]" />
           Settings
         </h1>
-        <p className="ca-mono text-[0.65rem] text-[#191510]/50 mt-2">
+        <p className="text-xs sm:text-sm text-[#ffe4e9]/80 mt-1">
           Manage two-factor authentication, master password, data exports, and theme preferences.
         </p>
       </div>
@@ -50,13 +49,13 @@ export default function Settings() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               title={tab.label}
-              className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 ca-mono text-[0.62rem] sm:text-[0.68rem] whitespace-nowrap transition-all border-2 border-[#191510] shrink-0 ${
+              className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer ${
                 isActive
-                  ? `${tab.bg} text-[#191510] shadow-[3px_3px_0px_#191510] -translate-y-0.5 font-bold`
-                  : "bg-white text-[#191510]/60 hover:text-[#191510] hover:bg-slate-50"
+                  ? "glass-btn-primary text-white"
+                  : "glass-btn-ghost text-[#fda4b8]"
               }`}
             >
-              <Icon className="size-3.5 sm:size-4 text-[#191510] shrink-0" />
+              <Icon className="size-3.5 sm:size-4 shrink-0" />
               <span>{tab.label}</span>
             </button>
           );

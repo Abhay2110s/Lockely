@@ -57,15 +57,6 @@ const DEFAULT_CATEGORIES = [
   "Personal",
 ];
 
-const categoryColors = {
-  General: "bg-[#fef08a] text-slate-950",
-  Social: "bg-[#bae6fd] text-sky-950",
-  Work: "bg-[#ddd6fe] text-purple-950",
-  Finance: "bg-[#bbf7d0] text-emerald-950",
-  Entertainment: "bg-[#fed7aa] text-amber-950",
-  Personal: "bg-[#fce7f3] text-pink-950",
-};
-
 export default function Vault() {
   const { vaultKey, isVaultUnlocked, unlockVault } = useAppAuth();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -275,7 +266,7 @@ export default function Vault() {
       if (created) {
         setEntries((prev) => [created, ...prev]);
         setRevealCache((prev) => ({ ...prev, [created.id]: newForm.password }));
-        toast.success("Saved to Comic Vault! 🛡️");
+        toast.success("Saved to Zero-Knowledge Vault! 🛡️");
       }
       setNewForm({ title: "", username: "", password: "", url: "", category: "General" });
       setIsAddModalOpen(false);
@@ -291,18 +282,18 @@ export default function Vault() {
   return (
     <div className="space-y-6">
       {/* Vault Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#ffe066] p-6 border-[3px] border-[#191510] shadow-[5px_5px_0px_#191510]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel rounded-3xl p-6 sm:p-8 border border-pink-500/25 shadow-2xl bg-gradient-to-br from-[#3c0b1a]/90 via-[#581026]/80 to-[#7a1534]/70">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#191510] ca-mono text-[0.6rem] text-[#ffe066] border-2 border-[#191510] mb-3">
-            <Sparkles className="size-3 text-[#ffe066]" />
-            Zero-Knowledge Store
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-badge-blush text-xs mb-3">
+            <Sparkles className="size-3.5 text-[#f43f6e]" />
+            <span>Zero-Knowledge AES Store</span>
           </div>
-          <h1 className="ca-display text-3xl sm:text-4xl text-[#191510] flex items-center gap-3">
-            <KeyRound className="size-8 text-[#191510]" />
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white flex items-center gap-3 tracking-tight">
+            <KeyRound className="size-8 text-[#f43f6e]" />
             Password Vault
           </h1>
-          <p className="ca-mono text-[0.65rem] text-[#191510]/60 mt-2">
-            Zero-knowledge client encrypted with AES-256-GCM. Decrypted purely in memory.
+          <p className="text-xs sm:text-sm text-[#ffe4e9]/80 mt-1 font-normal">
+            Zero-knowledge client encrypted with AES-256-GCM. Decrypted purely in browser memory.
           </p>
         </div>
 
@@ -310,10 +301,10 @@ export default function Vault() {
           {!isVaultUnlocked && (
             <button
               onClick={() => setIsUnlockModalOpen(true)}
-              className="btn-comic btn-comic-yellow text-xs py-2.5 px-4 gap-2"
+              className="glass-btn-secondary text-xs py-2.5 px-4"
             >
-              <Lock className="size-4" />
-              Unlock Vault
+              <Lock className="size-4 text-[#f43f6e]" />
+              <span>Unlock Vault</span>
             </button>
           )}
 
@@ -325,31 +316,31 @@ export default function Vault() {
                 setIsAddModalOpen(true);
               }
             }}
-            className="btn-comic btn-comic-primary text-xs py-2.5 px-4 gap-2"
+            className="glass-btn-primary text-xs py-2.5 px-4"
           >
             <Plus className="size-4" />
-            Add New Vault Item
+            <span>Add New Vault Item</span>
           </button>
         </div>
       </div>
 
       {/* Lock Notice Banner if Vault is locked */}
       {!isVaultUnlocked && (
-        <div className="p-4 rounded-2xl bg-[#fef08a] border-2.5 border-[#191510] shadow-[3px_3px_0px_#191510] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="p-4 sm:p-5 rounded-2xl glass-card border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-white border-2 border-[#191510] text-slate-950 flex items-center justify-center shrink-0 shadow-[1.5px_1.5px_0px_#191510]">
-              <Lock className="size-5 text-amber-700" />
+            <div className="size-10 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center justify-center shrink-0">
+              <Lock className="size-5" />
             </div>
             <div>
-              <p className="font-heading-comic font-black text-slate-950 text-sm">Vault is currently locked!</p>
-              <p className="text-slate-800 font-comic font-bold text-xs">
-                Unlock with your Master Password to reveal passwords and encrypt new credentials.
+              <p className="font-bold text-white text-sm">Vault is currently locked</p>
+              <p className="text-[#fda4b8]/80 text-xs">
+                Unlock with your Master Password to reveal stored passwords and encrypt new credentials.
               </p>
             </div>
           </div>
           <button
             onClick={() => setIsUnlockModalOpen(true)}
-            className="btn-comic btn-comic-white text-xs px-3.5 py-1.5 shrink-0"
+            className="glass-btn-primary text-xs py-2 px-4 shrink-0"
           >
             Unlock Now 🔓
           </button>
@@ -357,7 +348,7 @@ export default function Vault() {
       )}
 
       {/* Filter and Search Control Bar */}
-      <div className="bg-[#fffef7] p-4 rounded-2xl border-2.5 border-[#191510] shadow-[4px_4px_0px_#191510] flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="glass-panel p-4 rounded-2xl border border-pink-500/20 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Category Pills */}
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 [scrollbar-width:none] [-webkit-overflow-scrolling:touch]">
           {categories.map((cat) => {
@@ -368,10 +359,10 @@ export default function Vault() {
                 key={cat.label}
                 onClick={() => setActiveCategory(value)}
                 className={`
-                  flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-heading-comic font-bold whitespace-nowrap transition-all border-2 border-[#191510] shrink-0
+                  flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer
                   ${isSelected
-                    ? "bg-[#6366f1] text-white shadow-[2px_2px_0px_#191510] -translate-y-0.5"
-                    : "bg-white text-slate-700 hover:bg-[#fef08a] hover:text-slate-950"
+                    ? "glass-btn-primary text-white"
+                    : "glass-btn-ghost text-[#fda4b8]"
                   }
                 `}
               >
@@ -383,30 +374,30 @@ export default function Vault() {
 
         {/* Search input */}
         <div className="relative w-full md:w-72">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-600" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/70" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search credentials..."
-            className="comic-input w-full pl-9 pr-8 py-2 text-xs font-bold text-slate-900 placeholder:text-slate-400"
+            className="glass-input pl-9 pr-8 py-2 text-xs text-white placeholder:text-[#fda4b8]/50"
           />
           {search ? (
             <button
               type="button"
               onClick={() => setSearch("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-slate-600 hover:text-slate-950 hover:bg-slate-200"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[#fda4b8] hover:text-white"
             >
               <X className="size-3.5" />
             </button>
           ) : isLoading ? (
-            <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 size-3.5 text-slate-600 animate-spin" />
+            <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 size-3.5 text-[#fda4b8] animate-spin" />
           ) : null}
         </div>
       </div>
 
       {error && (
-        <div className="bg-[#fda4af] border-2.5 border-[#191510] text-slate-950 text-xs font-bold px-4 py-3 rounded-2xl shadow-[3px_3px_0px_#191510]">
+        <div className="glass-card p-4 rounded-xl border-rose-500/40 text-rose-200 text-xs">
           {error}
         </div>
       )}
@@ -418,29 +409,28 @@ export default function Vault() {
             const isPasswordVisible = visibleId === item.id;
             const isRevealing = revealingId === item.id;
             const displayPassword = revealCache[item.id];
-            const catBadgeClass = categoryColors[item.category] || "bg-[#fef08a] text-slate-950";
 
             return (
               <div
                 key={item.id}
-                className="bg-[#fffef7] p-5 rounded-3xl border-2.5 border-[#191510] shadow-[4px_4px_0px_#191510] hover:-translate-y-1 transition-all space-y-4 flex flex-col justify-between"
+                className="glass-card p-5 rounded-2xl border border-pink-500/15 hover:border-pink-400/40 space-y-4 flex flex-col justify-between transition-all"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="size-11 rounded-2xl bg-[#bae6fd] border-2 border-[#191510] text-slate-950 flex items-center justify-center font-heading-comic font-black text-base shrink-0 shadow-[2px_2px_0px_#191510]">
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <div className="size-11 rounded-xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] border border-white/20 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-lg shadow-[#be2656]/20">
                       {item.title?.[0]?.toUpperCase() || "?"}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-base font-heading-comic font-black text-slate-950 truncate">
+                      <h3 className="text-base font-bold text-white truncate">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-slate-500 font-mono truncate flex items-center gap-1">
+                      <p className="text-xs text-[#fda4b8]/70 font-mono-code truncate flex items-center gap-1">
                         {item.website || item.url ? (
                           <a
                             href={item.url?.startsWith("http") ? item.url : `https://${item.url || item.website}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:underline hover:text-indigo-600 inline-flex items-center gap-0.5 font-bold"
+                            className="hover:underline hover:text-white inline-flex items-center gap-0.5"
                           >
                             {item.website || item.url} <ExternalLink className="size-2.5 inline" />
                           </a>
@@ -451,35 +441,35 @@ export default function Vault() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5">
-                    <span className={`px-2.5 py-0.5 rounded-full border border-[#191510] text-[0.68rem] font-heading-comic font-bold ${catBadgeClass}`}>
-                      {item.category}
+                  <div className="flex items-center gap-2">
+                    <span className="glass-badge-blush text-[0.65rem]">
+                      {item.category || "General"}
                     </span>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-[#fda4af] hover:border hover:border-[#191510] transition-colors"
+                      className="p-1.5 rounded-lg text-[#fda4b8]/60 hover:text-rose-300 hover:bg-rose-950/40 transition-colors"
                       title="Move to trash"
                     >
-                      <Trash2 className="size-4 text-slate-600" />
+                      <Trash2 className="size-4" />
                     </button>
                   </div>
                 </div>
 
                 {/* Username Field */}
-                <div className="p-2.5 rounded-2xl bg-white border-2 border-[#191510] flex items-center justify-between gap-2 text-xs shadow-[1.5px_1.5px_0px_#191510]">
-                  <span className="text-slate-500 text-[0.7rem] uppercase font-heading-comic font-bold">User:</span>
-                  <span className="font-mono font-bold text-slate-800 truncate">{item.username || "—"}</span>
+                <div className="p-2.5 rounded-xl bg-black/40 border border-pink-500/15 flex items-center justify-between gap-2 text-xs">
+                  <span className="text-[#fda4b8]/70 text-[0.7rem] uppercase font-mono-code font-bold">User:</span>
+                  <span className="font-mono-code font-medium text-[#fff5f7] truncate">{item.username || "—"}</span>
                   <button
                     onClick={() => {
                       copy(item.username, `${item.id}-user`);
                       toast.success("Username copied!");
                     }}
                     disabled={!item.username}
-                    className="p-1.5 rounded-lg bg-slate-100 border border-[#191510] text-slate-900 hover:bg-[#fef08a] disabled:opacity-30 transition-colors"
+                    className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white disabled:opacity-30 transition-colors cursor-pointer"
                     title="Copy Username"
                   >
                     {copied && copiedId === `${item.id}-user` ? (
-                      <Check className="size-3.5 text-emerald-700" />
+                      <Check className="size-3.5 text-emerald-400" />
                     ) : (
                       <Copy className="size-3.5" />
                     )}
@@ -487,11 +477,11 @@ export default function Vault() {
                 </div>
 
                 {/* Password Field */}
-                <div className="p-2.5 rounded-2xl bg-[#fef08a] border-2 border-[#191510] flex items-center justify-between gap-2 text-xs shadow-[2px_2px_0px_#191510]">
-                  <span className="text-slate-900 text-[0.7rem] uppercase font-heading-comic font-black flex items-center gap-1">
-                    <Lock className="size-3.5" /> Key:
+                <div className="p-2.5 rounded-xl bg-[#3c0b1a]/50 border border-pink-500/20 flex items-center justify-between gap-2 text-xs">
+                  <span className="text-[#fda4b8] text-[0.7rem] uppercase font-mono-code font-bold flex items-center gap-1">
+                    <Lock className="size-3.5 text-[#f43f6e]" /> Key:
                   </span>
-                  <span className="font-mono text-slate-950 font-black truncate">
+                  <span className="font-mono-code text-white font-semibold truncate tracking-wider">
                     {isPasswordVisible && displayPassword ? displayPassword : "••••••••••••••••"}
                   </span>
 
@@ -499,11 +489,11 @@ export default function Vault() {
                     <button
                       onClick={() => handleToggleVisible(item)}
                       disabled={isRevealing}
-                      className="p-1.5 rounded-lg bg-white border border-[#191510] text-slate-900 hover:bg-[#bae6fd] disabled:opacity-50 transition-colors"
+                      className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white disabled:opacity-50 transition-colors cursor-pointer"
                       title="Toggle Password Visibility"
                     >
                       {isRevealing ? (
-                        <Loader2 className="size-3.5 animate-spin" />
+                        <Loader2 className="size-3.5 animate-spin text-[#f43f6e]" />
                       ) : isPasswordVisible ? (
                         <EyeOff className="size-3.5" />
                       ) : (
@@ -512,11 +502,11 @@ export default function Vault() {
                     </button>
                     <button
                       onClick={() => handleCopyPassword(item)}
-                      className="p-1.5 rounded-lg bg-white border border-[#191510] text-slate-900 hover:bg-[#bbf7d0] transition-colors"
+                      className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white transition-colors cursor-pointer"
                       title="Copy Password"
                     >
                       {copied && copiedId === `${item.id}-pass` ? (
-                        <Check className="size-3.5 text-emerald-700" />
+                        <Check className="size-3.5 text-emerald-400" />
                       ) : (
                         <Copy className="size-3.5" />
                       )}
@@ -528,22 +518,22 @@ export default function Vault() {
           })}
 
         {isLoading && (
-          <div className="col-span-full bg-white p-12 border-[3px] border-[#191510] shadow-[5px_5px_0px_#191510] text-center space-y-3">
-            <div className="size-12 bg-[#ffe066] border-2 border-[#191510] shadow-[2px_2px_0px_#191510] flex items-center justify-center mx-auto">
-              <Loader2 className="size-6 text-[#191510] animate-spin" />
+          <div className="col-span-full glass-panel p-12 rounded-3xl border border-pink-500/20 text-center space-y-3">
+            <div className="size-12 rounded-2xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center mx-auto shadow-lg shadow-pink-900/40 text-white">
+              <Loader2 className="size-6 animate-spin" />
             </div>
-            <p className="ca-display text-lg text-[#191510]">Loading your vault…</p>
-            <p className="ca-mono text-[0.65rem] text-[#191510]/50">Decrypting zero-knowledge credentials</p>
+            <p className="text-lg font-bold text-white">Loading your vault…</p>
+            <p className="text-xs text-[#fda4b8]/70 font-mono-code">Decrypting zero-knowledge credentials</p>
           </div>
         )}
 
         {!isLoading && displayEntries.length === 0 && !error && (
-          <div className="col-span-full bg-[#fffef7] p-12 rounded-3xl border-3 border-[#191510] shadow-[5px_5px_0px_#191510] text-center space-y-3">
-            <ShieldAlert className="size-12 text-slate-400 mx-auto" />
-            <h3 className="text-lg font-heading-comic font-black text-slate-950">
+          <div className="col-span-full glass-card p-12 rounded-3xl text-center space-y-3 border border-dashed border-pink-500/25">
+            <ShieldAlert className="size-12 text-[#fda4b8]/50 mx-auto" />
+            <h3 className="text-lg font-bold text-white">
               {search ? `No credentials found matching "${search}"` : "No vault entries found"}
             </h3>
-            <p className="text-xs font-comic font-bold text-slate-500">
+            <p className="text-xs text-[#fda4b8]/70">
               {search
                 ? "Try a different search query or check spelling."
                 : "Add your first secret credential using the button above."}
@@ -552,7 +542,7 @@ export default function Vault() {
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="btn-comic btn-comic-yellow text-xs px-4 py-2"
+                className="glass-btn-secondary text-xs px-4 py-2"
               >
                 Clear Search ✕
               </button>
@@ -563,36 +553,36 @@ export default function Vault() {
 
       {/* Unlock Vault Modal */}
       {isUnlockModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-[#fffef7] rounded-3xl border-3 border-[#191510] shadow-[8px_8px_0px_#191510] p-6 sm:p-8 space-y-6">
+        <div className="fixed inset-0 z-50 bg-[#120307]/75 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-sm glass-panel rounded-3xl border border-pink-500/30 shadow-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="size-10 rounded-2xl bg-[#fef08a] border-2 border-[#191510] text-slate-950 flex items-center justify-center font-bold shadow-[2px_2px_0px_#191510]">
+              <div className="flex items-center gap-3">
+                <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] text-white flex items-center justify-center font-bold shadow-lg shadow-pink-900/40">
                   <Unlock className="size-5" />
                 </div>
-                <h2 className="text-xl font-heading-comic font-black text-slate-950">Unlock Vault</h2>
+                <h2 className="text-xl font-bold text-white">Unlock Vault</h2>
               </div>
               <button
                 onClick={() => setIsUnlockModalOpen(false)}
-                className="p-1.5 rounded-xl text-slate-900 hover:bg-slate-200 border-2 border-[#191510]"
+                className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white"
               >
                 <X className="size-4" />
               </button>
             </div>
 
-            <p className="text-xs font-comic font-bold text-slate-600">
-              Enter your Master Password to derive your AES encryption key. Never leaves your browser!
+            <p className="text-xs text-[#fda4b8]/80 leading-relaxed">
+              Enter your Master Password to derive your AES encryption key. Never leaves your browser memory.
             </p>
 
             {unlockError && (
-              <div className="bg-[#fda4af] border-2 border-[#191510] text-slate-950 text-xs font-bold px-3.5 py-2.5 rounded-xl">
+              <div className="bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
                 {unlockError}
               </div>
             )}
 
             <form onSubmit={handleUnlock} className="space-y-4">
               <div>
-                <label className="text-xs font-heading-comic font-bold text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-[#fda4b8] block mb-1.5">
                   Master Password 🔑
                 </label>
                 <input
@@ -602,25 +592,25 @@ export default function Vault() {
                   value={unlockPassword}
                   onChange={(e) => setUnlockPassword(e.target.value)}
                   placeholder="Enter your master password"
-                  className="comic-input w-full px-3.5 py-2.5 text-xs font-bold"
+                  className="glass-input text-xs"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2">
+              <div className="flex justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsUnlockModalOpen(false)}
-                  className="btn-comic btn-comic-white px-4 py-2 text-xs"
+                  className="glass-btn-ghost text-xs px-4 py-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={unlocking || !unlockPassword}
-                  className="btn-comic btn-comic-primary px-5 py-2 text-xs gap-2"
+                  className="glass-btn-primary px-5 py-2 text-xs gap-2"
                 >
                   {unlocking ? <Loader2 className="size-3.5 animate-spin" /> : <ShieldCheck className="size-3.5" />}
-                  Unlock!
+                  Unlock Vault
                 </button>
               </div>
             </form>
@@ -630,27 +620,32 @@ export default function Vault() {
 
       {/* Add Item Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#fffef7] rounded-3xl border-3 border-[#191510] shadow-[8px_8px_0px_#191510] p-6 sm:p-8 space-y-6">
+        <div className="fixed inset-0 z-50 bg-[#120307]/75 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-md glass-panel rounded-3xl border border-pink-500/30 shadow-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-heading-comic font-black text-slate-950">Add Secret Entry ✨</h2>
+              <div className="flex items-center gap-2.5">
+                <div className="size-9 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center text-white">
+                  <Plus className="size-5" />
+                </div>
+                <h2 className="text-xl font-bold text-white">Add Secret Entry</h2>
+              </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 rounded-xl text-slate-900 hover:bg-slate-200 border-2 border-[#191510]"
+                className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white"
               >
                 <X className="size-4" />
               </button>
             </div>
 
             {formError && (
-              <div className="bg-[#fda4af] border-2 border-[#191510] text-slate-950 text-xs font-bold px-3.5 py-2.5 rounded-xl">
+              <div className="bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
                 {formError}
               </div>
             )}
 
             <form onSubmit={handleAddEntry} className="space-y-3.5">
               <div>
-                <label className="text-xs font-heading-comic font-bold text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
                   Title / Service Name
                 </label>
                 <input
@@ -659,12 +654,12 @@ export default function Vault() {
                   value={newForm.title}
                   onChange={(e) => setNewForm({ ...newForm, title: e.target.value })}
                   placeholder="e.g. GitHub, Google, Netflix"
-                  className="comic-input w-full px-3.5 py-2 text-xs font-bold"
+                  className="glass-input text-xs"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-heading-comic font-bold text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
                   Username / Email
                 </label>
                 <input
@@ -672,12 +667,12 @@ export default function Vault() {
                   value={newForm.username}
                   onChange={(e) => setNewForm({ ...newForm, username: e.target.value })}
                   placeholder="user@example.com"
-                  className="comic-input w-full px-3.5 py-2 text-xs font-bold"
+                  className="glass-input text-xs"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-heading-comic font-bold text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
                   Password / Secret Key
                 </label>
                 <input
@@ -686,12 +681,12 @@ export default function Vault() {
                   value={newForm.password}
                   onChange={(e) => setNewForm({ ...newForm, password: e.target.value })}
                   placeholder="Secret password"
-                  className="comic-input w-full px-3.5 py-2 text-xs font-bold font-mono"
+                  className="glass-input text-xs font-mono-code"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-heading-comic font-bold text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
                   Website URL (Optional)
                 </label>
                 <input
@@ -699,21 +694,21 @@ export default function Vault() {
                   value={newForm.url}
                   onChange={(e) => setNewForm({ ...newForm, url: e.target.value })}
                   placeholder="https://github.com"
-                  className="comic-input w-full px-3.5 py-2 text-xs font-bold"
+                  className="glass-input text-xs"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-heading-comic font-bold text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
                   Category
                 </label>
                 <select
                   value={newForm.category}
                   onChange={(e) => setNewForm({ ...newForm, category: e.target.value })}
-                  className="comic-input w-full px-3.5 py-2 text-xs font-bold bg-white"
+                  className="glass-input text-xs bg-[#1f050d]"
                 >
                   {DEFAULT_CATEGORIES.map((c) => (
-                    <option key={c} value={c}>{c}</option>
+                    <option key={c} value={c} className="bg-[#1f050d] text-white">{c}</option>
                   ))}
                 </select>
               </div>
@@ -722,14 +717,14 @@ export default function Vault() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="btn-comic btn-comic-white px-4 py-2 text-xs"
+                  className="glass-btn-ghost text-xs px-4 py-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="btn-comic btn-comic-primary px-5 py-2 text-xs gap-2"
+                  className="glass-btn-primary px-5 py-2 text-xs gap-2"
                 >
                   {isSaving && <Loader2 className="size-3.5 animate-spin" />}
                   Save Secret

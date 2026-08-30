@@ -36,90 +36,90 @@ export default function Profile() {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-6 py-2 font-comic">
+    <div className="w-full max-w-3xl mx-auto space-y-6 py-2">
       {/* Profile Card */}
-      <div className="bg-[#fffef7] rounded-3xl border-3 border-[#18181b] shadow-[6px_6px_0px_#18181b] p-6 sm:p-8">
+      <div className="glass-panel rounded-3xl border border-pink-500/20 shadow-2xl p-6 sm:p-8">
         <div className="flex items-center gap-5 mb-8">
-          <div className="size-18 rounded-2xl bg-[#6366f1] text-white flex items-center justify-center font-heading-comic font-black text-3xl border-2.5 border-[#18181b] shadow-[3px_3px_0px_#18181b]">
+          <div className="size-18 rounded-2xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] text-white flex items-center justify-center font-bold text-3xl border border-white/30 shadow-lg shadow-[#be2656]/30">
             {initials}
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-heading-comic font-black text-slate-950">{displayName}</h1>
-            <p className="text-xs font-mono font-bold text-slate-600 mt-0.5">{user?.email}</p>
-            <span className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-[#bbf7d0] text-emerald-950 border-2 border-[#18181b] text-xs font-heading-comic font-bold shadow-[1.5px_1.5px_0px_#18181b]">
-              <CheckCircle2 className="size-3.5 text-emerald-800" /> Active Comic Vault
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{displayName}</h1>
+            <p className="text-xs font-mono-code text-[#fda4b8] mt-0.5">{user?.email}</p>
+            <span className="inline-flex items-center gap-1.5 mt-2.5 px-3 py-1 rounded-full glass-badge-emerald text-xs font-semibold">
+              <CheckCircle2 className="size-3.5 text-emerald-400" /> Active Zero-Knowledge Vault
             </span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-4 rounded-2xl bg-[#fef08a] border-2 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b] flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-white border border-[#18181b] flex items-center justify-center shrink-0">
-              <User className="size-5 text-slate-950" />
+          <div className="p-4 rounded-2xl glass-card-subtle flex items-center gap-3.5 border border-pink-500/15">
+            <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#be2656] text-[#fda4b8] flex items-center justify-center shrink-0">
+              <User className="size-5 text-white" />
             </div>
             <div className="min-w-0">
-              <p className="text-[0.68rem] font-heading-comic font-bold text-slate-700 uppercase tracking-wide">Name</p>
-              <p className="text-sm font-heading-comic font-black text-slate-950 truncate">{user?.name || "—"}</p>
+              <p className="text-[0.65rem] font-mono-code uppercase font-semibold text-[#fda4b8]/70">Name</p>
+              <p className="text-sm font-bold text-white truncate">{user?.name || "—"}</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#bae6fd] border-2 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b] flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-white border border-[#18181b] flex items-center justify-center shrink-0">
-              <Mail className="size-5 text-slate-950" />
+          <div className="p-4 rounded-2xl glass-card-subtle flex items-center gap-3.5 border border-pink-500/15">
+            <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#be2656] text-[#fda4b8] flex items-center justify-center shrink-0">
+              <Mail className="size-5 text-white" />
             </div>
             <div className="min-w-0">
-              <p className="text-[0.68rem] font-heading-comic font-bold text-slate-700 uppercase tracking-wide">Email</p>
-              <p className="text-xs font-mono font-bold text-slate-950 truncate">{user?.email || "—"}</p>
+              <p className="text-[0.65rem] font-mono-code uppercase font-semibold text-[#fda4b8]/70">Email</p>
+              <p className="text-xs font-mono-code text-white truncate font-medium">{user?.email || "—"}</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#ddd6fe] border-2 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b] flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-white border border-[#18181b] flex items-center justify-center shrink-0">
-              <Shield className="size-5 text-slate-950" />
+          <div className="p-4 rounded-2xl glass-card-subtle flex items-center gap-3.5 border border-pink-500/15">
+            <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#be2656] text-[#fda4b8] flex items-center justify-center shrink-0">
+              <Shield className="size-5 text-white" />
             </div>
             <div className="min-w-0">
-              <p className="text-[0.68rem] font-heading-comic font-bold text-slate-700 uppercase tracking-wide">Auth Method</p>
-              <p className="text-xs font-heading-comic font-bold text-slate-950">Email + Master Key</p>
+              <p className="text-[0.65rem] font-mono-code uppercase font-semibold text-[#fda4b8]/70">Auth Method</p>
+              <p className="text-xs font-semibold text-white">Email + Client Master Key</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#bbf7d0] border-2 border-[#18181b] shadow-[2.5px_2.5px_0px_#18181b] flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-white border border-[#18181b] flex items-center justify-center shrink-0">
-              <Key className="size-5 text-slate-950" />
+          <div className="p-4 rounded-2xl glass-card-subtle flex items-center gap-3.5 border border-pink-500/15">
+            <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#be2656] text-[#fda4b8] flex items-center justify-center shrink-0">
+              <Key className="size-5 text-white" />
             </div>
             <div className="min-w-0">
-              <p className="text-[0.68rem] font-heading-comic font-bold text-slate-700 uppercase tracking-wide">Cipher</p>
-              <p className="text-xs font-heading-comic font-bold text-slate-950">AES-256-GCM (Client)</p>
+              <p className="text-[0.65rem] font-mono-code uppercase font-semibold text-[#fda4b8]/70">Cipher</p>
+              <p className="text-xs font-semibold text-white">AES-256-GCM (Client-side)</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Actions */}
-      <div className="bg-[#fffef7] rounded-3xl border-3 border-[#18181b] shadow-[6px_6px_0px_#18181b] p-6 sm:p-8 space-y-4">
-        <h2 className="text-lg font-heading-comic font-black text-slate-950">Vault Actions</h2>
+      <div className="glass-panel rounded-3xl border border-pink-500/20 shadow-2xl p-6 sm:p-8 space-y-4">
+        <h2 className="text-lg font-bold text-white">Vault Actions</h2>
 
         <button
           onClick={handleExport}
           disabled={exporting}
-          className="w-full flex items-center gap-3.5 p-4 rounded-2xl border-2.5 border-[#18181b] bg-white hover:bg-[#fef08a] shadow-[3px_3px_0px_#18181b] hover:-translate-y-0.5 transition-all text-left disabled:opacity-60"
+          className="w-full flex items-center gap-4 p-4 rounded-2xl glass-card-interactive border border-pink-500/15 text-left disabled:opacity-60 cursor-pointer"
         >
-          {exporting ? <Loader2 className="size-6 text-indigo-600 animate-spin shrink-0" /> : <Download className="size-6 text-indigo-600 shrink-0" />}
+          {exporting ? <Loader2 className="size-6 text-[#f43f6e] animate-spin shrink-0" /> : <Download className="size-6 text-[#f43f6e] shrink-0" />}
           <div>
-            <p className="text-sm font-heading-comic font-black text-slate-950">Export Vault Data</p>
-            <p className="text-xs font-comic font-bold text-slate-600">Download an encrypted backup file of all your vault credentials</p>
+            <p className="text-sm font-bold text-white">Export Vault Data</p>
+            <p className="text-xs text-[#fda4b8]/80 mt-0.5">Download an encrypted backup file of all your vault credentials</p>
           </div>
         </button>
 
         <button
           onClick={handleDeleteAccount}
           disabled={deleting}
-          className="w-full flex items-center gap-3.5 p-4 rounded-2xl border-2.5 border-[#18181b] bg-[#fda4af] shadow-[3px_3px_0px_#18181b] hover:-translate-y-0.5 transition-all text-left disabled:opacity-60"
+          className="w-full flex items-center gap-4 p-4 rounded-2xl bg-rose-950/30 border border-rose-500/30 hover:bg-rose-950/50 transition-all text-left disabled:opacity-60 cursor-pointer"
         >
-          {deleting ? <Loader2 className="size-6 text-rose-800 animate-spin shrink-0" /> : <Trash2 className="size-6 text-rose-800 shrink-0" />}
+          {deleting ? <Loader2 className="size-6 text-rose-400 animate-spin shrink-0" /> : <Trash2 className="size-6 text-rose-400 shrink-0" />}
           <div>
-            <p className="text-sm font-heading-comic font-black text-rose-950">Delete Entire Account</p>
-            <p className="text-xs font-comic font-bold text-rose-900">Permanently wipe your account and all zero-knowledge keys</p>
+            <p className="text-sm font-bold text-rose-200">Delete Entire Account</p>
+            <p className="text-xs text-rose-300/80 mt-0.5">Permanently wipe your account and all zero-knowledge keys</p>
           </div>
         </button>
       </div>

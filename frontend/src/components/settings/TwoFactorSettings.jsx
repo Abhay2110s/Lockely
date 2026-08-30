@@ -91,39 +91,41 @@ export default function TwoFactorSettings() {
   };
 
   return (
-    <div className="bg-white p-5 sm:p-7 lg:p-8 border-[3px] border-[#191510] shadow-[5px_5px_0px_#191510] space-y-6">
+    <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-pink-500/20 shadow-2xl space-y-6">
       {/* Header / Trigger Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start sm:items-center gap-3.5 min-w-0">
           <div
-            className={`size-11 sm:size-12 border-2 border-[#191510] flex items-center justify-center font-bold shadow-[2px_2px_0px_#191510] shrink-0 ${
-              isEnabled ? "bg-[#86efac] text-emerald-950" : "bg-[#ffe066] text-[#191510]"
+            className={`size-12 rounded-2xl flex items-center justify-center font-bold shadow-lg shrink-0 ${
+              isEnabled
+                ? "bg-emerald-500/20 border border-emerald-500/40 text-emerald-400"
+                : "bg-gradient-to-br from-[#7a1534] to-[#be2656] border border-white/20 text-white"
             }`}
           >
-            <Smartphone className="size-5 sm:size-6 text-[#191510]" />
+            <Smartphone className="size-6" />
           </div>
           <div className="min-w-0 space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="ca-display text-lg sm:text-xl text-[#191510]">
+              <h2 className="text-lg sm:text-xl font-bold text-white">
                 Two-Factor Authentication (2FA)
               </h2>
               <span
-                className={`px-2.5 py-0.5 border border-[#191510] ca-mono text-[0.6rem] shrink-0 ${
+                className={`px-2.5 py-0.5 rounded-full text-xs font-semibold shrink-0 ${
                   isEnabled
-                    ? "bg-[#86efac] text-emerald-950 font-bold"
-                    : "bg-slate-100 text-[#191510]/60"
+                    ? "glass-badge-emerald"
+                    : "glass-badge-blush"
                 }`}
               >
                 {isEnabled ? "ACTIVE 🛡️" : "DISABLED"}
               </span>
             </div>
-            <p className="ca-mono text-[0.68rem] text-[#191510]/60 leading-relaxed">
-              Require a 6-digit TOTP authenticator code whenever you unlock your account.
+            <p className="text-xs text-[#fda4b8]/80 leading-relaxed font-normal">
+              Require a 6-digit TOTP authenticator code whenever you log in or unlock your account.
             </p>
           </div>
         </div>
 
-        {/* Action Button - Responsive full width on mobile, auto on tablet/desktop */}
+        {/* Action Button */}
         <div className="w-full sm:w-auto shrink-0">
           {isEnabled ? (
             <button
@@ -132,7 +134,7 @@ export default function TwoFactorSettings() {
                 setError("");
                 setIsDisableModalOpen(true);
               }}
-              className="btn-comic btn-comic-coral w-full sm:w-auto text-xs px-5 py-2.5"
+              className="glass-btn-ghost text-rose-300 hover:text-rose-100 hover:bg-rose-950/40 border border-rose-500/30 w-full sm:w-auto text-xs px-5 py-2.5"
             >
               Disable 2FA
             </button>
@@ -141,32 +143,30 @@ export default function TwoFactorSettings() {
               type="button"
               onClick={handleStartSetup}
               disabled={loading}
-              className="btn-comic btn-comic-yellow w-full sm:w-auto text-xs px-5 py-2.5 gap-2"
+              className="glass-btn-primary w-full sm:w-auto text-xs px-5 py-2.5 gap-2"
             >
               {loading ? (
                 <Loader2 className="size-3.5 animate-spin" />
               ) : (
                 <ShieldCheck className="size-4" />
               )}
-              Enable 2FA ⚡
+              <span>Enable 2FA</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* ================================================================ */}
-      {/* SETUP MODAL                                                       */}
-      {/* ================================================================ */}
+      {/* SETUP MODAL */}
       {isSetupModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#191510]/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-          <div className="w-full max-w-md bg-white border-[3px] border-[#191510] shadow-[8px_8px_0px_#191510] p-5 sm:p-7 space-y-5 my-auto max-h-[92vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-[#120307]/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="w-full max-w-md glass-panel rounded-3xl border border-pink-500/30 shadow-2xl p-6 sm:p-7 space-y-5 my-auto max-h-[92vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-center justify-between gap-3 border-b-2 border-[#191510] pb-3">
+            <div className="flex items-center justify-between gap-3 border-b border-pink-500/15 pb-3">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="size-9 bg-[#ffe066] border-2 border-[#191510] flex items-center justify-center shadow-[1.5px_1.5px_0px_#191510] shrink-0">
-                  <ShieldCheck className="size-4 text-[#191510]" />
+                <div className="size-9 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center text-white shrink-0">
+                  <ShieldCheck className="size-4 text-white" />
                 </div>
-                <h3 className="ca-display text-lg text-[#191510] truncate">
+                <h3 className="text-lg font-bold text-white truncate">
                   Set Up 2FA Authenticator
                 </h3>
               </div>
@@ -176,7 +176,7 @@ export default function TwoFactorSettings() {
                   setBackupCodes(null);
                   setConfirmCode("");
                 }}
-                className="p-1.5 border-2 border-[#191510] hover:bg-[#191510] hover:text-[#ffe066] transition-colors shrink-0"
+                className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white"
               >
                 <X className="size-4" />
               </button>
@@ -184,20 +184,20 @@ export default function TwoFactorSettings() {
 
             {backupCodes ? (
               <div className="space-y-4">
-                <div className="p-3.5 bg-[#86efac] border-2 border-[#191510] text-emerald-950 text-xs space-y-1">
-                  <p className="ca-display text-sm flex items-center gap-1.5">
-                    <Check className="size-4 text-emerald-800" /> 2FA is now super active!
+                <div className="p-3.5 rounded-2xl glass-card border-emerald-500/30 text-emerald-200 text-xs space-y-1">
+                  <p className="text-sm font-bold flex items-center gap-1.5 text-white">
+                    <Check className="size-4 text-emerald-400" /> 2FA is now active!
                   </p>
-                  <p className="ca-mono text-[0.65rem] leading-relaxed">
-                    Save these one-time backup codes safely. They let you recover your vault if you ever lose your phone.
+                  <p className="text-xs text-[#fda4b8]/90 leading-relaxed font-normal">
+                    Save these one-time backup codes safely. They let you recover your vault if you lose your authenticator.
                   </p>
                 </div>
 
-                <div className="p-3.5 bg-[#faf6ea] border-2 border-[#191510] grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs text-[#191510]">
+                <div className="p-3.5 rounded-2xl bg-black/40 border border-pink-500/20 grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono-code text-xs text-white">
                   {backupCodes.map((code, idx) => (
                     <div
                       key={idx}
-                      className="p-2 bg-[#ffe066] border border-[#191510] text-center font-black shadow-[1px_1px_0px_#191510]"
+                      className="p-2 rounded-lg bg-[#3c0b1a]/70 border border-pink-500/20 text-center font-bold"
                     >
                       {code}
                     </div>
@@ -211,14 +211,14 @@ export default function TwoFactorSettings() {
                       copy(backupCodes.join("\n"));
                       toast.success("All backup codes copied!");
                     }}
-                    className="btn-comic btn-comic-white w-full sm:w-auto text-xs px-4 py-2.5 gap-1.5"
+                    className="glass-btn-secondary w-full sm:w-auto text-xs px-4 py-2.5 gap-1.5"
                   >
                     {copied ? (
-                      <Check className="size-3.5 text-emerald-700" />
+                      <Check className="size-3.5 text-emerald-400" />
                     ) : (
                       <Copy className="size-3.5" />
                     )}
-                    {copied ? "Copied All!" : "Copy Codes"}
+                    <span>{copied ? "Copied All!" : "Copy Codes"}</span>
                   </button>
 
                   <button
@@ -227,7 +227,7 @@ export default function TwoFactorSettings() {
                       setIsSetupModalOpen(false);
                       setBackupCodes(null);
                     }}
-                    className="btn-comic btn-comic-primary w-full sm:w-auto px-5 py-2.5 text-xs"
+                    className="glass-btn-primary w-full sm:w-auto px-5 py-2.5 text-xs"
                   >
                     I Have Saved These
                   </button>
@@ -235,83 +235,77 @@ export default function TwoFactorSettings() {
               </div>
             ) : (
               <form onSubmit={handleVerifySetup} className="space-y-4">
-                <p className="ca-mono text-[0.68rem] text-[#191510]/80">
-                  1. Scan this QR code with Google Authenticator, Authy, or Ente:
+                <p className="text-xs text-[#fda4b8]">
+                  1. Scan this QR code with Google Authenticator, Authy, or Microsoft Authenticator:
                 </p>
 
                 {setupData?.otpAuthUrl && (
-                  <div className="flex justify-center p-3 sm:p-4 bg-white border-2 border-[#191510] shadow-[3px_3px_0px_#191510]">
+                  <div className="flex justify-center p-4 bg-white rounded-2xl border border-pink-500/30">
                     <img
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
                         setupData.otpAuthUrl
                       )}`}
                       alt="2FA QR Code"
-                      className="size-36 sm:size-44 border border-[#191510] p-2 bg-white object-contain"
+                      className="size-36 sm:size-44 object-contain"
                     />
                   </div>
                 )}
 
-                <div>
-                  <p className="ca-mono text-[0.62rem] text-[#191510]/60 uppercase mb-1">
-                    Or enter this secret key manually:
-                  </p>
-                  <div className="p-2.5 bg-[#faf6ea] border-2 border-[#191510] flex items-center justify-between font-mono text-xs font-black text-[#191510] shadow-[1.5px_1.5px_0px_#191510] gap-2">
-                    <span className="break-all text-[0.72rem] select-all">{setupData?.secret}</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        copy(setupData?.secret);
-                        toast.success("Secret copied!");
-                      }}
-                      className="p-1.5 bg-[#ffe066] border border-[#191510] text-[#191510] shrink-0 hover:bg-[#191510] hover:text-[#ffe066] transition-colors"
-                      title="Copy Secret"
-                    >
-                      {copied ? (
-                        <Check className="size-3.5 text-emerald-700" />
-                      ) : (
-                        <Copy className="size-3.5" />
-                      )}
-                    </button>
+                {setupData?.secret && (
+                  <div className="space-y-1">
+                    <p className="text-[0.65rem] text-[#fda4b8]/70 uppercase font-mono-code font-semibold">Manual Secret Key:</p>
+                    <div className="p-2.5 rounded-xl bg-black/40 border border-pink-500/20 flex items-center justify-between gap-2 text-xs font-mono-code">
+                      <span className="truncate text-white font-bold">{setupData.secret}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          copy(setupData.secret);
+                          toast.success("Secret copied!");
+                        }}
+                        className="glass-btn-secondary py-1 px-2 text-xs"
+                      >
+                        Copy
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <div className="space-y-1.5">
-                  <label className="ca-mono text-[0.68rem] text-[#191510] block font-bold">
-                    2. Enter the 6-digit code shown in your app:
+                <div>
+                  <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
+                    2. Enter the 6-digit TOTP verification code:
                   </label>
                   <input
                     type="text"
-                    inputMode="numeric"
-                    maxLength={6}
                     required
+                    maxLength={6}
                     value={confirmCode}
                     onChange={(e) => setConfirmCode(e.target.value.replace(/\D/g, ""))}
                     placeholder="000000"
-                    className="comic-input w-full text-center tracking-widest ca-display text-2xl py-2.5 text-[#191510]"
+                    className="glass-input text-center text-lg font-mono-code font-bold tracking-widest"
                   />
                 </div>
 
                 {error && (
-                  <div className="p-2.5 bg-[#fda4af] border-2 border-[#191510] ca-mono text-[0.68rem] text-[#191510] text-center">
-                    ⚠️ {error}
+                  <div className="bg-rose-950/50 border border-rose-500/30 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
+                    {error}
                   </div>
                 )}
 
-                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 pt-2">
+                <div className="flex justify-end gap-2.5 pt-2">
                   <button
                     type="button"
                     onClick={() => setIsSetupModalOpen(false)}
-                    className="btn-comic btn-comic-white w-full sm:w-auto px-4 py-2.5 text-xs"
+                    className="glass-btn-ghost text-xs px-4 py-2"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading || confirmCode.length !== 6}
-                    className="btn-comic btn-comic-mint w-full sm:w-auto px-5 py-2.5 text-xs gap-2"
+                    className="glass-btn-primary px-5 py-2 text-xs gap-1.5"
                   >
                     {loading && <Loader2 className="size-3.5 animate-spin" />}
-                    Confirm &amp; Enable ➔
+                    Verify &amp; Activate
                   </button>
                 </div>
               </form>
@@ -320,74 +314,67 @@ export default function TwoFactorSettings() {
         </div>
       )}
 
-      {/* ================================================================ */}
-      {/* DISABLE MODAL                                                     */}
-      {/* ================================================================ */}
+      {/* DISABLE MODAL */}
       {isDisableModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#191510]/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-          <div className="w-full max-w-sm bg-white border-[3px] border-[#191510] shadow-[8px_8px_0px_#191510] p-5 sm:p-7 space-y-4 my-auto">
-            <div className="flex items-center justify-between border-b-2 border-[#191510] pb-3">
-              <div className="flex items-center gap-2 text-rose-700">
+        <div className="fixed inset-0 z-50 bg-[#120307]/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+          <div className="w-full max-w-sm glass-panel rounded-3xl border border-rose-500/30 shadow-2xl p-6 sm:p-7 space-y-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-rose-300">
                 <AlertTriangle className="size-5" />
-                <h3 className="ca-display text-lg text-[#191510]">Disable 2FA</h3>
+                <h3 className="text-base font-bold text-white">Disable 2FA</h3>
               </div>
               <button
                 onClick={() => setIsDisableModalOpen(false)}
-                className="p-1.5 border-2 border-[#191510] hover:bg-[#191510] hover:text-[#ffe066] transition-colors"
+                className="p-1.5 rounded-lg glass-card-subtle text-[#fda4b8] hover:text-white"
               >
                 <X className="size-4" />
               </button>
             </div>
 
-            <p className="ca-mono text-[0.68rem] text-[#191510]/70 leading-relaxed">
-              To turn off two-factor authentication, confirm with your 6-digit TOTP code or a backup code.
+            <p className="text-xs text-[#fda4b8]/80 leading-relaxed font-normal">
+              Enter a verification code or emergency backup code to confirm disabling two-factor authentication.
             </p>
+
+            {error && (
+              <div className="bg-rose-950/50 border border-rose-500/30 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
+                {error}
+              </div>
+            )}
 
             <form onSubmit={handleDisable2FA} className="space-y-4">
               <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="ca-mono text-[0.65rem] text-[#191510] font-bold">
-                    {disableUseBackup ? "Backup Code" : "Authenticator Code"}
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setDisableUseBackup(!disableUseBackup);
-                      setDisableCode("");
-                    }}
-                    className="ca-mono text-[0.62rem] text-indigo-700 hover:underline font-bold"
-                  >
-                    {disableUseBackup ? "Use TOTP Code" : "Use Backup Code"}
-                  </button>
-                </div>
                 <input
                   type="text"
                   required
                   value={disableCode}
                   onChange={(e) => setDisableCode(e.target.value)}
-                  placeholder={disableUseBackup ? "XXXX-XXXX" : "123456"}
-                  className="comic-input w-full text-center font-mono font-black py-2.5 text-xs text-[#191510]"
+                  placeholder={disableUseBackup ? "Enter 8-digit backup code" : "Enter 6-digit TOTP code"}
+                  className="glass-input text-center text-sm font-mono-code font-bold"
                 />
               </div>
 
-              {error && (
-                <div className="p-2.5 bg-[#fda4af] border-2 border-[#191510] ca-mono text-[0.68rem] text-[#191510] text-center">
-                  ⚠️ {error}
-                </div>
-              )}
+              <div className="flex items-center justify-between text-xs">
+                <button
+                  type="button"
+                  onClick={() => setDisableUseBackup(!disableUseBackup)}
+                  className="text-xs text-[#fda4b8] hover:text-white underline cursor-pointer"
+                >
+                  {disableUseBackup ? "Use Authenticator Code" : "Use Backup Code"}
+                </button>
+              </div>
 
-              <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 pt-2">
+              <div className="flex justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsDisableModalOpen(false)}
-                  className="btn-comic btn-comic-white w-full sm:w-auto px-4 py-2.5 text-xs"
+                  className="glass-btn-ghost text-xs px-4 py-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  disabled={loading || !disableCode}
-                  className="btn-comic btn-comic-coral w-full sm:w-auto px-5 py-2.5 text-xs gap-2"
+                  disabled={loading || !disableCode.trim()}
+                  className="glass-btn-primary bg-rose-600 hover:bg-rose-700 px-5 py-2 text-xs"
                 >
                   {loading && <Loader2 className="size-3.5 animate-spin" />}
                   Confirm Disable

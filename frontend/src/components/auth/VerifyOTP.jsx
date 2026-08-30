@@ -7,15 +7,12 @@ import toast from "react-hot-toast";
 
 /**
  * VerifyOTP Component — email verification code input (6 boxes).
- * Used after registration to verify email address via the backend OTP service.
  */
 export default function VerifyOTP({ email: emailProp, onSuccess }) {
   const { saveSession } = useAppAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Allow email to be passed as a prop or via router state (from login redirect).
-  // `password` is also passed in state so the vault key can be derived here.
   const email = emailProp || location.state?.email || "";
   const passwordFromState = location.state?.password || null;
 
@@ -31,9 +28,6 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
   }, []);
 
   const handleDigitChange = (index, rawValue) => {
-    // Some mobile keyboards / autofill hand back more than one character
-    // (or a non-digit) in a single onChange — keep only the last digit typed
-    // so this never silently gets rejected the way a strict /^\d?$/ test could.
     const value = rawValue.replace(/\D/g, "").slice(-1);
 
     const newDigits = [...digits];
@@ -41,10 +35,6 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
     setDigits(newDigits);
 
     if (value && index < 5) {
-      // Focus the next box immediately, synchronously. Deferring this
-      // (e.g. via requestAnimationFrame) introduces a one-frame lag that
-      // compounds when typing quickly — by the 2nd or 3rd digit the
-      // shift visibly falls behind and looks "stuck".
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -81,8 +71,6 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
       const res = await authService.verifyOTP({ email, otp: code });
       const { user, vaultKeySalt, token } = res.data || {};
       if (user) {
-        // Use the password from router state for vault key derivation.
-        // It is never stored — only held in router state for this one step.
         await saveSession(user, vaultKeySalt, passwordFromState, token);
         onSuccess?.(res.data);
         toast.success("Email verified! Welcome to PassGuardian.");
@@ -108,37 +96,37 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
     } catch {
       setError("Failed to resend code. Please try again.");
     } finally {
-      setResending(false);
+      setLoading(false);
     }
   };
 
   const isComplete = digits.every((d) => d !== "");
 
   return (
-    <div className="w-full max-w-md space-y-6 bg-white/95 backdrop-blur-md rounded-3xl border border-slate-200/80 shadow-2xl p-8">
+    <div className="w-full space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="size-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mx-auto shadow-md shadow-indigo-500/20">
+        <div className="size-12 rounded-2xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] border border-white/20 text-white flex items-center justify-center mx-auto shadow-lg">
           <Mail className="size-6" />
         </div>
-        <h2 className="text-xl font-bold text-slate-900">Verify your email</h2>
+        <h2 className="text-2xl font-extrabold text-white">Verify your email</h2>
         {email && (
-          <p className="text-xs text-slate-500">
-            We sent a 6-digit code to <strong className="text-slate-700">{email}</strong>
+          <p className="text-xs text-[#fda4b8]/80 font-normal">
+            We sent a 6-digit verification code to <strong className="text-white font-mono-code">{email}</strong>
           </p>
         )}
       </div>
 
       {/* Error */}
       {error && (
-        <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium text-center">
+        <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-500/30 text-xs text-rose-200 font-medium text-center">
           {error}
         </div>
       )}
 
       {resent && (
-        <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-700 font-medium text-center flex items-center justify-center gap-2">
-          <CheckCircle2 className="size-4" /> New code sent to your email!
+        <div className="p-3 rounded-xl bg-emerald-950/50 border border-emerald-500/30 text-xs text-emerald-200 font-medium text-center flex items-center justify-center gap-2">
+          <CheckCircle2 className="size-4 text-emerald-400" /> New code sent to your email!
         </div>
       )}
 
@@ -155,7 +143,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
             onChange={(e) => handleDigitChange(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
             onFocus={(e) => e.target.select()}
-            className="size-12 text-center text-lg font-bold font-mono rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+            className="size-11 sm:size-12 text-center text-lg font-mono-code font-bold rounded-xl glass-input border border-pink-500/25 focus:border-[#f43f6e] focus:outline-none transition-all"
           />
         ))}
       </div>
@@ -164,7 +152,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
       <button
         onClick={handleVerify}
         disabled={!isComplete || loading}
-        className="w-full btn-soft-primary py-3 text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-indigo-500/15 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full glass-btn-primary py-3 text-xs font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? (
           <Loader2 className="size-4 animate-spin" />
@@ -178,7 +166,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
         <button
           onClick={handleResend}
           disabled={resending}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 text-xs text-[#fda4b8] hover:text-white transition-colors disabled:opacity-50 underline cursor-pointer"
         >
           <RefreshCw className={`size-3.5 ${resending ? "animate-spin" : ""}`} />
           Resend code

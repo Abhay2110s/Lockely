@@ -1,16 +1,17 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Check,
   Copy,
-  KeyRound,
   RefreshCw,
   ShieldCheck,
   Sparkles,
   Zap,
   Eye,
   EyeOff,
+  Lock,
+  Cpu,
 } from "lucide-react";
 import DecryptedText from "@/components/animations/DecryptedText";
 
@@ -22,51 +23,6 @@ export default function Hero() {
   const [copied, setCopied] = useState(false);
   const [seed, setSeed] = useState(0);
   const [showEncryptedMock, setShowEncryptedMock] = useState(false);
-
-  // Square Cursor effect states (Only active inside Hero section)
-  const heroRef = useRef(null);
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  const [isInsideHero, setIsInsideHero] = useState(false);
-  const [isHoverInteractive, setIsHoverInteractive] = useState(false);
-
-  useEffect(() => {
-    const heroEl = heroRef.current;
-    if (!heroEl) return;
-
-    // Only enable cursor tracking on desktop screens with hover support
-    const isDesktop = () => window.innerWidth >= 1024 && window.matchMedia("(hover: hover)").matches;
-
-    const handleMouseMove = (e) => {
-      if (!isDesktop()) return;
-      setCursorPos({ x: e.clientX, y: e.clientY });
-      const target = e.target;
-      if (target && target.closest("a, button, input, [role='button']")) {
-        setIsHoverInteractive(true);
-      } else {
-        setIsHoverInteractive(false);
-      }
-    };
-
-    const handleMouseEnter = () => {
-      if (isDesktop()) {
-        setIsInsideHero(true);
-      }
-    };
-    const handleMouseLeave = () => {
-      setIsInsideHero(false);
-      setIsHoverInteractive(false);
-    };
-
-    heroEl.addEventListener("mousemove", handleMouseMove);
-    heroEl.addEventListener("mouseenter", handleMouseEnter);
-    heroEl.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      heroEl.removeEventListener("mousemove", handleMouseMove);
-      heroEl.removeEventListener("mouseenter", handleMouseEnter);
-      heroEl.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
 
   // Generate password dynamically
   const password = useMemo(() => {
@@ -102,221 +58,132 @@ export default function Hero() {
   };
 
   const mockVaultItems = [
-    { name: "Google Personal", username: "alex.dev@gmail.com", strength: "HERO GRADE 🦸‍♂️", category: "Personal", bg: "bg-[#ffe066]" },
-    { name: "Banking & Savings", username: "alex.savings@chase.com", strength: "AES-256-GCM 🛡️", category: "Finance", bg: "bg-[#a7f3d0]" },
-    { name: "Streaming & Movies", username: "alex.family@netflix.com", strength: "UNBREAKABLE ✨", category: "Personal", bg: "bg-[#7dd3fc]" },
+    { name: "Google Personal", username: "alex.dev@gmail.com", strength: "HERO GRADE", category: "Personal" },
+    { name: "Banking & Savings", username: "alex.savings@chase.com", strength: "AES-256-GCM", category: "Finance" },
+    { name: "Streaming & Movies", username: "alex.family@netflix.com", strength: "AUTHENTICATED", category: "Entertainment" },
   ];
 
   return (
     <section
-      ref={heroRef}
       id="top"
-      className="ca-grid relative flex flex-col justify-center overflow-hidden px-4 min-h-[90vh] pb-16 pt-8 sm:pt-14 sm:pb-24 select-none bg-[#faf6ea]"
+      className="relative flex flex-col justify-center overflow-hidden px-4 min-h-[90vh] pb-16 pt-10 sm:pt-16 sm:pb-24"
     >
-      {/* ========================================================================= */}
-      {/* SQUARE INVERTING CURSOR LENS (Only active on Desktop)                      */}
-      {/* ========================================================================= */}
-      {isInsideHero && (
-        <div
-          className="pointer-events-none fixed z-[100] rounded-2xl border-3 border-[#faf6ea] bg-[#faf6ea] mix-blend-difference shadow-2xl hidden lg:block"
-          style={{
-            left: `${cursorPos.x}px`,
-            top: `${cursorPos.y}px`,
-            width: isHoverInteractive ? "140px" : "110px",
-            height: isHoverInteractive ? "140px" : "110px",
-            transform: "translate(-50%, -50%)",
-            transition: "width 0.15s ease, height 0.15s ease",
-          }}
-        >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-2 rounded-full bg-[#faf6ea]" />
-        </div>
-      )}
-
       {/* Hero Content Container */}
-      <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center pt-2 text-center">
-        {/* Top Handwritten Intro */}
-        <div className="flex flex-col items-center text-[#191510]">
-          <p className="ca-hand text-2xl sm:text-3xl">the zero-knowledge vault!</p>
-          <svg
-            viewBox="0 0 64 12"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            className="mt-1 h-3 w-24 text-[#191510]"
-            aria-hidden="true"
-          >
-            <path d="M3 4c18-3 40-3 58 0" />
-            <path d="M9 9c14-2.5 32-2.5 46 0" />
-          </svg>
-        </div>
-
-        {/* Giant Main Display Title with Corner Stickers */}
-        <div className="relative my-7 sm:my-10 inline-block max-w-full">
-          {/* Top Left Corner Sticker */}
-          <div className="absolute -top-4 -left-3 sm:-top-5 sm:-left-6 z-20">
-            <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-[0.65rem] sm:text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2.5px_2.5px_0_#191510] -rotate-12 bg-[#c4b5fd] hover:rotate-0 transition-transform select-none">
-              Zero-Knowledge
-            </span>
-          </div>
-
-          {/* Top Right Corner Sticker */}
-          <div className="absolute -top-4 -right-3 sm:-top-5 sm:-right-6 z-20">
-            <span className="ca-mono inline-block rounded-full border-2 border-[#191510] px-3.5 py-1 text-[0.65rem] sm:text-xs font-bold uppercase tracking-widest text-[#191510] shadow-[2.5px_2.5px_0_#191510] rotate-12 bg-[#ffe066] hover:rotate-0 transition-transform select-none">
-              AES-256-GCM
-            </span>
-          </div>
-
-          {/* Main Title Box with inner padding so letters are never hidden */}
-          <div className="ca-doodle-box relative inline-block border-[3.5px] border-[#fb923c] px-6 py-3 sm:px-10 sm:py-4 bg-white/80 shadow-[4px_5px_0px_#191510] max-w-full">
-            <span className="ca-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.92] tracking-tight text-[#191510] break-words">
-              PASSGUARDIAN
-            </span>
-          </div>
-
-          {/* Bottom Left Corner Note */}
-          <div className="absolute -bottom-4 -left-3 sm:-bottom-5 sm:-left-6 z-20">
-            <span className="ca-hand inline-block px-3.5 py-1 sm:px-4 sm:py-1.5 leading-snug text-[#191510] shadow-[2.5px_2.5px_0_#191510] text-sm sm:text-lg -rotate-6 bg-[#ffe066] border-2 border-[#191510] hover:rotate-0 transition-transform select-none">
-              Client-Side Keys 🛡️
-            </span>
-          </div>
-
-          {/* Bottom Right Corner Note */}
-          <div className="absolute -bottom-4 -right-3 sm:-bottom-5 sm:-right-6 z-20">
-            <span className="ca-hand inline-block px-3.5 py-1 sm:px-4 sm:py-1.5 leading-snug text-[#191510] shadow-[2.5px_2.5px_0_#191510] text-sm sm:text-lg rotate-6 bg-[#a7f3d0] border-2 border-[#191510] hover:rotate-0 transition-transform select-none">
-              Easy to Use ⚡
-            </span>
-          </div>
-        </div>
-
-        {/* Operational Status Pill */}
-        <p className="ca-mono mt-6 sm:mt-8 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[#191510] sm:text-sm">
-          <span className="size-3 rounded-full bg-[#60a5fa] animate-pulse" />
-          Hardware CSPRNG &amp; Client-Side Vault Sealed
-        </p>
-
-        {/* Headline with Spinning Flower SVGs */}
-        <h1 className="mt-8 max-w-3xl text-2xl font-semibold leading-[1.25] tracking-tight text-[#191510] sm:text-4xl lg:text-5xl">
-          I protect secrets that{" "}
-          <span className="inline-block">
-            <svg viewBox="0 0 40 40" className="inline-block align-[-0.08em] ca-spin-slow h-[0.85em] w-[0.85em]" aria-hidden="true">
-              <circle cx="20" cy="20" r="18" fill="#86efac" stroke="#191510" strokeWidth="2" />
-              <circle cx="20" cy="20" r="11" fill="#faf6ea" />
-              <circle cx="20" cy="20" r="5" fill="#86efac" />
-              <circle cx="14" cy="9" r="2.4" fill="#191510" />
-            </svg>
-          </span>{" "}
-          never leave your browser.{" "}
-          <span className="inline-block">
-            <svg viewBox="0 0 40 40" className="inline-block align-[-0.08em] ca-spin-slow h-[0.85em] w-[0.85em]" aria-hidden="true">
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(0 20 20)" />
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(45 20 20)" />
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(90 20 20)" />
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(135 20 20)" />
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(180 20 20)" />
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(225 20 20)" />
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(270 20 20)" />
-              <ellipse cx="20" cy="8" rx="4.6" ry="8" fill="#ff5e89" transform="rotate(315 20 20)" />
-              <circle cx="20" cy="20" r="4" fill="#191510" />
-            </svg>
+      <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center pt-2 text-center z-10">
+        
+        {/* Status Pill Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-badge-blush mb-6 animate-in fade-in">
+          <span className="size-2 rounded-full bg-[#f43f6e] animate-pulse" />
+          <span className="text-xs font-semibold text-[#ffe4e9]">
+            Zero-Knowledge Hardware-Accelerated Vault
           </span>
-        </h1>
+        </div>
 
-        {/* Primary Call to Action Button */}
+        {/* Main Display Title with Gradient Highlight */}
+        <div className="space-y-4 max-w-3xl">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
+            Protecting secrets that <br />
+            <span className="text-gradient-blush">never leave your browser.</span>
+          </h1>
+
+          <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-[#fda4b8]/80 leading-relaxed font-normal pt-2">
+            Military-grade client-side encryption powered by WebCrypto AES-256-GCM. 
+            Your master key never crosses the internet, keeping your credentials safe from data breaches.
+          </p>
+        </div>
+
+        {/* Primary Call to Action Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
           <Link
             to="/register"
-            className="group/cta ca-mono relative inline-flex items-center gap-3 border-2 border-[#191510] bg-[#191510] py-3 pl-3 pr-8 text-sm font-bold uppercase tracking-[0.2em] text-white hover:bg-transparent hover:text-[#191510] transition-colors"
+            className="glass-btn-primary py-3.5 px-7 text-sm shadow-xl"
           >
-            <span className="flex size-9 items-center justify-center bg-[#60a5fa] text-[#191510] transition-colors group-hover/cta:bg-[#ff5e89] group-hover/cta:text-white">
-              <ArrowRight className="size-4" />
-            </span>
-            Create Free Vault
+            <span>Create Free Vault</span>
+            <ArrowRight className="size-4" />
           </Link>
 
           <a
             href="#interactive-demo"
-            className="ca-mono inline-flex items-center gap-2.5 border-2 border-[#191510] bg-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-[#191510] shadow-[2.5px_2.5px_0_#191510] hover:-translate-y-0.5 transition-transform"
+            className="glass-btn-secondary py-3.5 px-6 text-sm"
           >
-            <ShieldCheck className="size-4 text-[#ff5e89]" />
-            Live Playground
+            <ShieldCheck className="size-4 text-[#f43f6e]" />
+            Live Sandbox
           </a>
         </div>
 
-        {/* Artsy Interactive Sandbox Showcase Card */}
-        <div className="relative mt-12 sm:mt-14 w-full max-w-4xl p-4 sm:p-7 lg:p-8 bg-white border-[3px] border-[#191510] shadow-[6px_6px_0_#191510] sm:shadow-[8px_8px_0_#191510] text-left space-y-5 sm:space-y-6">
-          {/* Top Tape Stickers on Corners — mobile safe */}
-          <span aria-hidden="true" className="absolute -left-3 -top-2.5 z-10 h-5 w-20 sm:h-6 sm:w-24 -rotate-[12deg] bg-[#7dd3fc]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
-          <span aria-hidden="true" className="absolute -right-3 -top-2.5 z-10 h-5 w-20 sm:h-6 sm:w-24 rotate-[12deg] bg-[#ffe066]/80 shadow-[0_1px_3px_rgba(17,18,18,0.15)] hidden sm:block" />
-
+        {/* Glassmorphic Interactive Sandbox Showcase Card */}
+        <div className="relative mt-12 sm:mt-16 w-full max-w-4xl glass-panel p-5 sm:p-8 rounded-2xl border border-pink-500/20 shadow-2xl text-left space-y-6">
+          
           {/* Card Header Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 sm:pb-4 border-b-2 border-[#191510]">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-pink-500/15">
             <div className="flex items-center gap-2.5">
-              <span className="ca-mono px-3 py-1 bg-[#ffe066] text-[#191510] text-xs font-bold border border-[#191510] shadow-[1px_1px_0_#191510]">
+              <span className="glass-badge-burgundy text-xs font-semibold">
                 KEY SYNTHESIS
               </span>
-              <span className="ca-mono text-xs text-[#191510]/70">
-                PBKDF2 + AES-GCM
+              <span className="text-xs text-[#fda4b8]/80 font-mono-code">
+                PBKDF2 (600,000 rounds) + AES-GCM
               </span>
             </div>
 
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowEncryptedMock(!showEncryptedMock)}
-                className="ca-mono text-xs font-bold px-3 py-1 bg-[#faf6ea] border border-[#191510] hover:bg-[#ffe066] transition-colors flex items-center gap-1.5"
+                className="glass-btn-ghost text-xs py-1 px-2.5 flex items-center gap-1.5 cursor-pointer"
               >
-                {showEncryptedMock ? <EyeOff className="size-3" /> : <Eye className="size-3" />}
-                {showEncryptedMock ? "Decrypted" : "Cipher View"}
+                {showEncryptedMock ? <EyeOff className="size-3 text-[#f43f6e]" /> : <Eye className="size-3 text-[#f43f6e]" />}
+                {showEncryptedMock ? "Decrypted View" : "Cipher View"}
               </button>
-              <span className="ca-mono text-xs font-bold bg-[#a7f3d0] text-[#191510] px-3 py-1 border border-[#191510]">
+              <span className="glass-badge-emerald text-xs">
                 ● ZERO-KNOWLEDGE
               </span>
             </div>
           </div>
 
           {/* Grid Generator & Mock Cards */}
-          <div className="grid lg:grid-cols-2 gap-8 items-stretch">
-            {/* Left: Generator */}
-            <div className="bg-[#faf6ea] p-5 sm:p-6 border-2 border-[#191510] space-y-4 overflow-hidden min-w-0">
+          <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+            {/* Left: Generator Sandbox */}
+            <div className="glass-card-subtle p-5 sm:p-6 space-y-4 border border-pink-500/15">
               <div className="flex items-center justify-between">
-                <span className="ca-mono text-xs font-bold text-[#191510]">SECRET KEY</span>
-                <span className="ca-mono text-xs font-bold bg-white px-2 py-0.5 border border-[#191510]">
+                <span className="text-xs font-bold text-[#fff5f7] tracking-wider uppercase font-mono-code flex items-center gap-1.5">
+                  <Lock className="size-3.5 text-[#f43f6e]" /> Secret Key
+                </span>
+                <span className="glass-badge-blush text-[0.65rem] font-mono-code font-bold">
                   {entropyBits} BITS ENTROPY
                 </span>
               </div>
 
-              {/* Password Display — fixed width, text clipped inside DecryptedText's own span */}
-              <div className="flex items-center gap-2 bg-white p-3 border-2 border-[#191510] shadow-[2px_2px_0_#191510] w-full overflow-hidden">
+              {/* Password Display */}
+              <div className="flex items-center gap-2 glass-input p-2.5 overflow-hidden">
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <DecryptedText
                     key={password}
                     text={password}
                     speed={25}
                     maxIterations={5}
-                    className="font-mono text-sm sm:text-base font-bold text-[#191510] tracking-wider block w-full overflow-hidden truncate"
+                    className="font-mono-code text-sm sm:text-base font-bold text-white tracking-wider block w-full overflow-hidden truncate"
                   />
                 </div>
                 <button
                   onClick={() => setSeed((s) => s + 1)}
-                  className="p-1.5 bg-[#faf6ea] border border-[#191510] hover:bg-[#ffe066]"
+                  className="p-1.5 rounded-lg text-[#fda4b8] hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                   title="Regenerate"
                 >
                   <RefreshCw className="size-4" />
                 </button>
                 <button
                   onClick={copyToClipboard}
-                  className="ca-mono px-3 py-1.5 bg-[#191510] text-white text-xs font-bold hover:bg-[#ffe066] hover:text-[#191510] border border-[#191510] transition-colors flex items-center gap-1"
+                  className="glass-btn-primary py-1.5 px-3 text-xs flex items-center gap-1"
                 >
-                  {copied ? <Check className="size-3.5 text-emerald-300" /> : <Copy className="size-3.5" />}
+                  {copied ? <Check className="size-3.5 text-emerald-200" /> : <Copy className="size-3.5" />}
                   {copied ? "Copied" : "Copy"}
                 </button>
               </div>
 
               {/* Slider */}
-              <div className="space-y-1 pt-1">
-                <div className="flex justify-between ca-mono text-xs text-[#191510]">
+              <div className="space-y-1.5 pt-1">
+                <div className="flex justify-between text-xs text-[#fda4b8] font-mono-code">
                   <span>LENGTH</span>
-                  <span>{length} CHARS</span>
+                  <span className="font-bold text-white">{length} CHARS</span>
                 </div>
                 <input
                   type="range"
@@ -324,28 +191,28 @@ export default function Hero() {
                   max={32}
                   value={length}
                   onChange={(e) => setLength(Number(e.target.value))}
-                  className="w-full accent-[#191510] cursor-pointer h-2 bg-white border border-[#191510]"
+                  className="w-full accent-[#f43f6e] cursor-pointer h-1.5 bg-black/40 rounded-lg"
                 />
               </div>
             </div>
 
             {/* Right: Mock Vault Items */}
-            <div className="space-y-3">
+            <div className="space-y-3 flex flex-col justify-center">
               {mockVaultItems.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`p-3.5 ${item.bg} border-2 border-[#191510] shadow-[2.5px_2.5px_0_#191510] space-y-1.5`}
+                  className="p-3.5 rounded-xl glass-card-interactive border border-pink-500/15 space-y-1.5"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="ca-display text-base text-[#191510]">{item.name}</span>
-                    <span className="ca-mono text-[0.65rem] bg-white px-2 py-0.5 border border-[#191510]">
+                    <span className="text-sm font-semibold text-white">{item.name}</span>
+                    <span className="glass-badge-blush text-[0.62rem]">
                       {item.category}
                     </span>
                   </div>
-                  <div className="p-1.5 bg-white border border-[#191510] text-xs font-mono text-[#191510] truncate">
+                  <div className="p-2 rounded-lg bg-black/40 border border-pink-500/10 text-xs font-mono-code text-[#fda4b8] truncate">
                     {showEncryptedMock
                       ? `{"iv":"e4b1...","cipher":"k8z0...","tag":"9f3a..."}`
-                      : `${item.username} ••••••••`}
+                      : `${item.username} ••••••••••••`}
                   </div>
                 </div>
               ))}
