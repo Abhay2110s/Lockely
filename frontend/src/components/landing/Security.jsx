@@ -76,13 +76,29 @@ export default function Security() {
   ];
 
   return (
-    <section ref={containerRef} className="h-[300vh] sm:h-[400vh] bg-[#FDFBF7] relative overflow-x-hidden">
+    <section ref={containerRef} className="h-[300vh] sm:h-[400vh] bg-[#FDFBF7] relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center px-4">
 
-        {/* Corner Text Elements — decorative scroll flourishes. On phones
-            there isn't room beside the card without overlapping it, so
-            they're hidden below md and the section relies on the card
-            stack + its own copy to carry the content. */}
+        {/* Mobile Top Banner — same four labels as the desktop corner
+            texts, but stacked in one spot at the top of the pinned
+            viewport. Each label shares the exact opacity timeline as its
+            matching card, so as a card scales in, its label crossfades
+            into the same spot the previous label just faded out of. */}
+        <div className="md:hidden absolute top-5 inset-x-4 text-center pointer-events-none">
+          {cornerTexts.map((item, i) => (
+            <motion.h2
+              key={i}
+              style={{ opacity: item.op }}
+              className="absolute inset-x-0 top-0 text-lg sm:text-xl font-black text-[#1a1a1a] uppercase tracking-tight leading-tight"
+            >
+              {item.text}
+            </motion.h2>
+          ))}
+        </div>
+
+        {/* Corner Text Elements — decorative scroll flourishes, desktop
+            only (the mobile banner above replaces them on small screens
+            since there's no room beside the card without overlapping it). */}
         {cornerTexts.map((item, i) => (
           <motion.div
             key={i}
