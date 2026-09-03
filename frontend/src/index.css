@@ -5,6 +5,7 @@
 @import "./styles/animations.css";
 @import "./styles/scrollbar.css";
 @import "./styles/glassmorphic.css";
+@import "./styles/landing-theme.css";
 
 @custom-variant dark (&:is(.dark *));
 

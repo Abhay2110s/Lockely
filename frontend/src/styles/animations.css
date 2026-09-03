@@ -100,3 +100,50 @@
 .animate-stagger > *:nth-child(4) { animation-delay: 180ms; }
 .animate-stagger > *:nth-child(5) { animation-delay: 240ms; }
 .animate-stagger > *:nth-child(6) { animation-delay: 300ms; }
+
+/* ─── Hero Video Background ──────────────────────────────────────────── */
+.hero-video-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  /* Smooth entrance */
+  animation: heroCanvasFadeIn 1.2s ease-out both;
+}
+
+@keyframes heroCanvasFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Gradient overlay that blends the canvas edges into surrounding
+   burgundy background and darkens the lower portion for readability. */
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    /* Top edge — seamless merge with navbar area */
+    linear-gradient(to bottom, #120307 0%, transparent 12%),
+    /* Bottom edge — fades canvas into next section */
+    linear-gradient(to top, #120307 0%, transparent 20%),
+    /* Left/right vignette for cinematic framing */
+    radial-gradient(ellipse at center, transparent 50%, rgba(18, 3, 7, 0.6) 100%);
+}
+
+/* Ensure hero content panels get extra backdrop contrast over the
+   animated canvas so text remains razor-sharp. */
+#top .glass-panel {
+  background-color: rgba(26, 4, 11, 0.88);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+#top .glass-card-subtle {
+  background-color: rgba(22, 3, 9, 0.85);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}

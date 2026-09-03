@@ -30,16 +30,17 @@ export default function FAQ() {
   return (
     <section id="faq" className="relative scroll-mt-24 px-4 py-16">
       <div className="max-w-4xl mx-auto space-y-12">
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-badge-blush">
-            <HelpCircle className="size-3.5 text-[#f43f6e]" />
-            <span className="text-xs font-semibold text-[#ffe4e9]">QUESTIONS &amp; ANSWERS</span>
+        {/* Header — left-aligned */}
+        <div className="max-w-2xl space-y-3 px-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full landing-badge">
+            <HelpCircle className="size-3.5 text-[#8B7FF0]" />
+            <span className="text-xs font-semibold text-[#D5D1FC]">QUESTIONS &amp; ANSWERS</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-            Frequently <span className="text-gradient-blush">Asked Questions</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
+            Frequently <span className="text-gradient-warm">Asked Questions</span>
           </h2>
-          <p className="text-sm sm:text-base text-[#fda4b8]/80 font-normal">
+          <p className="text-sm sm:text-base text-[#B4ADFA] font-normal">
             Everything you need to know about our cryptographic security model and architecture.
           </p>
         </div>
@@ -50,27 +51,27 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className="glass-card overflow-hidden transition-all border border-pink-500/20"
+                className="glass-card overflow-hidden transition-all border border-[#3F3AA5]/25"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 text-base sm:text-lg font-bold text-white hover:text-[#fda4b8] transition-colors cursor-pointer"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 text-base sm:text-lg font-bold text-white hover:text-[#D5D1FC] transition-colors cursor-pointer"
                 >
                   <span className="flex items-center gap-3.5">
-                    <span className="size-7 rounded-lg bg-gradient-to-br from-[#7a1534] to-[#be2656] flex items-center justify-center text-xs font-bold text-white font-mono-code shrink-0">
+                    <span className="size-7 rounded-lg bg-gradient-to-br from-[#3F3AA5] to-[#6554DE] flex items-center justify-center text-xs font-bold text-white font-mono-code shrink-0">
                       0{index + 1}
                     </span>
                     <span>{item.question}</span>
                   </span>
                   <ChevronDown
-                    className={`size-5 text-[#fda4b8] shrink-0 transition-transform duration-200 ${
+                    className={`size-5 text-[#B4ADFA] shrink-0 transition-transform duration-200 ${
                       isOpen ? "rotate-180 text-white" : ""
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 pt-2 text-xs sm:text-sm text-[#ffe4e9]/90 leading-relaxed border-t border-pink-500/15 bg-[#160309]">
+                  <div className="px-5 sm:px-6 pb-5 pt-2 text-xs sm:text-sm text-[#D5D1FC]/90 leading-relaxed border-t border-[#3F3AA5]/20 bg-[#0d0a3e]">
                     {item.answer}
                   </div>
                 )}

@@ -16,7 +16,7 @@ const featureProjects = [
     caption: "Galois Authenticated Integrity",
     illustrationText: "ENCRYPTED_BLOB",
     metaTitle: "100% Isolated Keys",
-    gradient: "from-[#280712] via-[#3c0b1a] to-[#581026]",
+    gradient: "from-[#120e52] via-[#1A126E] to-[#241C7F]",
   },
   {
     id: "02",
@@ -28,7 +28,7 @@ const featureProjects = [
     caption: "Cryptographic Entropy Engine",
     illustrationText: "CSPRNG_ACTIVE",
     metaTitle: "128+ Bits Entropy",
-    gradient: "from-[#350917] via-[#4c0e21] to-[#7a1534]",
+    gradient: "from-[#1A126E] via-[#241C7F] to-[#2A2292]",
   },
   {
     id: "03",
@@ -40,7 +40,7 @@ const featureProjects = [
     caption: "Zero-Exposure Hash Watcher",
     illustrationText: "BREACH_SHIELD",
     metaTitle: "Instant Alerting",
-    gradient: "from-[#460c1f] via-[#65122c] to-[#9f1c44]",
+    gradient: "from-[#241C7F] via-[#2A2292] to-[#3F3AA5]",
   },
   {
     id: "04",
@@ -52,7 +52,7 @@ const featureProjects = [
     caption: "Two-Factor Authentication",
     illustrationText: "TOTP_AUTHENTICATED",
     metaTitle: "Ironclad Protection",
-    gradient: "from-[#581026] via-[#7a1534] to-[#be2656]",
+    gradient: "from-[#2A2292] via-[#3F3AA5] to-[#6554DE]",
   },
 ];
 
@@ -129,18 +129,19 @@ export default function Features() {
 
   return (
     <section id="features" ref={sectionRef} className="scroll-mt-20 pb-20 pt-10 relative">
-      {/* Header */}
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-4 pb-10 text-center sm:pb-14">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-badge-blush mb-3">
-          <ShieldCheck className="size-3.5 text-[#f43f6e]" />
-          <span className="text-xs font-semibold text-[#ffe4e9]">VAULT CAPABILITIES</span>
+      {/* Header — left-aligned RezonBio style */}
+      <div className="mx-auto flex max-w-5xl flex-col items-start px-6 sm:px-10 lg:px-16 pb-10 sm:pb-14 text-left">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full landing-badge mb-4">
+          <ShieldCheck className="size-3.5 text-[#8B7FF0]" />
+          <span className="text-xs font-semibold text-[#D5D1FC]">VAULT CAPABILITIES</span>
         </div>
 
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-          Architected for <span className="text-gradient-blush">Absolute Privacy.</span>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
+          Architected for <br className="hidden sm:block" />
+          <span className="text-gradient-warm">Absolute Privacy.</span>
         </h2>
 
-        <p className="mt-3.5 max-w-lg text-sm sm:text-base text-[#fda4b8]/80 font-normal">
+        <p className="mt-4 max-w-lg text-sm sm:text-base text-[#B4ADFA] font-normal leading-relaxed">
           Four powerful cryptographic instruments engineered for zero plaintext exposure and maximum speed.
         </p>
       </div>
@@ -157,7 +158,7 @@ export default function Features() {
             <div
               key={feat.id}
               ref={(el) => (cardRefs.current[idx] = el)}
-              className="bg-[#1a040b]"
+              className="bg-[#0d0a3e]"
               style={{
                 position: idx === 0 ? "relative" : "absolute",
                 top: idx === 0 ? undefined : 0,
@@ -170,27 +171,27 @@ export default function Features() {
             >
               {/* Tab Header */}
               <div className="flex">
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-t-xl bg-[#240610] text-[#fda4b8] text-xs font-bold font-mono-code border border-b-0 border-pink-500/30">
-                  <Icon className="size-3.5 text-[#f43f6e]" />
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-t-xl bg-[#120e52] text-[#B4ADFA] text-xs font-bold font-mono-code border border-b-0 border-[#3F3AA5]/40">
+                  <Icon className="size-3.5 text-[#8B7FF0]" />
                   Feature {feat.id}
                 </span>
               </div>
 
-              {/* Card Body — 100% Solid background */}
+              {/* Card Body */}
               <div
-                className={`grid grid-cols-1 gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:gap-8 rounded-2xl rounded-tl-none border border-pink-500/30 shadow-2xl bg-gradient-to-br ${feat.gradient}`}
+                className={`grid grid-cols-1 gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:gap-8 rounded-2xl rounded-tl-none border border-[#3F3AA5]/40 shadow-2xl bg-gradient-to-br ${feat.gradient}`}
               >
                 {/* Left: Text */}
                 <div className="flex flex-col justify-between space-y-5">
                   <div>
-                    <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#fda4b8] font-mono-code">
-                      <span className="size-2 rounded-full bg-[#f43f6e] animate-pulse" />
+                    <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#B4ADFA] font-mono-code">
+                      <span className="size-2 rounded-full bg-[#8B7FF0] animate-pulse" />
                       {feat.badge}
                     </span>
                     <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                       {feat.title}
                     </h3>
-                    <p className="mt-3 text-sm sm:text-base leading-relaxed text-[#ffe4e9]/95 font-normal">
+                    <p className="mt-3 text-sm sm:text-base leading-relaxed text-[#D5D1FC]/95 font-normal">
                       {feat.desc}
                     </p>
                   </div>
@@ -199,7 +200,7 @@ export default function Features() {
                     {feat.tags.map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className="px-2.5 py-1 rounded-lg text-xs font-medium bg-[#140207] text-[#fda4b8] border border-pink-500/25 font-mono-code"
+                        className="px-2.5 py-1 rounded-lg text-xs font-medium bg-[#0d0a3e] text-[#B4ADFA] border border-[#3F3AA5]/30 font-mono-code"
                       >
                         {tag}
                       </span>
@@ -207,19 +208,19 @@ export default function Features() {
                   </div>
                 </div>
 
-                {/* Right: Solid Widget Showcase */}
+                {/* Right: Widget Showcase */}
                 <div className="self-center w-full max-w-sm mx-auto">
-                  <div className="p-6 rounded-2xl bg-[#130207] border border-pink-500/30 text-center space-y-3 shadow-xl">
-                    <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#3c0b1a] text-[#fda4b8] border border-pink-500/30 font-mono-code">
+                  <div className="p-6 rounded-2xl bg-[#0d0a3e] border border-[#3F3AA5]/40 text-center space-y-3 shadow-xl">
+                    <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#1A126E] text-[#B4ADFA] border border-[#3F3AA5]/40 font-mono-code">
                       {feat.illustrationText}
                     </span>
                     <p className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                       {feat.metaTitle}
                     </p>
-                    <p className="text-xs text-[#fda4b8]/80 font-mono-code">
+                    <p className="text-xs text-[#B4ADFA]/80 font-mono-code">
                       100% CLIENT-SIDE ENCRYPTION
                     </p>
-                    <div className="pt-2 border-t border-pink-500/20 text-xs text-[#ffe4e9] font-medium">
+                    <div className="pt-2 border-t border-[#3F3AA5]/30 text-xs text-[#D5D1FC] font-medium">
                       {feat.caption}
                     </div>
                   </div>

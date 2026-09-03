@@ -4,12 +4,12 @@ import Footer from "@/components/landing/Footer";
 
 export default function LandingLayout() {
   return (
-    <div className="relative min-h-screen landing-bg text-[#fff5f7] overflow-x-hidden">
-      {/* Dynamic ambient glowing background elements */}
-      <div className="aurora-orb-burgundy top-[-100px] left-[-100px] w-[500px] h-[500px]" />
-      <div className="aurora-orb-blush top-[20%] right-[-150px] w-[450px] h-[450px]" />
-      <div className="aurora-orb-burgundy top-[55%] left-[10%] w-[600px] h-[600px]" />
-      <div className="aurora-orb-blush bottom-[10%] right-[15%] w-[500px] h-[500px]" />
+    <div className="landing-page relative min-h-screen landing-bg text-[#EFF2FF] overflow-x-hidden">
+      {/* Ambient glowing background accents in violet/orange */}
+      <div className="pointer-events-none fixed top-[-120px] left-[-100px] w-[550px] h-[550px] rounded-full bg-[#3F3AA5]/20 blur-[130px]" />
+      <div className="pointer-events-none fixed top-[25%] right-[-150px] w-[500px] h-[500px] rounded-full bg-[#6554DE]/15 blur-[140px]" />
+      <div className="pointer-events-none fixed top-[60%] left-[5%] w-[600px] h-[600px] rounded-full bg-[#1A126E]/30 blur-[150px]" />
+      <div className="pointer-events-none fixed bottom-[5%] right-[10%] w-[450px] h-[450px] rounded-full bg-[#FB9660]/10 blur-[130px]" />
 
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
