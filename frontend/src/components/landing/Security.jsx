@@ -76,24 +76,29 @@ export default function Security() {
   ];
 
   return (
-    <section ref={containerRef} className="h-[400vh] bg-[#FDFBF7] relative">
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+    <section ref={containerRef} className="h-[300vh] sm:h-[400vh] bg-[#FDFBF7] relative overflow-x-hidden">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center px-4">
 
-        {/* Corner Text Elements */}
+        {/* Corner Text Elements — decorative scroll flourishes. On phones
+            there isn't room beside the card without overlapping it, so
+            they're hidden below md and the section relies on the card
+            stack + its own copy to carry the content. */}
         {cornerTexts.map((item, i) => (
           <motion.div
             key={i}
             style={{ opacity: item.op }}
-            className={`absolute ${item.pos} max-w-[300px] pointer-events-none`}
+            className={`hidden md:block absolute ${item.pos} max-w-[220px] lg:max-w-[300px] pointer-events-none`}
           >
-            <h2 className="text-3xl md:text-5xl font-black text-[#1a1a1a] uppercase tracking-tight leading-none">
+            <h2 className="text-2xl lg:text-5xl font-black text-[#1a1a1a] uppercase tracking-tight leading-none">
               {item.text}
             </h2>
           </motion.div>
         ))}
 
-        {/* Central Card Stack */}
-        <div className="relative w-[360px] md:w-[420px] h-[500px]">
+        {/* Central Card Stack — width/height scale with the viewport
+            (vw-based with a max-w cap) instead of a fixed px size, so it
+            never overflows narrow phone screens. */}
+        <div className="relative w-full max-w-[360px] sm:max-w-[400px] md:w-[420px] h-[440px] sm:h-[480px] md:h-[500px]">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
@@ -104,37 +109,37 @@ export default function Security() {
                   scale: cardsTransforms[index].scale,
                   zIndex: index,
                 }}
-                className="absolute inset-0 p-8 flex flex-col justify-between bg-white/95 backdrop-blur-2xl border border-[#E6E0D5] rounded-3xl shadow-card hover:shadow-card-hover"
+                className="absolute inset-0 p-5 sm:p-8 flex flex-col justify-between bg-white/95 backdrop-blur-2xl border border-[#E6E0D5] rounded-3xl shadow-card hover:shadow-card-hover"
               >
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between border-b border-[#E6E0D5] pb-4">
-                    <div className="size-12 bg-blush/35 border border-[#E6E0D5] rounded-2xl flex items-center justify-center text-[#8B263E]">
-                      <Icon className="size-6" />
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="flex items-center justify-between border-b border-[#E6E0D5] pb-3 sm:pb-4">
+                    <div className="size-10 sm:size-12 bg-blush/35 border border-[#E6E0D5] rounded-2xl flex items-center justify-center text-[#8B263E]">
+                      <Icon className="size-5 sm:size-6" />
                     </div>
-                    <span className="text-xs font-bold text-[#8B263E] font-mono-code">
+                    <span className="text-[0.7rem] sm:text-xs font-bold text-[#8B263E] font-mono-code">
                       STEP {step.no}
                     </span>
                   </div>
 
                   <div>
-                    <span className="text-[0.68rem] tracking-wider text-[#8B263E] uppercase font-bold block mb-2 px-3 py-1 rounded-full bg-blush/30 border border-[#E6E0D5] w-fit">
+                    <span className="text-[0.62rem] sm:text-[0.68rem] tracking-wider text-[#8B263E] uppercase font-bold block mb-2 px-3 py-1 rounded-full bg-blush/30 border border-[#E6E0D5] w-fit">
                       {step.badge}
                     </span>
-                    <h3 className="text-2xl font-black text-[#1a1a1a] uppercase tracking-tight leading-snug">
+                    <h3 className="text-xl sm:text-2xl font-black text-[#1a1a1a] uppercase tracking-tight leading-snug">
                       {step.title}
                     </h3>
-                    <p className="text-xs text-[#8B263E] mt-1.5 uppercase font-bold tracking-wide">
+                    <p className="text-[0.7rem] sm:text-xs text-[#8B263E] mt-1.5 uppercase font-bold tracking-wide">
                       {step.subtitle}
                     </p>
                   </div>
 
-                  <p className="text-sm text-[#6B6560] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#6B6560] leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-[#E6E0D5] flex items-center gap-2 text-[#1a1a1a] text-xs font-bold uppercase tracking-wider">
-                  <CheckCircle2 className="size-4 text-[#8B263E]" />
+                <div className="pt-3 sm:pt-4 border-t border-[#E6E0D5] flex items-center gap-2 text-[#1a1a1a] text-[0.68rem] sm:text-xs font-bold uppercase tracking-wider">
+                  <CheckCircle2 className="size-3.5 sm:size-4 text-[#8B263E] shrink-0" />
                   <span>Hardware Cryptographically Verified</span>
                 </div>
               </motion.div>

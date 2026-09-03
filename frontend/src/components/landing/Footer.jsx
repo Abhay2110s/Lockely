@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { ArrowUpRight, Check, Send, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const navLinks = [
@@ -23,57 +22,24 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 3000);
-      setEmail("");
-    }
-  };
-
   return (
     <footer className="bg-[#FDFBF7] border-t border-[#E6E0D5] px-4 py-12 mt-16 relative">
       <div className="max-w-6xl mx-auto space-y-8">
-        {/* Row 1: Brand & Newsletter */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-[#E6E0D5]">
-          <div className="flex flex-wrap items-center gap-3">
-            <a href="#top" className="flex items-center gap-3 group">
-              <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] text-[#8B263E] flex items-center justify-center transition-colors shadow-xs">
-                <ShieldCheck className="size-5" />
-              </div>
-              <span className="text-xl font-extrabold tracking-tight text-[#1a1a1a]">
-                PASS<span className="text-[#8B263E]">GUARDIAN</span>
-              </span>
-            </a>
-            <span className="hidden sm:inline-block text-[#6B6560]">•</span>
-            <div className="glass-badge-emerald rounded-full">
-              <span className="size-1.5 rounded-full bg-emerald-600" />
-              Vault Sealed 🔒
+        {/* Row 1: Brand */}
+        <div className="flex flex-wrap items-center justify-center gap-3 pb-6 border-b border-[#E6E0D5]">
+          <a href="#top" className="flex items-center gap-3 group">
+            <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] text-[#8B263E] flex items-center justify-center transition-colors shadow-xs">
+              <ShieldCheck className="size-5" />
             </div>
+            <span className="text-xl font-extrabold tracking-tight text-[#1a1a1a]">
+              PASS<span className="text-[#8B263E]">GUARDIAN</span>
+            </span>
+          </a>
+          <span className="hidden sm:inline-block text-[#6B6560]">•</span>
+          <div className="glass-badge-emerald rounded-full">
+            <span className="size-1.5 rounded-full bg-emerald-600" />
+            Vault Sealed 🔒
           </div>
-
-          {/* Newsletter Input */}
-          <form onSubmit={handleSubscribe} className="flex items-center gap-2 w-full md:w-auto">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Security dispatch email..."
-              required
-              className="glass-input rounded-full text-xs py-2.5 px-4 w-full md:w-64"
-            />
-            <button
-              type="submit"
-              className="glass-btn-primary rounded-full py-2.5 px-5 text-xs shrink-0"
-            >
-              {subscribed ? <Check className="size-3.5" /> : <Send className="size-3.5" />}
-              <span>{subscribed ? "Subscribed" : "Subscribe"}</span>
-            </button>
-          </form>
         </div>
 
         {/* Row 2: Links & Social */}
