@@ -55,7 +55,6 @@ html {
   scroll-padding-top: 96px;
   background-color: #FDFBF7;
   color: #1a1a1a;
-  overflow-x: hidden;
 }
 
 body {
@@ -64,5 +63,4 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }

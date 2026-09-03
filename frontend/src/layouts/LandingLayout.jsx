@@ -4,7 +4,7 @@ import Footer from "@/components/landing/Footer";
 
 export default function LandingLayout() {
   return (
-    <div className="landing-page relative min-h-screen bg-[#FDFBF7] text-[#1a1a1a]">
+    <div className="landing-page relative min-h-screen bg-[#FDFBF7] text-[#1a1a1a] overflow-x-clip">
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-1">
