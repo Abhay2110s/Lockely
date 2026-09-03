@@ -119,6 +119,44 @@ svg {
 }
 
 /* --------------------------------------------------------------------------
+   Luxury Dot Pattern — subtle textured backdrop for dashboard surfaces.
+   Sized in rem (not px/vw) so the dot scale and spacing stay visually
+   identical from mobile through desktop; only the *number* of visible
+   dots changes with container width, never their proportions. Two
+   layered radial-gradients (blush + warm-gray) keep it on-theme with
+   the rest of the cream/blush/burgundy palette.
+   -------------------------------------------------------------------------- */
+.glass-pattern {
+  position: relative;
+  isolation: isolate;
+}
+
+.glass-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(rgba(139, 38, 62, 0.10) 1px, transparent 1px),
+    radial-gradient(rgba(217, 119, 138, 0.14) 1px, transparent 1px);
+  background-size: 1.5rem 1.5rem, 1.5rem 1.5rem;
+  background-position: 0 0, 0.75rem 0.75rem;
+  -webkit-mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.35));
+  mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .glass-pattern::before {
+    background-size: 1.25rem 1.25rem, 1.25rem 1.25rem;
+    background-position: 0 0, 0.625rem 0.625rem;
+    opacity: 0.4;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Surfaces — Rounded Soft Blush & Clean White Cards
    -------------------------------------------------------------------------- */
 .glass-panel {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   KeyRound,
@@ -31,6 +31,7 @@ const emptyStats = {
   averageEntropy: 0,
   expiredPasswords: 0,
   compromisedCount: 0,
+  strongPasswords: 0,
   strengthBreakdown: {
     weak: 0,
     fair: 0,
@@ -116,10 +117,18 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { copied, copiedId, copy } = useClipboard(2000);
+  const mountedRef = useRef(true);
 
+  // Single fetch path shared by the initial load and the manual "Retry"
+  // button — previously this logic was duplicated in a separate effect,
+  // meaning every dashboard visit fired two independent copies of the
+  // same pair of network requests. `mountedRef` replaces the old local
+  // `ignore` flag so both call sites stay unmount-safe.
   const loadDashboard = useCallback(async ({ silent = false } = {}) => {
-    if (!silent) setLoading(true);
-    setError("");
+    if (!silent) {
+      setLoading(true);
+      setError("");
+    }
 
     try {
       const [statsResponse, entriesResponse] = await Promise.all([
@@ -127,48 +136,34 @@ export default function Dashboard() {
         getPasswords({ limit: 5, sortBy: "latest" }),
       ]);
 
+      if (!mountedRef.current) return;
       setStats(statsResponse?.data || emptyStats);
       setRecentEntries(entriesResponse?.data?.entries || []);
     } catch (err) {
+      if (!mountedRef.current) return;
       setError(
         err?.response?.data?.message ||
           "Couldn't load your dashboard. Please make sure the backend is running."
       );
     } finally {
-      setLoading(false);
+      if (mountedRef.current) setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    let ignore = false;
-    async function init() {
-      try {
-        const [statsResponse, entriesResponse] = await Promise.all([
-          getDashboardStats(),
-          getPasswords({ limit: 5, sortBy: "latest" }),
-        ]);
-        if (!ignore) {
-          setStats(statsResponse?.data || emptyStats);
-          setRecentEntries(entriesResponse?.data?.entries || []);
-        }
-      } catch (err) {
-        if (!ignore) {
-          setError(
-            err?.response?.data?.message ||
-              "Couldn't load your dashboard. Please make sure the backend is running."
-          );
-        }
-      } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
-      }
-    }
-    init();
+    mountedRef.current = true;
+    // `silent: true` — `loading`/`error` already start at the right
+    // values, so nothing needs resetting on mount. Wrapped in an IIFE
+    // (rather than calling loadDashboard directly) so the effect body
+    // itself never performs a synchronous setState call, which avoids
+    // the extra cascading render that pattern can trigger.
+    (async () => {
+      await loadDashboard({ silent: true });
+    })();
     return () => {
-      ignore = true;
+      mountedRef.current = false;
     };
-  }, []);
+  }, [loadDashboard]);
 
   const statCards = useMemo(
     () => [
@@ -215,31 +210,34 @@ export default function Dashboard() {
     [stats]
   );
 
-  const handleCopy = async (entry) => {
-    try {
-      if (!vaultKey) {
-        toast.error("Vault is locked. Visit the Vault page to unlock with Master Key.");
-        return;
+  const handleCopy = useCallback(
+    async (entry) => {
+      try {
+        if (!vaultKey) {
+          toast.error("Vault is locked. Visit the Vault page to unlock with Master Key.");
+          return;
+        }
+        if (!entry.cipherText || !entry.iv || !entry.authTag) {
+          toast.error("Password not available.");
+          return;
+        }
+        const password = await decryptSecret(
+          { cipherText: entry.cipherText, iv: entry.iv, authTag: entry.authTag },
+          vaultKey
+        );
+        copy(password, entry.id);
+        toast.success("Decrypted password copied to clipboard! 📋");
+      } catch {
+        toast.error("Could not decrypt password with current key.");
       }
-      if (!entry.cipherText || !entry.iv || !entry.authTag) {
-        toast.error("Password not available.");
-        return;
-      }
-      const password = await decryptSecret(
-        { cipherText: entry.cipherText, iv: entry.iv, authTag: entry.authTag },
-        vaultKey
-      );
-      copy(password, entry.id);
-      toast.success("Decrypted password copied to clipboard! 📋");
-    } catch {
-      toast.error("Could not decrypt password with current key.");
-    }
-  };
+    },
+    [vaultKey, copy]
+  );
 
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#E6E0D5] shadow-lg bg-gradient-to-br from-white via-white to-blush/35">
+      <div className="glass-pattern animate-fade-in relative overflow-hidden rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#E6E0D5] shadow-lg bg-gradient-to-br from-white via-white to-blush/35">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-xs font-semibold text-[#8B263E] mb-1">
@@ -288,13 +286,13 @@ export default function Dashboard() {
       )}
 
       {/* 4 Stat Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      <div className="animate-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className="glass-card p-5 rounded-3xl border border-[#E6E0D5] flex items-center justify-between transition-all hover:border-[#8B263E] shadow-card hover:shadow-card-hover"
+              className="animate-slide-up glass-card p-5 rounded-3xl border border-[#E6E0D5] flex items-center justify-between transition-all hover:border-[#8B263E] shadow-card hover:shadow-card-hover"
             >
               <div className="space-y-1.5">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#6B6560]">
@@ -322,7 +320,7 @@ export default function Dashboard() {
       {/* Main Grid: Recent Entries + Vault Health */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Entries */}
-        <div className="lg:col-span-2 glass-panel rounded-3xl p-6 sm:p-8 space-y-6 border border-[#E6E0D5] shadow-lg bg-white/90">
+        <div className="glass-pattern animate-slide-up anim-delay-1 lg:col-span-2 glass-panel rounded-3xl p-6 sm:p-8 space-y-6 border border-[#E6E0D5] shadow-lg bg-white/90">
           <div className="flex items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-bold text-[#1a1a1a]">
@@ -411,7 +409,7 @@ export default function Dashboard() {
         </div>
 
         {/* Vault Health Column */}
-        <div className="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 border border-[#E6E0D5] shadow-lg bg-white/90">
+        <div className="glass-pattern animate-slide-up anim-delay-2 glass-panel rounded-3xl p-6 sm:p-8 space-y-6 border border-[#E6E0D5] shadow-lg bg-white/90">
           <div>
             <h2 className="text-xl font-bold text-[#1a1a1a]">
               Vault Health

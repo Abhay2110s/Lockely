@@ -101,6 +101,27 @@
 .animate-stagger > *:nth-child(5) { animation-delay: 240ms; }
 .animate-stagger > *:nth-child(6) { animation-delay: 300ms; }
 
+/* ─── Standalone Delay Utilities (for non-grid staggered sections) ─── */
+.anim-delay-1 { animation-delay: 80ms; }
+.anim-delay-2 { animation-delay: 160ms; }
+.anim-delay-3 { animation-delay: 240ms; }
+
+/* ─── Reduced Motion Safety Net ──────────────────────────────────────
+   Entrance animations use opacity + transform only (GPU-friendly, no
+   layout thrash) so they stay smooth at every breakpoint. Users who
+   prefer reduced motion still see final-state content immediately
+   instead of a broken/skipped animation. ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-scale-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* ─── Hero Video Background ──────────────────────────────────────────── */
 .hero-video-canvas {
   position: absolute;

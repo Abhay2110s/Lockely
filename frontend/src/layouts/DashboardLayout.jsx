@@ -49,7 +49,7 @@ export default function DashboardLayout() {
       {/* ================================================================ */}
       <aside
         className={`
-          fixed md:sticky top-0 bottom-0 left-0 z-50 w-64 bg-[#FAF8F3]/95 backdrop-blur-xl border-r border-[#E6E0D5] flex flex-col justify-between transition-transform duration-200 ease-in-out
+          animate-fade-in glass-pattern fixed md:sticky top-0 bottom-0 left-0 z-50 w-64 bg-[#FAF8F3]/95 backdrop-blur-xl border-r border-[#E6E0D5] flex flex-col justify-between transition-transform duration-200 ease-in-out
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
           h-screen overflow-y-auto
         `}
@@ -163,7 +163,7 @@ export default function DashboardLayout() {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10 bg-[#FDFBF7]">
 
         {/* Top Header Bar */}
-        <header className="sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#E6E0D5] px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
+        <header className="animate-slide-down sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#E6E0D5] px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
           {/* Left: Hamburger button for mobile */}
           <div className="flex items-center gap-3">
             <button
@@ -219,7 +219,7 @@ export default function DashboardLayout() {
 
               {/* Dropdown Menu */}
               {userDropdownOpen && (
-                <div className="absolute right-0 top-12 w-56 bg-white p-2 z-50 rounded-2xl border border-[#E6E0D5] shadow-xl">
+                <div className="animate-scale-in origin-top-right absolute right-0 top-12 w-56 bg-white p-2 z-50 rounded-2xl border border-[#E6E0D5] shadow-xl">
                   <div className="px-3 py-2 border-b border-[#E6E0D5] mb-1.5">
                     <p className="text-xs font-bold text-[#1a1a1a] truncate">
                       {displayName}

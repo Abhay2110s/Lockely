@@ -122,10 +122,17 @@ export default function DashboardBackground() {
   const stateRef = useRef(null);
 
   const init = useCallback((canvas) => {
-    const ctx = canvas.getContext("2d", { alpha: false });
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
+    // Guard against a 0x0 read — can happen if init runs before the
+    // fixed-position wrapper has been laid out (e.g. right as the
+    // sidebar transition kicks off on a breakpoint change). Returning
+    // null lets the caller retry on the next frame instead of building
+    // a static layer and particle set that never actually renders.
+    if (w === 0 || h === 0) return null;
+
+    const ctx = canvas.getContext("2d", { alpha: false });
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = w * dpr;
     canvas.height = h * dpr;
     ctx.scale(dpr, dpr);
@@ -149,6 +156,7 @@ export default function DashboardBackground() {
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let reduced = motionQuery.matches;
+    let retryTimer = null;
 
     stateRef.current = init(canvas);
 
@@ -158,6 +166,16 @@ export default function DashboardBackground() {
       s.ctx.drawImage(s.staticLayer, 0, 0, s.w, s.h);
       for (const p of s.particles) p.draw(s.ctx);
     };
+
+    // Canvas measured 0x0 this frame (e.g. init ran mid-layout during a
+    // breakpoint/sidebar transition) — retry shortly instead of leaving
+    // the background permanently blank until the next resize event.
+    if (!stateRef.current) {
+      retryTimer = setTimeout(() => {
+        stateRef.current = init(canvas);
+        if (stateRef.current && reduced) drawStaticFrame();
+      }, 50);
+    }
 
     let lastFrameTime = 0;
     const animate = (now) => {
@@ -231,6 +249,7 @@ export default function DashboardBackground() {
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("resize", handleResize);
       clearTimeout(resizeTimer);
+      clearTimeout(retryTimer);
     };
   }, [init]);
 
