@@ -178,3 +178,30 @@
 .section-separator__item:hover {
   background: #8B263E;
 }
+
+/* --------------------------------------------------------------------------
+   Hero Entrance Animation — pure CSS, no JS animation library required
+   on the critical rendering path (keeps framer-motion out of the
+   initial bundle; it's only pulled in later by lazy below-fold sections).
+   -------------------------------------------------------------------------- */
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(50px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-anim {
+  animation: heroRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-anim--soft {
+  animation-name: heroRise;
+  animation-duration: 0.7s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-anim {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
