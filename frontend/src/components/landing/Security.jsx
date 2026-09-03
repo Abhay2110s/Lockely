@@ -39,7 +39,7 @@ const steps = [
 
 export default function Security() {
   const containerRef = useRef(null);
-  const [activeStepIndex, setActiveStepIndex] = useState(0);
+  const [setActiveStepIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -244,33 +244,7 @@ export default function Security() {
         </div>
 
         {/* Interactive Step Progress Indicator / Navigation Pills */}
-        <div className="absolute bottom-4 sm:bottom-6 inset-x-0 flex flex-col items-center gap-2 z-20 pointer-events-auto">
-          <div className="flex items-center gap-1.5 sm:gap-2 bg-white/90 backdrop-blur-md px-3.5 py-2 rounded-full border border-[#E6E0D5] shadow-xs">
-            {steps.map((step, idx) => {
-              const isActive = activeStepIndex === idx;
-              return (
-                <button
-                  key={step.no}
-                  onClick={() => scrollToStep(idx)}
-                  className={`group flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[0.68rem] sm:text-xs font-bold font-mono-code transition-all cursor-pointer ${
-                    isActive
-                      ? "bg-[#8B263E] text-white shadow-xs"
-                      : "text-[#6B6560] hover:text-[#1a1a1a] hover:bg-blush/20"
-                  }`}
-                  aria-label={`Jump to security step ${step.no}`}
-                >
-                  <span>{step.no}</span>
-                  <span className={`hidden sm:inline text-[0.65rem] ${isActive ? "text-white/90 font-sans" : "text-[#6B6560] font-sans"}`}>
-                    {step.title.split(" ")[0]}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          <span className="text-[0.65rem] text-[#6B6560] font-mono-code uppercase tracking-wider hidden sm:block">
-            Scroll or click pills to explore security layers ↓
-          </span>
-        </div>
+        
 
       </div>
     </section>
