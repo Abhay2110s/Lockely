@@ -5,14 +5,14 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-screen w-full bg-[#EFE6D8] flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-20 pb-16"
+      className="relative min-h-screen w-full bg-cream flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-20 pb-16"
     >
       {/* Ambient Canvas Layer */}
       <HeroVideoBackground />
 
       {/* Gentle Vignette */}
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(139,38,62,0.14)_100%)]"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(244,194,194,0.18)_100%)]"
         aria-hidden="true"
       />
 

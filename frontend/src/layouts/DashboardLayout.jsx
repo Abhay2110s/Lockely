@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAppAuth } from "@/context/AuthContext";
+import DashboardBackground from "@/components/dashboard/DashboardBackground";
 import {
   ShieldCheck,
   LayoutDashboard,
@@ -31,7 +32,10 @@ export default function DashboardLayout() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#1a1a1a] flex flex-col md:flex-row relative">
+    <div className="min-h-screen bg-cream text-[#1a1a1a] flex flex-col md:flex-row relative">
+      {/* Ambient Pattern Canvas for Dashboard */}
+      <DashboardBackground />
+
       {/* Mobile Backdrop for Sidebar */}
       {mobileOpen && (
         <div
@@ -261,7 +265,7 @@ export default function DashboardLayout() {
         </header>
 
         {/* Dynamic Page Outlet with Ambient Luxury Glow */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative z-10">
           <Outlet />
         </main>
       </div>

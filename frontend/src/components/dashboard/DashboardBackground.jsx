@@ -1,30 +1,24 @@
 import { useEffect, useRef, useCallback } from "react";
 
 /**
- * HeroVideoBackground — Elegant Light Luxury Canvas Background
- * Renders subtle architectural grid lines, delicate warm-gray coordinates,
- * and soft blush & burgundy floating circular particles over a light cream
- * background (#FDFBF7).
+ * DashboardBackground — Luxury Architectural Grid & Particle Canvas
+ * Renders subtle architectural grid lines, delicate rose-blush intersection dots,
+ * and soft floating circular particles over the cream theme background (#FDFBF7).
  *
- * Performance notes:
- * - The static grid + dot lattice is rendered ONCE onto an offscreen
- *   canvas and blitted with drawImage() every frame instead of being
- *   re-stroked line-by-line 60x/sec — this is the main-thread cost that
- *   used to dominate the animation loop.
- * - The loop is fully stopped (not just throttled) when the user prefers
- *   reduced motion, and paused when the tab is hidden, instead of
- *   burning CPU in the background forever.
- * - The loop is capped at ~30fps — plenty smooth for slow-drifting
- *   particles and a soft scanline, at half the main-thread cost of 60fps.
+ * Performance features:
+ * - Offscreen canvas pre-rendering for static grid lines & dots (zero continuous draw overhead)
+ * - 30fps animation cap for minimal main-thread and GPU impact
+ * - Automatic loop pause when tab is hidden or user prefers reduced motion
+ * - pointer-events-none to prevent any interaction conflicts
  */
 
 const COLORS = {
   bg: "#FDFBF7",
   surface: "#FFFFFF",
-  blush: "#D9778A", // Deepened rose/blush for clear visibility against light cream
+  blush: "#D9778A",
   burgundy: "#8B263E",
   muted: "#6B6560",
-  warmGray: "#C4B9AA", // Deeper warm-gray for legible grid contrast without being harsh
+  warmGray: "#C4B9AA",
 };
 
 const FRAME_INTERVAL = 1000 / 30; // cap at ~30fps
@@ -46,17 +40,19 @@ function rgba({ r, g, b }, a) {
 }
 
 class Particle {
-  constructor(w, h) { this.reset(w, h, true); }
+  constructor(w, h) {
+    this.reset(w, h, true);
+  }
 
   reset(w, h, initial = false) {
     this.x = initial ? rand(0, w) : rand(-20, w + 20);
     this.y = initial ? rand(0, h) : h + rand(10, 40);
-    this.radius = rand(1.5, 3.5);
-    this.speed = rand(0.2, 0.6);
-    this.drift = rand(-0.15, 0.15);
-    this.opacity = rand(0.4, 0.8);
+    this.radius = rand(1.2, 2.8);
+    this.speed = rand(0.15, 0.45);
+    this.drift = rand(-0.12, 0.12);
+    this.opacity = rand(0.3, 0.65);
     this.pulse = rand(0, Math.PI * 2);
-    this.pulseSpeed = rand(0.01, 0.025);
+    this.pulseSpeed = rand(0.01, 0.02);
 
     const palette = [COLORS.blush, COLORS.burgundy, COLORS.warmGray];
     this.color = hexToRgb(palette[Math.floor(rand(0, palette.length))]);
@@ -66,7 +62,9 @@ class Particle {
     this.y -= this.speed;
     this.x += this.drift;
     this.pulse += this.pulseSpeed;
-    if (this.y < -10 || this.x < -30 || this.x > w + 30) this.reset(w, h);
+    if (this.y < -10 || this.x < -30 || this.x > w + 30) {
+      this.reset(w, h);
+    }
   }
 
   draw(ctx) {
@@ -78,9 +76,6 @@ class Particle {
   }
 }
 
-// Renders the static grid + dot lattice once onto an offscreen canvas so
-// the animation loop only has to drawImage() it instead of re-stroking
-// dozens of lines and dots every frame.
 function renderStaticGridLayer(w, h, dpr) {
   const layer = document.createElement("canvas");
   layer.width = w * dpr;
@@ -94,7 +89,7 @@ function renderStaticGridLayer(w, h, dpr) {
   const spacing = 80;
   const rgb = hexToRgb(COLORS.warmGray);
   ctx.lineWidth = 1;
-  ctx.strokeStyle = rgba(rgb, 0.65);
+  ctx.strokeStyle = rgba(rgb, 0.5);
 
   ctx.beginPath();
   for (let y = 0; y < h; y += spacing) {
@@ -108,7 +103,7 @@ function renderStaticGridLayer(w, h, dpr) {
   ctx.stroke();
 
   const blushRgb = hexToRgb(COLORS.blush);
-  ctx.fillStyle = rgba(blushRgb, 0.75);
+  ctx.fillStyle = rgba(blushRgb, 0.65);
   const dotSize = 2;
   for (let x = spacing; x < w; x += spacing * 2) {
     for (let y = spacing; y < h; y += spacing * 2) {
@@ -121,7 +116,7 @@ function renderStaticGridLayer(w, h, dpr) {
   return layer;
 }
 
-export default function HeroVideoBackground() {
+export default function DashboardBackground() {
   const canvasRef = useRef(null);
   const animRef = useRef(null);
   const stateRef = useRef(null);
@@ -135,10 +130,13 @@ export default function HeroVideoBackground() {
     canvas.height = h * dpr;
     ctx.scale(dpr, dpr);
 
-    const particleCount = Math.min(Math.floor(w * 0.025), 28);
+    const particleCount = Math.min(Math.floor(w * 0.02), 22);
 
     return {
-      ctx, w, h, dpr,
+      ctx,
+      w,
+      h,
+      dpr,
       staticLayer: renderStaticGridLayer(w, h, dpr),
       particles: Array.from({ length: particleCount }, () => new Particle(w, h)),
       time: 0,
@@ -174,14 +172,6 @@ export default function HeroVideoBackground() {
 
       ctx.drawImage(staticLayer, 0, 0, w, h);
 
-      const blushRgb = hexToRgb(COLORS.blush);
-      const scanY = (s.time * 40) % (h + 100) - 50;
-      ctx.strokeStyle = rgba(blushRgb, 0.2);
-      ctx.beginPath();
-      ctx.moveTo(0, scanY);
-      ctx.lineTo(w, scanY);
-      ctx.stroke();
-
       for (const p of particles) {
         p.update(w, h);
         p.draw(ctx);
@@ -193,6 +183,7 @@ export default function HeroVideoBackground() {
       lastFrameTime = 0;
       animRef.current = requestAnimationFrame(animate);
     };
+
     const stopLoop = () => {
       if (animRef.current) cancelAnimationFrame(animRef.current);
       animRef.current = null;
@@ -215,7 +206,6 @@ export default function HeroVideoBackground() {
     };
     motionQuery.addEventListener("change", handleMotionChange);
 
-    // Don't burn CPU animating a canvas nobody can see.
     const handleVisibility = () => {
       if (document.visibilityState === "hidden") {
         stopLoop();
@@ -245,10 +235,16 @@ export default function HeroVideoBackground() {
   }, [init]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="hero-video-canvas pointer-events-none absolute inset-0 z-0 w-full h-full"
-    />
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full block"
+      />
+      {/* Soft Ambient Vignette */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_60%,rgba(244,194,194,0.12)_100%)]"
+        aria-hidden="true"
+      />
+    </div>
   );
 }
