@@ -13,7 +13,7 @@ export function FeatureCard({
   className = "",
 }) {
   return (
-    <div className={`w-[340px] sm:w-[385px] bg-[#111111] border border-[#222222] hover:border-[#00FF66] transition-colors duration-100 rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-6 cursor-default group ${className}`}>
+    <div className={`w-[320px] sm:w-[380px] bg-[#111111] border border-[#222222] hover:border-[#00FF66] transition-colors duration-100 rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-6 cursor-default group ${className}`}>
       {/* Top Row: Technical Numbering & Stark White Icon */}
       <div className="flex items-center justify-between border-b border-[#222222] pb-4">
         <div className="flex items-center gap-3 font-mono">
@@ -63,18 +63,20 @@ export function FeatureCard({
   );
 }
 
-// 1. Extract individual card rendering into a sub-component so hooks stay at the top level
-function SemicircleCard({ item, index, scrollYProgress }) {
-  const radius = 380;
+// Isolated sub-component keeping hooks clean at the top level
+function SemicircleArcCard({ item, index, scrollYProgress }) {
+  const radius = 360; // Radius of the bottom arc trajectory
   const start = index * 0.18;
   const end = start + 0.35;
-  // const mid = start + 0.175;
 
-  // Hooks are now called cleanly at the top level of a React component function
-  const angle = useTransform(scrollYProgress, [start, end], [Math.PI, 0]);
+  // Maps scroll progress to an angle from 0 (Right Bottom) to Math.PI (Left Bottom)
+  const angle = useTransform(scrollYProgress, [start, end], [0, Math.PI]);
+  
+  // Cartesian coordinate calculations along the semicircle perimeter
   const x = useTransform(angle, (val) => radius * Math.cos(val));
-  const y = useTransform(angle, (val) => -radius * Math.sin(val));
-  const scale = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], [0.8, 1.02, 1.02, 0.8]);
+  const y = useTransform(angle, (val) => -radius * Math.sin(val) * 0.5);
+
+  const scale = useTransform(scrollYProgress, [start, start + 0.1, end - 0.1, end], [0.85, 1.02, 1.02, 0.85]);
   const opacity = useTransform(scrollYProgress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0]);
 
   return (
@@ -86,7 +88,7 @@ function SemicircleCard({ item, index, scrollYProgress }) {
         opacity,
         zIndex: 10 - index,
       }}
-      className="absolute"
+      className="absolute bottom-8"
     >
       <FeatureCard {...item} />
     </motion.div>
@@ -102,7 +104,7 @@ export default function FeatureCards({ items = [], className = "" }) {
 
   return (
     <section ref={containerRef} className={`h-[400vh] bg-black relative ${className}`}>
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-between pb-16">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-between pb-12">
         
         {/* Section Header */}
         <div className="pt-16 text-center max-w-2xl px-4 z-20">
@@ -116,14 +118,14 @@ export default function FeatureCards({ items = [], className = "" }) {
 
         {/* Bottom Semicircle Background Guide Track */}
         <div 
-          className="absolute bottom-0 w-[760px] h-[380px] border-b-2 border-dashed border-[#222222] rounded-b-full pointer-events-none opacity-40" 
-          style={{ left: "calc(50% - 380px)" }}
+          className="absolute bottom-[-140px] w-[720px] h-[360px] border-t-2 border-dashed border-[#222222] rounded-t-full pointer-events-none opacity-40" 
+          style={{ left: "calc(50% - 360px)" }}
         />
 
-        {/* Cards Traversing the Bottom Semicircle Arc from Left to Right */}
-        <div className="relative w-full h-[300px] flex items-end justify-center mb-8">
+        {/* Cards Container anchored at the bottom */}
+        <div className="relative w-full h-[280px] flex items-end justify-center mb-6">
           {items.map((item, index) => (
-            <SemicircleCard 
+            <SemicircleArcCard 
               key={item.number || index} 
               item={item} 
               index={index} 
