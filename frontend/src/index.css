@@ -7,12 +7,32 @@
 @import "./styles/glassmorphic.css";
 @import "./styles/landing-theme.css";
 
+@config "../tailwind.config.js";
+
+@theme {
+  --color-bg-void: var(--bg-void, #000000);
+  --color-bg-surface: var(--bg-surface, #111111);
+  --color-text-primary: var(--text-primary, #F8F9FA);
+  --color-text-muted: var(--text-muted, #6B7280);
+  --color-accent-cyber: var(--accent-cyber, #00FF66);
+  --color-accent-alert: var(--accent-alert, #FF3366);
+  --color-border-harsh: var(--border-harsh, #222222);
+
+  --color-void: #000000;
+  --color-surface: #111111;
+  --color-cyber: #00FF66;
+  --color-alert: #FF3366;
+  --color-harsh: #222222;
+
+  --font-sans: 'Geist', 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 html {
   scroll-behavior: smooth;
-  /* Fixed navbar is ~64-80px tall depending on scroll state — this keeps
-     anchor-link targets (#features, #security, #faq, ...) from landing
-     with their heading cropped underneath it. */
   scroll-padding-top: 96px;
+  background-color: #000000;
+  color: #F8F9FA;
 }

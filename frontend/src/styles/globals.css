@@ -12,7 +12,7 @@
    fixed at the source — but it keeps one bad component from breaking
    the whole page's horizontal layout while that happens. */
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Remove default margin/padding from common elements */

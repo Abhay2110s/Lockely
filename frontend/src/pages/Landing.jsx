@@ -16,16 +16,16 @@ export default function Landing() {
   return (
     <div className="landing-page">
       <Hero />
-      <SectionSeparator />
+
       <Suspense fallback={null}>
         <Features />
-        <SectionSeparator />
+
         <Security />
-        <SectionSeparator />
+
         <InteractiveDemo />
-        <SectionSeparator />
+
         <FAQ />
-        <SectionSeparator />
+
         <CTA />
       </Suspense>
     </div>

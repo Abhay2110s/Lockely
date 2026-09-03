@@ -347,7 +347,7 @@ export default function Vault() {
       )}
 
       {/* Filter and Search Control Bar */}
-      <div className="glass-panel p-4 rounded-2xl border border-pink-500/25 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="p-4 bg-[#111111] border border-[#222222] flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Category Pills */}
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 [scrollbar-width:none] [-webkit-overflow-scrolling:touch]">
           {categories.map((cat) => {
@@ -358,10 +358,10 @@ export default function Vault() {
                 key={cat.label}
                 onClick={() => setActiveCategory(value)}
                 className={`
-                  flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer
+                  flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold font-mono-code uppercase tracking-wider whitespace-nowrap transition-colors shrink-0 cursor-pointer border
                   ${isSelected
-                    ? "glass-btn-primary text-white"
-                    : "glass-btn-ghost text-[#fda4b8]"
+                    ? "bg-[#00FF66] text-[#000000] border-[#00FF66]"
+                    : "bg-[#000000] text-[#6B7280] border-[#222222] hover:text-[#F8F9FA] hover:border-[#444444]"
                   }
                 `}
               >
@@ -373,36 +373,36 @@ export default function Vault() {
 
         {/* Search input */}
         <div className="relative w-full md:w-72">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8] pointer-events-none" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#6B7280] pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search credentials..."
-            className="glass-input pl-10 pr-10 py-2.5 text-xs text-white placeholder:text-[#fda4b8]/50 bg-[#120307]"
+            className="glass-input pl-10 pr-10 py-2 text-xs text-[#F8F9FA] placeholder:text-[#6B7280] bg-[#000000] border border-[#222222] focus:border-[#00FF66]"
           />
           {search ? (
             <button
               type="button"
               onClick={() => setSearch("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[#fda4b8] hover:text-white"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-[#6B7280] hover:text-[#F8F9FA]"
             >
               <X className="size-3.5" />
             </button>
           ) : isLoading ? (
-            <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 size-3.5 text-[#fda4b8] animate-spin" />
+            <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 size-3.5 text-[#6B7280] animate-spin" />
           ) : null}
         </div>
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-950 border border-rose-500/40 text-rose-200 text-xs">
+        <div className="p-4 bg-[#1a0006] border border-[#FF3366]/40 text-[#FF3366] text-xs font-mono-code">
           {error}
         </div>
       )}
 
-      {/* Vault Items List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {/* Vault Items List — Deep Charcoal #111111 Secondary Surface */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {!isLoading &&
           displayEntries.map((item) => {
             const isPasswordVisible = visibleId === item.id;
@@ -412,25 +412,25 @@ export default function Vault() {
             return (
               <div
                 key={item.id}
-                className="glass-card p-5 sm:p-6 space-y-4 border border-[#7a1534] hover:border-[#be2656] transition-all group"
+                className="bg-[#111111] p-5 sm:p-6 space-y-4 border border-[#222222] hover:border-[#333333] transition-colors group"
               >
                 {/* Header Row */}
-                <div className="flex items-center justify-between gap-3 border-b border-[#581026] pb-3.5">
+                <div className="flex items-center justify-between gap-3 border-b border-[#222222] pb-3.5">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="size-11 rounded-xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] border border-white/20 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-lg shadow-[#be2656]/20">
+                    <div className="size-10 bg-[#000000] border border-[#222222] text-[#00FF66] flex items-center justify-center font-bold text-base shrink-0 font-mono-code">
                       {item.title?.[0]?.toUpperCase() || "?"}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-base font-bold text-white truncate">
+                      <h3 className="text-base font-bold text-[#F8F9FA] truncate uppercase tracking-wide">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-[#fda4b8]/80 font-mono-code truncate flex items-center gap-1">
+                      <p className="text-xs text-[#6B7280] font-mono-code truncate flex items-center gap-1">
                         {item.website || item.url ? (
                           <a
                             href={item.url?.startsWith("http") ? item.url : `https://${item.url || item.website}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:underline hover:text-white inline-flex items-center gap-0.5"
+                            className="hover:underline hover:text-[#00FF66] inline-flex items-center gap-0.5"
                           >
                             {item.website || item.url} <ExternalLink className="size-2.5 inline shrink-0" />
                           </a>
@@ -442,12 +442,12 @@ export default function Vault() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="glass-badge-blush text-[0.65rem]">
+                    <span className="px-2 py-0.5 text-[0.65rem] bg-[#000000] border border-[#222222] text-[#6B7280] font-mono-code uppercase tracking-wider">
                       {item.category || "General"}
                     </span>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="p-1.5 rounded-lg text-[#fda4b8]/70 hover:text-rose-300 hover:bg-rose-950 transition-colors shrink-0"
+                      className="p-1.5 text-[#6B7280] hover:text-[#FF3366] hover:bg-[#1a0006] transition-colors border border-transparent hover:border-[#FF3366]/40 shrink-0"
                       title="Move to trash"
                     >
                       <Trash2 className="size-4" />
@@ -456,20 +456,20 @@ export default function Vault() {
                 </div>
 
                 {/* Username Field */}
-                <div className="p-2.5 rounded-xl bg-[#130207] border border-[#7a1534] flex items-center justify-between gap-2.5 text-xs">
-                  <span className="text-[#fda4b8] text-[0.7rem] uppercase font-mono-code font-bold shrink-0">User:</span>
-                  <span className="font-mono-code font-medium text-[#fff5f7] truncate flex-1 min-w-0">{item.username || "—"}</span>
+                <div className="p-2.5 bg-[#000000] border border-[#222222] flex items-center justify-between gap-2.5 text-xs font-mono-code">
+                  <span className="text-[#6B7280] text-[0.7rem] uppercase font-bold shrink-0">User:</span>
+                  <span className="font-medium text-[#F8F9FA] truncate flex-1 min-w-0">{item.username || "—"}</span>
                   <button
                     onClick={() => {
                       copy(item.username, `${item.id}-user`);
                       toast.success("Username copied!");
                     }}
                     disabled={!item.username}
-                    className="p-1.5 rounded-lg bg-[#240610] text-[#fda4b8] hover:text-white disabled:opacity-30 transition-colors cursor-pointer border border-[#7a1534] shrink-0"
+                    className="p-1.5 bg-[#111111] text-[#6B7280] hover:text-[#00FF66] hover:border-[#00FF66] disabled:opacity-30 transition-colors cursor-pointer border border-[#222222] shrink-0"
                     title="Copy Username"
                   >
                     {copied && copiedId === `${item.id}-user` ? (
-                      <Check className="size-3.5 text-emerald-400" />
+                      <Check className="size-3.5 text-[#00FF66]" />
                     ) : (
                       <Copy className="size-3.5" />
                     )}
@@ -477,11 +477,11 @@ export default function Vault() {
                 </div>
 
                 {/* Password Field */}
-                <div className="p-2.5 rounded-xl bg-[#20050e] border border-[#7a1534] flex items-center justify-between gap-2.5 text-xs">
-                  <span className="text-[#fda4b8] text-[0.7rem] uppercase font-mono-code font-bold flex items-center gap-1.5 shrink-0">
-                    <Lock className="size-3.5 text-[#fb7193] shrink-0" /> Key:
+                <div className="p-2.5 bg-[#000000] border border-[#222222] flex items-center justify-between gap-2.5 text-xs font-mono-code">
+                  <span className="text-[#6B7280] text-[0.7rem] uppercase font-bold flex items-center gap-1.5 shrink-0">
+                    <Lock className="size-3.5 text-[#00FF66] shrink-0" /> Key:
                   </span>
-                  <span className="font-mono-code text-white font-semibold truncate tracking-wider flex-1 min-w-0">
+                  <span className="text-[#F8F9FA] font-semibold truncate tracking-wider flex-1 min-w-0">
                     {isPasswordVisible && displayPassword ? displayPassword : "••••••••••••••••"}
                   </span>
 
@@ -489,24 +489,25 @@ export default function Vault() {
                     <button
                       onClick={() => handleToggleVisible(item)}
                       disabled={isRevealing}
-                      className="p-1.5 rounded-lg bg-[#2b0813] text-[#fda4b8] hover:text-white disabled:opacity-50 transition-colors cursor-pointer border border-[#7a1534]"
+                      className="p-1.5 bg-[#111111] text-[#6B7280] hover:text-[#F8F9FA] hover:border-[#F8F9FA] disabled:opacity-50 transition-colors cursor-pointer border border-[#222222]"
                       title="Toggle Password Visibility"
                     >
                       {isRevealing ? (
-                        <Loader2 className="size-3.5 animate-spin text-[#fb7193]" />
+                        <Loader2 className="size-3.5 animate-spin text-[#00FF66]" />
                       ) : isPasswordVisible ? (
                         <EyeOff className="size-3.5" />
                       ) : (
                         <Eye className="size-3.5" />
                       )}
                     </button>
+                    {/* Copy Password Button with Sharp Neon Cyber-Green State */}
                     <button
                       onClick={() => handleCopyPassword(item)}
-                      className="p-1.5 rounded-lg bg-[#2b0813] text-[#fda4b8] hover:text-white transition-colors cursor-pointer border border-[#7a1534]"
+                      className="p-1.5 bg-[#111111] text-[#00FF66] hover:bg-[#00FF66] hover:text-[#000000] transition-colors cursor-pointer border border-[#222222] hover:border-[#00FF66]"
                       title="Copy Password"
                     >
                       {copied && copiedId === `${item.id}-pass` ? (
-                        <Check className="size-3.5 text-emerald-400" />
+                        <Check className="size-3.5 text-[#00FF66]" />
                       ) : (
                         <Copy className="size-3.5" />
                       )}
@@ -518,22 +519,22 @@ export default function Vault() {
           })}
 
         {isLoading && (
-          <div className="col-span-full glass-panel p-12 rounded-3xl border border-pink-500/25 text-center space-y-3">
-            <div className="size-12 rounded-2xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center mx-auto shadow-lg text-white">
-              <Loader2 className="size-6 animate-spin" />
+          <div className="col-span-full p-12 bg-[#111111] border border-[#222222] text-center space-y-3">
+            <div className="size-10 bg-[#000000] border border-[#222222] flex items-center justify-center mx-auto text-[#00FF66]">
+              <Loader2 className="size-5 animate-spin" />
             </div>
-            <p className="text-lg font-bold text-white">Loading your vault…</p>
-            <p className="text-xs text-[#fda4b8]/70 font-mono-code">Decrypting zero-knowledge credentials</p>
+            <p className="text-base font-bold text-[#F8F9FA] uppercase tracking-wide">Loading your vault…</p>
+            <p className="text-xs text-[#6B7280] font-mono-code uppercase">Decrypting zero-knowledge credentials</p>
           </div>
         )}
 
         {!isLoading && displayEntries.length === 0 && !error && (
-          <div className="col-span-full glass-card p-12 rounded-3xl text-center space-y-3 border border-dashed border-pink-500/25">
-            <ShieldAlert className="size-12 text-[#fda4b8]/50 mx-auto" />
-            <h3 className="text-lg font-bold text-white">
+          <div className="col-span-full p-12 bg-[#111111] border border-[#222222] text-center space-y-3">
+            <ShieldAlert className="size-10 text-[#6B7280] mx-auto" />
+            <h3 className="text-base font-bold text-[#F8F9FA] uppercase tracking-wide">
               {search ? `No credentials found matching "${search}"` : "No vault entries found"}
             </h3>
-            <p className="text-xs text-[#fda4b8]/80">
+            <p className="text-xs text-[#6B7280] font-mono-code">
               {search
                 ? "Try a different search query or check spelling."
                 : "Add your first secret credential using the button above."}
@@ -553,36 +554,36 @@ export default function Vault() {
 
       {/* Unlock Vault Modal */}
       {isUnlockModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0c0205]/85 flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-[#1a040b] rounded-3xl border border-pink-500/35 shadow-2xl p-6 sm:p-8 space-y-6">
+        <div className="fixed inset-0 z-50 bg-[#000000]/90 flex items-center justify-center p-4">
+          <div className="w-full max-w-sm bg-[#111111] border border-[#222222] p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="size-10 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] text-white flex items-center justify-center font-bold shadow-lg">
+                <div className="size-10 bg-[#000000] border border-[#222222] text-[#00FF66] flex items-center justify-center font-bold">
                   <Unlock className="size-5" />
                 </div>
-                <h2 className="text-xl font-bold text-white">Unlock Vault</h2>
+                <h2 className="text-lg font-bold text-[#F8F9FA] uppercase tracking-wider">Unlock Vault</h2>
               </div>
               <button
                 onClick={() => setIsUnlockModalOpen(false)}
-                className="p-1.5 rounded-lg bg-[#280712] text-[#fda4b8] hover:text-white border border-pink-500/20"
+                className="p-1.5 bg-[#000000] text-[#6B7280] hover:text-[#F8F9FA] border border-[#222222]"
               >
                 <X className="size-4" />
               </button>
             </div>
 
-            <p className="text-xs text-[#fda4b8] leading-relaxed">
+            <p className="text-xs text-[#6B7280] leading-relaxed">
               Enter your Master Password to derive your AES encryption key. Never leaves your browser memory.
             </p>
 
             {unlockError && (
-              <div className="bg-rose-950 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
+              <div className="bg-[#1a0006] border border-[#FF3366]/40 text-[#FF3366] text-xs px-3.5 py-2.5 font-mono-code">
                 {unlockError}
               </div>
             )}
 
             <form onSubmit={handleUnlock} className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-[#fda4b8] block mb-1.5">
+                <label className="text-xs font-bold text-[#6B7280] block mb-1.5 uppercase font-mono-code tracking-wider">
                   Master Password 🔑
                 </label>
                 <input
@@ -592,7 +593,7 @@ export default function Vault() {
                   value={unlockPassword}
                   onChange={(e) => setUnlockPassword(e.target.value)}
                   placeholder="Enter your master password"
-                  className="glass-input text-xs bg-[#120307]"
+                  className="glass-input text-xs bg-[#000000] border border-[#222222] focus:border-[#00FF66]"
                 />
               </div>
 
@@ -620,32 +621,32 @@ export default function Vault() {
 
       {/* Add Item Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0c0205]/85 flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#1a040b] rounded-3xl border border-pink-500/35 shadow-2xl p-6 sm:p-8 space-y-6">
+        <div className="fixed inset-0 z-50 bg-[#000000]/90 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#111111] border border-[#222222] p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="size-9 rounded-xl bg-gradient-to-br from-[#7a1534] to-[#f43f6e] flex items-center justify-center text-white">
+                <div className="size-9 bg-[#000000] border border-[#222222] text-[#00FF66] flex items-center justify-center">
                   <Plus className="size-5" />
                 </div>
-                <h2 className="text-xl font-bold text-white">Add Secret Entry</h2>
+                <h2 className="text-lg font-bold text-[#F8F9FA] uppercase tracking-wider">Add Secret Entry</h2>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 rounded-lg bg-[#280712] text-[#fda4b8] hover:text-white border border-pink-500/20"
+                className="p-1.5 bg-[#000000] text-[#6B7280] hover:text-[#F8F9FA] border border-[#222222]"
               >
                 <X className="size-4" />
               </button>
             </div>
 
             {formError && (
-              <div className="bg-rose-950 border border-rose-500/40 text-rose-200 text-xs px-3.5 py-2.5 rounded-xl">
+              <div className="bg-[#1a0006] border border-[#FF3366]/40 text-[#FF3366] text-xs px-3.5 py-2.5 font-mono-code">
                 {formError}
               </div>
             )}
 
             <form onSubmit={handleAddEntry} className="space-y-3.5">
               <div>
-                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
+                <label className="text-xs font-bold text-[#6B7280] block mb-1 uppercase font-mono-code tracking-wider">
                   Title / Service Name
                 </label>
                 <input
@@ -654,12 +655,12 @@ export default function Vault() {
                   value={newForm.title}
                   onChange={(e) => setNewForm({ ...newForm, title: e.target.value })}
                   placeholder="e.g. GitHub, Google, Netflix"
-                  className="glass-input text-xs bg-[#120307]"
+                  className="glass-input text-xs bg-[#000000] border border-[#222222] focus:border-[#00FF66]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
+                <label className="text-xs font-bold text-[#6B7280] block mb-1 uppercase font-mono-code tracking-wider">
                   Username / Email
                 </label>
                 <input
@@ -667,12 +668,12 @@ export default function Vault() {
                   value={newForm.username}
                   onChange={(e) => setNewForm({ ...newForm, username: e.target.value })}
                   placeholder="user@example.com"
-                  className="glass-input text-xs bg-[#120307]"
+                  className="glass-input text-xs bg-[#000000] border border-[#222222] focus:border-[#00FF66]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
+                <label className="text-xs font-bold text-[#6B7280] block mb-1 uppercase font-mono-code tracking-wider">
                   Password / Secret Key
                 </label>
                 <input
@@ -681,12 +682,12 @@ export default function Vault() {
                   value={newForm.password}
                   onChange={(e) => setNewForm({ ...newForm, password: e.target.value })}
                   placeholder="Secret password"
-                  className="glass-input text-xs font-mono-code bg-[#120307]"
+                  className="glass-input text-xs font-mono-code bg-[#000000] border border-[#222222] focus:border-[#00FF66]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
+                <label className="text-xs font-bold text-[#6B7280] block mb-1 uppercase font-mono-code tracking-wider">
                   Website URL (Optional)
                 </label>
                 <input
@@ -694,21 +695,21 @@ export default function Vault() {
                   value={newForm.url}
                   onChange={(e) => setNewForm({ ...newForm, url: e.target.value })}
                   placeholder="https://github.com"
-                  className="glass-input text-xs bg-[#120307]"
+                  className="glass-input text-xs bg-[#000000] border border-[#222222] focus:border-[#00FF66]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#fda4b8] block mb-1">
+                <label className="text-xs font-bold text-[#6B7280] block mb-1 uppercase font-mono-code tracking-wider">
                   Category
                 </label>
                 <select
                   value={newForm.category}
                   onChange={(e) => setNewForm({ ...newForm, category: e.target.value })}
-                  className="glass-input text-xs bg-[#120307] text-white"
+                  className="glass-input text-xs bg-[#000000] border border-[#222222] text-[#F8F9FA] focus:border-[#00FF66]"
                 >
                   {DEFAULT_CATEGORIES.map((c) => (
-                    <option key={c} value={c} className="bg-[#120307] text-white">{c}</option>
+                    <option key={c} value={c} className="bg-[#000000] text-[#F8F9FA]">{c}</option>
                   ))}
                 </select>
               </div>

@@ -1,146 +1,131 @@
 /* ==========================================================================
-   PassGuardian — RezonBio-Inspired Deep Indigo / Violet Landing Theme
-   Scoped to `.landing-page` so the inner app retains its burgundy palette.
+   PassGuardian — High-Contrast Cinematic Brutalist Landing Theme
+   Aesthetic: Immersive Editorial Manifesto
+   Tokens: Void Black (#000000), Charcoal (#111111), Off-White (#F8F9FA),
+           Muted (#6B7280), Cyber-Green (#00FF66), Harsh (#222222)
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   Violet Design Tokens (scoped)
-   -------------------------------------------------------------------------- */
 .landing-page {
-  --vi-950: #0d0a3e;
-  --vi-900: #120e52;
-  --vi-800: #1A126E;
-  --vi-700: #241C7F;
-  --vi-600: #2A2292;
-  --vi-500: #3F3AA5;
-  --vi-400: #6554DE;
-  --vi-300: #8B7FF0;
-  --vi-200: #B4ADFA;
-  --vi-100: #D5D1FC;
-  --vi-50:  #EFF2FF;
+  --bg-void: #000000;
+  --bg-surface: #111111;
+  --text-primary: #F8F9FA;
+  --text-muted: #6B7280;
+  --accent-cyber: #00FF66;
+  --accent-alert: #FF3366;
+  --border-harsh: #222222;
 
-  --warm-orange: #FB9660;
-  --warm-yellow: #FADD80;
-  --warm-peach:  #FFB87E;
-
-  --text-primary: #FFFFFF;
-  --text-secondary: #D5D1FC;
-  --text-muted: #8B7FF0;
-  --text-dim: #6554DE;
-
-  --stroke: rgba(26, 18, 110, 0.1);
-  --stroke-inverse: rgba(255, 255, 255, 0.15);
-
-  background-color: var(--vi-800);
-  color: var(--vi-50);
+  background-color: #000000 !important;
+  color: #F8F9FA !important;
 }
 
-/* --------------------------------------------------------------------------
-   Landing Background
-   -------------------------------------------------------------------------- */
 .landing-page .landing-bg,
 .landing-page {
-  background-color: var(--vi-800);
-  background-image:
-    radial-gradient(at 15% 15%, rgba(101, 84, 222, 0.3) 0px, transparent 55%),
-    radial-gradient(at 85% 20%, rgba(139, 127, 240, 0.15) 0px, transparent 50%),
-    radial-gradient(at 50% 60%, rgba(63, 58, 165, 0.25) 0px, transparent 65%),
-    radial-gradient(at 80% 85%, rgba(251, 150, 96, 0.1) 0px, transparent 55%);
-  background-attachment: fixed;
+  background-color: #000000 !important;
+  background-image: none !important;
 }
 
 /* --------------------------------------------------------------------------
-   Text Gradient Utilities
+   Editorial Manifesto Typography & Headings
    -------------------------------------------------------------------------- */
-.landing-page .text-gradient-violet {
-  background: linear-gradient(135deg, #ffffff 0%, #D5D1FC 30%, #8B7FF0 60%, #6554DE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.landing-page h1,
+.landing-page h2,
+.landing-page h3,
+.landing-page h4 {
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+  color: #F8F9FA !important;
 }
 
-.landing-page .text-gradient-warm {
-  background: linear-gradient(135deg, #FADD80 0%, #FB9660 50%, #FFB87E 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.landing-page .text-gradient-violet,
+.landing-page .text-gradient-warm,
+.landing-page .text-gradient-blush {
+  background: none !important;
+  -webkit-text-fill-color: #00FF66 !important;
+  color: #00FF66 !important;
 }
 
 /* --------------------------------------------------------------------------
-   Glass Panels & Cards (landing-scoped overrides)
+   Surfaces — Deep Charcoal (#111111) With 1px Harsh Borders (#222222)
    -------------------------------------------------------------------------- */
 .landing-page .glass-panel {
-  background-color: rgba(18, 14, 82, 0.85);
-  background-image: linear-gradient(145deg, rgba(36, 28, 127, 0.6) 0%, rgba(18, 14, 82, 0.9) 100%);
-  border: 1.5px solid rgba(101, 84, 222, 0.3);
-  box-shadow: 0 10px 35px rgba(13, 10, 62, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #111111 !important;
+  background-image: none !important;
+  border: 1px solid #222222 !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .landing-page .glass-panel:hover {
-  border-color: rgba(101, 84, 222, 0.5);
-  box-shadow: 0 12px 40px rgba(13, 10, 62, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 25px rgba(101, 84, 222, 0.3);
+  border-color: #333333 !important;
+  box-shadow: none !important;
 }
 
 .landing-page .glass-card {
-  background-color: rgba(26, 18, 110, 0.7);
-  background-image: linear-gradient(145deg, rgba(42, 34, 146, 0.5) 0%, rgba(18, 14, 82, 0.8) 100%);
-  border: 1.5px solid rgba(101, 84, 222, 0.25);
-  box-shadow: 0 10px 28px rgba(13, 10, 62, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.06);
-  border-radius: 1rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #111111 !important;
+  background-image: none !important;
+  border: 1px solid #222222 !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 .landing-page .glass-card:hover {
-  background-color: rgba(36, 28, 127, 0.75);
-  border-color: rgba(101, 84, 222, 0.45);
-  box-shadow: 0 14px 40px rgba(13, 10, 62, 0.8), 0 0 30px rgba(101, 84, 222, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  transform: translateY(-2.5px);
+  background-color: #171717 !important;
+  border-color: #333333 !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 .landing-page .glass-card-subtle {
-  background-color: rgba(13, 10, 62, 0.6);
-  border: 1px solid rgba(63, 58, 165, 0.25);
-  border-radius: 0.875rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #0d0d0d !important;
+  border: 1px solid #222222 !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
 }
 
 .landing-page .glass-card-subtle:hover {
-  border-color: rgba(101, 84, 222, 0.4);
-  box-shadow: 0 0 15px rgba(101, 84, 222, 0.2);
+  border-color: #333333 !important;
+  box-shadow: none !important;
 }
 
 /* --------------------------------------------------------------------------
-   Buttons (landing-scoped)
+   Buttons — Sharp Neon Cyber-Green (#00FF66) CTAs
    -------------------------------------------------------------------------- */
 .landing-page .glass-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #FB9660 0%, #FADD80 50%, #FFB87E 100%);
-  color: #1A126E;
-  font-weight: 700;
-  border-radius: 0.875rem;
-  border: 1.5px solid rgba(251, 150, 96, 0.4);
-  box-shadow: 0 6px 24px rgba(251, 150, 96, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: #00FF66 !important;
+  background-image: none !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-size: 0.75rem !important;
+  border-radius: 0px !important;
+  border: 1px solid #00FF66 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  text-shadow: none;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .landing-page .glass-btn-primary:hover {
-  background: linear-gradient(135deg, #FFB87E 0%, #FADD80 50%, #FB9660 100%);
-  border-color: rgba(251, 150, 96, 0.6);
-  box-shadow: 0 8px 32px rgba(251, 150, 96, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transform: translateY(-2px);
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border-color: #FFFFFF !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 .landing-page .glass-btn-primary:active {
-  transform: translateY(0.5px);
-  box-shadow: 0 4px 14px rgba(251, 150, 96, 0.3);
+  background: #00CC52 !important;
+  color: #000000 !important;
+  border-color: #00CC52 !important;
+  transform: none !important;
 }
 
 .landing-page .glass-btn-secondary {
@@ -148,24 +133,26 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: rgba(42, 34, 146, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #EFF2FF;
-  font-weight: 600;
-  border-radius: 0.875rem;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 16px rgba(13, 10, 62, 0.5);
+  background-color: #111111 !important;
+  background-image: none !important;
+  color: #F8F9FA !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  font-size: 0.75rem !important;
+  border-radius: 0px !important;
+  border: 1px solid #222222 !important;
+  box-shadow: none !important;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .landing-page .glass-btn-secondary:hover {
-  background-color: rgba(63, 58, 165, 0.6);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  box-shadow: 0 6px 24px rgba(13, 10, 62, 0.7);
-  transform: translateY(-1.5px);
+  background-color: #1c1c1c !important;
+  border-color: #F8F9FA !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 .landing-page .glass-btn-ghost {
@@ -173,126 +160,90 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: rgba(18, 14, 82, 0.4);
-  color: #B4ADFA;
-  border-radius: 0.75rem;
-  border: 1.5px solid rgba(63, 58, 165, 0.3);
+  background-color: transparent !important;
+  color: #6B7280 !important;
+  border-radius: 0px !important;
+  border: 1px solid #222222 !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em !important;
+  font-size: 0.75rem !important;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .landing-page .glass-btn-ghost:hover {
-  background-color: rgba(42, 34, 146, 0.5);
-  color: #ffffff;
-  border-color: rgba(101, 84, 222, 0.5);
-  box-shadow: 0 0 15px rgba(101, 84, 222, 0.3);
+  background-color: #111111 !important;
+  color: #F8F9FA !important;
+  border-color: #F8F9FA !important;
+  box-shadow: none !important;
 }
 
 /* --------------------------------------------------------------------------
-   Badges (landing-scoped)
+   Badges — Sharp Brutalist Tags
    -------------------------------------------------------------------------- */
 .landing-page .glass-badge-blush,
-.landing-page .landing-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.3rem 0.85rem;
-  border-radius: 9999px;
-  background: rgba(42, 34, 146, 0.5);
-  border: 1.5px solid rgba(101, 84, 222, 0.3);
-  color: #D5D1FC;
-  font-size: 0.75rem;
-  font-weight: 700;
-  box-shadow: 0 2px 10px rgba(13, 10, 62, 0.4);
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.landing-page .glass-badge-blush:hover,
-.landing-page .landing-badge:hover {
-  border-color: rgba(101, 84, 222, 0.5);
-  box-shadow: 0 0 18px rgba(101, 84, 222, 0.35);
-}
-
+.landing-page .landing-badge,
 .landing-page .glass-badge-burgundy {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.3rem 0.85rem;
-  border-radius: 9999px;
-  background-color: rgba(63, 58, 165, 0.4);
-  border: 1.5px solid rgba(101, 84, 222, 0.4);
-  color: #B4ADFA;
-  font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
+  padding: 0.25rem 0.65rem;
+  border-radius: 0px !important;
+  background: #111111 !important;
+  background-color: #111111 !important;
+  border: 1px solid #222222 !important;
+  color: #F8F9FA !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  box-shadow: none !important;
 }
 
-.landing-page .glass-badge-emerald {
+.landing-page .glass-badge-emerald,
+.landing-page .glass-badge-cyber {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.3rem 0.85rem;
-  border-radius: 9999px;
-  background-color: rgba(16, 185, 129, 0.12);
-  border: 1.5px solid #10b981;
-  color: #6ee7b7;
-  font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
+  padding: 0.25rem 0.65rem;
+  border-radius: 0px !important;
+  background: rgba(0, 255, 102, 0.06) !important;
+  border: 1px solid #00FF66 !important;
+  color: #00FF66 !important;
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  box-shadow: none !important;
 }
 
 /* --------------------------------------------------------------------------
-   Inputs (landing-scoped)
+   Inputs — Deep Charcoal (#111111)
    -------------------------------------------------------------------------- */
 .landing-page .glass-input {
-  background-color: rgba(13, 10, 62, 0.7);
-  border: 1.5px solid rgba(101, 84, 222, 0.3);
-  color: #EFF2FF;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  background-color: #111111 !important;
+  border: 1px solid #222222 !important;
+  border-radius: 0px !important;
+  color: #F8F9FA !important;
+  box-shadow: none !important;
 }
 
 .landing-page .glass-input::placeholder {
-  color: rgba(180, 173, 250, 0.5);
+  color: #6B7280 !important;
 }
 
 .landing-page .glass-input:focus {
-  outline: none;
-  background-color: rgba(18, 14, 82, 0.8);
-  border-color: #6554DE;
-  box-shadow: 0 0 0 3px rgba(101, 84, 222, 0.25), 0 0 20px rgba(63, 58, 165, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  outline: none !important;
+  background-color: #151515 !important;
+  border-color: #00FF66 !important;
+  box-shadow: none !important;
 }
 
 /* --------------------------------------------------------------------------
-   Landing Animation Overrides
-   -------------------------------------------------------------------------- */
-.landing-page .animate-burgundy-border {
-  animation: landingBorderPulse 3s ease-in-out infinite;
-}
-
-@keyframes landingBorderPulse {
-  0%, 100% {
-    border-color: rgba(101, 84, 222, 0.3);
-    box-shadow: 0 0 15px rgba(101, 84, 222, 0.2), inset 0 0 10px rgba(101, 84, 222, 0.1);
-  }
-  50% {
-    border-color: rgba(101, 84, 222, 0.6);
-    box-shadow: 0 0 30px rgba(101, 84, 222, 0.45), inset 0 0 18px rgba(101, 84, 222, 0.2);
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Text Gradient Override
-   -------------------------------------------------------------------------- */
-.landing-page .text-gradient-blush {
-  background: linear-gradient(135deg, #FADD80 0%, #FB9660 50%, #FFB87E 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* --------------------------------------------------------------------------
-   Section Separator (RezonBio grid)
+   Decorative Section Separator — 1px Harsh Grid Lines (#222222)
    -------------------------------------------------------------------------- */
 .section-separator {
   display: grid;
@@ -300,25 +251,23 @@
   gap: 0;
   width: 100%;
   overflow: hidden;
+  border-top: 1px solid #222222;
+  border-bottom: 1px solid #222222;
 }
 
 .section-separator__item {
   aspect-ratio: 1;
-  border: 0.5px solid rgba(101, 84, 222, 0.12);
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  border: 0.5px solid #222222;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .section-separator__item:hover {
-  background-color: rgba(101, 84, 222, 0.08);
-  border-color: rgba(101, 84, 222, 0.25);
-}
-
-.section-separator.-light .section-separator__item {
-  border-color: rgba(26, 18, 110, 0.08);
+  background-color: #111111;
+  border-color: #00FF66;
 }
 
 /* --------------------------------------------------------------------------
-   Rotating Word Animation (Hero)
+   Hero Technical Manifesto Elements
    -------------------------------------------------------------------------- */
 .hero-word-rotator {
   display: inline-flex;
@@ -338,6 +287,7 @@
   display: flex;
   align-items: center;
   height: 1.15em;
+  color: #00FF66 !important;
 }
 
 @keyframes wordRotate {
@@ -348,45 +298,33 @@
   100%      { transform: translateY(0); }
 }
 
-/* --------------------------------------------------------------------------
-   Scroll-for-more button
-   -------------------------------------------------------------------------- */
 .scroll-for-more {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: rgba(213, 209, 252, 0.6);
+  color: #6B7280;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   cursor: pointer;
   background: none;
   border: none;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 .scroll-for-more:hover {
-  color: rgba(213, 209, 252, 0.9);
+  color: #00FF66;
 }
 
 .scroll-for-more::after {
   content: '';
   width: 1px;
   height: 40px;
-  background: linear-gradient(to bottom, rgba(101, 84, 222, 0.6), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
+  background: linear-gradient(to bottom, #00FF66, transparent);
 }
 
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.4; height: 40px; }
-  50%      { opacity: 1; height: 55px; }
-}
-
-/* --------------------------------------------------------------------------
-   Hero Video Canvas Override
-   -------------------------------------------------------------------------- */
 .landing-page .hero-video-canvas {
   position: absolute;
   inset: 0;
@@ -394,7 +332,6 @@
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  animation: heroCanvasFadeIn 1.2s ease-out both;
 }
 
 .landing-page .hero-video-overlay {
@@ -403,31 +340,20 @@
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(to bottom, #1A126E 0%, transparent 15%),
-    linear-gradient(to top, #1A126E 0%, transparent 25%),
-    radial-gradient(ellipse at center, transparent 50%, rgba(26, 18, 110, 0.6) 100%);
+    linear-gradient(to bottom, #000000 0%, transparent 15%),
+    linear-gradient(to top, #000000 0%, transparent 25%),
+    radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
 }
 
-/* --------------------------------------------------------------------------
-   Landing Scrollbar
-   -------------------------------------------------------------------------- */
 .landing-page ::-webkit-scrollbar-track {
-  background: #0d0a3e;
+  background: #000000;
 }
 
 .landing-page ::-webkit-scrollbar-thumb {
-  background: #3F3AA5;
-  border: 2px solid #0d0a3e;
+  background: #222222;
+  border-radius: 0px !important;
 }
 
 .landing-page ::-webkit-scrollbar-thumb:hover {
-  background: #6554DE;
-}
-
-/* --------------------------------------------------------------------------
-   Selection
-   -------------------------------------------------------------------------- */
-.landing-page ::selection {
-  background: #6554DE;
-  color: #ffffff;
+  background: #00FF66;
 }

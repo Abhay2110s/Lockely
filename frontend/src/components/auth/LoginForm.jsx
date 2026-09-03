@@ -153,13 +153,7 @@ export default function LoginForm() {
         </div>
       </form>
 
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-pink-500/20" />
-        <span className="text-[0.65rem] font-mono-code uppercase font-semibold text-[#fda4b8]/60">
-          Zero-Knowledge Access
-        </span>
-        <div className="flex-1 h-px bg-pink-500/20" />
-      </div>
+
 
       <div className="text-center space-y-3">
         <p className="text-xs text-[#fda4b8]/80 font-normal">
@@ -172,10 +166,6 @@ export default function LoginForm() {
           </Link>
         </p>
 
-        <div className="inline-flex items-center gap-1.5 text-[0.7rem] glass-badge-blush">
-          <ShieldCheck className="size-3.5 text-[#f43f6e]" />
-          <span>AES-256-GCM · Client Decrypted</span>
-        </div>
       </div>
     </div>
   );

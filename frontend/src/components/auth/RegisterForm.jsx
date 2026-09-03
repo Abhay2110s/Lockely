@@ -222,9 +222,7 @@ export default function RegisterForm() {
         <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
           Create Free Vault
         </h1>
-        <p className="text-xs sm:text-sm text-[#fda4b8]/80 font-normal">
-          Client-encrypted with AES-256-GCM before touching any servers
-        </p>
+
       </div>
 
       {error && (
@@ -309,9 +307,8 @@ export default function RegisterForm() {
                 {[1, 2, 3, 4].map((n) => (
                   <div
                     key={n}
-                    className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-                      score >= n ? strengthColors[score] : "bg-white/10"
-                    }`}
+                    className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${score >= n ? strengthColors[score] : "bg-white/10"
+                      }`}
                   />
                 ))}
               </div>
@@ -319,9 +316,8 @@ export default function RegisterForm() {
                 {requirements.map((req) => (
                   <div key={req.label} className="flex items-center gap-1.5 text-[0.68rem]">
                     <CheckCircle2
-                      className={`size-3.5 ${
-                        req.test(password) ? "text-emerald-400" : "text-white/20"
-                      }`}
+                      className={`size-3.5 ${req.test(password) ? "text-emerald-400" : "text-white/20"
+                        }`}
                     />
                     <span className={req.test(password) ? "text-white font-semibold" : "text-[#fda4b8]/50"}>
                       {req.label}
@@ -350,10 +346,6 @@ export default function RegisterForm() {
             )}
           </button>
         </div>
-
-        <p className="text-center text-[0.68rem] text-[#fda4b8]/60 font-normal">
-          By signing up you agree to zero-knowledge encryption &amp; privacy policies.
-        </p>
       </form>
 
       {/* Sign-in CTA */}

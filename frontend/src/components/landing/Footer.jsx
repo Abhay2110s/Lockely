@@ -36,22 +36,22 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0d0a3e] border-t-2 border-[#3F3AA5]/40 px-4 py-12 mt-16 relative shadow-2xl">
+    <footer className="bg-[#000000] border-t border-[#222222] px-4 py-12 mt-16 relative">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Row 1: Brand & Newsletter */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-[#241C7F]">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-[#222222]">
           <div className="flex flex-wrap items-center gap-3">
             <a href="#top" className="flex items-center gap-3 group">
-              <div className="size-10 rounded-xl bg-gradient-to-br from-[#3F3AA5] via-[#6554DE] to-[#8B7FF0] border border-[#6554DE] text-white flex items-center justify-center shadow-lg shadow-[#3F3AA5]/50 group-hover:scale-105 transition-transform">
+              <div className="size-10 bg-[#111111] border border-[#222222] group-hover:border-[#00FF66] text-[#00FF66] flex items-center justify-center transition-colors">
                 <ShieldCheck className="size-5" />
               </div>
-              <span className="text-xl font-extrabold tracking-tight text-white">
-                PASS<span className="text-[#FB9660]">GUARDIAN</span>
+              <span className="text-xl font-extrabold tracking-tight text-[#F8F9FA]">
+                PASS<span className="text-[#00FF66]">GUARDIAN</span>
               </span>
             </a>
-            <span className="hidden sm:inline-block text-[#B4ADFA]/40">•</span>
+            <span className="hidden sm:inline-block text-[#6B7280]">•</span>
             <div className="glass-badge-emerald">
-              <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="size-1.5 bg-[#00FF66]" />
               Vault Sealed 🔒
             </div>
           </div>
@@ -62,28 +62,28 @@ export default function Footer() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Security newsletter email..."
+              placeholder="Security dispatch email..."
               required
-              className="glass-input text-xs py-2.5 px-4 w-full md:w-64 rounded-xl"
+              className="glass-input text-xs py-2.5 px-4 w-full md:w-64"
             />
             <button
               type="submit"
-              className="glass-btn-primary py-2 px-4 text-xs shrink-0"
+              className="glass-btn-primary py-2.5 px-4 text-xs shrink-0"
             >
               {subscribed ? <Check className="size-3.5" /> : <Send className="size-3.5" />}
-              <span>{subscribed ? "Subscribed" : "Join"}</span>
+              <span>{subscribed ? "Subscribed" : "Subscribe"}</span>
             </button>
           </form>
         </div>
 
         {/* Row 2: Links & Social */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#B4ADFA]">
-          <nav className="flex flex-wrap items-center justify-center gap-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6B7280]">
+          <nav className="flex flex-wrap items-center justify-center gap-6 font-mono-code uppercase tracking-wider">
             {navLinks.map((item) => (
               <a
                 key={item.name}
                 href={item.link}
-                className="hover:text-white font-bold text-[#D5D1FC] transition-colors"
+                className="hover:text-[#00FF66] font-bold text-[#F8F9FA] transition-colors"
               >
                 {item.name}
               </a>
@@ -97,26 +97,26 @@ export default function Footer() {
                 href={link}
                 target="_blank"
                 rel="noreferrer"
-                className="bg-[#120e52] border border-[#3F3AA5]/40 hover:border-[#6554DE] py-1.5 px-3 rounded-full text-xs flex items-center gap-1.5 text-[#D5D1FC] hover:text-white transition-all hover:shadow-[0_0_15px_rgba(101,84,222,0.4)]"
+                className="bg-[#111111] border border-[#222222] hover:border-[#00FF66] py-1.5 px-3 text-xs flex items-center gap-1.5 text-[#F8F9FA] hover:text-[#00FF66] transition-colors uppercase font-mono-code"
               >
-                <Icon className="size-3.5 text-[#8B7FF0]" />
+                <Icon className="size-3.5 text-[#00FF66]" />
                 <span>{name}</span>
-                <ArrowUpRight className="size-3 text-[#B4ADFA]" />
+                <ArrowUpRight className="size-3 text-[#6B7280]" />
               </a>
             ))}
           </div>
         </div>
 
         {/* Row 3: Bottom Strip */}
-        <div className="pt-4 border-t border-[#241C7F] flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[#B4ADFA]">
+        <div className="pt-4 border-t border-[#222222] flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[#6B7280] font-mono-code">
           <div>
-            © {new Date().getFullYear()} PassGuardian — Crafted with Zero-Knowledge Architecture.
+            © {new Date().getFullYear()} PassGuardian — High-Contrast Brutalist Architecture.
           </div>
           <div className="flex items-center gap-2">
-            <span className="glass-badge-burgundy font-mono-code text-[0.65rem]">
+            <span className="px-2.5 py-1 text-[0.65rem] bg-[#111111] border border-[#222222] text-[#F8F9FA] uppercase tracking-wider">
               AES-256-GCM
             </span>
-            <span className="landing-badge font-mono-code text-[0.65rem]">
+            <span className="px-2.5 py-1 text-[0.65rem] bg-[#111111] border border-[#00FF66] text-[#00FF66] uppercase tracking-wider">
               PBKDF2 (600k)
             </span>
           </div>

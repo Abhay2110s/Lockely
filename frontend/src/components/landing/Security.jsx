@@ -1,4 +1,6 @@
-import { ShieldCheck, Lock, Cpu, Database, Key, CheckCircle2 } from "lucide-react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Lock, Cpu, Database, Key, CheckCircle2 } from "lucide-react";
 
 const steps = [
   {
@@ -36,82 +38,105 @@ const steps = [
 ];
 
 export default function Security() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Card Y-axis sliding & scaling animations
+  const card1Scale = useTransform(scrollYProgress, [0, 0.25], [1, 0.9]);
+
+  const card2Y = useTransform(scrollYProgress, [0.1, 0.25], ["100vh", "0vh"]);
+  const card2Scale = useTransform(scrollYProgress, [0.25, 0.5], [1, 0.9]);
+
+  const card3Y = useTransform(scrollYProgress, [0.35, 0.5], ["100vh", "0vh"]);
+  const card3Scale = useTransform(scrollYProgress, [0.5, 0.75], [1, 0.9]);
+
+  const card4Y = useTransform(scrollYProgress, [0.6, 0.75], ["100vh", "0vh"]);
+
+  // FIXED CUMULATIVE OPACITY: Each text fades in progressively as you scroll
+  const text1Op = useTransform(scrollYProgress, [0.02, 0.10], [0, 1]); // Fades in right at the start
+  const text2Op = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]); // Fades in as card 2 arrives
+  const text3Op = useTransform(scrollYProgress, [0.45, 0.55], [0, 1]); // Fades in as card 3 arrives
+  const text4Op = useTransform(scrollYProgress, [0.70, 0.80], [0, 1]); // Fades in as card 4 arrives
+
+  const cardsTransforms = [
+    { scale: card1Scale, y: "0vh" },
+    { scale: card2Scale, y: card2Y },
+    { scale: card3Scale, y: card3Y },
+    { scale: 1, y: card4Y },
+  ];
+
+  const cornerTexts = [
+    { op: text1Op, pos: "top-24 left-10", text: "Zero-Knowledge Encryption" },
+    { op: text2Op, pos: "bottom-10 left-10", text: "Vault Synchronization" },
+    { op: text3Op, pos: "top-24 right-10 text-right", text: "Biometric Access" },
+    { op: text4Op, pos: "bottom-10 right-10 text-right", text: "Breach Sentinel" },
+  ];
+
   return (
-    <section id="security" className="relative scroll-mt-24 px-4 py-16">
-      <div className="max-w-6xl mx-auto space-y-14">
-        {/* Section Header — left-aligned RezonBio style */}
-        <div className="max-w-2xl space-y-3 px-2 sm:px-6 lg:px-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full landing-badge">
-            <ShieldCheck className="size-3.5 text-[#8B7FF0]" />
-            <span className="text-xs font-semibold text-[#D5D1FC]">MATHEMATICAL ASSURANCE</span>
-          </div>
+    <section ref={containerRef} className="h-[400vh] bg-[#000000] relative">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
-            Provable{" "}
-            <span className="text-gradient-warm">Zero-Knowledge</span>{" "}
-            Architecture
-          </h2>
+        {/* Corner Text Elements */}
+        {cornerTexts.map((item, i) => (
+          <motion.div
+            key={i}
+            style={{ opacity: item.op }}
+            className={`absolute ${item.pos} max-w-[300px] pointer-events-none`}
+          >
+            <h2 className="text-4xl md:text-5xl font-black text-[#F8F9FA] uppercase tracking-tighter leading-none">
+              {item.text}
+            </h2>
+          </motion.div>
+        ))}
 
-          <p className="text-sm sm:text-base text-[#B4ADFA] font-normal leading-relaxed">
-            Not a marketing claim — client-side WebCrypto mathematics that mathematically guarantees privacy.
-          </p>
-        </div>
-
-        {/* 4 Steps Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 px-2 sm:px-6 lg:px-12">
-          {steps.map((step) => {
+        {/* Central Card Stack */}
+        <div className="relative w-[360px] md:w-[420px] h-[500px]">
+          {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <div
-                key={step.no}
-                className="glass-card p-6 flex flex-col justify-between space-y-5 border border-[#3F3AA5]/30 hover:border-[#6554DE]/50 transition-all group"
+              <motion.div
+                  style={{
+                  y: cardsTransforms[index].y,
+                  scale: cardsTransforms[index].scale,
+                  zIndex: index,
+                }}
+                className="absolute inset-0 p-8 flex flex-col justify-between bg-[#111111] border border-[#222222] rounded-2xl shadow-2xl"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold font-mono-code text-[#B4ADFA] px-2.5 py-1 rounded-lg bg-[#0d0a3e] border border-[#3F3AA5]/25">
-                      STEP {step.no}
-                    </span>
-                    <span className="landing-badge text-[0.62rem]">
-                      {step.badge}
-                    </span>
-                  </div>
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between border-b border-[#222222] pb-4">
 
-                  <div className="size-12 rounded-xl bg-gradient-to-br from-[#3F3AA5] to-[#6554DE] border border-white/20 flex items-center justify-center text-white shadow-lg shadow-[#3F3AA5]/25 group-hover:scale-105 transition-transform">
-                    <Icon className="size-5 text-white" />
+                    <div className="size-10 bg-[#000000] border border-[#00FF66] rounded-lg flex items-center justify-center">
+                      <Icon className="size-5 text-[#00FF66]" />
+                    </div>
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-bold text-white leading-snug">{step.title}</h3>
-                    <p className="text-xs text-[#B4ADFA] mt-1 font-mono-code font-medium">{step.subtitle}</p>
+                    <span className="font-mono text-xs tracking-wider text-neutral-500 uppercase block mb-2">
+                      {step.badge}
+                    </span>
+                    <h3 className="text-2xl font-black text-[#F8F9FA] uppercase tracking-tight leading-snug">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-[#00FF66] mt-1 font-mono uppercase">
+                      {step.subtitle}
+                    </p>
                   </div>
 
-                  <p className="text-xs text-[#D5D1FC]/80 leading-relaxed font-normal">
+                  <p className="text-sm text-[#6B7280] leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-[#3F3AA5]/20 flex items-center gap-1.5 text-emerald-400 text-xs font-semibold">
-                  <CheckCircle2 className="size-3.5 text-emerald-400" />
+                <div className="pt-4 border-t border-[#222222] flex items-center gap-2 text-[#F8F9FA] text-xs font-mono uppercase tracking-widest">
+                  <CheckCircle2 className="size-4 text-[#00FF66]" />
                   <span>Hardware Verified</span>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
-
-        {/* Cryptographic Trust Callout */}
-        <div className="glass-panel p-6 sm:p-8 rounded-2xl border border-[#3F3AA5]/30 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 mx-2 sm:mx-6 lg:mx-12">
-          <div className="space-y-1.5 text-center md:text-left">
-            <h3 className="text-xl font-bold text-white">Open, Auditable, and Client-Autonomous</h3>
-            <p className="text-xs sm:text-sm text-[#B4ADFA] max-w-2xl font-normal">
-              PassGuardian uses standard W3C Web Cryptography API. We do not invent custom ciphers or rely on proprietary obfuscation.
-            </p>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="glass-badge-emerald px-4 py-2 text-xs font-bold font-mono-code">
-              NIST SP 800-132 COMPLIANT
-            </span>
-          </div>
         </div>
       </div>
     </section>
