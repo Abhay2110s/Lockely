@@ -28,50 +28,50 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="relative scroll-mt-24 px-4 py-16 bg-[#000000]">
+    <section id="faq" className="relative scroll-mt-24 px-4 py-16 bg-[#FDFBF7]">
       <div className="max-w-4xl mx-auto space-y-12">
         {/* Header */}
         <div className="max-w-2xl space-y-3 px-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#111111] border border-[#222222] text-[#00FF66] text-xs font-bold font-mono-code uppercase tracking-widest">
-            <HelpCircle className="size-3.5 text-[#00FF66]" />
-            <span>QUESTIONS &amp; ANSWERS</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-[#8B263E] text-xs font-semibold uppercase tracking-wider">
+            <HelpCircle className="size-3.5 text-[#8B263E]" />
+            <span>Questions &amp; Answers</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-[#F8F9FA] tracking-tighter leading-[1.05] uppercase">
-            Frequently <span className="text-[#00FF66]">Asked Questions</span>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-[#1a1a1a] tracking-tight leading-[1.05] uppercase">
+            Frequently <span className="text-[#8B263E]">Asked Questions</span>
           </h2>
-          <p className="text-sm sm:text-base text-[#6B7280] font-normal">
-            Everything you need to know about our cryptographic security model and architecture.
+          <p className="text-sm sm:text-base text-[#6B6560] font-normal">
+            Everything you need to know about our cryptographic security model and zero-knowledge architecture.
           </p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           {faqItems.map((item, index) => {
             const isOpen = openIndex === index;
             return (
               <div
                 key={index}
-                className="bg-[#111111] border border-[#222222] transition-colors"
+                className="bg-white rounded-2xl border border-[#E6E0D5] overflow-hidden shadow-xs transition-all duration-200"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 text-base sm:text-lg font-bold text-[#F8F9FA] hover:text-[#00FF66] transition-colors cursor-pointer uppercase tracking-wide"
+                  className="w-full text-left p-5 flex items-center justify-between gap-4 text-base sm:text-lg font-bold text-[#1a1a1a] hover:text-[#8B263E] transition-colors cursor-pointer tracking-tight"
                 >
                   <span className="flex items-center gap-3.5">
-                    <span className="size-7 bg-[#000000] border border-[#222222] flex items-center justify-center text-xs font-bold text-[#00FF66] font-mono-code shrink-0">
+                    <span className="size-8 rounded-full bg-blush/40 border border-[#E6E0D5] flex items-center justify-center text-xs font-bold text-[#8B263E] shrink-0">
                       0{index + 1}
                     </span>
                     <span>{item.question}</span>
                   </span>
                   <ChevronDown
-                    className={`size-5 text-[#6B7280] shrink-0 transition-transform duration-150 ${
-                      isOpen ? "rotate-180 text-[#00FF66]" : ""
+                    className={`size-5 text-[#6B6560] shrink-0 transition-transform duration-200 ${
+                      isOpen ? "rotate-180 text-[#8B263E]" : ""
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 pt-2 text-xs sm:text-sm text-[#6B7280] leading-relaxed border-t border-[#222222] bg-[#0c0c0c]">
+                  <div className="px-6 pb-5 pt-2 text-xs sm:text-sm text-[#6B6560] leading-relaxed border-t border-[#E6E0D5] bg-[#FAF8F3]/60">
                     {item.answer}
                   </div>
                 )}

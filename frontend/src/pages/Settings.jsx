@@ -25,16 +25,16 @@ export default function Settings() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-pink-500/25 shadow-2xl bg-gradient-to-br from-[#3c0b1a]/90 via-[#581026]/80 to-[#7a1534]/70">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-badge-blush text-xs mb-3">
-          <Sparkles className="size-3 text-[#f43f6e]" />
+      <div className="rounded-3xl p-6 sm:p-8 border border-[#E6E0D5] shadow-lg bg-gradient-to-br from-white via-white to-blush/35">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-xs font-semibold text-[#8B263E] mb-2">
+          <Sparkles className="size-3.5 text-[#8B263E]" />
           <span>Vault Preferences</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white flex items-center gap-3 tracking-tight">
-          <SettingsIcon className="size-7 text-[#f43f6e]" />
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1a1a1a] flex items-center gap-3 tracking-tight">
+          <SettingsIcon className="size-7 text-[#8B263E]" />
           Settings
         </h1>
-        <p className="text-xs sm:text-sm text-[#ffe4e9]/80 mt-1">
+        <p className="text-xs sm:text-sm text-[#6B6560] mt-1 font-normal">
           Manage two-factor authentication, master password, data exports, and theme preferences.
         </p>
       </div>
@@ -49,10 +49,10 @@ export default function Settings() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               title={tab.label}
-              className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer border ${
                 isActive
-                  ? "glass-btn-primary text-white"
-                  : "glass-btn-ghost text-[#fda4b8]"
+                  ? "bg-[#8B263E] text-white border-[#8B263E] shadow-button"
+                  : "bg-white text-[#6B6560] border-[#E6E0D5] hover:text-[#8B263E] hover:bg-blush/20"
               }`}
             >
               <Icon className="size-3.5 sm:size-4 shrink-0" />

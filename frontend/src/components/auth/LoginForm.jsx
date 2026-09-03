@@ -5,7 +5,6 @@ import {
   EyeOff,
   Mail,
   Lock,
-  ShieldCheck,
   ArrowRight,
   Loader2,
   Sparkles,
@@ -63,32 +62,32 @@ export default function LoginForm() {
     <div className="w-full space-y-6">
       <div className="space-y-2 text-center sm:text-left">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-badge-blush text-xs mb-1">
-          <Sparkles className="size-3.5 text-[#f43f6e]" />
+          <Sparkles className="size-3.5 text-[#8B263E]" />
           <span>PassGuardian Security</span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1a1a1a] tracking-tight">
           Welcome Back
         </h1>
-        <p className="text-xs sm:text-sm text-[#fda4b8]/80 font-normal">
+        <p className="text-xs sm:text-sm text-[#6B6560] font-normal">
           Unlock your zero-knowledge encrypted vault
         </p>
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-2xl bg-rose-950/50 border border-rose-500/40 text-xs text-rose-200 font-medium">
+        <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-[#fda4b8] tracking-wide block">
+          <label className="text-xs font-semibold text-[#1a1a1a] tracking-wide block">
             Email Address
           </label>
 
           <div className="relative">
-            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/50" />
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#6B6560]" />
             <input
               type="email"
               required
@@ -102,19 +101,19 @@ export default function LoginForm() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold text-[#fda4b8] tracking-wide block">
+            <label className="text-xs font-semibold text-[#1a1a1a] tracking-wide block">
               Master Password
             </label>
             <Link
               to="/forgot-password"
-              className="text-[0.72rem] text-[#fda4b8] hover:text-white underline transition-colors"
+              className="text-[0.72rem] text-[#8B263E] hover:text-[#A8324E] underline transition-colors"
             >
               Forgot password?
             </Link>
           </div>
 
           <div className="relative">
-            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/50" />
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#6B6560]" />
             <input
               type={showPassword ? "text" : "password"}
               required
@@ -127,7 +126,7 @@ export default function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#fda4b8]/60 hover:text-white p-1 transition-colors"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B6560] hover:text-[#1a1a1a] p-1 transition-colors cursor-pointer"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -139,7 +138,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full glass-btn-primary py-3.5 text-xs font-semibold gap-2"
+            className="w-full glass-btn-primary py-3.5 text-xs font-semibold gap-2 cursor-pointer shadow-button hover:shadow-button-hover"
           >
             {loading ? (
               <Loader2 className="size-4.5 animate-spin" />
@@ -153,19 +152,16 @@ export default function LoginForm() {
         </div>
       </form>
 
-
-
       <div className="text-center space-y-3">
-        <p className="text-xs text-[#fda4b8]/80 font-normal">
+        <p className="text-xs text-[#6B6560] font-normal">
           Don&apos;t have an account?{" "}
           <Link
             to="/register"
-            className="font-bold text-white hover:text-[#fda4b8] underline transition-colors ml-1"
+            className="font-bold text-[#8B263E] hover:underline transition-colors ml-1"
           >
             Create free vault
           </Link>
         </p>
-
       </div>
     </div>
   );

@@ -1,18 +1,18 @@
 import { useEffect, useRef, useCallback } from "react";
 
 /**
- * HeroVideoBackground — High-Contrast Cinematic Brutalist Canvas Background
- * Renders technical grid lines, precise digital cyber-green (#00FF66) coordinates,
- * and stark off-white (#F8F9FA) particles over void black (#000000).
+ * HeroVideoBackground — Elegant Light Luxury Canvas Background
+ * Renders subtle architectural grid lines, delicate warm-gray coordinates,
+ * and soft blush & burgundy floating circular particles over soft cream (#FDFBF7).
  */
 
 const COLORS = {
-  bg: "#000000",
-  surface: "#111111",
-  cyber: "#00FF66",
-  white: "#F8F9FA",
-  muted: "#6B7280",
-  harsh: "#222222",
+  bg: "#FDFBF7",
+  surface: "#FFFFFF",
+  blush: "#F4C2C2",
+  burgundy: "#8B263E",
+  muted: "#6B6560",
+  warmGray: "#E6E0D5",
 };
 
 function rand(min, max) {
@@ -37,14 +37,14 @@ class Particle {
   reset(w, h, initial = false) {
     this.x = initial ? rand(0, w) : rand(-20, w + 20);
     this.y = initial ? rand(0, h) : h + rand(10, 40);
-    this.radius = rand(1, 2.2);
-    this.speed = rand(0.2, 0.7);
-    this.drift = rand(-0.1, 0.1);
-    this.opacity = rand(0.2, 0.7);
+    this.radius = rand(1.5, 3.5);
+    this.speed = rand(0.2, 0.6);
+    this.drift = rand(-0.15, 0.15);
+    this.opacity = rand(0.25, 0.65);
     this.pulse = rand(0, Math.PI * 2);
-    this.pulseSpeed = rand(0.01, 0.03);
+    this.pulseSpeed = rand(0.01, 0.025);
 
-    const palette = [COLORS.cyber, COLORS.white, COLORS.muted];
+    const palette = [COLORS.blush, COLORS.burgundy, COLORS.warmGray];
     this.color = hexToRgb(palette[Math.floor(rand(0, palette.length))]);
   }
 
@@ -58,19 +58,21 @@ class Particle {
   draw(ctx) {
     const alpha = this.opacity * (0.6 + 0.4 * Math.sin(this.pulse));
     ctx.fillStyle = rgba(this.color, alpha);
-    // Square pixel brutalist particles
-    ctx.fillRect(this.x, this.y, this.radius * 2, this.radius * 2);
+    // Smooth circular particles
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fill();
   }
 }
 
-function drawBrutalistGrid(ctx, w, h, time) {
+function drawLightGrid(ctx, w, h, time) {
   const spacing = 80;
-  const rgb = hexToRgb(COLORS.harsh);
+  const rgb = hexToRgb(COLORS.warmGray);
   ctx.lineWidth = 1;
 
   // Horizontal structural lines
   for (let y = 0; y < h; y += spacing) {
-    ctx.strokeStyle = rgba(rgb, 0.35);
+    ctx.strokeStyle = rgba(rgb, 0.45);
     ctx.beginPath();
     ctx.moveTo(0, y);
     ctx.lineTo(w, y);
@@ -79,33 +81,29 @@ function drawBrutalistGrid(ctx, w, h, time) {
 
   // Vertical structural lines
   for (let x = 0; x < w; x += spacing) {
-    ctx.strokeStyle = rgba(rgb, 0.35);
+    ctx.strokeStyle = rgba(rgb, 0.45);
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.lineTo(x, h);
     ctx.stroke();
   }
 
-  // Neon cyber-green crosshairs at grid intersections
-  const cyberRgb = hexToRgb(COLORS.cyber);
-  ctx.strokeStyle = rgba(cyberRgb, 0.25);
-  ctx.lineWidth = 1;
-  const crossSize = 4;
+  // Delicate blush accents at grid intersections
+  const blushRgb = hexToRgb(COLORS.blush);
+  ctx.fillStyle = rgba(blushRgb, 0.6);
+  const dotSize = 2;
 
   for (let x = spacing; x < w; x += spacing * 2) {
     for (let y = spacing; y < h; y += spacing * 2) {
       ctx.beginPath();
-      ctx.moveTo(x - crossSize, y);
-      ctx.lineTo(x + crossSize, y);
-      ctx.moveTo(x, y - crossSize);
-      ctx.lineTo(x, y + crossSize);
-      ctx.stroke();
+      ctx.arc(x, y, dotSize, 0, Math.PI * 2);
+      ctx.fill();
     }
   }
 
-  // Subtle scanning sweep line
-  const scanY = (time * 60) % (h + 100) - 50;
-  ctx.strokeStyle = rgba(cyberRgb, 0.12);
+  // Gentle ambient shimmer line
+  const scanY = (time * 40) % (h + 100) - 50;
+  ctx.strokeStyle = rgba(blushRgb, 0.2);
   ctx.beginPath();
   ctx.moveTo(0, scanY);
   ctx.lineTo(w, scanY);
@@ -126,7 +124,7 @@ export default function HeroVideoBackground() {
     canvas.height = h * dpr;
     ctx.scale(dpr, dpr);
 
-    const particleCount = Math.min(Math.floor(w * 0.04), 45);
+    const particleCount = Math.min(Math.floor(w * 0.035), 40);
 
     return {
       ctx, w, h, dpr,
@@ -150,7 +148,7 @@ export default function HeroVideoBackground() {
       ctx.fillStyle = COLORS.bg;
       ctx.fillRect(0, 0, w, h);
 
-      drawBrutalistGrid(ctx, w, h, s.time);
+      drawLightGrid(ctx, w, h, s.time);
 
       for (const p of particles) {
         if (!prefersReduced) p.update(w, h);
@@ -180,7 +178,7 @@ export default function HeroVideoBackground() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="hero-video-canvas"
+      className="hero-video-canvas pointer-events-none absolute inset-0 z-0 w-full h-full"
     />
   );
 }

@@ -31,44 +31,44 @@ export default function DashboardLayout() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#F8F9FA] flex flex-col md:flex-row relative">
+    <div className="min-h-screen bg-[#FDFBF7] text-[#1a1a1a] flex flex-col md:flex-row relative">
       {/* Mobile Backdrop for Sidebar */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-[#000000]/90 z-40 md:hidden"
+          className="fixed inset-0 bg-black/25 backdrop-blur-xs z-40 md:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* ================================================================ */}
-      {/* SIDEBAR — Deep Charcoal #111111 with 1px Harsh Border #222222    */}
+      {/* SIDEBAR — Clean Luxury Cream & Blush with Warm Gray Border       */}
       {/* ================================================================ */}
       <aside
         className={`
-          fixed md:sticky top-0 bottom-0 left-0 z-50 w-64 bg-[#111111] border-r border-[#222222] flex flex-col justify-between transition-transform duration-200 ease-in-out
+          fixed md:sticky top-0 bottom-0 left-0 z-50 w-64 bg-[#FAF8F3]/95 backdrop-blur-xl border-r border-[#E6E0D5] flex flex-col justify-between transition-transform duration-200 ease-in-out
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
           h-screen overflow-y-auto
         `}
       >
         <div>
           {/* Brand Header */}
-          <div className="p-4 sm:p-5 border-b border-[#222222] flex items-center justify-between">
+          <div className="p-4 sm:p-5 border-b border-[#E6E0D5] flex items-center justify-between">
             <Link to="/dashboard" className="flex items-center gap-3 group">
-              <div className="size-10 bg-[#000000] border border-[#222222] group-hover:border-[#00FF66] text-[#00FF66] flex items-center justify-center transition-colors">
+              <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] text-[#8B263E] flex items-center justify-center transition-colors shadow-xs">
                 <ShieldCheck className="size-5" />
               </div>
               <div className="flex flex-col">
-                <span className="text-base font-extrabold text-[#F8F9FA] tracking-tight leading-none">
-                  PASS<span className="text-[#00FF66]">GUARDIAN</span>
+                <span className="text-base font-extrabold text-[#1a1a1a] tracking-tight leading-none">
+                  PASS<span className="text-[#8B263E]">GUARDIAN</span>
                 </span>
-                <span className="text-[0.6rem] text-[#6B7280] uppercase tracking-widest font-mono-code font-bold mt-1">
+                <span className="text-[0.62rem] text-[#6B6560] uppercase tracking-widest font-semibold mt-1">
                   Zero-Knowledge Vault
                 </span>
               </div>
             </Link>
             <button
               onClick={() => setMobileOpen(false)}
-              className="md:hidden p-1.5 text-[#6B7280] hover:text-white transition-colors"
+              className="md:hidden p-1.5 rounded-lg text-[#6B6560] hover:text-[#1a1a1a] transition-colors"
               aria-label="Close menu"
             >
               <X className="size-4" />
@@ -76,16 +76,16 @@ export default function DashboardLayout() {
           </div>
 
           {/* User Quick Info */}
-          <div className="p-3 mx-3 mt-4 bg-[#0c0c0c] border border-[#222222] flex items-center gap-3">
-            <div className="size-8 bg-[#222222] text-[#00FF66] flex items-center justify-center text-xs font-bold font-mono-code shrink-0">
+          <div className="p-3.5 mx-3 mt-4 rounded-2xl bg-white border border-[#E6E0D5] shadow-xs flex items-center gap-3">
+            <div className="size-9 rounded-full bg-blush/40 text-[#8B263E] flex items-center justify-center text-xs font-bold shrink-0">
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-[#F8F9FA] truncate uppercase tracking-wide">
+              <p className="text-xs font-bold text-[#1a1a1a] truncate">
                 {displayName}
               </p>
-              <div className="text-[0.6rem] text-[#00FF66] font-mono-code uppercase font-semibold mt-0.5 flex items-center gap-1.5">
-                <span className="size-1.5 bg-[#00FF66]" />
+              <div className="text-[0.65rem] text-[#8B263E] font-semibold mt-0.5 flex items-center gap-1.5">
+                <span className="size-1.5 rounded-full bg-[#8B263E]" />
                 Zero-Knowledge
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function DashboardLayout() {
 
           {/* Navigation Links */}
           <nav className="px-3 mt-5 space-y-1">
-            <p className="text-[0.6rem] text-[#6B7280] px-3 mb-2 font-mono-code tracking-widest uppercase font-bold">
+            <p className="text-[0.62rem] text-[#6B6560] px-3 mb-2 tracking-widest uppercase font-bold">
               Navigation
             </p>
             {navItems.map((item) => {
@@ -105,15 +105,15 @@ export default function DashboardLayout() {
                   to={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={`
-                    flex items-center gap-3 px-3.5 py-2.5 text-xs uppercase tracking-wider font-bold transition-colors border
+                    flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold tracking-wide transition-all
                     ${
                       isActive
-                        ? "bg-[#00FF66] text-[#000000] border-[#00FF66]"
-                        : "text-[#6B7280] hover:text-[#F8F9FA] hover:bg-[#161616] border-transparent"
+                        ? "bg-blush/45 text-[#8B263E] border border-blush/80 shadow-xs font-bold"
+                        : "text-[#1a1a1a] hover:text-[#8B263E] hover:bg-blush/20 border border-transparent"
                     }
                   `}
                 >
-                  <Icon className={`size-4 ${isActive ? "text-[#000000]" : "text-[#6B7280]"}`} />
+                  <Icon className={`size-4 ${isActive ? "text-[#8B263E]" : "text-[#6B6560]"}`} />
                   {item.label}
                 </NavLink>
               );
@@ -122,29 +122,29 @@ export default function DashboardLayout() {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-3 space-y-2.5 border-t border-[#222222]">
+        <div className="p-3 space-y-2.5 border-t border-[#E6E0D5]">
           <button
             onClick={() => {
               setMobileOpen(false);
               logout();
             }}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#000000] hover:bg-[#1a0006] text-[#FF3366] hover:text-[#FF3366] border border-[#FF3366]/40 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold transition-colors cursor-pointer"
           >
-            <LogOut className="size-3.5 text-[#FF3366]" />
+            <LogOut className="size-3.5" />
             Log Out
           </button>
 
           {/* AES Technical Badge */}
-          <div className="p-3 bg-[#000000] border border-[#222222]">
+          <div className="p-3 rounded-2xl bg-white border border-[#E6E0D5] shadow-xs">
             <div className="flex items-center gap-2.5">
-              <div className="size-7 bg-[#111111] border border-[#222222] text-[#00FF66] flex items-center justify-center shrink-0">
+              <div className="size-8 rounded-xl bg-blush/30 border border-[#E6E0D5] text-[#8B263E] flex items-center justify-center shrink-0">
                 <Lock className="size-3.5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-[#F8F9FA] font-mono-code uppercase tracking-wider">
+                <p className="text-xs font-bold text-[#1a1a1a]">
                   AES-256-GCM
                 </p>
-                <p className="text-[0.62rem] text-[#6B7280] font-mono-code uppercase">
+                <p className="text-[0.62rem] text-[#6B6560]">
                   Zero-Knowledge Shield
                 </p>
               </div>
@@ -156,33 +156,33 @@ export default function DashboardLayout() {
       {/* ================================================================ */}
       {/* MAIN CONTENT AREA                                                 */}
       {/* ================================================================ */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10 bg-[#000000]">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10 bg-[#FDFBF7]">
 
         {/* Top Header Bar */}
-        <header className="sticky top-0 z-30 bg-[#000000] border-b border-[#222222] px-4 sm:px-8 py-3 flex items-center justify-between gap-4">
+        <header className="sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#E6E0D5] px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
           {/* Left: Hamburger button for mobile */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 text-[#6B7280] hover:text-[#F8F9FA] border border-[#222222] bg-[#111111] transition-colors"
+              className="md:hidden p-2 rounded-xl text-[#6B6560] hover:text-[#1a1a1a] border border-[#E6E0D5] bg-white transition-colors"
               aria-label="Open sidebar"
             >
               <Menu className="size-4" />
             </button>
 
             {/* Page breadcrumb label on desktop */}
-            <span className="hidden md:block text-xs font-black uppercase tracking-widest text-[#6B7280] font-mono-code">
-              / {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? "DASHBOARD"}
+            <span className="hidden md:block text-xs font-bold uppercase tracking-wider text-[#6B6560]">
+              PassGuardian / {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? "DASHBOARD"}
             </span>
           </div>
 
           {/* Right Header Actions */}
           <div className="flex items-center gap-3">
             {/* Vault status pill */}
-            <div className={`hidden sm:flex items-center gap-2 px-3 py-1 text-xs font-mono-code font-bold uppercase tracking-wider border ${
+            <div className={`hidden sm:flex items-center gap-2 px-3 py-1 text-xs rounded-full font-semibold border ${
               isVaultUnlocked
-                ? "bg-[#000000] border-[#00FF66] text-[#00FF66]"
-                : "bg-[#000000] border-[#222222] text-[#6B7280]"
+                ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                : "bg-amber-50 border-amber-200 text-amber-700"
             }`}>
               <Zap className="size-3 fill-current" />
               {isVaultUnlocked ? "Vault Unlocked" : "Vault Locked"}
@@ -192,17 +192,17 @@ export default function DashboardLayout() {
             <div className="relative">
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-2 p-1.5 pr-2.5 bg-[#111111] border border-[#222222] hover:border-[#00FF66] transition-colors cursor-pointer"
+                className="flex items-center gap-2 p-1.5 pr-3 rounded-full bg-white border border-[#E6E0D5] hover:border-[#8B263E] transition-colors cursor-pointer shadow-xs"
                 aria-expanded={userDropdownOpen}
                 aria-label="Toggle user profile dropdown"
               >
-                <div className="size-6 bg-[#000000] text-[#00FF66] border border-[#222222] flex items-center justify-center text-xs font-bold font-mono-code">
+                <div className="size-7 rounded-full bg-blush/40 text-[#8B263E] flex items-center justify-center text-xs font-bold">
                   {initials}
                 </div>
-                <span className="text-xs font-bold text-[#F8F9FA] hidden sm:block max-w-[100px] truncate uppercase tracking-wider font-mono-code">
+                <span className="text-xs font-bold text-[#1a1a1a] hidden sm:block max-w-[110px] truncate">
                   {displayName}
                 </span>
-                <ChevronDown className={`size-3.5 text-[#6B7280] transition-transform duration-150 ${userDropdownOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`size-3.5 text-[#6B6560] transition-transform duration-150 ${userDropdownOpen ? "rotate-180" : ""}`} />
               </button>
 
               {/* Click-away backdrop */}
@@ -215,12 +215,12 @@ export default function DashboardLayout() {
 
               {/* Dropdown Menu */}
               {userDropdownOpen && (
-                <div className="absolute right-0 top-12 w-56 bg-[#111111] p-2 z-50 border border-[#222222]">
-                  <div className="px-3 py-2 border-b border-[#222222] mb-1.5">
-                    <p className="text-xs font-bold text-[#F8F9FA] truncate uppercase">
+                <div className="absolute right-0 top-12 w-56 bg-white p-2 z-50 rounded-2xl border border-[#E6E0D5] shadow-xl">
+                  <div className="px-3 py-2 border-b border-[#E6E0D5] mb-1.5">
+                    <p className="text-xs font-bold text-[#1a1a1a] truncate">
                       {displayName}
                     </p>
-                    <p className="text-[0.65rem] text-[#6B7280] truncate font-mono-code">
+                    <p className="text-[0.68rem] text-[#6B6560] truncate font-mono-code">
                       {user?.email || "Encrypted Account"}
                     </p>
                   </div>
@@ -228,30 +228,30 @@ export default function DashboardLayout() {
                   <Link
                     to="/profile"
                     onClick={() => setUserDropdownOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-[#F8F9FA] hover:bg-[#1a1a1a] transition-colors uppercase tracking-wider font-mono-code"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#1a1a1a] hover:bg-blush/25 hover:text-[#8B263E] transition-colors"
                   >
-                    <User className="size-3.5 text-[#00FF66]" />
+                    <User className="size-3.5 text-[#8B263E]" />
                     My Profile
                   </Link>
                   <Link
                     to="/settings"
                     onClick={() => setUserDropdownOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-[#F8F9FA] hover:bg-[#1a1a1a] transition-colors uppercase tracking-wider font-mono-code"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#1a1a1a] hover:bg-blush/25 hover:text-[#8B263E] transition-colors"
                   >
-                    <Settings className="size-3.5 text-[#00FF66]" />
+                    <Settings className="size-3.5 text-[#8B263E]" />
                     Settings &amp; 2FA
                   </Link>
 
-                  <div className="my-1.5 border-t border-[#222222]" />
+                  <div className="my-1.5 border-t border-[#E6E0D5]" />
 
                   <button
                     onClick={() => {
                       setUserDropdownOpen(false);
                       logout();
                     }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-[#FF3366] hover:bg-[#1a0006] transition-colors cursor-pointer uppercase tracking-wider font-mono-code"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
                   >
-                    <LogOut className="size-3.5 text-[#FF3366]" />
+                    <LogOut className="size-3.5 text-rose-600" />
                     Log Out
                   </button>
                 </div>
@@ -260,8 +260,8 @@ export default function DashboardLayout() {
           </div>
         </header>
 
-        {/* Dynamic Page Outlet */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        {/* Dynamic Page Outlet with Ambient Luxury Glow */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative">
           <Outlet />
         </main>
       </div>

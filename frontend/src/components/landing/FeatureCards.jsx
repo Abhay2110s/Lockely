@@ -13,24 +13,24 @@ export function FeatureCard({
   className = "",
 }) {
   return (
-    <div className={`w-[320px] sm:w-[380px] bg-[#111111] border border-[#222222] hover:border-[#00FF66] transition-colors duration-100 rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-6 cursor-default group ${className}`}>
-      {/* Top Row: Technical Numbering & Stark White Icon */}
-      <div className="flex items-center justify-between border-b border-[#222222] pb-4">
-        <div className="flex items-center gap-3 font-mono">
+    <div className={`w-[320px] sm:w-[380px] bg-white/90 backdrop-blur-xl border border-[#E6E0D5] hover:border-[#8B263E] hover:bg-blush/20 transition-all duration-200 rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6 cursor-default shadow-card hover:shadow-card-hover group ${className}`}>
+      {/* Top Row: Technical Numbering & Burgundy Icon */}
+      <div className="flex items-center justify-between border-b border-[#E6E0D5] pb-4">
+        <div className="flex items-center gap-3">
           {number && (
-            <span className="text-xs sm:text-sm font-bold tracking-widest text-[#00FF66]">
+            <span className="text-xs sm:text-sm font-bold tracking-widest text-[#8B263E]">
               {number} //
             </span>
           )}
           {metric && (
-            <span className="text-[0.65rem] tracking-wider text-neutral-500 uppercase">
+            <span className="text-[0.68rem] tracking-wider text-[#6B6560] uppercase font-semibold">
               {metric}
             </span>
           )}
         </div>
         {Icon && (
-          <div className="size-8 bg-black border border-[#222222] group-hover:border-[#00FF66] transition-colors duration-100 flex items-center justify-center text-white">
-            <Icon className="size-4 text-white" />
+          <div className="size-9 rounded-2xl bg-blush/35 border border-[#E6E0D5] group-hover:border-[#8B263E] transition-colors duration-150 flex items-center justify-center text-[#8B263E]">
+            <Icon className="size-4.5" />
           </div>
         )}
       </div>
@@ -38,23 +38,23 @@ export function FeatureCard({
       {/* Main Content */}
       <div className="space-y-3">
         {tag && (
-          <span className="font-mono text-[0.62rem] tracking-wider text-neutral-500 uppercase block">
+          <span className="text-[0.68rem] tracking-wider text-[#6B6560] uppercase font-semibold block">
             {tag}
           </span>
         )}
-        <h3 className="text-xl sm:text-2xl font-black text-[#F8F9FA] uppercase tracking-tight leading-snug">
+        <h3 className="text-xl sm:text-2xl font-black text-[#1a1a1a] uppercase tracking-tight leading-snug">
           {title}
         </h3>
-        <p className="text-xs sm:text-sm text-[#6B7280] leading-relaxed font-normal">
+        <p className="text-xs sm:text-sm text-[#6B6560] leading-relaxed font-normal">
           {desc}
         </p>
       </div>
 
       {/* Bottom Technical Spec Footer */}
       {(spec || status) && (
-        <div className="pt-4 border-t border-[#222222] flex items-center justify-between font-mono text-[0.68rem] text-neutral-500 uppercase tracking-wider">
+        <div className="pt-4 border-t border-[#E6E0D5] flex items-center justify-between text-[0.7rem] text-[#6B6560] uppercase tracking-wider">
           <span>{spec || "SPEC // CRYPTOGRAPHIC"}</span>
-          <span className="text-neutral-600 group-hover:text-[#00FF66] transition-colors duration-100">
+          <span className="text-[#8B263E] font-bold transition-colors duration-150">
             {status}
           </span>
         </div>
@@ -103,37 +103,17 @@ export default function FeatureCards({ items = [], className = "" }) {
   });
 
   return (
-    <section ref={containerRef} className={`h-[400vh] bg-black relative ${className}`}>
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-between pb-12">
-        
-        {/* Section Header */}
-        <div className="pt-16 text-center max-w-2xl px-4 z-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#111111] border border-[#222222] text-[#00FF66] text-xs font-mono font-bold uppercase tracking-widest mb-3">
-            <span>[ ARCHITECTURAL MANIFESTO ]</span>
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-[#F8F9FA] tracking-tighter uppercase">
-            Zero-Knowledge <span className="text-[#00FF66]">Timeline</span>
-          </h2>
-        </div>
-
-        {/* Bottom Semicircle Background Guide Track */}
-        <div 
-          className="absolute bottom-[-140px] w-[720px] h-[360px] border-t-2 border-dashed border-[#222222] rounded-t-full pointer-events-none opacity-40" 
-          style={{ left: "calc(50% - 360px)" }}
-        />
-
-        {/* Cards Container anchored at the bottom */}
-        <div className="relative w-full h-[280px] flex items-end justify-center mb-6">
-          {items.map((item, index) => (
-            <SemicircleArcCard 
-              key={item.number || index} 
-              item={item} 
-              index={index} 
-              scrollYProgress={scrollYProgress} 
-            />
-          ))}
-        </div>
+    <div ref={containerRef} className={`relative min-h-[250vh] ${className}`}>
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+        {items.map((item, index) => (
+          <SemicircleArcCard
+            key={item.number || index}
+            item={item}
+            index={index}
+            scrollYProgress={scrollYProgress}
+          />
+        ))}
       </div>
-    </section>
+    </div>
   );
 }

@@ -55,35 +55,35 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`sticky top-0 z-50 transition-colors duration-150 ${scrolled
-          ? "bg-[#000000] border-b border-[#222222] py-2.5"
-          : "bg-transparent border-b border-[#222222]/60 py-3.5"
+      <header className={`sticky top-0 z-50 transition-all duration-200 ${scrolled
+          ? "bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#E6E0D5] py-2.5 shadow-xs"
+          : "bg-transparent border-b border-[#E6E0D5]/60 py-3.5"
         }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6">
           {/* Left: Brand Logo */}
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-3 group" onClick={() => setMobileOpen(false)}>
-              {/* Medallion Avatar with Brutalist Border */}
-              <div className="size-10 bg-[#111111] border border-[#222222] group-hover:border-[#00FF66] flex items-center justify-center text-[#00FF66] transition-colors">
+              {/* Medallion Avatar with Rounded Border */}
+              <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] flex items-center justify-center text-[#8B263E] transition-colors shadow-xs">
                 <ShieldCheck className="size-5" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-extrabold tracking-tight text-[#F8F9FA] leading-tight">
-                  PASS<span className="text-[#00FF66]">GUARDIAN</span>
+                <span className="text-xl font-extrabold tracking-tight text-[#1a1a1a] leading-tight">
+                  PASS<span className="text-[#8B263E]">GUARDIAN</span>
                 </span>
-                <span className="text-[0.62rem] text-[#6B7280] tracking-widest uppercase font-mono-code font-bold hidden xs:block">
+                <span className="text-[0.62rem] text-[#6B6560] tracking-widest uppercase font-semibold hidden xs:block">
                   Zero-Knowledge Vault
                 </span>
               </div>
             </Link>
 
             {/* Desktop Nav Links */}
-            <nav className="hidden md:flex items-center gap-1 pl-6 border-l border-[#222222]">
+            <nav className="hidden md:flex items-center gap-1 pl-6 border-l border-[#E6E0D5]">
               {navItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="px-3.5 py-1.5 text-xs font-bold text-[#6B7280] hover:text-[#F8F9FA] hover:bg-[#111111] transition-colors uppercase tracking-wider"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-bold text-[#6B6560] hover:text-[#8B263E] hover:bg-blush/20 transition-colors uppercase tracking-wider"
                 >
                   {item.label}
                 </a>
@@ -91,17 +91,15 @@ export default function Navbar() {
             </nav>
           </div>
 
-          {/* Right: Social Bubbles + Auth Actions */}
+          {/* Right: Auth Actions & User Menu */}
           <div className="flex items-center gap-2.5">
-
-
             {isAuthenticated ? (
               <>
                 <Link
                   to="/dashboard"
-                  className="glass-btn-secondary text-xs py-2 px-3.5 hidden xs:inline-flex"
+                  className="glass-btn-secondary text-xs py-2 px-4 hidden xs:inline-flex"
                 >
-                  <LayoutDashboard className="size-3.5 text-[#00FF66]" />
+                  <LayoutDashboard className="size-3.5 text-[#8B263E]" />
                   Dashboard
                 </Link>
 
@@ -109,14 +107,14 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    className="flex items-center gap-1.5 p-1 bg-[#111111] border border-[#222222] hover:border-[#00FF66] transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 p-1 pr-2 rounded-full bg-white border border-[#E6E0D5] hover:border-[#8B263E] transition-colors cursor-pointer shadow-xs"
                     aria-expanded={userDropdownOpen}
                     aria-label="User dropdown menu"
                   >
-                    <div className="size-8 bg-[#222222] text-[#00FF66] flex items-center justify-center font-bold text-xs">
+                    <div className="size-8 rounded-full bg-blush/40 text-[#8B263E] flex items-center justify-center font-bold text-xs">
                       {initials}
                     </div>
-                    <ChevronDown className={`size-3.5 text-[#6B7280] transition-transform ${userDropdownOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`size-3.5 text-[#6B6560] transition-transform duration-150 ${userDropdownOpen ? "rotate-180" : ""}`} />
                   </button>
 
                   {/* Backdrop */}
@@ -129,40 +127,40 @@ export default function Navbar() {
 
                   {/* Dropdown Menu */}
                   {userDropdownOpen && (
-                    <div className="absolute right-0 top-12 w-52 bg-[#111111] p-2 z-50 border border-[#222222]">
-                      <div className="px-3 py-2 border-b border-[#222222] mb-1">
-                        <p className="text-xs font-bold text-[#F8F9FA] truncate">
+                    <div className="absolute right-0 top-12 w-56 bg-white p-2 z-50 rounded-2xl border border-[#E6E0D5] shadow-xl">
+                      <div className="px-3 py-2 border-b border-[#E6E0D5] mb-1">
+                        <p className="text-xs font-bold text-[#1a1a1a] truncate">
                           {displayName || "Guardian"}
                         </p>
-                        <p className="text-[0.65rem] text-[#6B7280] truncate font-mono-code">
+                        <p className="text-[0.65rem] text-[#6B6560] truncate font-mono-code">
                           {user?.email}
                         </p>
                       </div>
                       <Link
                         to="/profile"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-[#F8F9FA] hover:bg-[#222222] transition-colors uppercase tracking-wider"
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-[#1a1a1a] hover:bg-blush/25 hover:text-[#8B263E] transition-colors uppercase tracking-wider"
                       >
-                        <User className="size-3.5 text-[#00FF66]" />
+                        <User className="size-3.5 text-[#8B263E]" />
                         Profile
                       </Link>
                       <Link
                         to="/settings"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-[#F8F9FA] hover:bg-[#222222] transition-colors uppercase tracking-wider"
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-[#1a1a1a] hover:bg-blush/25 hover:text-[#8B263E] transition-colors uppercase tracking-wider"
                       >
-                        <Settings className="size-3.5 text-[#00FF66]" />
+                        <Settings className="size-3.5 text-[#8B263E]" />
                         Settings &amp; 2FA
                       </Link>
-                      <div className="my-1 border-t border-[#222222]" />
+                      <div className="my-1 border-t border-[#E6E0D5]" />
                       <button
                         onClick={() => {
                           setUserDropdownOpen(false);
                           logout();
                         }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-[#FF3366] hover:bg-[#222222] transition-colors cursor-pointer uppercase tracking-wider"
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer uppercase tracking-wider"
                       >
-                        <LogOut className="size-3.5 text-[#FF3366]" />
+                        <LogOut className="size-3.5 text-rose-600" />
                         Log Out
                       </button>
                     </div>
@@ -173,14 +171,14 @@ export default function Navbar() {
               <>
                 <Link
                   to="/login"
-                  className="glass-btn-ghost text-xs py-2 px-3.5"
+                  className="glass-btn-ghost text-xs py-2 px-4"
                 >
-                  <LogIn className="size-3.5 text-[#00FF66]" />
+                  <LogIn className="size-3.5 text-[#8B263E]" />
                   <span className="hidden sm:inline">Sign In</span>
                 </Link>
                 <Link
                   to="/register"
-                  className="glass-btn-primary text-xs py-2 px-3.5"
+                  className="glass-btn-primary text-xs py-2 px-4"
                 >
                   <Sparkles className="size-3.5" />
                   <span>Open Vault</span>
@@ -191,7 +189,7 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden ml-1 flex items-center justify-center size-9 bg-[#111111] border border-[#222222] text-[#F8F9FA] hover:text-[#00FF66] transition-colors"
+              className="md:hidden ml-1 flex items-center justify-center size-9 rounded-xl bg-white border border-[#E6E0D5] text-[#1a1a1a] hover:text-[#8B263E] transition-colors"
               aria-label="Open navigation menu"
             >
               <Menu className="size-5" />
@@ -203,7 +201,7 @@ export default function Navbar() {
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-[60] bg-[#000000]/90 md:hidden"
+          className="fixed inset-0 z-[60] bg-black/30 backdrop-blur-xs md:hidden"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
@@ -211,21 +209,21 @@ export default function Navbar() {
 
       {/* Mobile Slide-out Drawer */}
       <div
-        className={`fixed top-0 right-0 z-[70] h-full w-72 max-w-[85vw] bg-[#000000] border-l border-[#222222] flex flex-col transition-transform duration-200 ease-in-out md:hidden ${mobileOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 z-[70] h-full w-72 max-w-[85vw] bg-[#FDFBF7] border-l border-[#E6E0D5] flex flex-col transition-transform duration-200 ease-in-out md:hidden ${mobileOpen ? "translate-x-0" : "translate-x-full"
           }`}
         aria-label="Mobile navigation"
       >
         {/* Drawer Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#222222]">
+        <div className="flex items-center justify-between p-4 border-b border-[#E6E0D5]">
           <div className="flex items-center gap-2.5">
-            <div className="size-8 bg-[#111111] border border-[#222222] flex items-center justify-center text-[#00FF66]">
+            <div className="size-8 rounded-xl bg-blush/30 border border-[#E6E0D5] flex items-center justify-center text-[#8B263E]">
               <ShieldCheck className="size-4.5" />
             </div>
-            <span className="text-base font-extrabold text-[#F8F9FA]">PASS<span className="text-[#00FF66]">GUARDIAN</span></span>
+            <span className="text-base font-extrabold text-[#1a1a1a]">PASS<span className="text-[#8B263E]">GUARDIAN</span></span>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
-            className="size-8 bg-[#111111] border border-[#222222] flex items-center justify-center text-[#6B7280] hover:text-[#F8F9FA]"
+            className="size-8 rounded-lg bg-white border border-[#E6E0D5] flex items-center justify-center text-[#6B6560] hover:text-[#1a1a1a]"
             aria-label="Close navigation"
           >
             <X className="size-4" />
@@ -234,7 +232,7 @@ export default function Navbar() {
 
         {/* Nav Links */}
         <nav className="flex flex-col p-4 gap-1.5 flex-1 overflow-y-auto">
-          <p className="text-[0.62rem] font-mono-code font-bold uppercase tracking-widest text-[#6B7280] px-2 mb-1">
+          <p className="text-[0.62rem] font-bold uppercase tracking-widest text-[#6B6560] px-2 mb-1">
             Navigate
           </p>
           {navItems.map((item) => (
@@ -242,51 +240,51 @@ export default function Navbar() {
               key={item.label}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-3.5 py-2.5 text-xs font-bold text-[#F8F9FA] hover:text-[#00FF66] hover:bg-[#111111] transition-colors uppercase tracking-wider"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-[#1a1a1a] hover:text-[#8B263E] hover:bg-blush/20 transition-colors uppercase tracking-wider"
             >
               {item.label}
             </a>
           ))}
 
-          <div className="my-2 border-t border-[#222222]" />
+          <div className="my-2 border-t border-[#E6E0D5]" />
 
           {/* Social Links in drawer */}
-          <p className="text-[0.62rem] font-mono-code font-bold uppercase tracking-widest text-[#6B7280] px-2 mb-1">
+          <p className="text-[0.62rem] font-bold uppercase tracking-widest text-[#6B6560] px-2 mb-1">
             Connect
           </p>
           <a
             href="https://github.com/Abhay2110s/PassGaurdian"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-3 px-3.5 py-2 text-xs font-semibold text-[#6B7280] hover:text-[#00FF66] hover:bg-[#111111] transition-colors uppercase tracking-wider"
+            className="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#6B6560] hover:text-[#8B263E] hover:bg-blush/20 transition-colors uppercase tracking-wider"
           >
-            <FaGithub className="size-4 text-[#00FF66]" />
+            <FaGithub className="size-4 text-[#8B263E]" />
             GitHub
           </a>
           <a
             href="https://www.linkedin.com/in/abhay-singh-btech"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-3 px-3.5 py-2 text-xs font-semibold text-[#6B7280] hover:text-[#00FF66] hover:bg-[#111111] transition-colors uppercase tracking-wider"
+            className="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#6B6560] hover:text-[#8B263E] hover:bg-blush/20 transition-colors uppercase tracking-wider"
           >
-            <FaLinkedin className="size-4 text-[#00FF66]" />
+            <FaLinkedin className="size-4 text-[#8B263E]" />
             LinkedIn
           </a>
         </nav>
 
         {/* Drawer Footer — Auth & User Actions */}
-        <div className="p-4 border-t border-[#222222] space-y-2">
+        <div className="p-4 border-t border-[#E6E0D5] space-y-2">
           {isAuthenticated ? (
             <div className="space-y-2">
-              <div className="p-2.5 bg-[#111111] border border-[#222222] flex items-center gap-2.5">
-                <div className="size-8 bg-[#222222] text-[#00FF66] flex items-center justify-center text-xs font-bold">
+              <div className="p-2.5 rounded-2xl bg-white border border-[#E6E0D5] flex items-center gap-2.5">
+                <div className="size-8 rounded-full bg-blush/40 text-[#8B263E] flex items-center justify-center text-xs font-bold">
                   {initials}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-bold text-[#F8F9FA] truncate">
+                  <p className="text-xs font-bold text-[#1a1a1a] truncate">
                     {displayName || "Guardian"}
                   </p>
-                  <p className="text-[0.62rem] text-[#6B7280] truncate font-mono-code">
+                  <p className="text-[0.62rem] text-[#6B6560] truncate font-mono-code">
                     {user?.email}
                   </p>
                 </div>
@@ -308,7 +306,7 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="glass-btn-secondary text-[0.7rem] py-2 justify-center"
                 >
-                  <User className="size-3 text-[#00FF66]" />
+                  <User className="size-3 text-[#8B263E]" />
                   Profile
                 </Link>
                 <Link
@@ -316,7 +314,7 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="glass-btn-secondary text-[0.7rem] py-2 justify-center"
                 >
-                  <Settings className="size-3 text-[#00FF66]" />
+                  <Settings className="size-3 text-[#8B263E]" />
                   Settings
                 </Link>
               </div>
@@ -327,7 +325,7 @@ export default function Navbar() {
                   setMobileOpen(false);
                   logout();
                 }}
-                className="w-full flex items-center justify-center gap-2 p-2 bg-[#111111] text-[#FF3366] hover:bg-[#1a0006] border border-[#FF3366]/40 text-xs font-semibold cursor-pointer uppercase tracking-wider"
+                className="w-full flex items-center justify-center gap-2 p-2 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-semibold cursor-pointer uppercase tracking-wider"
               >
                 <LogOut className="size-3.5" />
                 Log Out
@@ -340,7 +338,7 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="glass-btn-secondary w-full text-xs py-2.5 justify-center"
               >
-                <LogIn className="size-3.5 text-[#00FF66]" />
+                <LogIn className="size-3.5 text-[#8B263E]" />
                 Sign In
               </Link>
               <Link

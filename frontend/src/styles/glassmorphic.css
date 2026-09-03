@@ -1,56 +1,71 @@
 /* ==========================================================================
-   PassGuardian — High-Contrast Cinematic Brutalist Design System
-   Aesthetic: Immersive Editorial Manifesto
-   Colors: Absolute Void Black (#000000), Stark Off-White (#F8F9FA),
-           Deep Charcoal (#111111), Neon Cyber-Green (#00FF66),
-           Alert Crimson (#FF3366), Harsh Border (#222222)
+   PassGuardian — High-End Luxury Light Theme Design System
+   Aesthetic: Cohesive Soft Cream, Blush Pink & Burgundy Elegance
+   Colors:
+     - Soft Cream Base: #FDFBF7
+     - Surface White:   #FFFFFF
+     - Soft Blush Tint: #F4C2C2
+     - Dark Burgundy:   #8B263E
+     - Warm Gray:       #E6E0D5
+     - Deep Charcoal:   #1a1a1a
+     - Muted Charcoal:  #6B6560
+   Radii: Fully rounded 2xl (16px), 3xl (24px), full (9999px)
    ========================================================================== */
 
 :root {
-  /* ── Core Brutalist Editorial Tokens ───────────────────────────────── */
-  --bg-void: #000000;         /* Primary cinematic background */
-  --bg-surface: #111111;      /* Secondary surfaces: cards, sidebar, inputs */
-  --text-primary: #F8F9FA;    /* Stark high-readability white */
-  --text-muted: #6B7280;      /* Secondary text, timestamps, placeholders */
-  --accent-cyber: #00FF66;    /* Sharp, neon cyber-green for primary CTAs & active states */
-  --accent-alert: #FF3366;    /* High-contrast red for warnings & deletions */
-  --border-harsh: #222222;    /* 1px subtle structural separation lines */
+  /* ── Core Light Theme Tokens ───────────────────────────────────────── */
+  --bg-cream: #FDFBF7;
+  --bg-surface: #FFFFFF;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card-blush: rgba(244, 194, 194, 0.25);
+  --bg-card-hover: rgba(244, 194, 194, 0.45);
 
-  /* ── Legacy Semantic Mapping (100% Brutalist Overrides) ────────────── */
-  --glass-bg-primary: var(--bg-void);
-  --glass-bg-card: var(--bg-surface);
-  --glass-bg-card-hover: #171717;
-  --glass-bg-subtle: #0d0d0d;
-  --glass-bg-active: #1c1c1c;
+  --accent-burgundy: #8B263E;
+  --accent-burgundy-hover: #A8324E;
+  --accent-blush: #F4C2C2;
+  --accent-blush-strong: #E8A7A7;
 
-  --glass-border: var(--border-harsh);
-  --glass-border-subtle: #1a1a1a;
-  --glass-border-hover: #333333;
-  --glass-border-active: var(--accent-cyber);
-  --glass-border-glow: transparent;
+  --border-warm: #E6E0D5;
+  --border-warm-subtle: rgba(230, 224, 213, 0.7);
 
-  /* Strip all soft shadows */
-  --glass-shadow: none;
-  --glass-shadow-lg: none;
-  --glass-shadow-pink: none;
-  --glass-shadow-burgundy: none;
+  --text-charcoal: #1a1a1a;
+  --text-muted: #6B6560;
+  --text-burgundy: #8B263E;
+
+  /* ── Glass Tokens ─────────────────────────────────────────────────── */
+  --glass-bg-primary: var(--bg-cream);
+  --glass-bg-card: rgba(255, 255, 255, 0.85);
+  --glass-bg-card-hover: rgba(244, 194, 194, 0.35);
+  --glass-bg-subtle: rgba(253, 251, 247, 0.8);
+  --glass-bg-active: rgba(244, 194, 194, 0.45);
+
+  --glass-border: var(--border-warm);
+  --glass-border-subtle: var(--border-warm-subtle);
+  --glass-border-hover: var(--accent-blush);
+  --glass-border-active: var(--accent-burgundy);
+
+  /* Shadows */
+  --glass-shadow: 0 10px 30px -10px rgba(139, 38, 62, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+  --glass-shadow-lg: 0 20px 40px -15px rgba(139, 38, 62, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.04);
+  --glass-shadow-pink: 0 10px 25px -5px rgba(244, 194, 194, 0.5);
+  --glass-shadow-burgundy: 0 4px 14px rgba(139, 38, 62, 0.25);
 
   /* Typography mappings */
-  --text-blush: var(--text-primary);
-  --text-blush-vibrant: var(--accent-cyber);
-  --text-blush-deep: var(--accent-cyber);
+  --text-blush: var(--accent-burgundy);
+  --text-blush-vibrant: var(--accent-burgundy);
+  --text-blush-deep: #6D1C2F;
   --text-dim: var(--text-muted);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* --------------------------------------------------------------------------
    Global Document & Editorial Typography
    -------------------------------------------------------------------------- */
 body {
-  font-family: 'Geist', 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg-void);
-  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-cream);
+  color: var(--text-charcoal);
   min-height: 100vh;
   position: relative;
   overflow-x: clip;
@@ -61,13 +76,13 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  color: var(--text-charcoal);
 }
 
 ::selection {
-  background: var(--accent-cyber);
-  color: #000000;
+  background: var(--accent-blush);
+  color: var(--accent-burgundy);
 }
 
 svg {
@@ -75,119 +90,138 @@ svg {
 }
 
 /* --------------------------------------------------------------------------
-   Backgrounds — Pure Cinematic Void Black
-   Strip away soft gradients, rounded meshes, and blur orbs
+   Backgrounds — Soft Cream & Subtle Blush Radiance
    -------------------------------------------------------------------------- */
 .app-bg,
 .landing-bg {
-  background-color: var(--bg-void) !important;
-  background-image: none !important;
+  background-color: var(--bg-cream);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(244, 194, 194, 0.35), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(244, 194, 194, 0.2), transparent 60%);
 }
 
-.aurora-orb-burgundy,
+.aurora-orb-burgundy {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(139, 38, 62, 0.08) 0%, rgba(139, 38, 62, 0) 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .aurora-orb-blush {
-  display: none !important;
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(244, 194, 194, 0.4) 0%, rgba(244, 194, 194, 0) 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* --------------------------------------------------------------------------
-   Surfaces — Deep Charcoal Without Soft Borders / Zero Drop Shadows
+   Surfaces — Rounded Soft Blush & Clean White Cards
    -------------------------------------------------------------------------- */
 .glass-panel {
-  background-color: var(--bg-surface) !important;
-  background-image: none !important;
-  border: 1px solid var(--border-harsh) !important;
-  border-radius: 0px !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  transition: border-color 0.15s ease;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--border-warm);
+  border-radius: 1.5rem; /* rounded-3xl */
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--text-charcoal);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .glass-panel:hover {
-  border-color: #333333 !important;
-  box-shadow: none !important;
+  border-color: rgba(244, 194, 194, 0.9);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.glass-panel-elevated {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border-warm);
+  border-radius: 2rem;
+  box-shadow: var(--glass-shadow-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text-charcoal);
 }
 
 .glass-card {
-  background-color: var(--bg-surface) !important;
-  background-image: none !important;
-  border: 1px solid var(--border-harsh) !important;
-  border-radius: 0px !important;
-  box-shadow: none !important;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border-warm);
+  border-radius: 1.5rem;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-charcoal);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .glass-card:hover {
-  background-color: #171717 !important;
-  border-color: #333333 !important;
-  box-shadow: none !important;
-  transform: none !important;
+  background: rgba(244, 194, 194, 0.25);
+  border-color: rgba(139, 38, 62, 0.4);
+  box-shadow: var(--glass-shadow-lg);
 }
 
 .glass-card-subtle {
-  background-color: #0d0d0d !important;
-  border: 1px solid var(--border-harsh) !important;
-  border-radius: 0px !important;
-  box-shadow: none !important;
-  transition: border-color 0.15s ease;
+  background: rgba(253, 251, 247, 0.85);
+  border: 1px solid var(--border-warm);
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .glass-card-subtle:hover {
-  border-color: #333333 !important;
-  box-shadow: none !important;
+  border-color: var(--accent-burgundy);
+  background: rgba(244, 194, 194, 0.2);
 }
 
 .glass-card-interactive {
-  background-color: var(--bg-surface) !important;
-  border: 1px solid var(--border-harsh) !important;
-  border-radius: 0px !important;
-  box-shadow: none !important;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border-warm);
+  border-radius: 1.5rem;
+  box-shadow: var(--glass-shadow);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .glass-card-interactive:hover {
-  background-color: #161616 !important;
-  border-color: var(--accent-cyber) !important;
-  box-shadow: none !important;
-  transform: none !important;
+  background: rgba(244, 194, 194, 0.3);
+  border-color: var(--accent-burgundy);
+  box-shadow: var(--glass-shadow-lg);
+  transform: translateY(-2px);
 }
 
 /* --------------------------------------------------------------------------
-   Buttons — Sharp Neon Cyber-Green & Editorial Brutalist Actions
+   Buttons — Dark Burgundy Pill CTAs & Soft Blush Actions
    -------------------------------------------------------------------------- */
 .glass-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: var(--accent-cyber) !important;
-  background-image: none !important;
-  color: #000000 !important;
-  font-weight: 800 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  border-radius: 0px !important;
-  border: 1px solid var(--accent-cyber) !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
+  background: var(--accent-burgundy);
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-burgundy);
+  box-shadow: var(--glass-shadow-burgundy);
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .glass-btn-primary:hover {
-  background: #FFFFFF !important;
-  color: #000000 !important;
-  border-color: #FFFFFF !important;
-  box-shadow: none !important;
-  transform: none !important;
+  background: var(--accent-burgundy-hover);
+  border-color: var(--accent-burgundy-hover);
+  box-shadow: 0 6px 20px rgba(139, 38, 62, 0.35);
+  transform: translateY(-1px);
 }
 
 .glass-btn-primary:active {
-  background: #00CC52 !important;
-  color: #000000 !important;
-  border-color: #00CC52 !important;
-  transform: none !important;
+  transform: translateY(0);
 }
 
 .glass-btn-secondary {
@@ -195,26 +229,22 @@ svg {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: var(--bg-surface) !important;
-  background-image: none !important;
-  color: var(--text-primary) !important;
-  font-weight: 700 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: 0.75rem;
-  border-radius: 0px !important;
-  border: 1px solid var(--border-harsh) !important;
-  box-shadow: none !important;
+  background: rgba(244, 194, 194, 0.35);
+  color: var(--accent-burgundy) !important;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  border-radius: 9999px;
+  border: 1px solid var(--border-warm);
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .glass-btn-secondary:hover {
-  background: #1c1c1c !important;
-  border-color: var(--text-primary) !important;
-  color: #FFFFFF !important;
-  box-shadow: none !important;
-  transform: none !important;
+  background: rgba(244, 194, 194, 0.65);
+  border-color: var(--accent-burgundy);
+  color: var(--accent-burgundy) !important;
+  transform: translateY(-1px);
 }
 
 .glass-btn-ghost {
@@ -222,52 +252,50 @@ svg {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: transparent !important;
-  color: var(--text-muted) !important;
-  border-radius: 0px !important;
-  border: 1px solid var(--border-harsh) !important;
-  font-weight: 700 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-size: 0.75rem;
+  background: transparent;
+  color: var(--text-charcoal) !important;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .glass-btn-ghost:hover {
-  background-color: var(--bg-surface) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--text-primary) !important;
-  box-shadow: none !important;
+  background: rgba(244, 194, 194, 0.25);
+  color: var(--accent-burgundy) !important;
+  border-color: var(--border-warm);
 }
 
 /* --------------------------------------------------------------------------
-   Inputs & Form Elements — Deep Charcoal (#111111) With 1px Harsh Borders
+   Inputs & Form Elements — Clean Cream & White With Rounded Corners
    -------------------------------------------------------------------------- */
 .glass-input {
   width: 100%;
-  background-color: var(--bg-surface) !important;
-  border: 1px solid var(--border-harsh) !important;
-  border-radius: 0px !important;
+  background: #FFFFFF;
+  border: 1px solid var(--border-warm);
+  border-radius: 1rem; /* rounded-2xl */
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   padding-left: 1rem;
   padding-right: 1rem;
-  color: var(--text-primary) !important;
+  color: var(--text-charcoal);
   font-size: 0.875rem;
-  box-shadow: none !important;
-  transition: border-color 0.15s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .glass-input::placeholder {
-  color: var(--text-muted) !important;
+  color: #9E9890;
 }
 
 .glass-input:focus {
-  outline: none !important;
-  background-color: #151515 !important;
-  border-color: var(--accent-cyber) !important;
-  box-shadow: none !important;
+  outline: none;
+  background: #FFFFFF;
+  border-color: var(--accent-burgundy);
+  box-shadow: 0 0 0 3px rgba(244, 194, 194, 0.45);
 }
 
 /* Icon padding safety */
@@ -281,7 +309,7 @@ svg {
 .glass-input.pl-11,
 .glass-input.pl-12,
 .glass-input[class*="pl-"] {
-  padding-left: 2.75rem !important;
+  padding-left: 2.75rem;
 }
 
 .relative:has(> button.absolute) > .glass-input,
@@ -297,36 +325,41 @@ svg {
 .glass-input.pr-11,
 .glass-input.pr-12,
 .glass-input[class*="pr-"] {
-  padding-right: 2.75rem !important;
+  padding-right: 2.75rem;
 }
 
 /* --------------------------------------------------------------------------
-   Badges & Status Chips — Sharp Edges, Technical Monospace
+   Badges & Status Chips — Pill Shaped, Soft Blush & Burgundy Accents
    -------------------------------------------------------------------------- */
-.glass-badge-blush,
+.glass-badge-blush {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(244, 194, 194, 0.35);
+  border: 1px solid var(--border-warm);
+  color: var(--accent-burgundy);
+  font-size: 0.725rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+  white-space: nowrap;
+}
+
 .glass-badge-burgundy {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: 0px !important;
-  background: var(--bg-surface) !important;
-  background-color: var(--bg-surface) !important;
-  border: 1px solid var(--border-harsh) !important;
-  color: var(--text-primary) !important;
-  font-size: 0.7rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(139, 38, 62, 0.1);
+  border: 1px solid rgba(139, 38, 62, 0.25);
+  color: var(--accent-burgundy);
+  font-size: 0.725rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
-  box-shadow: none !important;
+  letter-spacing: 0.02em;
   white-space: nowrap;
-}
-
-.glass-badge-blush:hover,
-.glass-badge-burgundy:hover {
-  border-color: #444444 !important;
-  box-shadow: none !important;
 }
 
 .glass-badge-emerald,
@@ -334,18 +367,14 @@ svg {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: 0px !important;
-  background: rgba(0, 255, 102, 0.06) !important;
-  background-color: rgba(0, 255, 102, 0.06) !important;
-  border: 1px solid var(--accent-cyber) !important;
-  color: var(--accent-cyber) !important;
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
-  box-shadow: none !important;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #047857;
+  font-size: 0.725rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
@@ -353,71 +382,44 @@ svg {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: 0px !important;
-  background: rgba(255, 51, 102, 0.08) !important;
-  background-color: rgba(255, 51, 102, 0.08) !important;
-  border: 1px solid var(--accent-alert) !important;
-  color: var(--accent-alert) !important;
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
-  box-shadow: none !important;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(225, 29, 72, 0.1);
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  color: #BE123C;
+  font-size: 0.725rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
 /* --------------------------------------------------------------------------
-   Typography & Accents — Stark Off-White & Neon Cyber-Green
+   Typography & Accents — Deep Charcoal & Dark Burgundy Gradients
    -------------------------------------------------------------------------- */
 .text-gradient-blush,
-.text-gradient-burgundy,
-.text-gradient-warm,
-.text-gradient-violet,
-.text-gradient-cyber {
-  background: linear-gradient(135deg, #00FF66 0%, #FFFFFF 100%);
+.text-gradient-burgundy {
+  background: linear-gradient(135deg, #8B263E 0%, #B83A58 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warm {
+  background: linear-gradient(135deg, #1a1a1a 0%, #8B263E 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .burgundy-border-glow {
-  border: 1px solid var(--border-harsh) !important;
-  box-shadow: none !important;
+  border: 1px solid var(--border-warm);
+  border-radius: 1.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .burgundy-border-glow:hover {
-  border-color: var(--accent-cyber) !important;
-  box-shadow: none !important;
-}
-
-.animate-burgundy-border {
-  border-color: var(--border-harsh) !important;
-  box-shadow: none !important;
-  animation: none !important;
-}
-
-/* --------------------------------------------------------------------------
-   Brutalist Scrollbar — Void Black & Harsh Borders
-   -------------------------------------------------------------------------- */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-void);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-harsh);
-  border-radius: 0px !important;
-  border: none;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-cyber);
+  border-color: var(--accent-burgundy);
+  box-shadow: 0 0 20px rgba(244, 194, 194, 0.6);
 }
 
 .font-mono-code {

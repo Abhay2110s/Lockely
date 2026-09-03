@@ -106,27 +106,27 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
     <div className="w-full space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="size-12 rounded-2xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] border border-white/20 text-white flex items-center justify-center mx-auto shadow-lg">
-          <Mail className="size-6" />
+        <div className="size-14 rounded-2xl bg-blush/35 border border-[#E6E0D5] text-[#8B263E] flex items-center justify-center mx-auto shadow-xs">
+          <Mail className="size-7" />
         </div>
-        <h2 className="text-2xl font-extrabold text-white">Verify your email</h2>
+        <h2 className="text-2xl font-extrabold text-[#1a1a1a]">Verify your email</h2>
         {email && (
-          <p className="text-xs text-[#fda4b8]/80 font-normal">
-            We sent a 6-digit verification code to <strong className="text-white font-mono-code">{email}</strong>
+          <p className="text-xs text-[#6B6560] font-normal">
+            We sent a 6-digit verification code to <strong className="text-[#8B263E] font-mono">{email}</strong>
           </p>
         )}
       </div>
 
       {/* Error */}
       {error && (
-        <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-500/30 text-xs text-rose-200 font-medium text-center">
+        <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium text-center">
           {error}
         </div>
       )}
 
       {resent && (
-        <div className="p-3 rounded-xl bg-emerald-950/50 border border-emerald-500/30 text-xs text-emerald-200 font-medium text-center flex items-center justify-center gap-2">
-          <CheckCircle2 className="size-4 text-emerald-400" /> New code sent to your email!
+        <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-700 font-medium text-center flex items-center justify-center gap-2">
+          <CheckCircle2 className="size-4 text-emerald-600" /> New code sent to your email!
         </div>
       )}
 
@@ -143,7 +143,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
             onChange={(e) => handleDigitChange(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
             onFocus={(e) => e.target.select()}
-            className="size-11 sm:size-12 text-center text-lg font-mono-code font-bold rounded-xl glass-input border border-pink-500/25 focus:border-[#f43f6e] focus:outline-none transition-all"
+            className="size-11 sm:size-12 text-center text-lg font-mono font-bold rounded-2xl bg-white border border-[#E6E0D5] focus:border-[#8B263E] text-[#1a1a1a] focus:outline-none shadow-xs transition-all"
           />
         ))}
       </div>
@@ -152,7 +152,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
       <button
         onClick={handleVerify}
         disabled={!isComplete || loading}
-        className="w-full glass-btn-primary py-3 text-xs font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full glass-btn-primary py-3.5 text-xs font-semibold rounded-full flex items-center justify-center gap-2 cursor-pointer shadow-button hover:shadow-button-hover disabled:opacity-50"
       >
         {loading ? (
           <Loader2 className="size-4 animate-spin" />
@@ -166,7 +166,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
         <button
           onClick={handleResend}
           disabled={resending}
-          className="inline-flex items-center gap-1.5 text-xs text-[#fda4b8] hover:text-white transition-colors disabled:opacity-50 underline cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs text-[#8B263E] hover:underline transition-colors disabled:opacity-50 font-medium cursor-pointer"
         >
           <RefreshCw className={`size-3.5 ${resending ? "animate-spin" : ""}`} />
           Resend code

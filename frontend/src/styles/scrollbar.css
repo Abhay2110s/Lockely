@@ -1,62 +1,62 @@
-/* scrollbar.css — High-contrast brutalist technical scrollbars */
+/* scrollbar.css — High-end light luxury scrollbars */
 
 /* ─── Standard API ───────────────────────────────────────────────── */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #222222 #000000;
+  scrollbar-color: #E6E0D5 #FDFBF7;
 }
 
 /* ─── Webkit Pseudo-Element Fallback ─────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #FDFBF7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #222222;
-  border-radius: 0px !important;
+  background-color: #E6E0D5;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #00FF66;
+  background-color: #F4C2C2;
 }
 
 /* ─── Sidebar Specific ───────────────────────────────────────────── */
 aside::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 aside::-webkit-scrollbar-track {
-  background: #111111;
+  background: #FAF8F3;
 }
 
 aside::-webkit-scrollbar-thumb {
-  background-color: #222222;
-  border-radius: 0px !important;
+  background-color: #E6E0D5;
+  border-radius: 9999px;
 }
 
 aside::-webkit-scrollbar-thumb:hover {
-  background-color: #00FF66;
+  background-color: #F4C2C2;
 }
 
 /* ─── Vault List ─────────────────────────────────────────────────── */
 .vault-list::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 .vault-list::-webkit-scrollbar-track {
-  background: #000000;
+  background: #FDFBF7;
 }
 
 .vault-list::-webkit-scrollbar-thumb {
-  background-color: #222222;
-  border-radius: 0px !important;
+  background-color: #E6E0D5;
+  border-radius: 9999px;
 }
 
 .vault-list::-webkit-scrollbar-thumb:hover {
-  background-color: #00FF66;
+  background-color: #8B263E;
 }

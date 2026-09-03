@@ -63,12 +63,11 @@ export default function PasswordGenerator() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // High-Contrast Brutalist Strength Score
   const getStrength = () => {
-    if (length < 8) return { label: "Weak Security", color: "bg-[#FF3366]", textColor: "text-[#FF3366]", width: "w-1/4" };
-    if (length < 12) return { label: "Moderate Entropy", color: "bg-[#F8F9FA]", textColor: "text-[#F8F9FA]", width: "w-2/4" };
-    if (length < 16) return { label: "Strong Defense", color: "bg-[#00FF66]", textColor: "text-[#00FF66]", width: "w-3/4" };
-    return { label: "Fortress Grade", color: "bg-[#00FF66]", textColor: "text-[#00FF66]", width: "w-full" };
+    if (length < 8) return { label: "Weak Security", color: "bg-rose-500", textColor: "text-rose-600", width: "w-1/4" };
+    if (length < 12) return { label: "Moderate Entropy", color: "bg-amber-400", textColor: "text-amber-600", width: "w-2/4" };
+    if (length < 16) return { label: "Strong Defense", color: "bg-emerald-500", textColor: "text-emerald-700", width: "w-3/4" };
+    return { label: "Fortress Grade", color: "bg-[#8B263E]", textColor: "text-[#8B263E]", width: "w-full" };
   };
 
   const strength = getStrength();
@@ -77,38 +76,38 @@ export default function PasswordGenerator() {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div className="text-center space-y-2.5">
-        <div className="size-12 bg-[#111111] border border-[#222222] text-[#00FF66] flex items-center justify-center mx-auto">
+        <div className="size-12 rounded-2xl bg-blush/35 border border-[#E6E0D5] text-[#8B263E] flex items-center justify-center mx-auto shadow-xs">
           <Wand2 className="size-6" />
         </div>
-        <h1 className="text-3xl font-black text-[#F8F9FA] tracking-tighter uppercase">
+        <h1 className="text-3xl font-extrabold text-[#1a1a1a] tracking-tight">
           Password Generator
         </h1>
-        <p className="text-xs sm:text-sm text-[#6B7280] font-mono-code uppercase tracking-wider">
+        <p className="text-xs sm:text-sm text-[#6B6560] uppercase tracking-wider">
           Hardware-randomized CSPRNG entropy for unbreakable keys
         </p>
       </div>
 
-      {/* Main Password Output Display — Deep Charcoal #111111 with 1px Harsh Border */}
-      <div className="bg-[#111111] p-6 sm:p-8 border border-[#222222] space-y-6">
-        <div className="relative p-4 bg-[#000000] border border-[#222222] text-[#F8F9FA] flex items-center justify-between gap-4 font-mono-code text-sm sm:text-base break-all">
+      {/* Main Password Output Display */}
+      <div className="bg-white/95 rounded-3xl p-6 sm:p-8 border border-[#E6E0D5] shadow-xl space-y-6">
+        <div className="relative p-4 rounded-2xl bg-blush/25 border border-[#E6E0D5] text-[#8B263E] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-sm sm:text-base break-all shadow-xs">
           <span className="tracking-wider select-all font-bold">
             {generatedPassword || "Select at least one option below"}
           </span>
           <div className="flex items-center gap-2 shrink-0">
             <button
-              onClick={generate}
-              className="p-2 bg-[#111111] border border-[#222222] text-[#6B7280] hover:text-[#00FF66] hover:border-[#00FF66] transition-colors cursor-pointer"
+              onClick={() => generate()}
+              className="p-2.5 rounded-full bg-white border border-[#E6E0D5] text-[#6B6560] hover:text-[#8B263E] hover:border-[#8B263E] transition-colors cursor-pointer shadow-xs"
               title="Regenerate Password"
             >
               <RefreshCw className="size-4" />
             </button>
             <button
               onClick={handleCopy}
-              className="glass-btn-primary px-4 py-2 text-xs gap-1.5 font-bold uppercase tracking-wider"
+              className="glass-btn-primary px-5 py-2.5 text-xs gap-1.5 font-bold uppercase tracking-wider rounded-full shadow-button hover:shadow-button-hover"
             >
               {copied ? (
                 <>
-                  <Check className="size-4 text-black" /> Copied!
+                  <Check className="size-4" /> Copied!
                 </>
               ) : (
                 <>
@@ -121,22 +120,22 @@ export default function PasswordGenerator() {
 
         {/* Strength meter bar */}
         <div className="space-y-2">
-          <div className="flex justify-between text-xs font-mono-code uppercase tracking-wider">
-            <span className="text-[#6B7280]">Entropy Level:</span>
+          <div className="flex justify-between text-xs uppercase tracking-wider font-semibold">
+            <span className="text-[#6B6560]">Entropy Level:</span>
             <span className={`${strength.textColor} font-bold flex items-center gap-1`}>
               <Zap className="size-3.5 fill-current" /> {strength.label}
             </span>
           </div>
-          <div className="h-1.5 w-full bg-[#000000] border border-[#222222]">
-            <div className={`h-full ${strength.color} transition-all duration-200 ${strength.width}`} />
+          <div className="h-2 w-full bg-[#FAF8F3] rounded-full border border-[#E6E0D5] overflow-hidden">
+            <div className={`h-full ${strength.color} rounded-full transition-all duration-300 ${strength.width}`} />
           </div>
         </div>
 
         {/* Password Length Slider */}
-        <div className="space-y-3 pt-1 p-4 bg-[#000000] border border-[#222222]">
-          <div className="flex justify-between text-xs font-bold text-[#F8F9FA] font-mono-code uppercase tracking-wider">
+        <div className="space-y-3 p-4 rounded-2xl bg-[#FDFBF7] border border-[#E6E0D5]">
+          <div className="flex justify-between text-xs font-bold text-[#1a1a1a] uppercase tracking-wider">
             <span>Password Length</span>
-            <span className="text-[#00FF66]">
+            <span className="text-[#8B263E] font-extrabold">
               {length} characters
             </span>
           </div>
@@ -146,7 +145,7 @@ export default function PasswordGenerator() {
             max={48}
             value={length}
             onChange={(e) => updateLength(Number(e.target.value))}
-            className="w-full h-1 bg-[#222222] appearance-none cursor-pointer accent-[#00FF66]"
+            className="w-full h-2 rounded-lg bg-[#E6E0D5] appearance-none cursor-pointer accent-[#8B263E]"
           />
         </div>
 
@@ -160,17 +159,17 @@ export default function PasswordGenerator() {
           ].map((opt, i) => (
             <label
               key={i}
-              className={`flex items-center gap-3 p-3 border transition-colors text-xs font-bold font-mono-code uppercase tracking-wider cursor-pointer select-none ${
+              className={`flex items-center gap-3 p-3.5 rounded-2xl border transition-all text-xs font-bold uppercase tracking-wider cursor-pointer select-none ${
                 opt.state
-                  ? "bg-[#000000] border-[#00FF66] text-[#00FF66]"
-                  : "bg-[#000000] border-[#222222] text-[#6B7280]"
+                  ? "bg-blush/35 border-[#8B263E] text-[#8B263E] shadow-xs"
+                  : "bg-white border-[#E6E0D5] text-[#6B6560] hover:border-[#8B263E]"
               }`}
             >
               <input
                 type="checkbox"
                 checked={opt.state}
                 onChange={(e) => toggleOption(opt.key, e.target.checked)}
-                className="size-4 accent-[#00FF66] cursor-pointer"
+                className="size-4 accent-[#8B263E] cursor-pointer"
               />
               {opt.label}
             </label>

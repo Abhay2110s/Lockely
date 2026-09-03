@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye,
   EyeOff,
@@ -11,7 +10,6 @@ import {
   ArrowRight,
   Loader2,
   CheckCircle2,
-  XCircle,
   Sparkles,
 } from "lucide-react";
 import * as authService from "@/services/auth.service";
@@ -29,7 +27,7 @@ function strengthScore(p) {
   return requirements.filter((r) => r.test(p)).length;
 }
 const strengthLabels = ["", "Weak", "Fair", "Good", "Fortress Grade! 🛡️"];
-const strengthColors = ["", "bg-rose-500", "bg-pink-400", "bg-emerald-400", "bg-emerald-400"];
+const strengthColors = ["", "bg-rose-500", "bg-amber-500", "bg-emerald-500", "bg-[#8B263E]"];
 
 /* ── OTP verify view ── */
 function OTPVerify({ email, password: masterPassword }) {
@@ -99,52 +97,42 @@ function OTPVerify({ email, password: masterPassword }) {
       await authService.resendOTP({ email, type: "EMAIL_VERIFICATION" });
       setResent(true);
       setDigits(["", "", "", "", "", ""]);
-      inputRefs[0]?.focus();
       setTimeout(() => setResent(false), 3000);
-    } catch {
-      setError("Failed to resend. Try again.");
+      toast.success("Fresh verification code dispatched!");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to resend code.");
     } finally {
       setResending(false);
     }
   };
 
   return (
-    <div className="w-full space-y-6">
-      <div className="space-y-2 text-center sm:text-left">
-        <div className="size-12 rounded-2xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] border border-white/20 flex items-center justify-center mb-3 text-white shadow-lg">
-          <Mail className="size-6" />
-        </div>
-        <h2 className="text-3xl font-extrabold text-white tracking-tight">Check Your Inbox</h2>
-        <p className="text-xs sm:text-sm text-[#fda4b8]/80">
-          We sent a 6-digit verification code to <strong className="text-white font-mono-code">{email}</strong>
+    <div className="w-full space-y-6 text-center">
+      <div className="size-14 rounded-2xl bg-blush/35 border border-[#E6E0D5] text-[#8B263E] flex items-center justify-center mx-auto shadow-xs">
+        <Mail className="size-7" />
+      </div>
+
+      <div>
+        <h2 className="text-2xl font-extrabold text-[#1a1a1a] tracking-tight">Verify Your Email</h2>
+        <p className="text-xs text-[#6B6560] mt-1">
+          We sent a 6-digit code to <span className="font-mono font-bold text-[#8B263E]">{email}</span>
         </p>
       </div>
 
-      <AnimatePresence>
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="p-3.5 rounded-2xl bg-rose-950/50 border border-rose-500/30 text-xs text-rose-200 font-medium flex items-center gap-2"
-          >
-            <XCircle className="size-4 shrink-0 text-rose-400" /> {error}
-          </motion.div>
-        )}
-        {resent && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="p-3.5 rounded-2xl bg-emerald-950/50 border border-emerald-500/30 text-xs text-emerald-200 font-medium flex items-center gap-2"
-          >
-            <CheckCircle2 className="size-4 shrink-0 text-emerald-400" /> Fresh verification code sent!
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {error && (
+        <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium">
+          {error}
+        </div>
+      )}
 
-      {/* OTP boxes */}
-      <div className="flex justify-center gap-2" onPaste={handlePaste}>
+      {resent && (
+        <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-700 font-medium">
+          Fresh verification code dispatched!
+        </div>
+      )}
+
+      {/* 6-box input */}
+      <div className="flex justify-center gap-2 sm:gap-2.5" onPaste={handlePaste}>
         {digits.map((d, i) => (
           <input
             key={i}
@@ -155,7 +143,7 @@ function OTPVerify({ email, password: masterPassword }) {
             value={d}
             onChange={(e) => handleDigit(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
-            className="size-11 sm:size-12 text-center text-xl font-mono-code font-bold rounded-xl glass-input border border-pink-500/25 focus:border-[#f43f6e] focus:outline-none transition-all"
+            className="size-11 sm:size-12 text-center text-xl font-mono font-bold rounded-2xl bg-white border border-[#E6E0D5] focus:border-[#8B263E] text-[#1a1a1a] focus:outline-none shadow-xs transition-all"
           />
         ))}
       </div>
@@ -163,7 +151,7 @@ function OTPVerify({ email, password: masterPassword }) {
       <button
         onClick={handleVerify}
         disabled={digits.join("").length !== 6 || loading}
-        className="w-full glass-btn-primary py-3.5 text-xs font-semibold gap-2"
+        className="w-full glass-btn-primary py-3.5 text-xs font-semibold gap-2 rounded-full cursor-pointer shadow-button hover:shadow-button-hover"
       >
         {loading ? <Loader2 className="size-4.5 animate-spin" /> : <><ShieldCheck className="size-4.5" /> Verify &amp; Open Vault</>}
       </button>
@@ -172,7 +160,7 @@ function OTPVerify({ email, password: masterPassword }) {
         <button
           onClick={handleResend}
           disabled={resending}
-          className="text-xs text-[#fda4b8] hover:text-white underline disabled:opacity-50 cursor-pointer"
+          className="text-xs text-[#8B263E] hover:underline disabled:opacity-50 cursor-pointer font-medium"
         >
           {resending ? "Sending fresh code…" : "Didn't receive it? Resend code"}
         </button>
@@ -216,17 +204,19 @@ export default function RegisterForm() {
       {/* Header */}
       <div className="space-y-2 text-center sm:text-left">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-badge-blush text-xs mb-1">
-          <Sparkles className="size-3.5 text-[#f43f6e]" />
+          <Sparkles className="size-3.5 text-[#8B263E]" />
           <span>Zero-Knowledge Security</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1a1a1a] tracking-tight">
           Create Free Vault
         </h1>
-
+        <p className="text-xs sm:text-sm text-[#6B6560]">
+          Client-side encrypted with mathematical privacy
+        </p>
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-2xl bg-rose-950/50 border border-rose-500/40 text-xs text-rose-200 font-medium">
+        <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium">
           {error}
         </div>
       )}
@@ -234,11 +224,11 @@ export default function RegisterForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-[#fda4b8] tracking-wide block">
+          <label className="text-xs font-semibold text-[#1a1a1a] tracking-wide block">
             Full Name
           </label>
           <div className="relative">
-            <User className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/50" />
+            <User className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#6B6560]" />
             <input
               type="text"
               required
@@ -252,11 +242,11 @@ export default function RegisterForm() {
 
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-[#fda4b8] tracking-wide block">
+          <label className="text-xs font-semibold text-[#1a1a1a] tracking-wide block">
             Email Address
           </label>
           <div className="relative">
-            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/50" />
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#6B6560]" />
             <input
               type="email"
               required
@@ -270,11 +260,11 @@ export default function RegisterForm() {
 
         {/* Password */}
         <div className="space-y-2">
-          <label className="text-xs font-semibold text-[#fda4b8] tracking-wide block">
+          <label className="text-xs font-semibold text-[#1a1a1a] tracking-wide block">
             Master Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#fda4b8]/50" />
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#6B6560]" />
             <input
               type={showPassword ? "text" : "password"}
               required
@@ -286,7 +276,7 @@ export default function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#fda4b8]/60 hover:text-white p-1 transition-colors"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B6560] hover:text-[#1a1a1a] p-1 transition-colors cursor-pointer"
             >
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </button>
@@ -294,12 +284,12 @@ export default function RegisterForm() {
 
           {/* Strength Meter */}
           {password && (
-            <div className="space-y-2 p-3.5 rounded-2xl glass-card-subtle border border-pink-500/20">
+            <div className="space-y-2 p-3.5 rounded-2xl bg-[#FDFBF7] border border-[#E6E0D5]">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#fda4b8]">
+                <span className="text-xs font-semibold text-[#1a1a1a]">
                   Strength Meter:
                 </span>
-                <span className="text-xs font-bold text-white">
+                <span className="text-xs font-bold text-[#8B263E]">
                   {strengthLabels[score]}
                 </span>
               </div>
@@ -307,7 +297,7 @@ export default function RegisterForm() {
                 {[1, 2, 3, 4].map((n) => (
                   <div
                     key={n}
-                    className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${score >= n ? strengthColors[score] : "bg-white/10"
+                    className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${score >= n ? strengthColors[score] : "bg-neutral-200"
                       }`}
                   />
                 ))}
@@ -316,10 +306,10 @@ export default function RegisterForm() {
                 {requirements.map((req) => (
                   <div key={req.label} className="flex items-center gap-1.5 text-[0.68rem]">
                     <CheckCircle2
-                      className={`size-3.5 ${req.test(password) ? "text-emerald-400" : "text-white/20"
+                      className={`size-3.5 ${req.test(password) ? "text-emerald-600" : "text-neutral-300"
                         }`}
                     />
-                    <span className={req.test(password) ? "text-white font-semibold" : "text-[#fda4b8]/50"}>
+                    <span className={req.test(password) ? "text-[#1a1a1a] font-semibold" : "text-[#6B6560]"}>
                       {req.label}
                     </span>
                   </div>
@@ -334,7 +324,7 @@ export default function RegisterForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full glass-btn-primary py-3.5 text-xs font-semibold gap-2"
+            className="w-full glass-btn-primary py-3.5 text-xs font-semibold gap-2 rounded-full cursor-pointer shadow-button hover:shadow-button-hover"
           >
             {loading ? (
               <Loader2 className="size-4.5 animate-spin" />
@@ -349,10 +339,10 @@ export default function RegisterForm() {
       </form>
 
       {/* Sign-in CTA */}
-      <div className="text-center space-y-2 border-t border-pink-500/15 pt-4">
-        <p className="text-xs text-[#fda4b8]/80">
+      <div className="text-center space-y-2 border-t border-[#E6E0D5] pt-4">
+        <p className="text-xs text-[#6B6560]">
           Already have an account?{" "}
-          <Link to="/login" className="font-bold text-white hover:text-[#fda4b8] underline ml-1">
+          <Link to="/login" className="font-bold text-[#8B263E] hover:underline ml-1">
             Sign in here
           </Link>
         </p>

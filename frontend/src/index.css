@@ -9,22 +9,43 @@
 
 @config "../tailwind.config.js";
 
+:root {
+  --bg-primary: #FDFBF7;
+  --bg-surface: #FFFFFF;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card-blush: rgba(244, 194, 194, 0.25);
+  --bg-card-hover: rgba(244, 194, 194, 0.45);
+  --accent-burgundy: #8B263E;
+  --accent-burgundy-hover: #A8324E;
+  --accent-blush: #F4C2C2;
+  --border-warm: #E6E0D5;
+  --text-charcoal: #1a1a1a;
+  --text-muted: #6B6560;
+
+  /* Overrides for any remaining legacy variable consumers */
+  --bg-void: #FDFBF7;
+  --text-primary: #1a1a1a;
+  --accent-cyber: #8B263E;
+  --accent-alert: #8B263E;
+  --border-harsh: #E6E0D5;
+}
+
 @theme {
-  --color-bg-void: var(--bg-void, #000000);
-  --color-bg-surface: var(--bg-surface, #111111);
-  --color-text-primary: var(--text-primary, #F8F9FA);
-  --color-text-muted: var(--text-muted, #6B7280);
-  --color-accent-cyber: var(--accent-cyber, #00FF66);
-  --color-accent-alert: var(--accent-alert, #FF3366);
-  --color-border-harsh: var(--border-harsh, #222222);
+  --color-bg-void: var(--bg-primary, #FDFBF7);
+  --color-bg-surface: var(--bg-surface, #FFFFFF);
+  --color-text-primary: var(--text-charcoal, #1a1a1a);
+  --color-text-muted: var(--text-muted, #6B6560);
+  --color-accent-cyber: var(--accent-burgundy, #8B263E);
+  --color-accent-alert: var(--accent-burgundy, #8B263E);
+  --color-border-harsh: var(--border-warm, #E6E0D5);
 
-  --color-void: #000000;
-  --color-surface: #111111;
-  --color-cyber: #00FF66;
-  --color-alert: #FF3366;
-  --color-harsh: #222222;
+  --color-void: #FDFBF7;
+  --color-surface: #FFFFFF;
+  --color-cyber: #8B263E;
+  --color-alert: #8B263E;
+  --color-harsh: #E6E0D5;
 
-  --font-sans: 'Geist', 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -33,6 +54,14 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
-  background-color: #000000;
-  color: #F8F9FA;
+  background-color: #FDFBF7;
+  color: #1a1a1a;
+}
+
+body {
+  background-color: #FDFBF7;
+  color: #1a1a1a;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

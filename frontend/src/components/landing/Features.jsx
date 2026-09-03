@@ -70,28 +70,28 @@ export default function Features() {
     <section 
       id="features" 
       onMouseMove={handleMouseMove}
-      className="w-full bg-black py-28 px-6 sm:px-10 lg:px-16 border-t border-[#222222] relative overflow-hidden"
+      className="w-full bg-[#FDFBF7] py-28 px-6 sm:px-10 lg:px-16 border-t border-[#E6E0D5] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto space-y-16">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#222222] pb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#E6E0D5] pb-12">
           <div className="space-y-4 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#111111] border border-[#222222] text-[#00FF66] text-xs font-mono font-bold uppercase tracking-widest">
-              <ShieldCheck className="size-3.5 text-[#00FF66]" />
-              <span>[ ARCHITECTURAL MANIFESTO ]</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-[#8B263E] text-xs font-semibold uppercase tracking-wider">
+              <ShieldCheck className="size-3.5 text-[#8B263E]" />
+              <span>Architectural Manifesto</span>
             </div>
-            <h2 className="text-4xl sm:text-6xl font-black text-[#F8F9FA] tracking-tighter uppercase leading-none">
-              Zero-Knowledge <span className="text-[#00FF66]">Timeline</span>
+            <h2 className="text-4xl sm:text-6xl font-black text-[#1a1a1a] tracking-tight uppercase leading-none">
+              Zero-Knowledge <span className="text-[#8B263E]">Timeline</span>
             </h2>
           </div>
-          <div className="font-mono text-xs text-neutral-500 uppercase tracking-widest">
-            CURSOR HOVER PROTOCOL // v2.0
+          <div className="text-xs font-semibold text-[#6B6560] uppercase tracking-widest">
+            INTERACTIVE SECURITY PROTOCOL // v2.0
           </div>
         </div>
 
         {/* Spread Rows */}
-        <div className="w-full border-t border-[#222222] divide-y divide-[#222222]">
+        <div className="w-full border-t border-[#E6E0D5] divide-y divide-[#E6E0D5]">
           {timelineItems.map((item, index) => {
             const isHovered = hoveredIndex === index;
 
@@ -100,33 +100,33 @@ export default function Features() {
                 key={item.number}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className={`w-full py-8 px-6 sm:px-10 flex items-center justify-between transition-colors duration-200 cursor-default ${
-                  isHovered ? "bg-[#111111]" : "bg-black hover:bg-[#080808]"
+                className={`w-full py-8 px-6 sm:px-10 rounded-2xl flex items-center justify-between transition-all duration-200 cursor-default ${
+                  isHovered ? "bg-blush/30 shadow-sm" : "bg-[#FDFBF7] hover:bg-blush/15"
                 }`}
               >
                 {/* Row Content */}
                 <div className="flex items-center gap-6 sm:gap-12">
                   <span className={`font-mono text-sm sm:text-base font-bold tracking-widest transition-colors ${
-                    isHovered ? "text-[#00FF66]" : "text-neutral-600"
+                    isHovered ? "text-[#8B263E]" : "text-[#6B6560]"
                   }`}>
                      {item.number}
                   </span>
                   <div>
-                    <span className="font-mono text-[0.65rem] tracking-wider text-neutral-500 uppercase block">
+                    <span className="text-[0.68rem] tracking-wider text-[#6B6560] uppercase font-semibold block">
                       {item.tag}
                     </span>
-                    <h3 className={`text-2xl sm:text-4xl font-black uppercase tracking-tight transition-colors ${
-                      isHovered ? "text-white" : "text-neutral-300"
+                    <h3 className={`text-2xl sm:text-3xl font-extrabold uppercase tracking-tight transition-colors ${
+                      isHovered ? "text-[#8B263E]" : "text-[#1a1a1a]"
                     }`}>
                       {item.title}
                     </h3>
                   </div>
                 </div>
 
-                <div className={`size-10 rounded-none border border-[#222222] flex items-center justify-center transition-all ${
-                  isHovered ? "bg-[#00FF66] text-black border-[#00FF66]" : "text-neutral-500 bg-black"
+                <div className={`size-10 rounded-full border flex items-center justify-center transition-all ${
+                  isHovered ? "bg-[#8B263E] text-white border-[#8B263E] shadow-sm" : "text-[#6B6560] bg-white border-[#E6E0D5]"
                 }`}>
-                  <ArrowUpRight className={`size-5 transition-transform ${isHovered ? "rotate-45" : ""}`} />
+                  <ArrowUpRight className={`size-5 transition-transform duration-200 ${isHovered ? "rotate-45" : ""}`} />
                 </div>
               </div>
             );
@@ -137,38 +137,38 @@ export default function Features() {
         <AnimatePresence>
           {hoveredIndex !== null && activeItem && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
               style={{
                 top: mousePosition.y + 20,
                 left: mousePosition.x + 20,
               }}
-              className="fixed z-50 w-[360px] sm:w-[400px] bg-[#111111] border border-[#00FF66] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)] pointer-events-none hidden lg:block"
+              className="fixed z-50 w-[360px] sm:w-[400px] bg-white/95 backdrop-blur-2xl rounded-3xl border border-[#E6E0D5] p-6 shadow-xl pointer-events-none hidden lg:block"
             >
               {/* Top Metric & Status */}
-              <div className="flex items-center justify-between border-b border-[#222222] pb-4 mb-4 font-mono text-xs">
-                <span className="text-[#00FF66] font-bold tracking-wider">{activeItem.metric}</span>
-                <span className="text-neutral-500 uppercase tracking-widest">{activeItem.status}</span>
+              <div className="flex items-center justify-between border-b border-[#E6E0D5] pb-4 mb-4 text-xs">
+                <span className="text-[#8B263E] font-bold tracking-wider">{activeItem.metric}</span>
+                <span className="text-[#6B6560] font-semibold uppercase tracking-wider">{activeItem.status}</span>
               </div>
 
               {/* Card Body */}
               <div className="space-y-4">
                 {IconComponent && (
-                  <div className="size-8 bg-black border border-[#222222] flex items-center justify-center text-[#00FF66]">
-                    <IconComponent className="size-4" />
+                  <div className="size-9 rounded-2xl bg-blush/35 border border-[#E6E0D5] flex items-center justify-center text-[#8B263E]">
+                    <IconComponent className="size-4.5" />
                   </div>
                 )}
-                <p className="text-xs sm:text-sm text-[#6B7280] leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#1a1a1a] leading-relaxed font-normal">
                   {activeItem.desc}
                 </p>
               </div>
 
               {/* Bottom Cryptographic Spec */}
-              <div className="mt-6 pt-4 border-t border-[#222222] flex items-center justify-between font-mono text-[0.68rem] text-neutral-500 uppercase tracking-wider">
+              <div className="mt-6 pt-4 border-t border-[#E6E0D5] flex items-center justify-between text-[0.7rem] text-[#6B6560] uppercase tracking-wider">
                 <span>SPECIFICATION</span>
-                <span className="text-white font-bold">{activeItem.spec}</span>
+                <span className="text-[#8B263E] font-bold">{activeItem.spec}</span>
               </div>
             </motion.div>
           )}

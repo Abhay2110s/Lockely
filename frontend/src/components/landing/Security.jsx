@@ -45,21 +45,21 @@ export default function Security() {
   });
 
   // Card Y-axis sliding & scaling animations
-  const card1Scale = useTransform(scrollYProgress, [0, 0.25], [1, 0.9]);
+  const card1Scale = useTransform(scrollYProgress, [0, 0.25], [1, 0.92]);
 
   const card2Y = useTransform(scrollYProgress, [0.1, 0.25], ["100vh", "0vh"]);
-  const card2Scale = useTransform(scrollYProgress, [0.25, 0.5], [1, 0.9]);
+  const card2Scale = useTransform(scrollYProgress, [0.25, 0.5], [1, 0.92]);
 
   const card3Y = useTransform(scrollYProgress, [0.35, 0.5], ["100vh", "0vh"]);
-  const card3Scale = useTransform(scrollYProgress, [0.5, 0.75], [1, 0.9]);
+  const card3Scale = useTransform(scrollYProgress, [0.5, 0.75], [1, 0.92]);
 
   const card4Y = useTransform(scrollYProgress, [0.6, 0.75], ["100vh", "0vh"]);
 
-  // FIXED CUMULATIVE OPACITY: Each text fades in progressively as you scroll
-  const text1Op = useTransform(scrollYProgress, [0.02, 0.10], [0, 1]); // Fades in right at the start
-  const text2Op = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]); // Fades in as card 2 arrives
-  const text3Op = useTransform(scrollYProgress, [0.45, 0.55], [0, 1]); // Fades in as card 3 arrives
-  const text4Op = useTransform(scrollYProgress, [0.70, 0.80], [0, 1]); // Fades in as card 4 arrives
+  // Progressive corner text reveals
+  const text1Op = useTransform(scrollYProgress, [0.02, 0.10], [0, 1]);
+  const text2Op = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]);
+  const text3Op = useTransform(scrollYProgress, [0.45, 0.55], [0, 1]);
+  const text4Op = useTransform(scrollYProgress, [0.70, 0.80], [0, 1]);
 
   const cardsTransforms = [
     { scale: card1Scale, y: "0vh" },
@@ -76,7 +76,7 @@ export default function Security() {
   ];
 
   return (
-    <section ref={containerRef} className="h-[400vh] bg-[#000000] relative">
+    <section ref={containerRef} className="h-[400vh] bg-[#FDFBF7] relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
 
         {/* Corner Text Elements */}
@@ -86,7 +86,7 @@ export default function Security() {
             style={{ opacity: item.op }}
             className={`absolute ${item.pos} max-w-[300px] pointer-events-none`}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-[#F8F9FA] uppercase tracking-tighter leading-none">
+            <h2 className="text-3xl md:text-5xl font-black text-[#1a1a1a] uppercase tracking-tight leading-none">
               {item.text}
             </h2>
           </motion.div>
@@ -98,41 +98,44 @@ export default function Security() {
             const Icon = step.icon;
             return (
               <motion.div
-                  style={{
+                key={step.no}
+                style={{
                   y: cardsTransforms[index].y,
                   scale: cardsTransforms[index].scale,
                   zIndex: index,
                 }}
-                className="absolute inset-0 p-8 flex flex-col justify-between bg-[#111111] border border-[#222222] rounded-2xl shadow-2xl"
+                className="absolute inset-0 p-8 flex flex-col justify-between bg-white/95 backdrop-blur-2xl border border-[#E6E0D5] rounded-3xl shadow-card hover:shadow-card-hover"
               >
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between border-b border-[#222222] pb-4">
-
-                    <div className="size-10 bg-[#000000] border border-[#00FF66] rounded-lg flex items-center justify-center">
-                      <Icon className="size-5 text-[#00FF66]" />
+                  <div className="flex items-center justify-between border-b border-[#E6E0D5] pb-4">
+                    <div className="size-12 bg-blush/35 border border-[#E6E0D5] rounded-2xl flex items-center justify-center text-[#8B263E]">
+                      <Icon className="size-6" />
                     </div>
+                    <span className="text-xs font-bold text-[#8B263E] font-mono-code">
+                      STEP {step.no}
+                    </span>
                   </div>
 
                   <div>
-                    <span className="font-mono text-xs tracking-wider text-neutral-500 uppercase block mb-2">
+                    <span className="text-[0.68rem] tracking-wider text-[#8B263E] uppercase font-bold block mb-2 px-3 py-1 rounded-full bg-blush/30 border border-[#E6E0D5] w-fit">
                       {step.badge}
                     </span>
-                    <h3 className="text-2xl font-black text-[#F8F9FA] uppercase tracking-tight leading-snug">
+                    <h3 className="text-2xl font-black text-[#1a1a1a] uppercase tracking-tight leading-snug">
                       {step.title}
                     </h3>
-                    <p className="text-sm text-[#00FF66] mt-1 font-mono uppercase">
+                    <p className="text-xs text-[#8B263E] mt-1.5 uppercase font-bold tracking-wide">
                       {step.subtitle}
                     </p>
                   </div>
 
-                  <p className="text-sm text-[#6B7280] leading-relaxed">
+                  <p className="text-sm text-[#6B6560] leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-[#222222] flex items-center gap-2 text-[#F8F9FA] text-xs font-mono uppercase tracking-widest">
-                  <CheckCircle2 className="size-4 text-[#00FF66]" />
-                  <span>Hardware Verified</span>
+                <div className="pt-4 border-t border-[#E6E0D5] flex items-center gap-2 text-[#1a1a1a] text-xs font-bold uppercase tracking-wider">
+                  <CheckCircle2 className="size-4 text-[#8B263E]" />
+                  <span>Hardware Cryptographically Verified</span>
                 </div>
               </motion.div>
             );
