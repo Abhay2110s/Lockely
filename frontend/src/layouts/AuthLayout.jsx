@@ -11,28 +11,33 @@ export default function AuthLayout() {
   return (
     <div className="min-h-screen flex overflow-hidden bg-[#FDFBF7] text-[#1a1a1a] relative">
       {/* Ambient background glows */}
-      <div className="aurora-orb-blush -top-20 -left-20 w-[500px] h-[500px]" />
+      <div className="aurora-orb-amber -top-24 -left-24 w-[550px] h-[550px] opacity-80 pointer-events-none" />
+      <div className="aurora-orb-blush -top-20 left-1/3 w-[450px] h-[450px]" />
       <div className="aurora-orb-burgundy -bottom-20 right-1/4 w-[450px] h-[450px]" />
 
-      {/* Left Editorial Hero Banner */}
-      <div className="relative hidden lg:flex lg:w-[46%] xl:w-[42%] flex-col justify-between overflow-hidden bg-white/80 backdrop-blur-xl border-r border-[#E6E0D5] p-10 xl:p-12 z-10 shadow-sm">
+      {/* Left Editorial Hero Banner with Warm Yellowish Glow */}
+      <div className="relative hidden lg:flex lg:w-[46%] xl:w-[42%] flex-col justify-between overflow-hidden bg-gradient-to-br from-white via-white to-amber-100/35 backdrop-blur-2xl border-r border-[#E6E0D5] p-10 xl:p-12 z-10 shadow-sm">
+        {/* Inner ambient yellowish orb */}
+        <div className="aurora-orb-amber top-1/3 -left-32 w-80 h-80 opacity-70 pointer-events-none" />
+
         <Link to="/" className="relative z-10 flex items-center gap-3.5 w-fit group">
-          <div className="size-11 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] flex items-center justify-center text-[#8B263E] transition-colors shadow-sm">
+          <div className="size-11 rounded-2xl bg-amber-500/15 border border-amber-400/30 group-hover:border-[#8B263E] flex items-center justify-center text-[#8B263E] transition-colors shadow-xs relative">
             <ShieldCheck className="size-6" />
+            <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-amber-400 border-2 border-white" />
           </div>
           <div>
             <p className="text-xl font-extrabold text-[#1a1a1a] tracking-tight leading-none uppercase">
-              PASS<span className="text-[#8B263E]">GUARDIAN</span>
+              Lockely
             </p>
-            <p className="text-[0.65rem] text-[#6B6560] uppercase tracking-widest font-semibold mt-1">
-              Zero-Knowledge Vault
+            <p className="text-[0.65rem] text-amber-800 uppercase tracking-widest font-bold mt-1">
+              Secure Vault
             </p>
           </div>
         </Link>
 
         <div className="relative z-10 max-w-md space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-xs font-semibold uppercase tracking-wider text-[#8B263E]">
-            <Zap className="size-3.5 fill-current" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-xs font-bold uppercase tracking-wider text-amber-900 shadow-xs">
+            <Zap className="size-3.5 fill-current text-amber-600" />
             <span>Fortress For Your Secrets</span>
           </div>
 
@@ -50,9 +55,9 @@ export default function AuthLayout() {
             {features.map(({ icon: Icon, label }) => (
               <div
                 key={label}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FDFBF7] border border-[#E6E0D5] text-[#1a1a1a] text-xs font-medium shadow-xs"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-950 text-xs font-bold shadow-xs"
               >
-                <Icon className="size-3.5 text-[#8B263E]" />
+                <Icon className="size-3.5 text-amber-700" />
                 {label}
               </div>
             ))}
@@ -60,8 +65,9 @@ export default function AuthLayout() {
         </div>
 
         <div className="relative z-10 text-xs text-[#6B6560] flex items-center justify-between font-medium">
-          <div className="flex items-center gap-1.5 text-[#8B263E] font-semibold">
-            <Sparkles className="size-3.5" />
+          <div className="flex items-center gap-2 text-amber-800 font-bold">
+            <span className="size-2 rounded-full bg-amber-500 animate-pulse" />
+            <Sparkles className="size-3.5 text-amber-600" />
             End-to-End Encrypted
           </div>
           <Link
