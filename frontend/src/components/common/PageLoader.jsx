@@ -9,7 +9,7 @@ export default function PageLoader({ message = "Verifying security session..." }
     <div
       className="min-h-screen app-bg text-[#fff5f7] flex flex-col items-center justify-center p-4"
       role="status"
-      aria-label="Loading PassGuardian"
+      aria-label="Loading Lockely"
     >
       {/* Central Glassmorphic Loading Box */}
       <div className="w-full max-w-xs glass-card p-6 sm:p-8 flex flex-col items-center gap-5 text-center relative overflow-hidden">
@@ -24,7 +24,7 @@ export default function PageLoader({ message = "Verifying security session..." }
         {/* Brand Name */}
         <div className="space-y-1">
           <h1 className="text-xl font-bold text-gradient-blush tracking-wider leading-none">
-            PASSGUARDIAN
+            LOCKELY
           </h1>
           <p className="text-[0.65rem] text-[#fda4b8] uppercase tracking-widest font-mono-code font-semibold">
             Zero-Knowledge Vault

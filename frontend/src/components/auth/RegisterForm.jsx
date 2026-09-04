@@ -79,7 +79,7 @@ function OTPVerify({ email, password: masterPassword }) {
       const { user, vaultKeySalt, token } = res.data || {};
       if (user) {
         await saveSession(user, vaultKeySalt, masterPassword, token);
-        toast.success("Email verified! Welcome to PassGuardian Vault. 🛡️");
+        toast.success("Email verified! Welcome to Lockely Vault. 🛡️");
         navigate("/dashboard");
       }
     } catch (err) {

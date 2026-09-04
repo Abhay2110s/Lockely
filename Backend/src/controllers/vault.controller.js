@@ -86,7 +86,7 @@ export const getReusedPasswords = asyncHandler(async (req, res) => {
 // Export all vault entries in JSON or CSV format.
 export const exportEncryptedPasswords = asyncHandler(async (req, res) => {
   const output = await vaultService.exportEncryptedEntries(req.user.id);
-  const filename = `passguardian-encrypted-vault-${Date.now()}.json`;
+  const filename = `lockely-encrypted-vault-${Date.now()}.json`;
 
   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -99,7 +99,7 @@ export const exportPasswords = asyncHandler(async (req, res) => {
   const format = req.query.format === "csv" ? "csv" : "json";
   const output = await vaultService.exportEntries(req.user.id, format);
 
-  const filename = `passguardian-export-${Date.now()}.${format}`;
+  const filename = `lockely-export-${Date.now()}.${format}`;
   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
   res.setHeader(
     "Content-Type",

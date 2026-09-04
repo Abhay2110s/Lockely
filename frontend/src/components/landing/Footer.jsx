@@ -16,7 +16,7 @@ const socialLinks = [
   },
   {
     name: "GitHub",
-    link: "https://github.com/Abhay2110s/PassGaurdian",
+    link: "https://github.com/Abhay2110s/Lockely",
     icon: FaGithub,
   },
 ];
@@ -76,7 +76,7 @@ export default function Footer() {
         {/* Row 3: Bottom Strip */}
         <div className="pt-4 border-t border-[#E6E0D5] flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[#6B6560]">
           <div>
-            © {new Date().getFullYear()} PassGuardian — High-End Zero-Knowledge Architecture.
+            © {new Date().getFullYear()} Lockely — High-End Zero-Knowledge Architecture.
           </div>
           <div className="flex items-center gap-2">
             <span className="px-3 py-1 text-[0.68rem] rounded-full bg-white border border-[#E6E0D5] text-[#1a1a1a] font-bold uppercase tracking-wider shadow-xs">

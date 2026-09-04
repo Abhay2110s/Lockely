@@ -28,7 +28,7 @@ const timelineItems = [
     tag: "BREACH MONITOR",
     metric: "k-ANONYMITY HASHES",
     title: "k-Anonymity Exposure Sentinel",
-    desc: "Continuous surveillance against billions of public credential dumps. Using 5-character SHA-1 prefixes, PassGuardian verifies compromised credentials without ever transmitting your full password hash.",
+    desc: "Continuous surveillance against billions of public credential dumps. Using 5-character SHA-1 prefixes, Lockely verifies compromised credentials without ever transmitting your full password hash.",
     spec: "SHA-1 PREFIX MATCHING",
     icon: ShieldCheck,
     status: "STATUS // ONLINE",

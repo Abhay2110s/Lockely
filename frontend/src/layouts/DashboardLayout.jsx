@@ -176,7 +176,7 @@ export default function DashboardLayout() {
 
             {/* Page breadcrumb label on desktop */}
             <span className="hidden md:block text-xs font-bold uppercase tracking-wider text-[#6B6560]">
-              PassGuardian / {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? "DASHBOARD"}
+              Lockely / {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? "DASHBOARD"}
             </span>
           </div>
 

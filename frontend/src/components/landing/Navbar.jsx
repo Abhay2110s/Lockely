@@ -253,7 +253,7 @@ export default function Navbar() {
             Connect
           </p>
           <a
-            href="https://github.com/Abhay2110s/PassGaurdian"
+            href="https://github.com/Abhay2110s/Lockely"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#6B6560] hover:text-[#8B263E] hover:bg-blush/20 transition-colors uppercase tracking-wider"

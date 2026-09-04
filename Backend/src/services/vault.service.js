@@ -421,7 +421,7 @@ export const exportEncryptedEntries = async (userId) => {
 
   return JSON.stringify(
     {
-      format: "passguardian-encrypted-vault",
+      format: "lockely-encrypted-vault",
       version: 2,
       exportedAt: new Date().toISOString(),
       encryption: {

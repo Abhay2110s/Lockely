@@ -1,5 +1,5 @@
 // Express application setup — configures middleware, routes, and error handling
-// for the PassGuardian API server.
+// for the Lockely API server.
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -102,7 +102,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "PassGuardian API is running 🚀",
+    message: "Lockely API is running 🚀",
   });
 });
 

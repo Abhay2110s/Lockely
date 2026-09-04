@@ -9,12 +9,12 @@ describe("Two-Factor Authentication Logic (otplib v13)", () => {
     expect(secret.length).toBeGreaterThan(16);
 
     const uri = generateURI({
-      issuer: "PassGuardian",
+      issuer: "Lockely",
       label: "user@example.com",
       secret,
     });
 
-    expect(uri).toContain("otpauth://totp/PassGuardian:user%40example.com");
+    expect(uri).toContain("otpauth://totp/Lockely:user%40example.com");
     expect(uri).toContain(`secret=${secret}`);
   });
 

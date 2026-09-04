@@ -6,10 +6,10 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "PassGuardian API",
+      title: "Lockely API",
       version: "1.0.0",
       description:
-        "API documentation for PassGuardian — an encrypted password vault with strength " +
+        "API documentation for Lockely — an encrypted password vault with strength " +
         "checking, generation, reuse detection, expiry tracking, and a security dashboard.",
     },
     servers: [{ url: "/", description: "Current server" }],

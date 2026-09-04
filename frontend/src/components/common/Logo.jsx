@@ -1,9 +1,9 @@
 import { ShieldCheck } from "lucide-react";
 
 /**
- * Logo — PassGuardian shield icon + wordmark.
+ * Logo — Lockely shield icon + wordmark.
  *
- * @param {boolean} [showText=true]  — whether to show "PassGuardian" text
+ * @param {boolean} [showText=true]  — whether to show "Lockely" text
  * @param {"sm"|"md"|"lg"} [size="md"] — icon size variant
  * @param {string} [className]       — extra classes for the wrapper div
  */
@@ -22,7 +22,7 @@ export default function Logo({ showText = true, size = "md", className = "" }) {
       {showText && (
         <div className="flex flex-col">
           <span className={`font-bold ${textSizes[size]} tracking-tight text-white`}>
-            PassGuardian
+            Lockely
           </span>
           {size !== "sm" && (
             <span className="text-[0.6rem] font-semibold tracking-wider text-[#fda4b8] uppercase">

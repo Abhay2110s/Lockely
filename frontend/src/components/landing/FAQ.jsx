@@ -5,10 +5,10 @@ const faqItems = [
   {
     question: "Do you store or have access to my master password?",
     answer:
-      "Never. PassGuardian uses strict Zero-Knowledge Architecture. Your master password is used locally in your browser RAM with PBKDF2 to derive your AES-256 vault key. It is never transmitted across any network or logged on any server.",
+      "Never. Lockely uses strict Zero-Knowledge Architecture. Your master password is used locally in your browser RAM with PBKDF2 to derive your AES-256 vault key. It is never transmitted across any network or logged on any server.",
   },
   {
-    question: "What happens if the PassGuardian cloud storage is breached?",
+    question: "What happens if the Lockely cloud storage is breached?",
     answer:
       "Your vault data is stored exclusively as AES-256-GCM encrypted ciphertext blobs. Without your client master key (which exists solely in your browser memory), the database is cryptographically unbreakable.",
   },
@@ -18,9 +18,9 @@ const faqItems = [
       "You can link standard RFC-6238 TOTP authenticator apps (Google Authenticator, Authy, 1Password) to generate rotating one-time codes, with single-use backup recovery codes provided for emergency recovery.",
   },
   {
-    question: "Is PassGuardian completely free to use for personal vaults?",
+    question: "Is Lockely completely free to use for personal vaults?",
     answer:
-      "Yes! PassGuardian is 100% free for personal vaults with unlimited credential storage, notes, breach monitoring, and unlimited password generation.",
+      "Yes! Lockely is 100% free for personal vaults with unlimited credential storage, notes, breach monitoring, and unlimited password generation.",
   },
 ];
 

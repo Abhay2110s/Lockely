@@ -75,7 +75,7 @@ export default function AccountSettings() {
           </div>
           <div>
             <h2 className="text-sm sm:text-base font-bold text-rose-900">Delete Account</h2>
-            <p className="text-xs text-rose-700">Permanently delete your PassGuardian account and vault</p>
+            <p className="text-xs text-rose-700">Permanently delete your Lockely account and vault</p>
           </div>
         </div>
 

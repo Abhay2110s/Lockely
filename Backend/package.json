@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Abhay2110s/PassGaurdian.git"
+    "url": "git+https://github.com/Abhay2110s/Lockely.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/Abhay2110s/PassGaurdian/issues"
+    "url": "https://github.com/Abhay2110s/Lockely/issues"
   },
-  "homepage": "https://github.com/Abhay2110s/PassGaurdian#readme",
+  "homepage": "https://github.com/Abhay2110s/Lockely#readme",
   "engines": {
     "node": "22.x"
   },

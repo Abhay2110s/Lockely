@@ -73,7 +73,7 @@ export default function VerifyOTP({ email: emailProp, onSuccess }) {
       if (user) {
         await saveSession(user, vaultKeySalt, passwordFromState, token);
         onSuccess?.(res.data);
-        toast.success("Email verified! Welcome to PassGuardian.");
+        toast.success("Email verified! Welcome to Lockely.");
         navigate("/dashboard");
       }
     } catch (err) {

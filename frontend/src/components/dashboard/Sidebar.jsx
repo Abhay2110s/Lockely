@@ -46,7 +46,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-base tracking-tight text-slate-900">
-                PassGuardian
+                Lockely
               </span>
               <span className="text-[0.6rem] font-semibold tracking-wider text-slate-400 uppercase">
                 Encrypted Vault

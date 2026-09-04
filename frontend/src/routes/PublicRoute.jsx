@@ -6,7 +6,7 @@ export default function PublicRoute({ children, redirectIfAuthenticated = false 
   const { isLoaded, isAuthenticated } = useAppAuth();
 
   if (!isLoaded) {
-    return <PageLoader message="Loading PassGuardian..." />;
+    return <PageLoader message="Loading Lockely..." />;
   }
 
   if (isAuthenticated && redirectIfAuthenticated) {

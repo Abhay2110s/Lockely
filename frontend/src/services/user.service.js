@@ -40,7 +40,7 @@ export const exportVault = async () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `passguardian-encrypted-vault-${Date.now()}.json`;
+  a.download = `lockely-encrypted-vault-${Date.now()}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();

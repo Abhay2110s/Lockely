@@ -13,7 +13,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import env from "../config/env.js";
 
-const APP_NAME = "PassGuardian";
+const APP_NAME = "Lockely";
 
 // Backup codes: 8 codes of the form XXXX-XXXX (32-bit random hex, hyphenated).
 const generateBackupCodes = () =>

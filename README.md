@@ -1,4 +1,4 @@
-# PassGuardian 🛡️
+# Lockely 🛡️
 
 A modern, high-security MERN-stack password manager built with **Zero-Knowledge Architecture**, **AES-256-GCM Vault Encryption**, **httpOnly Cookie Authentication**, and **TOTP Two-Factor Authentication**.
 
@@ -30,7 +30,7 @@ A modern, high-security MERN-stack password manager built with **Zero-Knowledge 
 ## 📁 Repository Structure
 
 ```
-PassGuardian/
+Lockely/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml                 # Automated testing & build CI pipeline
@@ -66,7 +66,7 @@ PassGuardian/
 | `PORT` | Server listening port | `3000` |
 | `NODE_ENV` | Runtime environment (`development` / `production`) | `development` |
 | `CLIENT_URL` | Allowed frontend origin for CORS | `http://localhost:5173` |
-| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/passguardian` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/lockely` |
 | `ENCRYPTION_KEY` | 32-character server key for config encryption | `12345678901234567890123456789012` |
 | `JWT_SECRET` | Secret key used to sign JWT access tokens | `your-secure-jwt-secret-key-min-32-chars` |
 | `JWT_EXPIRES_IN` | Token expiration duration | `7d` |
@@ -75,7 +75,7 @@ PassGuardian/
 | `SMTP_PORT` | SMTP server port | `587` |
 | `SMTP_USER` | SMTP username / email address | `your-email@gmail.com` |
 | `SMTP_PASS` | SMTP application password | `your-app-password` |
-| `EMAIL_FROM` | Outgoing email sender label | `PassGuardian <noreply@passguardian.app>` |
+| `EMAIL_FROM` | Outgoing email sender label | `Lockely <noreply@lockely.app>` |
 
 ### Frontend (`frontend/.env`)
 

@@ -63,7 +63,7 @@ export default function LoginForm() {
       <div className="space-y-2 text-center sm:text-left">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-badge-blush text-xs mb-1">
           <Sparkles className="size-3.5 text-[#8B263E]" />
-          <span>PassGuardian Security</span>
+          <span>Lockely Security</span>
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1a1a1a] tracking-tight">

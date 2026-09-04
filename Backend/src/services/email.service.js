@@ -46,8 +46,8 @@ export const sendOTPEmail = async (to, otp, type = "verify") => {
   const isReset = type === "reset";
 
   const subject = isReset
-    ? "PassGuardian — Password Reset Code"
-    : "PassGuardian — Verify Your Email";
+    ? "Lockely — Password Reset Code"
+    : "Lockely — Verify Your Email";
 
   const heading = isReset ? "Reset your password" : "Verify your email";
   const body = isReset
@@ -65,7 +65,7 @@ export const sendOTPEmail = async (to, otp, type = "verify") => {
         <span style="font-size:36px;font-weight:800;letter-spacing:10px;color:#4f46e5;font-family:monospace;">${otp}</span>
       </div>
       <p style="text-align:center;color:#94a3b8;font-size:11px;">If you didn't request this, you can safely ignore this email.</p>
-      <p style="text-align:center;color:#94a3b8;font-size:11px;">— The PassGuardian Team</p>
+      <p style="text-align:center;color:#94a3b8;font-size:11px;">— The Lockely Team</p>
     </div>
   `;
 
@@ -73,7 +73,7 @@ export const sendOTPEmail = async (to, otp, type = "verify") => {
     from: env.EMAIL_FROM,
     to,
     subject,
-    text: `Your PassGuardian code: ${otp}  (expires in 10 minutes)`,
+    text: `Your Lockely code: ${otp}  (expires in 10 minutes)`,
     html,
   });
 

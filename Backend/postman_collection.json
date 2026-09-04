@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "PassGuardian API",
+    "name": "Lockely API",
     "description": "Encrypted password vault API — auth (OTP + forgot/reset password), password strength/generation utilities, and vault CRUD with search/filter/dashboard.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
