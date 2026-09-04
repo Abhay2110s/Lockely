@@ -3,7 +3,8 @@
 import path from "path";
 import dotenv from "dotenv";
 
-dotenv.config({ path: path.resolve(".env") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+dotenv.config({ path: path.resolve(process.cwd(), "Backend/.env") });
 
 // Normalize and provide sensible defaults for every configuration value,
 // ensuring Vercel serverless functions never crash on missing variables.
