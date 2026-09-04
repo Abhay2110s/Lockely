@@ -136,16 +136,6 @@ export default function DashboardLayout() {
             <LogOut className="size-3.5" />
             Log Out
           </button>
-
-          {/* AES Technical Badge */}
-          <div className="p-3 rounded-2xl bg-white border border-[#E6E0D5] shadow-xs">
-            <div className="flex items-center gap-2.5">
-              <div className="size-8 rounded-xl bg-blush/30 border border-[#E6E0D5] text-[#8B263E] flex items-center justify-center shrink-0">
-                <Lock className="size-3.5" />
-              </div>
-
-            </div>
-          </div>
         </div>
       </aside>
 
@@ -168,7 +158,7 @@ export default function DashboardLayout() {
 
             {/* Page breadcrumb label on desktop */}
             <span className="hidden md:block text-xs font-bold uppercase tracking-wider text-[#6B6560]">
-              Lockely / {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? "DASHBOARD"}
+              {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? "DASHBOARD"}
             </span>
           </div>
 
@@ -176,8 +166,8 @@ export default function DashboardLayout() {
           <div className="flex items-center gap-3">
             {/* Vault status pill */}
             <div className={`hidden sm:flex items-center gap-2 px-3 py-1 text-xs rounded-full font-semibold border ${isVaultUnlocked
-                ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-                : "bg-amber-50 border-amber-200 text-amber-700"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+              : "bg-amber-50 border-amber-200 text-amber-700"
               }`}>
               <Zap className="size-3 fill-current" />
               {isVaultUnlocked ? "Vault Unlocked" : "Vault Locked"}
