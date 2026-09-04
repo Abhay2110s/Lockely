@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAppAuth } from "@/context/AuthContext";
 import DashboardBackground from "@/components/dashboard/DashboardBackground";
+import Sidebar from "@/components/dashboard/Sidebar";
 import {
   ShieldCheck,
+  Menu,
+  Zap,
+  User,
+  Settings,
+  LogOut,
+  ChevronDown,
   LayoutDashboard,
   KeyRound,
   Wand2,
-  User,
-  Settings,
-  Menu,
-  X,
-  Lock,
-  Zap,
-  LogOut,
-  ChevronDown,
 } from "lucide-react";
 
 const navItems = [
@@ -31,146 +30,64 @@ export default function DashboardLayout() {
   const { user, displayName, initials, logout, isVaultUnlocked } = useAppAuth();
   const location = useLocation();
 
+  const currentNav = navItems.find((n) => location.pathname.startsWith(n.href));
+
   return (
-    <div className="min-h-screen bg-cream text-[#1a1a1a] flex flex-col md:flex-row relative">
+    <div className="min-h-screen bg-cream text-[#1a1a1a] flex flex-col md:flex-row relative overflow-x-clip">
       {/* Ambient Pattern Canvas for Dashboard */}
       <DashboardBackground />
 
-      {/* Mobile Backdrop for Sidebar */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/25 backdrop-blur-xs z-40 md:hidden"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+      {/* Slidable Left Sidebar Drawer for Mobile & Sticky for Desktop */}
+      <Sidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
 
-      {/* ================================================================ */}
-      {/* SIDEBAR — Clean Luxury Cream & Blush with Warm Gray Border       */}
-      {/* ================================================================ */}
-      <aside
-        className={`
-          animate-fade-in glass-pattern fixed md:sticky top-0 bottom-0 left-0 z-50 w-64 bg-[#FAF8F3]/95 backdrop-blur-xl border-r border-[#E6E0D5] flex flex-col justify-between transition-transform duration-200 ease-in-out
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-          h-screen overflow-y-auto
-        `}
-      >
-        <div>
-          {/* Brand Header */}
-          <div className="p-4 sm:p-5 border-b border-[#E6E0D5] flex items-center justify-between">
-            <Link to="/dashboard" className="flex items-center gap-3 group">
-              <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] text-[#8B263E] flex items-center justify-center transition-colors shadow-xs">
-                <ShieldCheck className="size-5" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-base font-extrabold text-[#1a1a1a] tracking-tight leading-none">
-                  Lockely
-                </span>
-                <span className="text-[0.62rem] text-[#6B6560] uppercase tracking-widest font-semibold mt-1">
-                  Secure Vault
-                </span>
-              </div>
-            </Link>
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="md:hidden p-1.5 rounded-lg text-[#6B6560] hover:text-[#1a1a1a] transition-colors"
-              aria-label="Close menu"
-            >
-              <X className="size-4" />
-            </button>
-          </div>
-
-          {/* User Quick Info */}
-          <div className="p-3.5 mx-3 mt-4 rounded-2xl bg-white border border-[#E6E0D5] shadow-xs flex items-center gap-3">
-            <div className="size-9 rounded-full bg-blush/40 text-[#8B263E] flex items-center justify-center text-xs font-bold shrink-0">
-              {initials}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-[#1a1a1a] truncate">
-                {displayName}
-              </p>
-              <div className="text-[0.65rem] text-[#8B263E] font-semibold mt-0.5 flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-[#8B263E]" />
-                Encrypted
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="px-3 mt-5 space-y-1">
-            <p className="text-[0.62rem] text-[#6B6560] px-3 mb-2 tracking-widest uppercase font-bold">
-              Navigation
-            </p>
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname.startsWith(item.href);
-              return (
-                <NavLink
-                  key={item.href}
-                  to={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`
-                    flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold tracking-wide transition-all
-                    ${isActive
-                      ? "bg-blush/45 text-[#8B263E] border border-blush/80 shadow-xs font-bold"
-                      : "text-[#1a1a1a] hover:text-[#8B263E] hover:bg-blush/20 border border-transparent"
-                    }
-                  `}
-                >
-                  <Icon className={`size-4 ${isActive ? "text-[#8B263E]" : "text-[#6B6560]"}`} />
-                  {item.label}
-                </NavLink>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Sidebar Footer */}
-        <div className="p-3 space-y-2.5 border-t border-[#E6E0D5]">
-          <button
-            onClick={() => {
-              setMobileOpen(false);
-              logout();
-            }}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold transition-colors cursor-pointer"
-          >
-            <LogOut className="size-3.5" />
-            Log Out
-          </button>
-        </div>
-      </aside>
-
-      {/* ================================================================ */}
-      {/* MAIN CONTENT AREA                                                 */}
-      {/* ================================================================ */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10 bg-[#FDFBF7]">
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen relative z-10 bg-[#FDFBF7]">
 
         {/* Top Header Bar */}
         <header className="animate-slide-down sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#E6E0D5] px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
-          {/* Left: Hamburger button for mobile */}
+          {/* Left Controls: Hamburger + Brand on Mobile, Breadcrumb on Desktop */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 rounded-xl text-[#6B6560] hover:text-[#1a1a1a] border border-[#E6E0D5] bg-white transition-colors"
-              aria-label="Open sidebar"
+              className="md:hidden p-2 rounded-xl text-[#6B6560] hover:text-[#1a1a1a] border border-[#E6E0D5] bg-white transition-colors shadow-xs"
+              aria-label="Open navigation menu"
             >
-              <Menu className="size-4" />
+              <Menu className="size-5" />
             </button>
 
+            {/* Mobile Brand Logo */}
+            <Link to="/dashboard" className="flex md:hidden items-center gap-2">
+              <div className="size-8 rounded-xl bg-amber-500/15 border border-amber-400/30 text-[#8B263E] flex items-center justify-center shadow-xs">
+                <ShieldCheck className="size-4" />
+              </div>
+              <span className="font-extrabold text-base text-[#1a1a1a] tracking-tight">
+                Lockely
+              </span>
+            </Link>
+
             {/* Page breadcrumb label on desktop */}
-            <span className="hidden md:block text-xs font-bold uppercase tracking-wider text-[#6B6560]">
-              {navItems.find((n) => location.pathname.startsWith(n.href))?.label ?? "DASHBOARD"}
-            </span>
+            <div className="hidden md:flex items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#8B263E]">
+                Lockely
+              </span>
+              <span className="text-xs text-[#6B6560]">\</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1a1a1a]">
+                {currentNav?.label ?? "DASHBOARD"}
+              </span>
+            </div>
           </div>
 
           {/* Right Header Actions */}
           <div className="flex items-center gap-3">
             {/* Vault status pill */}
-            <div className={`hidden sm:flex items-center gap-2 px-3 py-1 text-xs rounded-full font-semibold border ${isVaultUnlocked
-              ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-              : "bg-amber-50 border-amber-200 text-amber-700"
-              }`}>
-              <Zap className="size-3 fill-current" />
-              {isVaultUnlocked ? "Vault Unlocked" : "Vault Locked"}
+            <div className={`flex items-center gap-1.5 px-3 py-1 text-xs rounded-full font-bold border transition-colors ${
+              isVaultUnlocked
+                ? "bg-amber-100/70 border-amber-300/80 text-amber-900 shadow-xs"
+                : "bg-amber-500/15 border-amber-400/40 text-amber-900 shadow-xs"
+            }`}>
+              <Zap className="size-3 fill-current text-amber-600" />
+              <span className="hidden xs:inline">{isVaultUnlocked ? "Vault Unlocked" : "Vault Locked"}</span>
+              <span className="xs:hidden">{isVaultUnlocked ? "Unlocked" : "Locked"}</span>
             </div>
 
             {/* User Avatar + Dropdown */}
@@ -245,7 +162,7 @@ export default function DashboardLayout() {
           </div>
         </header>
 
-        {/* Dynamic Page Outlet with Ambient Luxury Glow */}
+        {/* Dynamic Page Outlet */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative z-10">
           <Outlet />
         </main>

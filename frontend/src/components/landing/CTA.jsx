@@ -5,14 +5,14 @@ export default function CTA() {
   return (
     <section className="px-4 py-16 relative bg-[#FDFBF7]">
       <div className="max-w-5xl mx-auto">
-        <div className="relative p-8 sm:p-14 rounded-3xl border border-[#E6E0D5] space-y-6 bg-gradient-to-br from-white via-white to-blush/30 shadow-xl overflow-hidden">
+        <div className="relative p-8 sm:p-14 rounded-3xl border border-[#E6E0D5] hover:border-amber-300/60 transition-colors space-y-6 bg-gradient-to-br from-white via-white to-amber-100/30 shadow-xl overflow-hidden">
           
-          {/* Ambient blush glow inside CTA */}
-          <div className="aurora-orb-blush -top-24 -right-24 w-80 h-80 pointer-events-none" />
+          {/* Ambient blush & amber glow inside CTA */}
+          <div className="aurora-orb-amber -top-24 -right-24 w-80 h-80 opacity-60 pointer-events-none" />
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-xs font-semibold">
-            <ShieldCheck className="size-3.5 text-[#8B263E]" />
-            <span className="text-[#8B263E] uppercase tracking-wider">100% Free Forever for Personal Vaults</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-xs font-semibold">
+            <ShieldCheck className="size-3.5 text-amber-800" />
+            <span className="text-amber-900 uppercase tracking-wider font-bold">100% Free Forever for Personal Vaults</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1a1a1a] tracking-tight leading-tight uppercase">
@@ -25,13 +25,13 @@ export default function CTA() {
 
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2 text-xs sm:text-sm text-[#1a1a1a] font-semibold uppercase tracking-wide">
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-[#8B263E]" /> No credit card needed
+              <CheckCircle2 className="size-4 text-amber-600" /> No credit card needed
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-[#8B263E]" /> Instant browser setup
+              <CheckCircle2 className="size-4 text-amber-600" /> Instant browser setup
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-[#8B263E]" /> Unlimited passwords
+              <CheckCircle2 className="size-4 text-amber-600" /> Unlimited passwords
             </span>
           </div>
 

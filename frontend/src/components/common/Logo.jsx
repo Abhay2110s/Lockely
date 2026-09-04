@@ -15,9 +15,10 @@ export default function Logo({ showText = true, size = "md", className = "" }) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <div
-        className={`${iconSizes[size]} rounded-xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#f43f6e] text-white flex items-center justify-center shadow-lg shadow-[#be2656]/30 border border-white/25 shrink-0`}
+        className={`${iconSizes[size]} rounded-xl bg-gradient-to-br from-[#7a1534] via-[#be2656] to-[#d97706] text-white flex items-center justify-center shadow-lg shadow-[#be2656]/25 border border-amber-300/30 shrink-0 relative`}
       >
         <ShieldCheck className={iconIconSizes[size]} />
+        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-amber-400 ring-2 ring-[#FDFBF7]" />
       </div>
       {showText && (
         <div className="flex flex-col">
@@ -25,8 +26,8 @@ export default function Logo({ showText = true, size = "md", className = "" }) {
             Lockely
           </span>
           {size !== "sm" && (
-            <span className="text-[0.6rem] font-semibold tracking-wider text-[#fda4b8] uppercase">
-              Zero-Knowledge Vault
+            <span className="text-[0.6rem] font-semibold tracking-wider text-amber-300 uppercase">
+              Secure Vault
             </span>
           )}
         </div>

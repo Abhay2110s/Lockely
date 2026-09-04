@@ -61,8 +61,8 @@ export default function InteractiveDemo() {
       <div className="max-w-4xl mx-auto space-y-10">
         {/* Header */}
         <div className="max-w-2xl space-y-3 px-2">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-[#8B263E] text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="size-3.5 text-[#8B263E]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-900 text-xs font-semibold uppercase tracking-wider shadow-xs">
+            <Sparkles className="size-3.5 text-amber-700" />
             <span>Live Crypto Sandbox</span>
           </div>
 
@@ -75,7 +75,7 @@ export default function InteractiveDemo() {
         </div>
 
         {/* Studio Card — Clean White & Blush with Rounded Corners */}
-        <div className="relative p-6 sm:p-8 bg-white/95 backdrop-blur-2xl rounded-3xl border border-[#E6E0D5] shadow-xl space-y-6">
+        <div className="relative p-6 sm:p-8 bg-white/95 backdrop-blur-2xl rounded-3xl border border-[#E6E0D5] hover:border-amber-300/60 transition-colors shadow-xl space-y-6">
           {/* Mode Switcher */}
           <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-[#E6E0D5]">
             <div className="flex items-center gap-2">
@@ -108,8 +108,8 @@ export default function InteractiveDemo() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs text-[#8B263E] font-semibold flex items-center gap-1.5 uppercase tracking-wider">
-                <Terminal className="size-3.5 text-[#8B263E]" />
+              <span className="text-xs text-amber-900 font-bold px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/30 flex items-center gap-1.5 uppercase tracking-wider">
+                <Terminal className="size-3.5 text-amber-700" />
                 WebCrypto CSPRNG
               </span>
             </div>

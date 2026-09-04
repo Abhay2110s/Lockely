@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Lock, Cpu, Database, Key, CheckCircle2, Shield } from "lucide-react";
+import { Lock, Cpu, Database, Key, CheckCircle2 } from "lucide-react";
 
 const steps = [
   {

@@ -63,14 +63,20 @@ export default function Navbar() {
           {/* Left: Brand Logo */}
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-3 group" onClick={() => setMobileOpen(false)}>
-              {/* Medallion Avatar with Rounded Border */}
-              <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] flex items-center justify-center text-[#8B263E] transition-colors shadow-xs">
+              {/* Medallion Avatar with Rounded Border & Amber Accent */}
+              <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] flex items-center justify-center text-[#8B263E] transition-colors shadow-xs relative">
                 <ShieldCheck className="size-5" />
+                <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-amber-400 border-2 border-white" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-extrabold tracking-tight text-[#1a1a1a] leading-tight">
-                  Lockely
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xl font-extrabold tracking-tight text-[#1a1a1a] leading-tight">
+                    Lockely
+                  </span>
+                  <span className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded-md bg-amber-500/15 text-amber-800 border border-amber-400/30 uppercase tracking-widest hidden sm:inline-block">
+                    AES-256
+                  </span>
+                </div>
                 <span className="text-[0.62rem] text-[#6B6560] tracking-widest uppercase font-semibold hidden xs:block">
                   Secure Vault
                 </span>

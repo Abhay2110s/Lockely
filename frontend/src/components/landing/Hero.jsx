@@ -10,14 +10,29 @@ export default function Hero() {
       {/* Ambient Canvas Layer */}
       <HeroVideoBackground />
 
+      {/* Warm Ambient Yellowish Glow Orbs */}
+      <div
+        className="aurora-orb-amber top-12 left-1/2 -translate-x-1/2 w-[500px] h-[300px] opacity-70 pointer-events-none"
+        aria-hidden="true"
+      />
+
       {/* Gentle Vignette */}
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(244,194,194,0.18)_100%)]"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(254,243,199,0.25)_100%)]"
         aria-hidden="true"
       />
 
       {/* Hero Content */}
-      <div className="hero-content relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center text-center space-y-8 sm:space-y-10">
+      <div className="hero-content relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center text-center space-y-7 sm:space-y-9">
+        {/* Warm Amber Pill Badge */}
+        <div
+          className="hero-anim inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-800 text-xs font-semibold uppercase tracking-wider shadow-xs backdrop-blur-md"
+          style={{ animationDelay: "0.05s" }}
+        >
+          <span className="size-2 rounded-full bg-amber-500 animate-pulse" />
+          <span>AES-256-GCM Zero-Knowledge Standard</span>
+        </div>
+
         {/* Massive Kinetic Typography */}
         <h1 className="w-full text-[10vw] sm:text-[9vw] md:text-[8vw] lg:text-[7.5vw] font-black uppercase tracking-tight leading-none text-[#1a1a1a] select-none flex flex-col items-center justify-center">
           <div className="overflow-hidden">
@@ -64,7 +79,10 @@ export default function Hero() {
       {/* Technical Footer Indicator */}
       <div className="absolute bottom-6 left-0 right-0 z-10 flex justify-between items-center px-6 sm:px-12 text-[0.7rem] font-medium uppercase tracking-widest text-[#6B6560] pointer-events-none hidden sm:flex">
         <span>LOC // 00.00.00</span>
-        <span className="text-[#8B263E] font-bold">STATE // SECURE</span>
+        <span className="text-[#8B263E] font-bold flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-amber-500 animate-ping inline-block" />
+          STATE // SECURE
+        </span>
         <span>PROTOCOL // AES-256-GCM</span>
       </div>
     </section>

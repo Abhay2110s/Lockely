@@ -77,16 +77,17 @@ export default function Features() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#E6E0D5] pb-12">
           <div className="space-y-4 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blush/35 border border-[#E6E0D5] text-[#8B263E] text-xs font-semibold uppercase tracking-wider">
-              <ShieldCheck className="size-3.5 text-[#8B263E]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-900 text-xs font-semibold uppercase tracking-wider shadow-xs">
+              <ShieldCheck className="size-3.5 text-amber-700" />
               <span>Architectural Manifesto</span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-black text-[#1a1a1a] tracking-tight uppercase leading-none">
               Zero-Knowledge <span className="text-[#8B263E]">Timeline</span>
             </h2>
           </div>
-          <div className="text-xs font-semibold text-[#6B6560] uppercase tracking-widest">
-            INTERACTIVE SECURITY PROTOCOL // v2.0
+          <div className="text-xs font-bold text-amber-900 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/30 uppercase tracking-widest flex items-center gap-2">
+            <span className="size-2 rounded-full bg-amber-500 animate-pulse" />
+            SECURITY PROTOCOL // v2.0
           </div>
         </div>
 
@@ -149,14 +150,17 @@ export default function Features() {
             >
               {/* Top Metric & Status */}
               <div className="flex items-center justify-between border-b border-[#E6E0D5] pb-4 mb-4 text-xs">
-                <span className="text-[#8B263E] font-bold tracking-wider">{activeItem.metric}</span>
-                <span className="text-[#6B6560] font-semibold uppercase tracking-wider">{activeItem.status}</span>
+                <span className="text-amber-900 font-bold px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/30 tracking-wider">{activeItem.metric}</span>
+                <span className="text-amber-700 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="size-1.5 rounded-full bg-amber-500" />
+                  {activeItem.status}
+                </span>
               </div>
 
               {/* Card Body */}
               <div className="space-y-4">
                 {IconComponent && (
-                  <div className="size-9 rounded-2xl bg-blush/35 border border-[#E6E0D5] flex items-center justify-center text-[#8B263E]">
+                  <div className="size-9 rounded-2xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-800 shadow-xs">
                     <IconComponent className="size-4.5" />
                   </div>
                 )}
@@ -168,7 +172,7 @@ export default function Features() {
               {/* Bottom Cryptographic Spec */}
               <div className="mt-6 pt-4 border-t border-[#E6E0D5] flex items-center justify-between text-[0.7rem] text-[#6B6560] uppercase tracking-wider">
                 <span>SPECIFICATION</span>
-                <span className="text-[#8B263E] font-bold">{activeItem.spec}</span>
+                <span className="text-amber-900 font-bold px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-400/25">{activeItem.spec}</span>
               </div>
             </motion.div>
           )}

@@ -28,16 +28,17 @@ export default function Footer() {
         {/* Row 1: Brand */}
         <div className="flex flex-wrap items-center justify-center gap-3 pb-6 border-b border-[#E6E0D5]">
           <a href="#top" className="flex items-center gap-3 group">
-            <div className="size-10 rounded-2xl bg-blush/30 border border-[#E6E0D5] group-hover:border-[#8B263E] text-[#8B263E] flex items-center justify-center transition-colors shadow-xs">
+            <div className="size-10 rounded-2xl bg-amber-500/15 border border-amber-400/30 group-hover:border-[#8B263E] text-[#8B263E] flex items-center justify-center transition-colors shadow-xs relative">
               <ShieldCheck className="size-5" />
+              <span className="absolute -top-1 -right-1 size-2 rounded-full bg-amber-400 ring-2 ring-white" />
             </div>
             <span className="text-xl font-extrabold tracking-tight text-[#1a1a1a]">
-              PASS<span className="text-[#8B263E]">GUARDIAN</span>
+              Lockely
             </span>
           </a>
           <span className="hidden sm:inline-block text-[#6B6560]">•</span>
-          <div className="glass-badge-emerald rounded-full">
-            <span className="size-1.5 rounded-full bg-emerald-600" />
+          <div className="glass-badge-amber rounded-full">
+            <span className="size-1.5 rounded-full bg-amber-500 animate-pulse" />
             Vault Sealed 🔒
           </div>
         </div>
@@ -63,7 +64,7 @@ export default function Footer() {
                 href={link}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full bg-white border border-[#E6E0D5] hover:border-[#8B263E] py-1.5 px-3.5 text-xs flex items-center gap-1.5 text-[#1a1a1a] hover:text-[#8B263E] transition-colors uppercase font-medium shadow-xs"
+                className="rounded-full bg-white border border-[#E6E0D5] hover:border-amber-400/60 py-1.5 px-3.5 text-xs flex items-center gap-1.5 text-[#1a1a1a] hover:text-[#8B263E] transition-colors uppercase font-medium shadow-xs"
               >
                 <Icon className="size-3.5 text-[#8B263E]" />
                 <span>{name}</span>
@@ -79,7 +80,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Lockely — High-End Zero-Knowledge Architecture.
           </div>
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 text-[0.68rem] rounded-full bg-white border border-[#E6E0D5] text-[#1a1a1a] font-bold uppercase tracking-wider shadow-xs">
+            <span className="px-3 py-1 text-[0.68rem] rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-900 font-bold uppercase tracking-wider shadow-xs">
               AES-256-GCM
             </span>
             <span className="px-3 py-1 text-[0.68rem] rounded-full bg-blush/35 border border-[#E6E0D5] text-[#8B263E] font-bold uppercase tracking-wider shadow-xs">

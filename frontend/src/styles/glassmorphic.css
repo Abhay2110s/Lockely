@@ -19,18 +19,25 @@
   --bg-card: rgba(255, 255, 255, 0.85);
   --bg-card-blush: rgba(244, 194, 194, 0.25);
   --bg-card-hover: rgba(244, 194, 194, 0.45);
+  --bg-card-amber: rgba(254, 243, 199, 0.45);
 
   --accent-burgundy: #8B263E;
   --accent-burgundy-hover: #A8324E;
   --accent-blush: #F4C2C2;
   --accent-blush-strong: #E8A7A7;
+  --accent-amber: #D97706;
+  --accent-amber-light: #FEF3C7;
+  --accent-amber-glow: rgba(245, 158, 11, 0.25);
+  --accent-gold: #B45309;
 
   --border-warm: #E6E0D5;
   --border-warm-subtle: rgba(230, 224, 213, 0.7);
+  --border-amber: rgba(245, 158, 11, 0.35);
 
   --text-charcoal: #1a1a1a;
   --text-muted: #6B6560;
   --text-burgundy: #8B263E;
+  --text-amber: #B45309;
 
   /* ── Glass Tokens ─────────────────────────────────────────────────── */
   --glass-bg-primary: var(--bg-cream);
@@ -49,6 +56,7 @@
   --glass-shadow-lg: 0 20px 40px -15px rgba(139, 38, 62, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.04);
   --glass-shadow-pink: 0 10px 25px -5px rgba(244, 194, 194, 0.5);
   --glass-shadow-burgundy: 0 4px 14px rgba(139, 38, 62, 0.25);
+  --glass-shadow-amber: 0 10px 25px -5px rgba(251, 191, 36, 0.35);
 
   /* Typography mappings */
   --text-blush: var(--accent-burgundy);
@@ -113,6 +121,15 @@ svg {
   position: absolute;
   border-radius: 9999px;
   background: radial-gradient(circle, rgba(244, 194, 194, 0.4) 0%, rgba(244, 194, 194, 0) 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aurora-orb-amber {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, rgba(245, 158, 11, 0) 70%);
   filter: blur(50px);
   pointer-events: none;
   z-index: 0;
@@ -385,6 +402,22 @@ svg {
   white-space: nowrap;
 }
 
+.glass-badge-amber,
+.glass-badge-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(254, 243, 199, 0.65);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #B45309;
+  font-size: 0.725rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
 .glass-badge-burgundy {
   display: inline-flex;
   align-items: center;
@@ -437,6 +470,14 @@ svg {
 .text-gradient-blush,
 .text-gradient-burgundy {
   background: linear-gradient(135deg, #8B263E 0%, #B83A58 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-amber,
+.text-gradient-gold {
+  background: linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
