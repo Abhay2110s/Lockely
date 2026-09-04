@@ -42,12 +42,6 @@ export const resendOTP = async ({ email, type }) => {
   return data;
 };
 
-/** Get the currently authenticated user's profile. */
-export const getMe = async () => {
-  const { data } = await api.get("/auth/me");
-  return data;
-};
-
 /** Clear the auth cookie server-side, ending the session. */
 export const logout = async () => {
   const { data } = await api.post("/auth/logout");
@@ -83,28 +77,3 @@ export const disable2FA = async ({ token, backupCode }) => {
   return data;
 };
 
-/**
- * Check if a password has been compromised via k-anonymity API.
- * @param {string} password - The raw password to check
- * @returns {{ compromised: boolean, count: number }}
- */
-export const checkPasswordBreach = async (password) => {
-  const encoder = new TextEncoder();
-  const buf = encoder.encode(password);
-  const hashBuffer = await crypto.subtle.digest("SHA-1", buf);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").toUpperCase();
-
-  const prefix = hashHex.slice(0, 5);
-  const suffix = hashHex.slice(5);
-
-  const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
-  const text = await response.text();
-
-  const matches = text.split("\n").find((line) => line.startsWith(suffix));
-  if (matches) {
-    const count = parseInt(matches.split(":")[1], 10);
-    return { compromised: true, count };
-  }
-  return { compromised: false, count: 0 };
-};

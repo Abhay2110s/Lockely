@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { Download, Trash2, Loader2, AlertTriangle, X } from "lucide-react";
 
 export default function AccountSettings() {
-  const { user, logout } = useAppAuth();
+  const { logout } = useAppAuth();
   const [exporting, setExporting] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");

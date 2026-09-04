@@ -41,24 +41,6 @@ export const formatRelativeTime = (date) => {
   return `${years} years ago`;
 };
 
-/**
- * Format a date as a short locale date string.
- * @param {string|Date} date
- * @returns {string} e.g. "Aug 21, 2026"
- */
-export const formatDate = (date) => {
-  if (!date) return "—";
-  try {
-    return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  } catch {
-    return "—";
-  }
-};
-
 // ─── String ──────────────────────────────────────────────────────────────────
 
 /**
@@ -70,37 +52,6 @@ export const formatDate = (date) => {
 export const truncate = (str, maxLength = 40) => {
   if (!str || str.length <= maxLength) return str ?? "";
   return `${str.slice(0, maxLength)}…`;
-};
-
-/**
- * Extract initials from a full name (up to 2 characters).
- * Falls back to the first character of the email if name is empty.
- * @param {string} name
- * @param {string} [fallback="?"]
- * @returns {string}
- */
-export const getInitials = (name, fallback = "?") => {
-  if (!name?.trim()) return fallback;
-  const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-};
-
-// ─── Clipboard ───────────────────────────────────────────────────────────────
-
-/**
- * Copy text to the clipboard.
- * Silently fails if the Clipboard API is unavailable (insecure context).
- * @param {string} text
- * @returns {Promise<boolean>} true if successful
- */
-export const copyToClipboard = async (text) => {
-  try {
-    await navigator.clipboard.writeText(String(text));
-    return true;
-  } catch {
-    return false;
-  }
 };
 
 // ─── URL ─────────────────────────────────────────────────────────────────────
@@ -119,26 +70,3 @@ export const extractHostname = (url) => {
     return url;
   }
 };
-
-/**
- * Generate a favicon URL for a given website URL via Google's favicon service.
- * @param {string} url  — full URL or domain
- * @returns {string}
- */
-export const getFaviconUrl = (url) => {
-  if (!url) return null;
-  const hostname = extractHostname(url);
-  if (!hostname) return null;
-  return `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`;
-};
-
-// ─── Numbers ─────────────────────────────────────────────────────────────────
-
-/**
- * Clamp a number between min and max.
- * @param {number} value
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-export const clamp = (value, min, max) => Math.min(Math.max(value, min), max);

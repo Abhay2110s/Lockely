@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import Hero from "@/components/landing/Hero";
-import SectionSeparator from "@/components/landing/SectionSeparator";
 
 // Everything below the fold is code-split out of the initial bundle.
 // Hero is the only section visible without scrolling, so it's the only

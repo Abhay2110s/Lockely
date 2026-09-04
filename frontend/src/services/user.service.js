@@ -4,12 +4,6 @@ import api from "./api";
  * User Service — profile and preferences management.
  */
 
-/** Get the current user's profile from the backend */
-export const getUserProfile = async () => {
-  const { data } = await api.get("/users/me");
-  return data;
-};
-
 /** Update user profile data */
 export const updateUserProfile = async (profileData) => {
   // profileData: { displayName?, bio?, preferredLanguage? }
