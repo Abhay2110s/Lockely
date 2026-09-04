@@ -79,9 +79,6 @@ app.use(
   })
 );
 
-// Explicit OPTIONS preflight handler
-app.options("*", cors());
-
 // HTTP request logging — always on, routed through winston.
 app.use(morgan("combined", { stream: logger.stream }));
 
