@@ -63,10 +63,10 @@ export default function DashboardLayout() {
               </div>
               <div className="flex flex-col">
                 <span className="text-base font-extrabold text-[#1a1a1a] tracking-tight leading-none">
-                  PASS<span className="text-[#8B263E]">GUARDIAN</span>
+                  Lockely
                 </span>
                 <span className="text-[0.62rem] text-[#6B6560] uppercase tracking-widest font-semibold mt-1">
-                  Zero-Knowledge Vault
+                  Secure Vault
                 </span>
               </div>
             </Link>
@@ -90,7 +90,7 @@ export default function DashboardLayout() {
               </p>
               <div className="text-[0.65rem] text-[#8B263E] font-semibold mt-0.5 flex items-center gap-1.5">
                 <span className="size-1.5 rounded-full bg-[#8B263E]" />
-                Zero-Knowledge
+                Encrypted
               </div>
             </div>
           </div>
@@ -110,10 +110,9 @@ export default function DashboardLayout() {
                   onClick={() => setMobileOpen(false)}
                   className={`
                     flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold tracking-wide transition-all
-                    ${
-                      isActive
-                        ? "bg-blush/45 text-[#8B263E] border border-blush/80 shadow-xs font-bold"
-                        : "text-[#1a1a1a] hover:text-[#8B263E] hover:bg-blush/20 border border-transparent"
+                    ${isActive
+                      ? "bg-blush/45 text-[#8B263E] border border-blush/80 shadow-xs font-bold"
+                      : "text-[#1a1a1a] hover:text-[#8B263E] hover:bg-blush/20 border border-transparent"
                     }
                   `}
                 >
@@ -144,14 +143,7 @@ export default function DashboardLayout() {
               <div className="size-8 rounded-xl bg-blush/30 border border-[#E6E0D5] text-[#8B263E] flex items-center justify-center shrink-0">
                 <Lock className="size-3.5" />
               </div>
-              <div>
-                <p className="text-xs font-bold text-[#1a1a1a]">
-                  AES-256-GCM
-                </p>
-                <p className="text-[0.62rem] text-[#6B6560]">
-                  Zero-Knowledge Shield
-                </p>
-              </div>
+
             </div>
           </div>
         </div>
@@ -183,11 +175,10 @@ export default function DashboardLayout() {
           {/* Right Header Actions */}
           <div className="flex items-center gap-3">
             {/* Vault status pill */}
-            <div className={`hidden sm:flex items-center gap-2 px-3 py-1 text-xs rounded-full font-semibold border ${
-              isVaultUnlocked
+            <div className={`hidden sm:flex items-center gap-2 px-3 py-1 text-xs rounded-full font-semibold border ${isVaultUnlocked
                 ? "bg-emerald-50 border-emerald-200 text-emerald-700"
                 : "bg-amber-50 border-amber-200 text-amber-700"
-            }`}>
+              }`}>
               <Zap className="size-3 fill-current" />
               {isVaultUnlocked ? "Vault Unlocked" : "Vault Locked"}
             </div>

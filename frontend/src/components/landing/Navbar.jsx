@@ -69,10 +69,10 @@ export default function Navbar() {
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-extrabold tracking-tight text-[#1a1a1a] leading-tight">
-                  PASS<span className="text-[#8B263E]">GUARDIAN</span>
+                  Lockely
                 </span>
                 <span className="text-[0.62rem] text-[#6B6560] tracking-widest uppercase font-semibold hidden xs:block">
-                  Zero-Knowledge Vault
+                  Secure Vault
                 </span>
               </div>
             </Link>
@@ -219,7 +219,7 @@ export default function Navbar() {
             <div className="size-8 rounded-xl bg-blush/30 border border-[#E6E0D5] flex items-center justify-center text-[#8B263E]">
               <ShieldCheck className="size-4.5" />
             </div>
-            <span className="text-base font-extrabold text-[#1a1a1a]">PASS<span className="text-[#8B263E]">GUARDIAN</span></span>
+            <span className="text-base font-extrabold text-[#1a1a1a]">Lockely</span>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
