@@ -101,8 +101,19 @@ app.use(compression());
 // Global API rate limiting — auth routes have their own stricter limiters.
 app.use(["/api", "/v1"], apiLimiter);
 
-// Serve Swagger UI documentation at /api-docs.
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Serve Swagger UI documentation at /api-docs (guarded safely for serverless environments).
+app.use("/api-docs", (req, res, next) => {
+  try {
+    if (swaggerUi && swaggerUi.serve && swaggerUi.setup) {
+      return swaggerUi.serve[0](req, res, () => {
+        swaggerUi.setup(swaggerSpec)(req, res, next);
+      });
+    }
+  } catch {
+    // Fall back gracefully if swagger UI static assets are missing
+  }
+  return res.status(200).json({ success: true, message: "Lockely API Specification", spec: swaggerSpec });
+});
 
 // Health-check endpoint used by load balancers and monitoring tools.
 app.get("/", (req, res) => {
