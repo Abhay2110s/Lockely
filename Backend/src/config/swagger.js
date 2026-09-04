@@ -1,7 +1,7 @@
-// Swagger/OpenAPI specification definition — scanned from route files to
-// auto-generate interactive API documentation served at /api-docs.
+import path from "path";
 import swaggerJSDoc from "swagger-jsdoc";
 
+const routesPath = path.resolve(process.cwd(), "src/routes/*.js");
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -15,7 +15,6 @@ const options = {
     servers: [{ url: "/", description: "Current server" }],
     components: {
       securitySchemes: {
-        // JWT Bearer token passed in the Authorization header.
         bearerAuth: {
           type: "http",
           scheme: "bearer",
@@ -23,7 +22,6 @@ const options = {
         },
       },
     },
-    // Default security requirement applied to all endpoints unless overridden.
     security: [{ bearerAuth: [] }],
     tags: [
       { name: "Auth", description: "Registration, login, OTP verification, and password reset" },
@@ -31,10 +29,14 @@ const options = {
       { name: "Vault", description: "Encrypted password vault CRUD and analytics" },
     ],
   },
-  // Scan all route files for @openapi annotations to build the spec.
-  apis: ["./src/routes/*.js"],
+  apis: [routesPath, "./src/routes/*.js"],
 };
 
-const swaggerSpec = swaggerJSDoc(options);
+let swaggerSpec = { openapi: "3.0.0", info: { title: "Lockely API", version: "1.0.0" }, paths: {} };
+try {
+  swaggerSpec = swaggerJSDoc(options);
+} catch (e) {
+  // Safe fallback if glob scan fails in serverless bundle
+}
 
 export default swaggerSpec;

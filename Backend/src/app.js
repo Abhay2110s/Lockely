@@ -24,6 +24,9 @@ import connectDB from "./config/db.js";
 
 const app = express();
 
+// Trust Vercel reverse proxy headers for rate limiting and IP resolution.
+app.set("trust proxy", 1);
+
 // Apply security-related HTTP headers to every response.
 app.use(helmet());
 

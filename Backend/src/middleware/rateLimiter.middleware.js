@@ -20,6 +20,7 @@ export const apiLimiter = rateLimit({
   legacyHeaders: false,
   message: "Too many requests. Please try again later.",
   handler: jsonHandler,
+  validate: { trustProxy: false },
 });
 
 // Stricter limiter for sensitive auth endpoints (login, register, OTP, reset).
@@ -30,6 +31,7 @@ export const authLimiter = rateLimit({
   legacyHeaders: false,
   message: "Too many attempts. Please try again in a few minutes.",
   handler: jsonHandler,
+  validate: { trustProxy: false },
 });
 
 // Very strict limiter for OTP / reset-link sending to prevent email spam abuse.
@@ -40,4 +42,5 @@ export const otpLimiter = rateLimit({
   legacyHeaders: false,
   message: "Too many OTP requests. Please wait a few minutes before retrying.",
   handler: jsonHandler,
+  validate: { trustProxy: false },
 });

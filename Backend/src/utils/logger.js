@@ -56,10 +56,14 @@ if (!isServerless) {
   }
 }
 
+const defaultConsole = new winston.transports.Console({
+  format: combine(timestamp(), json()),
+});
+
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || "info",
   format: combine(timestamp(), errors({ stack: true }), json()),
-  transports: fileTransports,
+  transports: fileTransports.length > 0 ? fileTransports : [defaultConsole],
   exitOnError: false,
 });
 
