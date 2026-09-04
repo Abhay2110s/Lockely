@@ -51,11 +51,22 @@
 @custom-variant dark (&:is(.dark *));
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth is intentionally NOT set globally — it
+     interferes with framer-motion's useScroll / scrollYProgress by
+     feeding a lagging (smoothed) scroll position, which breaks
+     scroll-driven card-stack animations (Security section).
+     We scope smooth scrolling only to programmatic / anchor-link
+     navigation via the :has(:target) selector below. */
+  scroll-behavior: auto;
   scroll-padding-top: 96px;
   background-color: #FDFBF7;
   color: #1a1a1a;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* Smooth scrolling only for anchor-link / hash navigation */
+html:has(:target) {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -64,5 +75,5 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
