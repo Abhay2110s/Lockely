@@ -65,16 +65,10 @@ export default function DashboardLayout() {
               </span>
             </Link>
 
-            {/* Page breadcrumb label on desktop */}
-            <div className="hidden md:flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#8B263E]">
-                Lockely
-              </span>
-              <span className="text-xs text-[#6B6560]">\</span>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1a1a1a]">
-                {currentNav?.label ?? "DASHBOARD"}
-              </span>
-            </div>
+            {/* Page label on desktop */}
+            <span className="hidden md:block text-xs font-bold uppercase tracking-wider text-[#6B6560]">
+              {currentNav?.label ?? "DASHBOARD"}
+            </span>
           </div>
 
           {/* Right Header Actions */}
